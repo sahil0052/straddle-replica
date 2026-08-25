@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the MT5 observer health check every minute
+
+[Timer]
+OnActiveSec=1min
+OnUnitActiveSec=1min
+AccuracySec=5s
+Persistent=false
+
+[Install]
+WantedBy=timers.target

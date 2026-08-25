@@ -1,0 +1,21 @@
+[Unit]
+Description=Straddle target-to-demo shadow coordinator
+After=straddle-shadow-mt5.service
+Wants=straddle-shadow-mt5.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+UMask=0077
+EnvironmentFile=/home/ubuntu/straddle-live-twin/shadow.env
+ExecStart=/home/ubuntu/straddle-live-twin/run_shadow_coordinator.sh
+Restart=on-failure
+RestartSec=5
+Nice=5
+CPUQuota=25%
+MemoryHigh=128M
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target

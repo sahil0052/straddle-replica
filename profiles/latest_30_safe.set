@@ -1,0 +1,15 @@
+Profile=4
+TradeSymbol=XAUUSD
+MagicNumber=901018
+ReplicaMode=false
+ReplicaStartTime=0
+InterOrderDelayMs=100
+DeviationPoints=100
+TelemetryEnabled=true
+RequireDemoAccount=true
+ExpectedAccountLogin=0
+SafetyEnabled=true
+MaxEquityLossPercent=10.0
+MaxGrossLots=2.20
+MaxSpreadPoints=1000.0
+DailyLossLimit=500.0

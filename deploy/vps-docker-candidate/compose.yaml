@@ -1,0 +1,19 @@
+services:
+  fidelity-candidate:
+    image: straddle-fidelity-mt5:bookworm
+    container_name: straddle-fidelity-candidate-demo
+    restart: unless-stopped
+    environment:
+      MT5_START: "${MT5_START:-0}"
+      MT5_CONFIG_WINDOWS: "Z:\\data\\candidate\\fidelity-candidate-startup.ini"
+    ports:
+      - "127.0.0.1:15915:5900"
+    volumes:
+      - "/opt/straddle-fidelity-candidate:/data"
+    cpus: 0.75
+    mem_limit: 1536m
+    pids_limit: 256
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

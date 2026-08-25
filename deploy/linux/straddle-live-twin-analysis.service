@@ -1,0 +1,15 @@
+[Unit]
+Description=Read-only paired target-versus-shadow lifecycle analysis
+After=straddle-shadow-coordinator.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+UMask=0077
+Nice=10
+IOSchedulingClass=idle
+CPUQuota=25%
+MemoryHigh=192M
+MemoryMax=384M
+ExecStart=/home/ubuntu/straddle-live-twin/run_live_twin_analysis.sh

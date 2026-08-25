@@ -1,0 +1,7 @@
+[Unit]
+Description=Health check for the read-only MT5 observer
+After=straddle-python.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/ubuntu/straddle-monitor/bin/monitor_watchdog.sh

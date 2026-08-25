@@ -1,0 +1,19 @@
+[Unit]
+Description=Read-only MT5 Python forensic collector
+Requires=straddle-mt5.service
+After=straddle-mt5.service
+PartOf=straddle-mt5.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+UMask=0077
+ExecStart=/home/ubuntu/straddle-monitor/bin/run_python_monitor.sh
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

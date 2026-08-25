@@ -1,0 +1,16 @@
+Profile=4
+TradeSymbol=XAUUSD
+MagicNumber=901018
+ReplicaMode=true
+ReplicaStartTime=0
+InterOrderDelayMs=100
+DeviationPoints=100
+TelemetryEnabled=true
+RuntimeMode=1
+ShadowCommandFile=StraddleShadow\command.csv
+ShadowAckFile=StraddleShadow\ack.csv
+ShadowCommandMaxAgeMs=2000
+AllowShadowAdoptExistingCycle=true
+RequireDemoAccount=true
+ExpectedAccountLogin=0
+SafetyEnabled=false

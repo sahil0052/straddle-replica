@@ -1,0 +1,13 @@
+Profile=4
+TradeSymbol=XAUUSD
+MagicNumber=901018
+ReplicaMode=true
+ReplicaStartTime=0
+InterOrderDelayMs=100
+DeviationPoints=100
+TelemetryEnabled=true
+RuntimeMode=0
+RequireDemoAccount=false
+RequireBoundAccount=true
+ExpectedAccountLogin=0
+SafetyEnabled=false

@@ -1,0 +1,25 @@
+[Unit]
+Description=Isolated StraddleReplica demo MT5 terminal
+Requires=straddle-xvfb.service
+After=network-online.target straddle-xvfb.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+UMask=0077
+Nice=5
+CPUQuota=75%
+MemoryHigh=640M
+MemoryMax=1200M
+MemorySwapMax=1536M
+OOMScoreAdjust=500
+ExecStart=/home/ubuntu/straddle-demo/run_mt5_demo.sh
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

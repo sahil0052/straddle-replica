@@ -1,0 +1,16 @@
+[Unit]
+Description=Virtual display for the read-only MT5 observer
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+Environment=HOME=/home/ubuntu
+ExecStartPre=-/usr/bin/rm -f /tmp/.X99-lock /tmp/.X11-unix/X99
+ExecStart=/usr/bin/Xvfb :99 -screen 0 1280x800x24 -nolisten tcp
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

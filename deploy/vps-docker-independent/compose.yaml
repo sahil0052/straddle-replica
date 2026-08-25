@@ -1,0 +1,19 @@
+services:
+  fidelity-independent:
+    image: straddle-fidelity-independent-mt5:bookworm
+    container_name: straddle-fidelity-independent-demo
+    restart: unless-stopped
+    environment:
+      MT5_START: "${MT5_START:-0}"
+      MT5_CONFIG_WINDOWS: "${MT5_CONFIG_WINDOWS:-Z:\\data\\candidate\\independent-demo-commissioning.ini}"
+    ports:
+      - "127.0.0.1:15925:5900"
+    volumes:
+      - "/opt/straddle-fidelity-independent-demo:/data"
+    cpus: 0.75
+    mem_limit: 1536m
+    pids_limit: 256
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

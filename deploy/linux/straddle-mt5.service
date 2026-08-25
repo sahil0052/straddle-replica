@@ -1,0 +1,19 @@
+[Unit]
+Description=Read-only MetaTrader 5 observer
+Requires=straddle-xvfb.service
+After=network-online.target straddle-xvfb.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+UMask=0077
+ExecStart=/home/ubuntu/straddle-monitor/bin/run_mt5_observer.sh
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

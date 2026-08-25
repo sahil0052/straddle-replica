@@ -1,0 +1,15 @@
+[Unit]
+Description=Daily read-only Straddle monitor analysis
+After=straddle-python.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+UMask=0077
+Nice=10
+IOSchedulingClass=idle
+CPUQuota=50%
+MemoryHigh=384M
+MemoryMax=768M
+ExecStart=/home/ubuntu/straddle-monitor/bin/run_daily_analysis.sh

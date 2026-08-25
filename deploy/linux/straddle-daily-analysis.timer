@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Straddle monitor analysis daily
+
+[Timer]
+OnCalendar=*-*-* 00:15:00 UTC
+Persistent=true
+Unit=straddle-daily-analysis.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Straddle target-versus-demo comparison daily
+
+[Timer]
+OnCalendar=*-*-* 00:20:00 UTC
+Persistent=true
+Unit=straddle-demo-daily-analysis.service
+
+[Install]
+WantedBy=timers.target
