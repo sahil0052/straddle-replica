@@ -1,0 +1,429 @@
+RO	0	12:41:04.883	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+KE	0	12:41:04.892	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+MK	0	12:41:04.892	Terminal	D:\MT5ReplicaObserverTerminal
+JS	0	12:41:04.893	MCP	started on 127.0.0.1:22346
+JE	0	12:41:21.286	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+CS	0	12:41:21.286	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+EQ	0	12:41:21.286	Terminal	D:\MT5ReplicaObserverTerminal
+RE	0	12:41:21.287	MCP	started on 127.0.0.1:22346
+LN	0	12:42:36.490	Startup	successfully initialized from start config "D:\MT5ReplicaObserverTerminal\Config\startup.ini"
+OL	0	12:42:36.613	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+OJ	0	12:42:36.614	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+QH	0	12:42:36.614	Terminal	D:\MT5ReplicaObserverTerminal
+FQ	0	12:42:36.614	Terminal	launched with D:\MT5ReplicaObserverTerminal\Config\startup.ini
+PR	0	12:42:36.615	MCP	started on 127.0.0.1:22346
+NG	0	12:42:59.477	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+FL	0	12:42:59.478	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+DR	0	12:42:59.478	Terminal	D:\MT5ReplicaObserverTerminal
+PD	0	12:42:59.478	MCP	started on 127.0.0.1:22346
+RM	0	12:44:23.685	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+NJ	0	12:44:23.686	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+LH	0	12:44:23.686	Terminal	D:\MT5ReplicaObserverTerminal
+HN	0	12:44:23.686	MCP	started on 127.0.0.1:22346
+OE	0	12:51:28.411	Startup	successfully initialized from start config "D:\MT5ReplicaObserverTerminal\Config\replica_login.ini"
+MK	0	12:51:28.452	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+MP	0	12:51:28.452	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+RF	0	12:51:28.452	Terminal	D:\MT5ReplicaObserverTerminal
+FM	0	12:51:28.452	Terminal	launched with D:\MT5ReplicaObserverTerminal\Config\replica_login.ini
+CD	0	12:51:28.453	MCP	started on 127.0.0.1:22346
+CS	0	12:52:09.800	Startup	successfully initialized from start config "D:\MT5ReplicaObserverTerminal\Config\replica_login.ini"
+DM	0	12:52:09.844	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+DJ	0	12:52:09.844	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+GH	0	12:52:09.844	Terminal	D:\MT5ReplicaObserverTerminal
+KS	0	12:52:09.844	Terminal	launched with D:\MT5ReplicaObserverTerminal\Config\replica_login.ini
+KR	0	12:52:09.846	MCP	started on 127.0.0.1:22346
+HI	0	12:54:45.102	Startup	successfully initialized from start config "D:\MT5ReplicaObserverTerminal\Config\replica_login.ini"
+DG	0	12:54:45.143	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+IL	0	12:54:45.143	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+GR	0	12:54:45.143	Terminal	D:\MT5ReplicaObserverTerminal
+KI	0	12:54:45.143	Terminal	launched with D:\MT5ReplicaObserverTerminal\Config\replica_login.ini
+OH	0	12:54:45.145	MCP	started on 127.0.0.1:22346
+EG	0	12:56:04.311	Startup	successfully initialized from start config "D:\MT5ReplicaObserverTerminal\Config\replica_login.ini"
+EI	0	12:56:04.354	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+HF	0	12:56:04.354	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+JD	0	12:56:04.354	Terminal	D:\MT5ReplicaObserverTerminal
+NO	0	12:56:04.354	Terminal	launched with D:\MT5ReplicaObserverTerminal\Config\replica_login.ini
+NF	0	12:56:04.356	MCP	started on 127.0.0.1:22346
+NN	0	12:56:16.974	Terminal	exit with code 0
+LD	0	12:56:17.517	Terminal	stopped with 0
+FG	0	12:56:17.521	Terminal	shutdown with 0
+IR	2	12:56:19.667	Terminal	cannot load config "C:\Users\HPUSER\Desktop\Config\replica_login.ini" at start
+FM	0	12:56:19.719	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+LJ	0	12:56:19.720	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+OH	0	12:56:19.720	Terminal	D:\MT5ReplicaObserverTerminal
+DN	0	12:56:19.721	MCP	started on 127.0.0.1:22346
+HI	0	12:56:57.214	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1
+IG	0	12:56:59.584	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 45 orders, 12524 symbols, 0 spreads
+CF	0	12:56:59.584	Network	'5054668810': trading has been disabled - investor mode
+OO	0	12:56:59.584	Network	'5054668810': balance management has been disabled - investor mode
+JJ	0	12:57:00.351	Network	'5054668810': scanning network for access points
+QK	0	12:57:47.689	Network	'5054668810': scanning network finished
+OS	0	12:57:47.689	Network	'5054668810': auto connecting to a better access point with 82 % quality (previous: 63 %)
+LN	1	12:57:47.690	Network	'5054668810': connection to MetaQuotes-Demo lost
+CG	0	12:57:48.337	LiveUpdate	new version build 6120 (IDE: 6120, Tester: 6120) is available
+QL	0	12:57:48.586	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 239.29 ms, build 6120)
+JS	0	12:57:48.951	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 45 orders, 12524 symbols, 0 spreads
+LR	0	12:57:48.951	Network	'5054668810': trading has been disabled - investor mode
+HL	0	12:57:48.951	Network	'5054668810': balance management has been disabled - investor mode
+LH	0	12:58:22.381	Trades	'5054668810': deal #57685977113 sell 0.06 XAUUSD at 4355.48 done (based on order #58048977598)
+KI	0	12:58:28.176	Trades	'5054668810': deal #57685978830 sell 0.01 XAUUSD at 4355.43 done (based on order #58048979398)
+KF	0	12:58:33.771	LiveUpdate	'mt5clw64' downloaded (58616 kb)
+FS	0	12:59:02.588	LiveUpdate	'mt5clwide64' downloaded (46062 kb)
+PI	0	12:59:12.366	LiveUpdate	'mt5clwtst64' downloaded (11008 kb)
+PP	0	12:59:57.361	LiveUpdate	'mt5onnx64' downloaded (69823 kb)
+NF	0	13:01:38.548	Trades	'5054668810': deal #57686027729 buy 0.06 XAUUSD at 4358.35 done (based on order #58047351887)
+MI	0	13:01:49.804	LiveUpdate	'mt5onnxcuda64' downloaded (184307 kb)
+FP	0	13:01:50.108	LiveUpdate	downloaded successfully
+HE	0	13:01:50.119	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\03F76721221EE2B0A933C572E494716A\liveupdate\mt5clw64.6120' saved
+RH	0	13:01:50.120	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\03F76721221EE2B0A933C572E494716A\liveupdate\mt5clwide64.6120' saved
+ED	0	13:01:50.120	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\03F76721221EE2B0A933C572E494716A\liveupdate\mt5clwtst64.6120' saved
+PR	0	13:01:50.121	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\03F76721221EE2B0A933C572E494716A\liveupdate\mt5onnx64.6120' saved
+GQ	0	13:01:50.121	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\03F76721221EE2B0A933C572E494716A\liveupdate\mt5onnxcuda64.6120' saved
+FR	0	13:02:07.727	Trades	'5054668810': deal #57686039542 buy 0.06 XAUUSD at 4359.80 done (based on order #58047351934)
+LN	0	13:02:31.362	Trades	'5054668810': deal #57686053003 sell 0.06 XAUUSD at 4359.23 done (based on order #58049057002)
+KO	0	13:02:31.373	Trades	'5054668810': deal #57686053010 sell 0.06 XAUUSD at 4359.23 done (based on order #58049057003)
+CR	1	13:03:17.232	Network	'5054668810': connection to MetaQuotes-Demo lost
+DE	0	13:36:05.855	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point SG 2 (ping: 268.40 ms, build 6120)
+MJ	0	13:36:06.604	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 7 positions, 42 orders, 12524 symbols, 0 spreads
+EI	0	13:36:06.604	Network	'5054668810': trading has been disabled - investor mode
+QD	0	13:36:06.604	Network	'5054668810': balance management has been disabled - investor mode
+FQ	0	13:36:08.089	Network	'5054668810': scanning network for access points
+RI	0	13:36:28.378	Trades	'5054668810': deal #57686619523 buy 0.06 XAUUSD at 4359.80 done (based on order #58049168012)
+DG	0	13:36:44.487	Trades	'5054668810': deal #57686627228 sell 0.06 XAUUSD at 4358.44 done (based on order #58049656381)
+MI	0	13:36:57.578	Network	'5054668810': scanning network finished
+JN	0	13:36:57.578	Network	'5054668810': auto connecting to a better access point with 86 % quality (previous: 31 %)
+GL	1	13:36:57.579	Network	'5054668810': connection to MetaQuotes-Demo lost
+HE	0	13:36:58.503	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 173.46 ms, build 6120)
+EK	0	13:36:58.819	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 7 positions, 41 orders, 12524 symbols, 0 spreads
+LJ	0	13:36:58.819	Network	'5054668810': trading has been disabled - investor mode
+LS	0	13:36:58.819	Network	'5054668810': balance management has been disabled - investor mode
+KP	0	13:37:44.262	Trades	'5054668810': deal #57686650267 sell 0.06 XAUUSD at 4358.81 done (based on order #58049680109)
+FQ	0	13:38:19.697	Trades	'5054668810': deal #57686662129 sell 0.06 XAUUSD at 4357.30 done (based on order #58049692417)
+GR	0	13:41:26.502	Trades	'5054668810': deal #57686726970 sell 0.06 XAUUSD at 4361.29 done (based on order #58049759163)
+LS	0	13:49:21.824	Trades	'5054668810': deal #57686846931 sell 0.06 XAUUSD at 4359.84 done (based on order #58049884385)
+RK	0	13:50:07.127	Trades	'5054668810': deal #57686858061 buy 0.06 XAUUSD at 4359.80 done (based on order #58049895605)
+DJ	0	13:51:29.676	Trades	'5054668810': deal #57686882299 buy 0.06 XAUUSD at 4358.35 done (based on order #58049912642)
+OI	0	14:05:43.711	Trades	'5054668810': deal #57687093450 buy 0.06 XAUUSD at 4356.90 done (based on order #58050140920)
+LG	0	14:15:38.920	Trades	'5054668810': deal #57687248319 sell 0.06 XAUUSD at 4361.61 done (based on order #58050301501)
+GH	0	14:15:38.921	Trades	'5054668810': deal #57687248336 sell 0.06 XAUUSD at 4361.65 done (based on order #58050301502)
+NI	0	14:21:10.928	Trades	'5054668810': deal #57687318628 sell 0.06 XAUUSD at 4360.16 done (based on order #58050375204)
+HD	1	14:21:24.001	Network	'5054668810': connection to MetaQuotes-Demo lost
+NM	0	14:21:24.625	LiveUpdate	new version build 6120 (IDE: 6120, Tester: 6120) is available
+FF	0	14:21:40.810	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 241.04 ms, build 6120)
+FI	0	14:21:41.327	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 3 positions, 41 orders, 12524 symbols, 0 spreads
+OH	0	14:21:41.327	Network	'5054668810': trading has been disabled - investor mode
+CF	0	14:21:41.327	Network	'5054668810': balance management has been disabled - investor mode
+DP	0	14:21:41.698	Network	'5054668810': scanning network for access points
+IE	0	14:22:37.811	Network	'5054668810': scanning network finished
+QL	0	14:22:46.802	Trades	'5054668810': deal #57687336132 sell 0.06 XAUUSD at 4358.80 done (based on order #58050393277)
+NM	0	14:23:06.897	Trades	'5054668810': deal #57687340405 sell 0.06 XAUUSD at 4359.16 done (based on order #58050397750)
+MQ	0	14:23:26.964	Trades	'5054668810': deal #57687345102 buy 0.01 XAUUSD at 4359.80 done (based on order #58050402561)
+EO	0	14:25:29.904	Trades	'5054668810': deal #57687373516 sell 0.01 XAUUSD at 4357.88 done (based on order #58050407381)
+JO	0	14:26:33.021	Trades	'5054668810': deal #57687394492 sell 0.01 XAUUSD at 4356.43 done (based on order #58050407410)
+NP	0	14:27:43.662	Trades	'5054668810': deal #57687417618 sell 0.01 XAUUSD at 4354.98 done (based on order #58050407455)
+LN	0	14:33:26.043	Trades	'5054668810': deal #57687510292 buy 0.01 XAUUSD at 4357.87 done (based on order #58050573664)
+NR	0	14:35:40.233	Trades	'5054668810': deal #57687554289 sell 0.01 XAUUSD at 4357.88 done (based on order #58050581849)
+QN	1	14:46:46.832	Network	'5054668810': connection to MetaQuotes-Demo lost
+KH	0	14:46:47.725	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 258.24 ms, build 6120)
+LF	0	14:46:49.220	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 3 positions, 57 orders, 12524 symbols, 0 spreads
+DE	0	14:46:49.220	Network	'5054668810': trading has been disabled - investor mode
+DP	0	14:46:49.220	Network	'5054668810': balance management has been disabled - investor mode
+MN	1	14:47:37.611	Network	'5054668810': connection to MetaQuotes-Demo lost
+QK	0	14:47:38.672	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 258.24 ms, build 6120)
+ME	0	14:47:39.180	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 3 positions, 57 orders, 12524 symbols, 0 spreads
+ME	0	14:47:39.180	Network	'5054668810': trading has been disabled - investor mode
+EQ	0	14:47:39.180	Network	'5054668810': balance management has been disabled - investor mode
+QS	0	14:49:05.773	Trades	'5054668810': deal #57687745292 sell 0.01 XAUUSD at 4353.53 done (based on order #58050407545)
+CN	1	14:50:42.244	Network	'5054668810': connection to MetaQuotes-Demo lost
+JI	0	15:42:15.745	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 172.70 ms, build 6120)
+QF	0	15:42:16.273	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 5 positions, 55 orders, 12524 symbols, 0 spreads
+EE	0	15:42:16.273	Network	'5054668810': trading has been disabled - investor mode
+QP	0	15:42:16.273	Network	'5054668810': balance management has been disabled - investor mode
+RM	0	15:42:17.240	Network	'5054668810': scanning network for access points
+RK	0	15:43:12.109	Network	'5054668810': scanning network finished
+HP	0	15:43:12.109	Network	'5054668810': auto connecting to a better access point with 84 % quality (previous: 56 %)
+KN	1	15:43:12.110	Network	'5054668810': connection to MetaQuotes-Demo lost
+OD	0	15:43:12.794	LiveUpdate	new version build 6120 (IDE: 6120, Tester: 6120) is available
+QL	0	15:43:13.061	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 228.43 ms, build 6120)
+FR	0	15:43:13.524	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 5 positions, 55 orders, 12524 symbols, 0 spreads
+JQ	0	15:43:13.524	Network	'5054668810': trading has been disabled - investor mode
+NL	0	15:43:13.524	Network	'5054668810': balance management has been disabled - investor mode
+FH	0	15:43:53.604	Trades	'5054668810': deal #57688538620 buy 0.01 XAUUSD at 4363.68 done (based on order #58050407429)
+LG	0	15:46:36.148	Trades	'5054668810': deal #57688596784 buy 0.01 XAUUSD at 4365.13 done (based on order #58050407508)
+OF	0	15:47:44.513	Trades	'5054668810': deal #57688624429 buy 0.01 XAUUSD at 4366.58 done (based on order #58050407567)
+EE	0	15:47:58.149	Trades	'5054668810': deal #57688635851 buy 0.01 XAUUSD at 4368.03 done (based on order #58050407690)
+QF	1	15:50:04.135	Network	'5054668810': connection to MetaQuotes-Demo lost
+KR	0	15:50:40.856	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+PN	0	15:50:48.992	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+IM	0	15:50:48.992	Network	'5054668810': trading has been disabled - investor mode
+MI	0	15:50:48.992	Network	'5054668810': balance management has been disabled - investor mode
+PE	0	15:50:49.523	Network	'5054668810': scanning network for access points
+GL	1	15:50:56.420	Network	'5054668810': connection to MetaQuotes-Demo lost
+GK	0	15:50:59.388	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+JD	0	15:51:03.442	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+GK	0	15:51:03.442	Network	'5054668810': trading has been disabled - investor mode
+KR	0	15:51:03.442	Network	'5054668810': balance management has been disabled - investor mode
+LL	1	15:51:05.536	Network	'5054668810': connection to MetaQuotes-Demo lost
+RD	0	15:51:08.735	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+LD	0	15:51:10.569	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+EK	0	15:51:10.569	Network	'5054668810': trading has been disabled - investor mode
+QS	0	15:51:10.569	Network	'5054668810': balance management has been disabled - investor mode
+DL	1	15:51:12.183	Network	'5054668810': connection to MetaQuotes-Demo lost
+RD	0	15:51:14.338	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+EK	0	15:51:16.865	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+DK	0	15:51:16.865	Network	'5054668810': trading has been disabled - investor mode
+PS	0	15:51:16.865	Network	'5054668810': balance management has been disabled - investor mode
+PM	1	15:51:18.707	Network	'5054668810': connection to MetaQuotes-Demo lost
+MD	0	15:51:20.969	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+PK	0	15:51:23.655	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+IJ	0	15:51:23.655	Network	'5054668810': trading has been disabled - investor mode
+MS	0	15:51:23.655	Network	'5054668810': balance management has been disabled - investor mode
+EM	1	15:51:24.730	Network	'5054668810': connection to MetaQuotes-Demo lost
+RD	0	15:51:26.221	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 230.83 ms, build 6120)
+OK	0	15:51:27.708	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 6 positions, 51 orders, 12524 symbols, 0 spreads
+RJ	0	15:51:27.708	Network	'5054668810': trading has been disabled - investor mode
+FS	0	15:51:27.708	Network	'5054668810': balance management has been disabled - investor mode
+HO	0	16:00:33.260	Trades	'5054668810': deal #57688843622 buy 0.01 XAUUSD at 4369.48 done (based on order #58050407723)
+JQ	0	16:04:00.620	Trades	'5054668810': deal #57688899460 sell 0.01 XAUUSD at 4366.47 done (based on order #58051997349)
+PR	0	16:26:32.971	Trades	'5054668810': deal #57689181925 sell 0.01 XAUUSD at 4366.59 done (based on order #58052285162)
+LL	0	16:28:13.094	Trades	'5054668810': deal #57689206161 buy 0.01 XAUUSD at 4366.58 done (based on order #58052309606)
+GK	0	16:31:35.804	Trades	'5054668810': deal #57689270042 buy 0.01 XAUUSD at 4370.93 done (based on order #58050407930)
+NJ	0	16:35:30.953	Trades	'5054668810': deal #57689354579 buy 0.01 XAUUSD at 4372.38 done (based on order #58050408023)
+JI	0	16:36:09.837	Trades	'5054668810': deal #57689377905 buy 0.01 XAUUSD at 4373.83 done (based on order #58050408198)
+QG	0	16:37:07.111	Trades	'5054668810': deal #57689398902 sell 0.01 XAUUSD at 4372.09 done (based on order #58052506193)
+GH	0	16:37:07.112	Trades	'5054668810': deal #57689398916 sell 0.01 XAUUSD at 4372.11 done (based on order #58052506194)
+IH	0	16:39:41.669	Trades	'5054668810': deal #57689446709 sell 0.01 XAUUSD at 4370.64 done (based on order #58052555126)
+NI	0	16:47:07.062	Trades	'5054668810': deal #57689582641 sell 0.01 XAUUSD at 4371.13 done (based on order #58052695125)
+KE	0	16:47:32.889	Trades	'5054668810': deal #57689592140 buy 0.01 XAUUSD at 4370.93 done (based on order #58052703734)
+GE	0	16:50:50.248	Network	'5054668810': scanning network for access points
+OM	0	16:51:34.102	Trades	'5054668810': deal #57689660523 buy 0.01 XAUUSD at 4369.48 done (based on order #58052768319)
+PR	0	16:51:53.429	Network	'5054668810': scanning network finished
+JK	0	16:51:53.429	Network	'5054668810': auto connecting to a better access point with 80 % quality (previous: 52 %)
+MQ	1	16:51:53.430	Network	'5054668810': connection to MetaQuotes-Demo lost
+CO	0	16:51:54.545	LiveUpdate	new version build 6120 (IDE: 6120, Tester: 6120) is available
+QE	0	16:51:54.860	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 250.57 ms, build 6120)
+QK	0	16:51:55.418	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 7 positions, 47 orders, 12524 symbols, 0 spreads
+NJ	0	16:51:55.418	Network	'5054668810': trading has been disabled - investor mode
+JS	0	16:51:55.418	Network	'5054668810': balance management has been disabled - investor mode
+GP	0	17:00:39.294	Trades	'5054668810': deal #57689795989 sell 0.01 XAUUSD at 4370.40 done (based on order #58052915484)
+FN	0	17:02:22.924	Trades	'5054668810': deal #57689823407 buy 0.01 XAUUSD at 4369.48 done (based on order #58052937721)
+KM	0	17:09:23.472	Trades	'5054668810': deal #57689926127 buy 0.01 XAUUSD at 4368.03 done (based on order #58053049227)
+NL	0	17:11:05.539	Trades	'5054668810': deal #57689963994 buy 0.01 XAUUSD at 4366.58 done (based on order #58053087985)
+FK	0	17:12:20.298	Trades	'5054668810': deal #57690005087 buy 0.01 XAUUSD at 4365.13 done (based on order #58053106857)
+HJ	0	17:12:55.692	Trades	'5054668810': deal #57690020504 buy 0.01 XAUUSD at 4363.68 done (based on order #58053143651)
+JF	0	17:21:17.142	Trades	'5054668810': deal #57690194033 sell 0.01 XAUUSD at 4364.69 done (based on order #58053323678)
+CH	0	17:32:00.937	Trades	'5054668810': deal #57690369559 buy 0.01 XAUUSD at 4363.68 done (based on order #58053504442)
+DE	1	17:37:46.876	Network	'5054668810': connection to MetaQuotes-Demo lost
+NM	0	17:41:51.660	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point HA (ping: 271.19 ms, build 6120)
+CP	0	17:41:52.161	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 10 positions, 47 orders, 12524 symbols, 0 spreads
+PR	0	17:41:52.161	Network	'5054668810': trading has been disabled - investor mode
+HL	0	17:41:52.161	Network	'5054668810': balance management has been disabled - investor mode
+GF	0	17:41:52.979	Network	'5054668810': scanning network for access points
+GN	0	17:42:39.151	Trades	'5054668810': deal #57690598067 sell 0.01 XAUUSD at 4369.21 done (based on order #58053736014)
+IN	0	17:42:40.634	Network	'5054668810': scanning network finished
+MF	0	17:42:40.634	Network	'5054668810': auto connecting to a better access point with 87 % quality (previous: 68 %)
+KE	1	17:42:40.635	Network	'5054668810': connection to MetaQuotes-Demo lost
+EL	0	17:42:41.485	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 172.57 ms, build 6120)
+OS	0	17:42:41.829	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 9 positions, 47 orders, 12524 symbols, 0 spreads
+RR	0	17:42:41.829	Network	'5054668810': trading has been disabled - investor mode
+FL	0	17:42:41.829	Network	'5054668810': balance management has been disabled - investor mode
+PH	0	17:42:43.095	Trades	'5054668810': deal #57690599938 sell 0.01 XAUUSD at 4367.69 done (based on order #58053737928)
+QF	0	17:48:19.930	Trades	'5054668810': deal #57690707161 buy 0.01 XAUUSD at 4366.58 done (based on order #58053847223)
+OJ	0	17:50:35.663	Trades	'5054668810': deal #57690761960 sell 0.01 XAUUSD at 4369.71 done (based on order #58053903092)
+NJ	0	17:51:45.546	Trades	'5054668810': deal #57690801501 sell 0.01 XAUUSD at 4371.85 done (based on order #58053942757)
+DF	1	17:54:15.598	Network	'5054668810': connection to MetaQuotes-Demo lost
+GQ	0	19:29:09.173	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point EU 0 (ping: 211.86 ms, build 6120)
+FN	0	19:29:09.580	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 4 positions, 53 orders, 12524 symbols, 0 spreads
+CM	0	19:29:09.580	Network	'5054668810': trading has been disabled - investor mode
+KH	0	19:29:09.580	Network	'5054668810': balance management has been disabled - investor mode
+GE	0	19:29:10.944	Network	'5054668810': scanning network for access points
+KR	0	19:29:17.532	Trades	'5054668810': deal #57695165931 sell 0.01 XAUUSD at 4460.16 done (based on order #58058390285)
+DS	0	19:30:17.214	Network	'5054668810': scanning network finished
+GK	0	19:30:17.215	Network	'5054668810': auto connecting to a better access point with 85 % quality (previous: 62 %)
+OF	1	19:30:17.216	Network	'5054668810': connection to MetaQuotes-Demo lost
+GP	0	19:30:18.239	Network	'5054668810': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 178.66 ms, build 6120)
+ON	0	19:30:18.883	Network	'5054668810': terminal synchronized with MetaQuotes Ltd.: 3 positions, 53 orders, 12524 symbols, 0 spreads
+CM	0	19:30:18.883	Network	'5054668810': trading has been disabled - investor mode
+OH	0	19:30:18.883	Network	'5054668810': balance management has been disabled - investor mode
+FD	0	19:30:26.137	Trades	'5054668810': deal #57695199477 buy 0.01 XAUUSD at 4457.80 done (based on order #58058424736)
+MS	0	19:30:48.292	Trades	'5054668810': deal #57695213081 buy 0.01 XAUUSD at 4456.32 done (based on order #58058437485)
+KR	0	19:32:19.811	Trades	'5054668810': deal #57695249009 buy 0.01 XAUUSD at 4459.28 done (based on order #58058423147)
+KN	0	19:32:51.102	Trades	'5054668810': deal #57695263677 sell 0.01 XAUUSD at 4457.45 done (based on order #58058490887)
+GO	0	19:34:17.607	Trades	'5054668810': deal #57695302047 sell 0.01 XAUUSD at 4461.08 done (based on order #58058530597)
+GP	0	19:34:36.196	Trades	'5054668810': deal #57695310649 sell 0.01 XAUUSD at 4459.58 done (based on order #58058539371)
+LN	0	19:35:31.641	Trades	'5054668810': deal #57695337025 buy 0.01 XAUUSD at 4463.72 done (based on order #58058255905)
+FR	0	19:35:57.020	Trades	'5054668810': deal #57695351584 sell 0.01 XAUUSD at 4461.47 done (based on order #58058581469)
+JL	0	19:37:05.789	Trades	'5054668810': deal #57695383179 buy 0.01 XAUUSD at 4465.20 done (based on order #58058256010)
+KK	0	19:37:05.791	Trades	'5054668810': deal #57695383191 buy 0.01 XAUUSD at 4466.68 done (based on order #58058256068)
+EJ	0	19:37:23.393	Trades	'5054668810': deal #57695404892 buy 0.01 XAUUSD at 4468.16 done (based on order #58058256113)
+KI	0	19:37:47.917	Trades	'5054668810': deal #57695426039 buy 0.06 XAUUSD at 4469.64 done (based on order #58058256214)
+LH	0	19:37:47.920	Trades	'5054668810': deal #57695426044 buy 0.06 XAUUSD at 4471.12 done (based on order #58058256312)
+HH	0	19:37:59.090	Trades	'5054668810': deal #57695450009 sell 0.01 XAUUSD at 4469.02 done (based on order #58058680818)
+LI	0	19:37:59.091	Trades	'5054668810': deal #57695450015 sell 0.01 XAUUSD at 4469.23 done (based on order #58058680819)
+GI	0	19:37:59.096	Trades	'5054668810': deal #57695450016 sell 0.01 XAUUSD at 4469.48 done (based on order #58058680820)
+HJ	0	19:37:59.534	Trades	'5054668810': deal #57695450392 sell 0.01 XAUUSD at 4468.12 done (based on order #58058681217)
+DK	0	19:38:04.342	Trades	'5054668810': deal #57695453658 sell 0.06 XAUUSD at 4468.17 done (based on order #58058684717)
+CL	0	19:38:23.761	Trades	'5054668810': deal #57695464036 sell 0.06 XAUUSD at 4469.29 done (based on order #58058695433)
+IM	0	19:38:43.732	Trades	'5054668810': deal #57695476069 sell 0.01 XAUUSD at 4470.20 done (based on order #58058707797)
+KQ	0	19:39:03.728	Trades	'5054668810': deal #57695484981 buy 0.01 XAUUSD at 4468.02 done (based on order #58058716967)
+HP	0	19:39:39.593	Trades	'5054668810': deal #57695500825 buy 0.01 XAUUSD at 4469.70 done (based on order #58058726913)
+JO	0	19:39:46.856	Trades	'5054668810': deal #57695505643 buy 0.01 XAUUSD at 4471.19 done (based on order #58058726998)
+EN	0	19:40:02.581	Trades	'5054668810': deal #57695521993 buy 0.01 XAUUSD at 4472.68 done (based on order #58058727105)
+ER	0	19:40:26.610	Trades	'5054668810': deal #57695546159 sell 0.01 XAUUSD at 4470.81 done (based on order #58058779347)
+EL	0	19:42:02.739	Trades	'5054668810': deal #57695594952 buy 0.01 XAUUSD at 4469.70 done (based on order #58058829415)
+CK	0	19:42:52.947	Trades	'5054668810': deal #57695618702 buy 0.01 XAUUSD at 4474.17 done (based on order #58058727213)
+JJ	0	19:43:10.586	Trades	'5054668810': deal #57695642419 buy 0.01 XAUUSD at 4475.66 done (based on order #58058727321)
+RF	0	19:43:15.063	Trades	'5054668810': deal #57695646067 sell 0.01 XAUUSD at 4473.78 done (based on order #58058881392)
+IG	0	19:44:17.851	Trades	'5054668810': deal #57695679586 sell 0.01 XAUUSD at 4472.17 done (based on order #58058915836)
+DH	0	19:46:49.749	Trades	'5054668810': deal #57695752950 buy 0.01 XAUUSD at 4477.15 done (based on order #58058727466)
+MH	0	19:47:01.371	Trades	'5054668810': deal #57695769873 sell 0.01 XAUUSD at 4476.58 done (based on order #58059008349)
+II	0	19:47:40.458	Trades	'5054668810': deal #57695789464 sell 0.01 XAUUSD at 4475.14 done (based on order #58059028664)
+KE	0	19:48:01.041	Trades	'5054668810': deal #57695800849 buy 0.01 XAUUSD at 4474.17 done (based on order #58059038972)
+GD	0	19:49:07.001	Trades	'5054668810': deal #57695829055 buy 0.01 XAUUSD at 4472.68 done (based on order #58059070087)
+PS	0	19:50:05.131	Trades	'5054668810': deal #57695853491 buy 0.01 XAUUSD at 4471.19 done (based on order #58059094022)
+FM	0	19:51:29.802	Trades	'5054668810': deal #57695890524 sell 0.01 XAUUSD at 4474.61 done (based on order #58059133701)
+MN	0	19:52:08.382	Trades	'5054668810': deal #57695912057 sell 0.01 XAUUSD at 4476.73 done (based on order #58059155746)
+GO	0	19:52:12.745	Trades	'5054668810': deal #57695914487 sell 0.01 XAUUSD at 4475.17 done (based on order #58059158277)
+HO	0	19:52:42.405	Trades	'5054668810': deal #57695927171 buy 0.01 XAUUSD at 4474.17 done (based on order #58059171386)
+MN	0	19:54:32.050	Trades	'5054668810': deal #57695982825 buy 0.01 XAUUSD at 4478.64 done (based on order #58058727590)
+OM	0	19:54:32.850	Trades	'5054668810': deal #57695987442 buy 0.01 XAUUSD at 4480.13 done (based on order #58058727692)
+NS	0	19:54:38.609	Trades	'5054668810': deal #57695998161 sell 0.01 XAUUSD at 4479.89 done (based on order #58059244444)
+CD	0	19:54:59.461	Trades	'5054668810': deal #57696010633 sell 0.01 XAUUSD at 4478.01 done (based on order #58059257290)
+RE	0	19:55:18.713	Trades	'5054668810': deal #57696021174 sell 0.01 XAUUSD at 4478.75 done (based on order #58059268278)
+RE	0	19:55:38.645	Trades	'5054668810': deal #57696032701 sell 0.01 XAUUSD at 4480.35 done (based on order #58059280044)
+OF	0	19:55:58.770	Trades	'5054668810': deal #57696055666 sell 0.01 XAUUSD at 4482.02 done (based on order #58059303278)
+OH	0	19:56:52.335	Trades	'5054668810': deal #57696102969 buy 0.01 XAUUSD at 4484.97 done (based on order #58059324928)
+IG	0	19:57:16.589	Trades	'5054668810': deal #57696123313 buy 0.01 XAUUSD at 4486.46 done (based on order #58059325075)
+NF	0	19:57:47.786	Trades	'5054668810': deal #57696150014 buy 0.01 XAUUSD at 4487.95 done (based on order #58059325191)
+LE	0	20:00:33.586	Trades	'5054668810': deal #57696247607 buy 0.01 XAUUSD at 4489.44 done (based on order #58059325313)
+RK	0	20:01:41.323	Trades	'5054668810': deal #57696294296 sell 0.01 XAUUSD at 4488.48 done (based on order #58059545195)
+RS	0	20:01:57.003	Trades	'5054668810': deal #57696305764 buy 0.01 XAUUSD at 4490.93 done (based on order #58059325528)
+RM	0	20:02:13.843	Trades	'5054668810': deal #57696319445 sell 0.01 XAUUSD at 4487.94 done (based on order #58059571047)
+NQ	0	20:04:15.615	Trades	'5054668810': deal #57696376686 buy 0.01 XAUUSD at 4484.97 done (based on order #58059628610)
+IP	0	20:04:22.866	Trades	'5054668810': deal #57696381128 buy 0.01 XAUUSD at 4486.46 done (based on order #58059626078)
+HP	0	20:06:49.458	Trades	'5054668810': deal #57696457999 sell 0.01 XAUUSD at 4489.83 done (based on order #58059712567)
+LQ	0	20:06:49.489	Trades	'5054668810': deal #57696458000 sell 0.01 XAUUSD at 4489.88 done (based on order #58059712568)
+IR	0	20:06:59.843	Trades	'5054668810': deal #57696463429 sell 0.01 XAUUSD at 4488.34 done (based on order #58059718130)
+ML	0	20:07:23.846	Trades	'5054668810': deal #57696474099 buy 0.01 XAUUSD at 4487.95 done (based on order #58059727826)
+GD	0	20:10:24.440	Trades	'5054668810': deal #57696549948 sell 0.01 XAUUSD at 4488.13 done (based on order #58059807733)
+OK	0	20:11:17.561	Trades	'5054668810': deal #57696576773 buy 0.01 XAUUSD at 4492.42 done (based on order #58059325774)
+RJ	0	20:11:30.688	Trades	'5054668810': deal #57696593238 buy 0.01 XAUUSD at 4493.91 done (based on order #58059325901)
+GF	0	20:11:49.966	Trades	'5054668810': deal #57696611347 sell 0.01 XAUUSD at 4492.68 done (based on order #58059870556)
+CH	0	20:12:25.820	Trades	'5054668810': deal #57696633026 buy 0.01 XAUUSD at 4495.40 done (based on order #58059326056)
+HH	0	20:12:45.524	Trades	'5054668810': deal #57696646376 sell 0.01 XAUUSD at 4491.97 done (based on order #58059906232)
+KF	0	20:13:14.850	Trades	'5054668810': deal #57696665913 buy 0.01 XAUUSD at 4496.89 done (based on order #58059326201)
+DE	0	20:13:17.452	Trades	'5054668810': deal #57696678437 buy 0.01 XAUUSD at 4498.38 done (based on order #58059326325)
+MK	0	20:13:22.252	Trades	'5054668810': deal #57696685875 sell 0.01 XAUUSD at 4498.15 done (based on order #58059946149)
+ML	0	20:13:35.970	Trades	'5054668810': deal #57696696937 sell 0.01 XAUUSD at 4495.41 done (based on order #58059957468)
+KM	0	20:13:40.931	Trades	'5054668810': deal #57696700559 sell 0.01 XAUUSD at 4494.14 done (based on order #58059961197)
+FN	0	20:13:41.721	Trades	'5054668810': deal #57696701326 sell 0.01 XAUUSD at 4494.36 done (based on order #58059961986)
+LO	0	20:14:01.676	Trades	'5054668810': deal #57696714963 sell 0.01 XAUUSD at 4490.72 done (based on order #58059976006)
+DP	0	20:14:24.872	Trades	'5054668810': deal #57696727793 sell 0.01 XAUUSD at 4489.07 done (based on order #58059987523)
+LP	0	20:15:04.210	Trades	'5054668810': deal #57696746211 sell 0.01 XAUUSD at 4487.57 done (based on order #58059987682)
+MQ	0	20:15:17.054	Trades	'5054668810': deal #57696754238 sell 0.01 XAUUSD at 4486.07 done (based on order #58059987771)
+KR	0	20:16:02.069	Trades	'5054668810': deal #57696780124 sell 0.01 XAUUSD at 4484.57 done (based on order #58059987851)
+ES	0	20:16:48.097	Trades	'5054668810': deal #57696806315 sell 0.01 XAUUSD at 4483.07 done (based on order #58059987954)
+HD	0	20:17:18.543	Trades	'5054668810': deal #57696824929 sell 0.01 XAUUSD at 4481.57 done (based on order #58059988037)
+ME	0	20:17:27.661	Trades	'5054668810': deal #57696831689 sell 0.01 XAUUSD at 4480.07 done (based on order #58059988146)
+NI	0	20:17:41.233	Trades	'5054668810': deal #57696840796 buy 0.01 XAUUSD at 4480.60 done (based on order #58060105617)
+RH	0	20:18:00.827	Trades	'5054668810': deal #57696854042 buy 0.01 XAUUSD at 4480.76 done (based on order #58060119198)
+RG	0	20:18:20.836	Trades	'5054668810': deal #57696864256 buy 0.01 XAUUSD at 4481.03 done (based on order #58060129622)
+NF	0	20:18:25.289	Trades	'5054668810': deal #57696867065 buy 0.01 XAUUSD at 4481.85 done (based on order #58060132509)
+QE	0	20:18:25.289	Trades	'5054668810': deal #57696867068 buy 0.01 XAUUSD at 4481.85 done (based on order #58060132510)
+JD	0	20:18:25.290	Trades	'5054668810': deal #57696867069 buy 0.01 XAUUSD at 4481.84 done (based on order #58060132511)
+PS	0	20:18:40.645	Trades	'5054668810': deal #57696875082 buy 0.01 XAUUSD at 4481.31 done (based on order #58060140739)
+OM	0	20:19:11.353	Trades	'5054668810': deal #57696890258 sell 0.01 XAUUSD at 4478.99 done (based on order #58060150181)
+DQ	0	20:21:24.663	Trades	'5054668810': deal #57696958590 buy 0.01 XAUUSD at 4481.97 done (based on order #58060150129)
+PP	0	20:21:27.427	Trades	'5054668810': deal #57696960946 buy 0.01 XAUUSD at 4483.46 done (based on order #58060150243)
+KO	0	20:22:00.910	Trades	'5054668810': deal #57696980926 buy 0.01 XAUUSD at 4484.95 done (based on order #58060150358)
+LN	0	20:22:17.054	Trades	'5054668810': deal #57696992045 buy 0.01 XAUUSD at 4486.44 done (based on order #58060150463)
+HR	0	20:22:57.965	Trades	'5054668810': deal #57697011575 sell 0.01 XAUUSD at 4485.16 done (based on order #58060280489)
+HR	0	20:23:37.873	Trades	'5054668810': deal #57697029075 sell 0.01 XAUUSD at 4483.86 done (based on order #58060298662)
+CL	0	20:24:12.234	Trades	'5054668810': deal #57697044256 buy 0.01 XAUUSD at 4483.46 done (based on order #58060309678)
+GK	0	20:25:32.600	Trades	'5054668810': deal #57697079306 buy 0.01 XAUUSD at 4487.93 done (based on order #58060150555)
+LE	0	20:25:54.054	Trades	'5054668810': deal #57697092751 sell 0.01 XAUUSD at 4486.93 done (based on order #58060364536)
+GI	0	20:26:21.294	Trades	'5054668810': deal #57697105503 buy 0.01 XAUUSD at 4489.42 done (based on order #58060150635)
+MG	0	20:27:43.043	Trades	'5054668810': deal #57697138962 sell 0.01 XAUUSD at 4486.40 done (based on order #58060412303)
+QH	0	20:27:43.044	Trades	'5054668810': deal #57697138963 sell 0.01 XAUUSD at 4486.45 done (based on order #58060412306)
+CF	0	20:30:14.602	Trades	'5054668810': deal #57697189556 buy 0.01 XAUUSD at 4486.44 done (based on order #58060465387)
+JE	0	20:30:27.418	Trades	'5054668810': deal #57697196525 buy 0.01 XAUUSD at 4484.95 done (based on order #58060472451)
+HD	0	20:30:33.917	Trades	'5054668810': deal #57697200807 buy 0.01 XAUUSD at 4483.46 done (based on order #58060476559)
+PL	0	20:31:30.810	Trades	'5054668810': deal #57697225576 sell 0.01 XAUUSD at 4483.99 done (based on order #58060502643)
+QR	0	20:32:18.585	Trades	'5054668810': deal #57697244314 buy 0.01 XAUUSD at 4483.46 done (based on order #58060522137)
+HQ	0	20:32:38.980	Trades	'5054668810': deal #57697253655 buy 0.01 XAUUSD at 4481.97 done (based on order #58060530439)
+NO	0	20:34:20.583	Trades	'5054668810': deal #57697299137 sell 0.01 XAUUSD at 4482.94 done (based on order #58060578331)
+HP	0	20:39:01.578	Trades	'5054668810': deal #57697391818 sell 0.01 XAUUSD at 4483.97 done (based on order #58060674773)
+KN	0	20:39:27.521	Trades	'5054668810': deal #57697402417 buy 0.01 XAUUSD at 4483.46 done (based on order #58060683107)
+KM	0	20:40:02.697	Trades	'5054668810': deal #57697418177 buy 0.01 XAUUSD at 4481.97 done (based on order #58060701804)
+NS	0	20:43:49.751	Trades	'5054668810': deal #57697516963 sell 0.01 XAUUSD at 4486.24 done (based on order #58060804351)
+OS	0	20:44:43.793	Trades	'5054668810': deal #57697535464 sell 0.01 XAUUSD at 4484.57 done (based on order #58060823702)
+FK	0	20:54:09.332	Trades	'5054668810': deal #57697723066 buy 0.01 XAUUSD at 4483.46 done (based on order #58061018713)
+EJ	0	20:56:19.856	Trades	'5054668810': deal #57697785553 buy 0.01 XAUUSD at 4481.97 done (based on order #58061040929)
+LF	0	21:06:42.172	Trades	'5054668810': deal #57698012519 sell 0.01 XAUUSD at 4486.79 done (based on order #58061322590)
+GG	0	21:06:42.174	Trades	'5054668810': deal #57698012521 sell 0.01 XAUUSD at 4486.82 done (based on order #58061322592)
+PH	0	21:10:47.971	Trades	'5054668810': deal #57698090161 sell 0.01 XAUUSD at 4485.29 done (based on order #58061403969)
+JF	0	21:13:45.646	Trades	'5054668810': deal #57698157090 buy 0.01 XAUUSD at 4490.91 done (based on order #58060150725)
+FE	0	21:13:51.618	Trades	'5054668810': deal #57698162488 buy 0.01 XAUUSD at 4492.40 done (based on order #58060150870)
+RK	0	21:14:11.462	Trades	'5054668810': deal #57698175652 sell 0.01 XAUUSD at 4490.96 done (based on order #58061491848)
+CL	0	21:15:47.794	Trades	'5054668810': deal #57698217591 sell 0.01 XAUUSD at 4491.67 done (based on order #58061534865)
+KR	0	21:17:23.582	Trades	'5054668810': deal #57698250511 buy 0.01 XAUUSD at 4493.89 done (based on order #58060150987)
+NN	0	21:19:23.288	Trades	'5054668810': deal #57698295089 sell 0.01 XAUUSD at 4492.57 done (based on order #58061615600)
+GO	0	21:19:50.898	Trades	'5054668810': deal #57698306105 sell 0.01 XAUUSD at 4491.09 done (based on order #58061627131)
+DP	0	21:20:11.787	Trades	'5054668810': deal #57698317141 buy 0.01 XAUUSD at 4489.42 done (based on order #58061637494)
+PO	0	21:22:16.827	Trades	'5054668810': deal #57698359436 buy 0.01 XAUUSD at 4490.91 done (based on order #58061638056)
+DQ	0	21:30:06.758	Trades	'5054668810': deal #57698508176 sell 0.01 XAUUSD at 4493.92 done (based on order #58061838681)
+KR	0	21:30:26.451	Trades	'5054668810': deal #57698515674 sell 0.01 XAUUSD at 4494.10 done (based on order #58061846405)
+GS	0	21:30:46.466	Trades	'5054668810': deal #57698529310 sell 0.01 XAUUSD at 4495.53 done (based on order #58061860254)
+FD	0	21:31:06.562	Trades	'5054668810': deal #57698542042 sell 0.01 XAUUSD at 4496.39 done (based on order #58061873277)
+OJ	0	21:31:26.533	Trades	'5054668810': deal #57698555561 buy 0.01 XAUUSD at 4496.96 done (based on order #58061886743)
+EF	0	21:32:45.490	Trades	'5054668810': deal #57698586153 sell 0.01 XAUUSD at 4494.75 done (based on order #58061896148)
+DG	0	21:35:00.301	Trades	'5054668810': deal #57698635856 sell 0.01 XAUUSD at 4493.25 done (based on order #58061896202)
+FH	0	21:36:33.437	Trades	'5054668810': deal #57698671523 sell 0.01 XAUUSD at 4491.75 done (based on order #58061896278)
+LF	0	21:37:23.566	Trades	'5054668810': deal #57698691757 buy 0.01 XAUUSD at 4494.43 done (based on order #58062027503)
+ME	0	21:39:16.867	Trades	'5054668810': deal #57698742370 buy 0.01 XAUUSD at 4497.75 done (based on order #58061896118)
+MD	0	21:44:20.436	Trades	'5054668810': deal #57698866836 buy 0.01 XAUUSD at 4499.25 done (based on order #58061896172)
+IL	0	21:50:00.675	Trades	'5054668810': deal #57698988623 sell 0.01 XAUUSD at 4494.75 done (based on order #58062037441)
+PS	0	22:01:31.123	Trades	'5054668810': deal #57699248604 buy 0.01 XAUUSD at 4493.87 done (based on order #58062604075)
+MM	0	22:03:00.855	Trades	'5054668810': deal #57699280496 sell 0.01 XAUUSD at 4494.75 done (based on order #58062637046)
+JQ	0	22:39:40.045	Trades	'5054668810': deal #57699978894 buy 0.01 XAUUSD at 4494.69 done (based on order #58063364185)
+KO	0	22:41:45.118	Trades	'5054668810': deal #57700018764 sell 0.01 XAUUSD at 4490.25 done (based on order #58061896358)
+KO	0	22:42:56.834	Trades	'5054668810': deal #57700053274 buy 0.01 XAUUSD at 4492.23 done (based on order #58063441269)
+FQ	0	22:48:36.757	Trades	'5054668810': deal #57700156513 sell 0.01 XAUUSD at 4488.75 done (based on order #58061896402)
+KR	0	22:48:42.422	Trades	'5054668810': deal #57700161571 sell 0.01 XAUUSD at 4487.25 done (based on order #58061896447)
+RL	0	22:50:11.874	Trades	'5054668810': deal #57700196837 buy 0.01 XAUUSD at 4490.37 done (based on order #58063590490)
+JD	0	23:01:05.724	Trades	'5054668810': deal #57700386294 sell 0.01 XAUUSD at 4485.75 done (based on order #58061896491)
+RJ	0	23:02:12.123	Trades	'5054668810': deal #57700418862 buy 0.01 XAUUSD at 4486.13 done (based on order #58063822025)
+CI	0	23:03:35.416	Trades	'5054668810': deal #57700443703 buy 0.01 XAUUSD at 4487.63 done (based on order #58063847927)
+IG	0	23:04:16.946	Trades	'5054668810': deal #57700458767 sell 0.01 XAUUSD at 4488.75 done (based on order #58063862812)
+JH	0	23:12:02.779	Trades	'5054668810': deal #57700579664 sell 0.01 XAUUSD at 4490.25 done (based on order #58063987875)
+IF	0	23:29:06.549	Trades	'5054668810': deal #57700882842 buy 0.01 XAUUSD at 4486.14 done (based on order #58064307395)
+LE	0	23:29:59.262	Trades	'5054668810': deal #57700917284 buy 0.01 XAUUSD at 4487.64 done (based on order #58064342428)
+IK	0	23:31:31.604	Trades	'5054668810': deal #57700991937 sell 0.01 XAUUSD at 4490.25 done (based on order #58064390685)
+MK	0	23:32:15.241	Trades	'5054668810': deal #57701026369 sell 0.01 XAUUSD at 4493.25 done (based on order #58064451948)
+LL	0	23:33:24.376	Trades	'5054668810': deal #57701081562 sell 0.01 XAUUSD at 4494.75 done (based on order #58064505734)
+GM	0	23:35:32.262	Trades	'5054668810': deal #57701169753 sell 0.01 XAUUSD at 4491.75 done (based on order #58064446497)
+QQ	0	23:35:51.167	Trades	'5054668810': deal #57701184612 buy 0.01 XAUUSD at 4490.02 done (based on order #58064613519)
+KP	0	23:35:51.344	Trades	'5054668810': deal #57701184809 buy 0.01 XAUUSD at 4490.23 done (based on order #58064613708)
+RP	0	23:35:51.606	Trades	'5054668810': deal #57701185254 sell 0.01 XAUUSD at 4488.75 done (based on order #58064377739)
+NN	0	23:37:40.298	Trades	'5054668810': deal #57701250916 buy 0.01 XAUUSD at 4487.96 done (based on order #58064681556)
+NM	0	23:37:47.660	Trades	'5054668810': deal #57701254695 buy 0.01 XAUUSD at 4489.52 done (based on order #58064685437)
+GS	0	23:38:40.280	Trades	'5054668810': deal #57701275139 sell 0.01 XAUUSD at 4490.25 done (based on order #58064706544)
+GK	0	23:42:33.631	Trades	'5054668810': deal #57701359810 buy 0.01 XAUUSD at 4489.45 done (based on order #58064794303)
+PE	0	23:45:53.109	Trades	'5054668810': deal #57701424510 sell 0.01 XAUUSD at 4484.25 done (based on order #58061896528)
+QF	0	23:47:54.290	Trades	'5054668810': deal #57701476749 sell 0.01 XAUUSD at 4482.75 done (based on order #58061896565)
+FH	0	23:48:57.148	Trades	'5054668810': deal #57701501751 buy 0.01 XAUUSD at 4484.11 done (based on order #58064938799)
+OG	0	23:48:57.148	Trades	'5054668810': deal #57701501761 buy 0.01 XAUUSD at 4484.03 done (based on order #58064938800)
+NF	0	23:49:13.077	Trades	'5054668810': deal #57701508547 buy 0.01 XAUUSD at 4485.56 done (based on order #58064945667)
+PJ	0	23:49:39.222	Trades	'5054668810': deal #57701518610 sell 0.01 XAUUSD at 4485.75 done (based on order #58064955517)
+GJ	0	23:54:44.480	Trades	'5054668810': deal #57701607524 sell 0.01 XAUUSD at 4481.25 done (based on order #58061896609)
+MK	0	23:56:37.535	Trades	'5054668810': deal #57701645872 sell 0.06 XAUUSD at 4479.75 done (based on order #58061896676)
+QL	0	23:56:43.022	Trades	'5054668810': deal #57701650593 sell 0.06 XAUUSD at 4478.25 done (based on order #58061896799)
+RR	0	23:56:48.177	Trades	'5054668810': deal #57701655981 buy 0.01 XAUUSD at 4477.96 done (based on order #58065094604)
+JQ	0	23:57:08.069	Trades	'5054668810': deal #57701665041 buy 0.06 XAUUSD at 4479.07 done (based on order #58065103786)
+JP	0	23:57:28.268	Trades	'5054668810': deal #57701674699 buy 0.06 XAUUSD at 4478.18 done (based on order #58065113454)
+KO	0	23:57:48.071	Trades	'5054668810': deal #57701685992 buy 0.01 XAUUSD at 4477.04 done (based on order #58065124793)
+IN	0	23:58:08.070	Trades	'5054668810': deal #57701695208 buy 0.01 XAUUSD at 4476.57 done (based on order #58065134107)
+LM	0	23:58:28.266	Trades	'5054668810': deal #57701713219 buy 0.01 XAUUSD at 4473.56 done (based on order #58065152072)
+RS	0	23:58:48.087	Trades	'5054668810': deal #57701725316 sell 0.01 XAUUSD at 4474.71 done (based on order #58065164185)
+ID	0	23:59:08.264	Trades	'5054668810': deal #57701734639 sell 0.01 XAUUSD at 4474.59 done (based on order #58065173588)
+JE	0	23:59:49.520	Trades	'5054668810': deal #57701754790 sell 0.01 XAUUSD at 4474.52 done (based on order #58065182162)

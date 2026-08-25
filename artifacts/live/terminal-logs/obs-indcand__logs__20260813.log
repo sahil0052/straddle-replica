@@ -1,0 +1,566 @@
+LO	0	00:03:03.395	Trades	'110971967': deal #9692977471 buy 0.01 XAUUSD at 4412.00 done (based on order #9992308761)
+KF	0	00:17:06.636	Trades	'110971967': deal #9693177829 sell 0.01 XAUUSD at 4414.22 done (based on order #9994219435)
+RE	0	00:20:09.258	Trades	'110971967': deal #9693228103 sell 0.01 XAUUSD at 4416.39 done (based on order #9994268231)
+GD	0	00:22:34.620	Trades	'110971967': deal #9693258840 sell 0.01 XAUUSD at 4414.92 done (based on order #9994297813)
+DD	0	00:25:25.238	Trades	'110971967': deal #9693297693 buy 0.01 XAUUSD at 4413.47 done (based on order #9994335873)
+HI	0	00:36:49.667	Trades	'110971967': deal #9693453082 sell 0.01 XAUUSD at 4416.89 done (based on order #9994487638)
+NH	0	00:38:06.839	Trades	'110971967': deal #9693470713 sell 0.01 XAUUSD at 4415.39 done (based on order #9994504164)
+CP	0	01:06:19.824	Trades	'110971967': deal #9693757349 buy 0.01 XAUUSD at 4413.47 done (based on order #9994781061)
+JR	0	01:07:28.847	Trades	'110971967': deal #9693771479 buy 0.01 XAUUSD at 4412.00 done (based on order #9994794952)
+DS	0	01:20:00.563	Trades	'110971967': deal #9693908829 buy 0.01 XAUUSD at 4410.53 done (based on order #9994913309)
+QN	1	01:34:48.736	Network	'110971967': connection to MetaQuotes-Demo lost
+RJ	0	01:34:49.413	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+FM	0	01:34:50.543	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 247.57 ms, build 6104)
+OP	0	01:34:52.672	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 23 orders, 12540 symbols, 0 spreads
+HD	0	01:34:52.672	Network	'110971967': trading has been disabled - investor mode
+RM	0	01:34:52.672	Network	'110971967': balance management has been disabled - investor mode
+FJ	0	03:02:10.710	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+LD	0	03:04:55.188	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+NS	0	03:29:59.376	Trades	'110971967': deal #9694285222 sell 0.01 XAUUSD at 4410.94 done (based on order #9995317816)
+GM	0	03:29:59.386	Trades	'110971967': deal #9694285229 buy 0.01 XAUUSD at 4414.94 done (based on order #9994747370)
+DP	0	03:30:03.942	Trades	'110971967': deal #9694302419 sell 0.06 XAUUSD at 4381.13 done (based on order #9982468564)
+LG	0	03:30:03.944	Trades	'110971967': deal #9694302433 sell 0.06 XAUUSD at 4379.66 done (based on order #9982468743)
+DF	0	03:30:03.953	Trades	'110971967': deal #9694302461 sell 0.15 XAUUSD at 4378.19 done (based on order #9982468835)
+JE	0	03:30:03.953	Trades	'110971967': deal #9694302475 sell 0.15 XAUUSD at 4376.72 done (based on order #9982468903)
+OK	0	03:30:03.954	Trades	'110971967': deal #9694302521 sell 0.15 XAUUSD at 4375.25 done (based on order #9982468964)
+IJ	0	03:30:03.957	Trades	'110971967': deal #9694302533 sell 0.15 XAUUSD at 4373.78 done (based on order #9982469039)
+LI	0	03:30:03.957	Trades	'110971967': deal #9694302557 sell 0.15 XAUUSD at 4372.31 done (based on order #9982469117)
+MH	0	03:30:03.959	Trades	'110971967': deal #9694302573 sell 0.15 XAUUSD at 4370.84 done (based on order #9982469235)
+LN	0	03:30:03.961	Trades	'110971967': deal #9694302609 sell 0.15 XAUUSD at 4369.37 done (based on order #9982469295)
+EM	0	03:30:03.962	Trades	'110971967': deal #9694302625 sell 0.15 XAUUSD at 4367.90 done (based on order #9982469348)
+PL	0	03:30:03.963	Trades	'110971967': deal #9694302645 sell 0.15 XAUUSD at 4366.43 done (based on order #9982469466)
+CS	0	03:30:03.964	Trades	'110971967': deal #9694302668 sell 0.15 XAUUSD at 4364.96 done (based on order #9982469582)
+MQ	0	03:30:03.965	Trades	'110971967': deal #9694302698 sell 0.01 XAUUSD at 4400.24 done (based on order #9993628823)
+PP	0	03:30:03.966	Trades	'110971967': deal #9694302713 sell 0.01 XAUUSD at 4401.71 done (based on order #9993650959)
+LH	0	03:30:38.233	Trades	'110971967': deal #9694318951 buy 0.01 XAUUSD at 4410.53 done (based on order #9995348249)
+EI	0	03:36:04.783	Trades	'110971967': deal #9694359703 buy 0.01 XAUUSD at 4404.23 done (based on order #9995389305)
+EK	0	03:58:50.782	Trades	'110971967': deal #9694482133 buy 0.01 XAUUSD at 4400.01 done (based on order #9995509479)
+GD	0	03:58:50.788	Trades	'110971967': deal #9694482137 buy 0.01 XAUUSD at 4400.01 done (based on order #9995509480)
+CF	0	03:58:50.788	Trades	'110971967': deal #9694482138 buy 0.01 XAUUSD at 4400.01 done (based on order #9995509481)
+IG	0	04:00:53.381	Trades	'110971967': deal #9694494450 buy 0.01 XAUUSD at 4401.48 done (based on order #9995521704)
+CO	0	04:23:05.471	Trades	'110971967': deal #9694611314 sell 0.01 XAUUSD at 4401.71 done (based on order #9995635393)
+QM	0	04:31:46.013	Trades	'110971967': deal #9694653848 sell 0.01 XAUUSD at 4403.18 done (based on order #9995678483)
+HL	0	04:38:35.615	Trades	'110971967': deal #9694695337 sell 0.01 XAUUSD at 4404.65 done (based on order #9995718259)
+KM	0	04:44:54.572	Network	'110971967': scanning network for access points
+QE	0	04:45:42.109	Network	'110971967': scanning network finished
+JL	0	04:45:42.110	Network	'110971967': auto connecting to a better access point with 84 % quality (previous: 82 %)
+MN	1	04:45:42.236	Network	'110971967': connection to MetaQuotes-Demo lost
+PJ	0	04:45:42.994	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+OJ	0	04:45:43.680	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 225.69 ms, build 6104)
+HD	0	04:45:51.532	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+KD	0	04:45:51.532	Network	'110971967': trading has been disabled - investor mode
+EL	0	04:45:51.532	Network	'110971967': balance management has been disabled - investor mode
+GF	0	04:50:28.579	Trades	'110971967': deal #9694739317 sell 0.01 XAUUSD at 4406.12 done (based on order #9995760628)
+PE	0	04:50:33.825	Trades	'110971967': deal #9694747142 sell 0.01 XAUUSD at 4407.59 done (based on order #9995767612)
+KI	1	05:20:42.386	Network	'110971967': connection to MetaQuotes-Demo lost
+CN	0	05:23:47.305	Network	'110971967': authorized on MetaQuotes-Demo through Access Point SG 2 (ping: 262.99 ms, build 6104)
+ON	0	05:25:14.653	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 169.09 ms, build 6104)
+DQ	0	05:25:24.410	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 53 positions, 8 orders, 12540 symbols, 0 spreads
+MQ	0	05:25:24.410	Network	'110971967': trading has been disabled - investor mode
+KH	0	05:25:24.410	Network	'110971967': balance management has been disabled - investor mode
+KE	0	05:25:24.681	Network	'110971967': scanning network for access points
+NQ	1	05:25:27.343	Network	'110971967': connection to MetaQuotes-Demo lost
+PE	0	05:25:34.762	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 169.09 ms, build 6104)
+FJ	0	05:25:44.724	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 53 positions, 8 orders, 12540 symbols, 0 spreads
+KJ	0	05:25:44.724	Network	'110971967': trading has been disabled - investor mode
+MG	0	05:25:44.724	Network	'110971967': balance management has been disabled - investor mode
+MR	2	05:25:54.914	Virtual Hosting	failed to get list of virtual hosts [1009]
+JI	2	05:26:00.227	MQL5.community	authorization failed
+HP	1	05:27:15.630	Network	'110971967': connection to MetaQuotes-Demo lost
+GE	0	05:29:31.190	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 0 (ping: 175.02 ms, build 6104)
+OJ	0	05:29:32.160	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 53 positions, 8 orders, 12540 symbols, 0 spreads
+JJ	0	05:29:32.160	Network	'110971967': trading has been disabled - investor mode
+PF	0	05:29:32.160	Network	'110971967': balance management has been disabled - investor mode
+PR	0	05:29:32.566	Network	'110971967': scanning network for access points
+CG	0	05:30:20.285	Network	'110971967': scanning network finished
+FO	0	05:30:20.285	Network	'110971967': auto connecting to a better access point with 86 % quality (previous: 64 %)
+CQ	1	05:30:20.286	Network	'110971967': connection to MetaQuotes-Demo lost
+ED	0	05:30:21.238	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 220.71 ms, build 6104)
+OJ	0	05:30:21.786	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 53 positions, 8 orders, 12540 symbols, 0 spreads
+JJ	0	05:30:21.786	Network	'110971967': trading has been disabled - investor mode
+HG	0	05:30:21.786	Network	'110971967': balance management has been disabled - investor mode
+OL	0	05:31:01.453	Trades	'110971967': deal #9695024973 sell 0.01 XAUUSD at 4414.49 done (based on order #9996035328)
+GS	0	05:31:39.948	Trades	'110971967': deal #9695035441 sell 0.01 XAUUSD at 4416.11 done (based on order #9996045612)
+JR	0	05:33:48.219	Trades	'110971967': deal #9695064982 sell 0.01 XAUUSD at 4417.93 done (based on order #9996074622)
+IP	0	05:34:07.481	Trades	'110971967': deal #9695069042 sell 0.01 XAUUSD at 4416.32 done (based on order #9996078781)
+EG	0	05:40:00.203	Trades	'110971967': deal #9695136297 sell 0.01 XAUUSD at 4420.70 done (based on order #9996145685)
+KF	0	05:40:21.085	Trades	'110971967': deal #9695140715 sell 0.01 XAUUSD at 4419.20 done (based on order #9996149816)
+JE	0	05:46:38.356	Trades	'110971967': deal #9695212884 sell 0.01 XAUUSD at 4425.77 done (based on order #9996219395)
+QK	0	05:46:38.426	Trades	'110971967': deal #9695212903 sell 0.01 XAUUSD at 4425.62 done (based on order #9996219415)
+FJ	0	05:46:38.429	Trades	'110971967': deal #9695212906 sell 0.01 XAUUSD at 4425.62 done (based on order #9996219416)
+NI	0	05:50:50.138	Trades	'110971967': deal #9695274945 sell 0.06 XAUUSD at 4430.69 done (based on order #9996280455)
+DH	0	05:50:50.142	Trades	'110971967': deal #9695274953 sell 0.06 XAUUSD at 4430.81 done (based on order #9996280457)
+IN	0	05:50:50.142	Trades	'110971967': deal #9695274954 sell 0.01 XAUUSD at 4430.84 done (based on order #9996280459)
+CM	0	05:54:00.941	Trades	'110971967': deal #9695328948 sell 0.06 XAUUSD at 4435.89 done (based on order #9996332651)
+DL	0	05:54:00.947	Trades	'110971967': deal #9695328951 sell 0.06 XAUUSD at 4435.89 done (based on order #9996332652)
+QS	0	05:54:01.052	Trades	'110971967': deal #9695328997 sell 0.06 XAUUSD at 4435.71 done (based on order #9996332694)
+LQ	0	05:54:01.105	Trades	'110971967': deal #9695329028 sell 0.06 XAUUSD at 4435.69 done (based on order #9996332723)
+PP	0	05:54:57.087	Trades	'110971967': deal #9695343158 sell 0.06 XAUUSD at 4434.22 done (based on order #9996346876)
+LH	0	05:55:09.256	Trades	'110971967': deal #9695347222 buy 0.06 XAUUSD at 4432.58 done (based on order #9996350821)
+RJ	0	05:56:38.429	Trades	'110971967': deal #9695368325 buy 0.06 XAUUSD at 4429.64 done (based on order #9996370756)
+GK	0	05:58:09.308	Trades	'110971967': deal #9695386013 buy 0.06 XAUUSD at 4428.17 done (based on order #9996389433)
+ID	0	06:01:20.875	Trades	'110971967': deal #9695419397 buy 0.06 XAUUSD at 4425.23 done (based on order #9996422920)
+CF	0	06:01:44.657	Trades	'110971967': deal #9695424873 buy 0.06 XAUUSD at 4426.70 done (based on order #9996420241)
+MG	0	06:03:17.717	Trades	'110971967': deal #9695442522 buy 0.06 XAUUSD at 4431.11 done (based on order #9996364678)
+RO	0	06:03:31.451	Trades	'110971967': deal #9695447109 sell 0.06 XAUUSD at 4431.63 done (based on order #9996450875)
+GM	0	06:03:31.724	Trades	'110971967': deal #9695447191 sell 0.06 XAUUSD at 4431.53 done (based on order #9996450943)
+PL	0	06:03:31.726	Trades	'110971967': deal #9695447192 sell 0.06 XAUUSD at 4431.58 done (based on order #9996450944)
+OL	0	06:03:39.411	Trades	'110971967': deal #9695449002 buy 0.06 XAUUSD at 4434.05 done (based on order #9996352926)
+HN	0	06:04:12.742	Trades	'110971967': deal #9695480211 buy 0.15 XAUUSD at 4442.87 done (based on order #9982468938)
+RO	0	06:04:12.745	Trades	'110971967': deal #9695480241 buy 0.15 XAUUSD at 4444.34 done (based on order #9982469003)
+CH	0	06:04:12.933	Trades	'110971967': deal #9695481842 buy 0.15 XAUUSD at 4445.81 done (based on order #9982469068)
+NJ	0	06:04:13.113	Trades	'110971967': deal #9695483558 buy 0.15 XAUUSD at 4447.28 done (based on order #9982469173)
+MD	0	06:04:14.606	Trades	'110971967': deal #9695496728 sell 0.06 XAUUSD at 4445.03 done (based on order #9996495815)
+FK	0	06:04:17.637	Trades	'110971967': deal #9695523213 sell 0.06 XAUUSD at 4445.50 done (based on order #9996520865)
+DI	0	06:04:21.344	Trades	'110971967': deal #9695535691 sell 0.06 XAUUSD at 4445.90 done (based on order #9996532326)
+QH	0	06:04:21.447	Trades	'110971967': deal #9695535746 sell 0.06 XAUUSD at 4445.74 done (based on order #9996532382)
+FO	0	06:04:22.923	Trades	'110971967': deal #9695536495 sell 0.06 XAUUSD at 4445.18 done (based on order #9996533122)
+NQ	0	06:04:31.422	Trades	'110971967': deal #9695542192 buy 0.15 XAUUSD at 4448.75 done (based on order #9982469261)
+PL	0	06:04:34.468	Trades	'110971967': deal #9695553372 sell 0.06 XAUUSD at 4447.82 done (based on order #9996549032)
+OS	0	06:04:38.066	Trades	'110971967': deal #9695556453 sell 0.15 XAUUSD at 4448.02 done (based on order #9996551924)
+CR	0	06:04:41.065	Trades	'110971967': deal #9695557669 sell 0.15 XAUUSD at 4447.97 done (based on order #9996553180)
+PQ	0	06:04:41.115	Trades	'110971967': deal #9695557690 sell 0.15 XAUUSD at 4447.93 done (based on order #9996553206)
+GG	0	06:04:42.644	Trades	'110971967': deal #9695558630 sell 0.06 XAUUSD at 4447.38 done (based on order #9996554011)
+DF	0	06:04:42.645	Trades	'110971967': deal #9695558640 sell 0.15 XAUUSD at 4447.59 done (based on order #9996554013)
+HE	0	06:04:48.210	Trades	'110971967': deal #9695560756 sell 0.15 XAUUSD at 4446.61 done (based on order #9996556010)
+RK	0	06:04:58.836	Trades	'110971967': deal #9695565056 buy 0.15 XAUUSD at 4444.34 done (based on order #9996560049)
+ME	0	06:05:26.278	Trades	'110971967': deal #9695574954 buy 0.15 XAUUSD at 4442.87 done (based on order #9996568654)
+MF	0	06:05:52.596	Trades	'110971967': deal #9695581924 buy 0.15 XAUUSD at 4441.40 done (based on order #9996576676)
+JO	0	06:07:34.324	Trades	'110971967': deal #9695606482 sell 0.15 XAUUSD at 4442.40 done (based on order #9996601679)
+FQ	0	06:07:57.749	Trades	'110971967': deal #9695610887 buy 0.15 XAUUSD at 4441.40 done (based on order #9996605553)
+KR	0	06:08:24.231	Trades	'110971967': deal #9695617752 buy 0.15 XAUUSD at 4439.93 done (based on order #9996612981)
+NL	0	06:08:44.163	Trades	'110971967': deal #9695622932 buy 0.06 XAUUSD at 4438.46 done (based on order #9996617281)
+CM	0	06:19:22.711	Trades	'110971967': deal #9695729062 buy 0.06 XAUUSD at 4436.99 done (based on order #9996722697)
+NN	0	06:19:59.015	Trades	'110971967': deal #9695741490 buy 0.06 XAUUSD at 4431.11 done (based on order #9996734735)
+IH	0	06:20:41.303	Trades	'110971967': deal #9695753226 buy 0.06 XAUUSD at 4432.58 done (based on order #9996734113)
+FI	0	06:25:22.802	Trades	'110971967': deal #9695800488 buy 0.06 XAUUSD at 4429.64 done (based on order #9996793599)
+LJ	0	06:28:23.792	Trades	'110971967': deal #9695829152 buy 0.06 XAUUSD at 4428.17 done (based on order #9996821999)
+JD	0	06:28:29.889	Trades	'110971967': deal #9695831123 buy 0.06 XAUUSD at 4426.70 done (based on order #9996823918)
+EE	0	06:28:59.805	Trades	'110971967': deal #9695840563 buy 0.06 XAUUSD at 4425.23 done (based on order #9996828527)
+LH	0	06:29:18.369	Trades	'110971967': deal #9695845881 sell 0.06 XAUUSD at 4428.24 done (based on order #9996837927)
+NO	0	06:30:00.017	Trades	'110971967': deal #9695854725 sell 0.06 XAUUSD at 4427.08 done (based on order #9996846456)
+QQ	0	06:30:21.493	Trades	'110971967': deal #9695860812 buy 0.06 XAUUSD at 4426.70 done (based on order #9996851786)
+PR	0	06:30:26.086	Trades	'110971967': deal #9695862599 buy 0.06 XAUUSD at 4425.23 done (based on order #9996853734)
+OL	0	06:31:05.826	Trades	'110971967': deal #9695874690 buy 0.01 XAUUSD at 4423.76 done (based on order #9996865624)
+PR	0	06:32:18.005	Trades	'110971967': deal #9695891897 sell 0.01 XAUUSD at 4427.64 done (based on order #9996882296)
+NQ	0	06:32:25.104	Trades	'110971967': deal #9695894513 sell 0.06 XAUUSD at 4429.95 done (based on order #9996884756)
+RG	0	06:32:40.927	Trades	'110971967': deal #9695898965 sell 0.06 XAUUSD at 4429.95 done (based on order #9996888856)
+DF	0	06:32:56.255	Trades	'110971967': deal #9695902597 sell 0.06 XAUUSD at 4431.13 done (based on order #9996892272)
+MJ	0	06:33:26.129	Trades	'110971967': deal #9695909773 buy 0.06 XAUUSD at 4428.17 done (based on order #9996899112)
+FD	0	06:34:19.556	Trades	'110971967': deal #9695921856 buy 0.06 XAUUSD at 4434.05 done (based on order #9996730273)
+MJ	0	06:34:48.499	Trades	'110971967': deal #9695929969 sell 0.06 XAUUSD at 4432.50 done (based on order #9996918257)
+KI	0	06:35:23.035	Trades	'110971967': deal #9695938027 sell 0.06 XAUUSD at 4433.15 done (based on order #9996926284)
+PH	0	06:35:25.811	Trades	'110971967': deal #9695938940 sell 0.06 XAUUSD at 4431.63 done (based on order #9996927195)
+DQ	0	06:36:22.771	Trades	'110971967': deal #9695950739 buy 0.06 XAUUSD at 4435.52 done (based on order #9996729707)
+CR	0	06:43:19.145	Trades	'110971967': deal #9696025988 buy 0.06 XAUUSD at 4431.11 done (based on order #9997014153)
+LS	0	06:43:36.652	Trades	'110971967': deal #9696029349 buy 0.06 XAUUSD at 4429.64 done (based on order #9997017689)
+MN	0	06:45:06.770	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+HE	0	06:45:45.865	Trades	'110971967': deal #9696053339 sell 0.06 XAUUSD at 4433.45 done (based on order #9997041952)
+MD	0	06:47:39.727	Trades	'110971967': deal #9696074864 sell 0.06 XAUUSD at 4432.34 done (based on order #9997063884)
+EE	0	06:48:11.748	Trades	'110971967': deal #9696080966 buy 0.06 XAUUSD at 4429.64 done (based on order #9997070302)
+NF	0	06:49:03.786	Trades	'110971967': deal #9696092653 buy 0.06 XAUUSD at 4428.17 done (based on order #9997080651)
+PG	0	06:50:23.592	Trades	'110971967': deal #9696107136 buy 0.06 XAUUSD at 4426.70 done (based on order #9997096538)
+CQ	0	06:51:02.724	Trades	'110971967': deal #9696117878 buy 0.01 XAUUSD at 4422.29 done (based on order #9997106991)
+KR	0	06:51:14.353	Trades	'110971967': deal #9696125184 buy 0.01 XAUUSD at 4420.82 done (based on order #9997109443)
+HL	0	06:52:42.999	Trades	'110971967': deal #9696144268 buy 0.01 XAUUSD at 4423.76 done (based on order #9997104685)
+KR	0	06:54:49.991	Trades	'110971967': deal #9696163324 sell 0.01 XAUUSD at 4421.38 done (based on order #9997150822)
+EM	0	06:58:02.860	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+LD	0	07:00:00.269	Trades	'110971967': deal #9696215984 buy 0.01 XAUUSD at 4419.35 done (based on order #9997201360)
+DE	0	07:00:34.649	Trades	'110971967': deal #9696221673 buy 0.01 XAUUSD at 4420.82 done (based on order #9997188718)
+OF	0	07:01:09.792	Trades	'110971967': deal #9696229413 buy 0.06 XAUUSD at 4425.23 done (based on order #9997101533)
+OO	0	07:02:13.143	Trades	'110971967': deal #9696243573 sell 0.01 XAUUSD at 4425.94 done (based on order #9997228328)
+KN	0	07:03:01.390	Trades	'110971967': deal #9696253779 sell 0.01 XAUUSD at 4427.51 done (based on order #9997238455)
+MM	0	07:03:01.390	Trades	'110971967': deal #9696253784 sell 0.01 XAUUSD at 4427.51 done (based on order #9997238459)
+IL	0	07:03:01.390	Trades	'110971967': deal #9696253786 sell 0.01 XAUUSD at 4427.53 done (based on order #9997238462)
+ON	0	07:05:10.471	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+OI	0	07:05:16.086	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+DD	0	07:05:22.332	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+JN	0	07:05:28.620	Experts	expert ReferenceSafeEA (USDJPY,Daily) loaded successfully
+LE	0	07:05:55.655	Trades	'110971967': deal #9696283830 sell 0.06 XAUUSD at 4428.62 done (based on order #9997267593)
+ED	0	07:06:24.202	Trades	'110971967': deal #9696288617 sell 0.06 XAUUSD at 4427.10 done (based on order #9997272409)
+CE	0	07:07:12.596	Trades	'110971967': deal #9696297026 buy 0.06 XAUUSD at 4426.70 done (based on order #9997280665)
+IF	0	07:08:42.506	Trades	'110971967': deal #9696312249 buy 0.06 XAUUSD at 4425.23 done (based on order #9997295369)
+RG	0	07:10:28.208	Trades	'110971967': deal #9696334489 buy 0.01 XAUUSD at 4422.29 done (based on order #9997313567)
+JQ	0	07:10:52.877	Trades	'110971967': deal #9696338686 buy 0.01 XAUUSD at 4423.76 done (based on order #9997309679)
+ER	0	07:16:23.893	Trades	'110971967': deal #9696407463 buy 0.01 XAUUSD at 4414.94 done (based on order #9997386523)
+PL	0	07:16:46.719	Trades	'110971967': deal #9696416701 buy 0.01 XAUUSD at 4412.00 done (based on order #9997394653)
+JM	0	07:25:24.092	Trades	'110971967': deal #9696527891 buy 0.01 XAUUSD at 4416.41 done (based on order #9997386319)
+OQ	0	07:26:19.115	Trades	'110971967': deal #9696539537 sell 0.01 XAUUSD at 4412.21 done (based on order #9997516013)
+JH	0	07:31:03.616	Trades	'110971967': deal #9696600278 buy 0.01 XAUUSD at 4410.53 done (based on order #9997564461)
+PI	0	08:01:06.546	Trades	'110971967': deal #9696917444 buy 0.01 XAUUSD at 4403.85 done (based on order #9997878548)
+RJ	0	08:04:41.573	Trades	'110971967': deal #9696968565 buy 0.01 XAUUSD at 4402.10 done (based on order #9997927159)
+KD	0	08:05:05.091	Trades	'110971967': deal #9696973198 buy 0.01 XAUUSD at 4403.68 done (based on order #9997931768)
+PE	0	08:06:58.631	Trades	'110971967': deal #9697003827 buy 0.01 XAUUSD at 4402.14 done (based on order #9997960591)
+NI	0	08:07:23.613	Trades	'110971967': deal #9697008808 sell 0.01 XAUUSD at 4403.18 done (based on order #9997965240)
+IO	0	08:08:43.244	Trades	'110971967': deal #9697024593 sell 0.01 XAUUSD at 4404.65 done (based on order #9997980539)
+MN	0	08:09:34.995	Trades	'110971967': deal #9697038674 sell 0.01 XAUUSD at 4407.59 done (based on order #9997993976)
+OM	0	08:10:48.494	Trades	'110971967': deal #9697058157 sell 0.01 XAUUSD at 4406.12 done (based on order #9997991313)
+MQ	1	08:42:00.200	Network	'110971967': connection to MetaQuotes-Demo lost
+MK	0	08:42:02.545	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+PJ	0	08:42:05.354	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 220.71 ms, build 6104)
+LD	0	08:42:08.106	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+GE	0	08:42:08.106	Network	'110971967': trading has been disabled - investor mode
+QL	0	08:42:08.106	Network	'110971967': balance management has been disabled - investor mode
+IH	2	08:42:20.386	MQL5.community	authorization failed
+OS	1	08:42:56.887	Network	'110971967': connection to MetaQuotes-Demo lost
+JE	0	08:42:57.465	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 220.71 ms, build 6104)
+CK	0	08:42:57.914	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+OK	0	08:42:57.915	Network	'110971967': trading has been disabled - investor mode
+IE	0	08:42:57.915	Network	'110971967': balance management has been disabled - investor mode
+MP	1	08:43:31.568	Network	'110971967': connection to MetaQuotes-Demo lost
+EE	0	08:44:15.950	Network	'110971967': authorized on MetaQuotes-Demo through Access Point HK 1 (ping: 325.58 ms, build 6104)
+CJ	0	08:44:16.653	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 50 positions, 8 orders, 12540 symbols, 0 spreads
+KK	0	08:44:16.653	Network	'110971967': trading has been disabled - investor mode
+EF	0	08:44:16.653	Network	'110971967': balance management has been disabled - investor mode
+PS	0	08:44:16.836	Network	'110971967': scanning network for access points
+GK	1	08:44:17.314	Network	'110971967': connection to MetaQuotes-Demo lost
+PE	2	08:44:17.344	Virtual Hosting	failed to get list of virtual hosts [1003] (raw - read failed, 10054 wsa error, 1 bytes needed)
+NK	0	08:44:27.749	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 0 (ping: 176.47 ms, build 6104)
+ID	0	08:45:51.291	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 50 positions, 8 orders, 12540 symbols, 0 spreads
+MD	0	08:45:51.291	Network	'110971967': trading has been disabled - investor mode
+CL	0	08:45:51.291	Network	'110971967': balance management has been disabled - investor mode
+GH	0	08:45:52.128	Network	'110971967': scanning network for access points
+IG	2	08:46:03.497	MQL5.community	authorization failed
+JF	0	08:46:29.316	Trades	'110971967': deal #9697406819 sell 0.01 XAUUSD at 4407.59 done (based on order #9998347432)
+ID	0	08:47:38.423	Network	'110971967': scanning network finished
+DL	0	08:47:38.423	Network	'110971967': auto connecting to a better access point with 83 % quality (previous: 65 %)
+HQ	1	08:47:38.423	Network	'110971967': connection to MetaQuotes-Demo lost
+RG	0	08:47:52.925	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 228.06 ms, build 6104)
+CI	0	08:47:57.146	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+LJ	0	08:47:57.146	Network	'110971967': trading has been disabled - investor mode
+NG	0	08:47:57.146	Network	'110971967': balance management has been disabled - investor mode
+LQ	1	08:48:39.122	Network	'110971967': connection to MetaQuotes-Demo lost
+PK	0	09:23:36.823	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 4
+GE	0	09:23:37.297	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+DF	0	09:23:37.297	Network	'110971967': trading has been disabled - investor mode
+FS	0	09:23:37.297	Network	'110971967': balance management has been disabled - investor mode
+LI	0	09:23:38.096	Network	'110971967': scanning network for access points
+GH	0	09:24:23.403	Network	'110971967': scanning network finished
+OP	0	09:24:23.403	Network	'110971967': auto connecting to a better access point with 86 % quality (previous: 54 %)
+RM	1	09:24:23.403	Network	'110971967': connection to MetaQuotes-Demo lost
+DK	0	09:24:25.244	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 222.65 ms, build 6104)
+EE	0	09:24:25.813	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 51 positions, 8 orders, 12540 symbols, 0 spreads
+RE	0	09:24:25.813	Network	'110971967': trading has been disabled - investor mode
+HS	0	09:24:25.813	Network	'110971967': balance management has been disabled - investor mode
+MH	0	09:26:10.886	Trades	'110971967': deal #9697769860 buy 0.01 XAUUSD at 4402.00 done (based on order #9998698247)
+QI	0	09:26:16.148	Trades	'110971967': deal #9697770894 buy 0.01 XAUUSD at 4402.31 done (based on order #9998699305)
+FI	1	09:29:29.435	Network	'110971967': connection to MetaQuotes-Demo lost
+JL	0	09:29:31.608	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 222.65 ms, build 6104)
+RR	0	09:29:33.723	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 49 positions, 8 orders, 12540 symbols, 0 spreads
+RR	0	09:29:33.723	Network	'110971967': trading has been disabled - investor mode
+PO	0	09:29:33.723	Network	'110971967': balance management has been disabled - investor mode
+MK	0	09:29:48.229	Trades	'110971967': deal #9697816297 buy 0.01 XAUUSD at 4400.41 done (based on order #9998742596)
+DF	1	09:30:35.810	Network	'110971967': connection to MetaQuotes-Demo lost
+RN	0	09:30:36.371	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 222.65 ms, build 6104)
+PP	0	09:30:36.826	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 48 positions, 8 orders, 12540 symbols, 0 spreads
+OP	0	09:30:36.826	Network	'110971967': trading has been disabled - investor mode
+IH	0	09:30:36.826	Network	'110971967': balance management has been disabled - investor mode
+EE	0	09:31:14.761	Trades	'110971967': deal #9697850296 buy 0.01 XAUUSD at 4396.36 done (based on order #9998774302)
+OF	0	09:31:40.566	Trades	'110971967': deal #9697862411 buy 0.01 XAUUSD at 4397.18 done (based on order #9998786009)
+PG	0	09:31:59.665	Trades	'110971967': deal #9697870999 buy 0.01 XAUUSD at 4396.52 done (based on order #9998794206)
+GS	1	09:32:30.982	Network	'110971967': connection to MetaQuotes-Demo lost
+NS	0	09:37:37.919	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 4 (ping: 291.62 ms, build 6104)
+PK	0	09:37:39.551	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 45 positions, 8 orders, 12540 symbols, 0 spreads
+DL	0	09:37:39.551	Network	'110971967': trading has been disabled - investor mode
+NE	0	09:37:39.551	Network	'110971967': balance management has been disabled - investor mode
+JP	0	09:37:41.176	Network	'110971967': scanning network for access points
+GF	0	09:38:34.222	Network	'110971967': scanning network finished
+CN	0	09:38:34.222	Network	'110971967': auto connecting to a better access point with 84 % quality (previous: 52 %)
+IS	1	09:38:34.223	Network	'110971967': connection to MetaQuotes-Demo lost
+JE	0	09:38:35.231	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 241.37 ms, build 6104)
+HK	0	09:38:35.871	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 45 positions, 8 orders, 12540 symbols, 0 spreads
+ML	0	09:38:35.872	Network	'110971967': trading has been disabled - investor mode
+KE	0	09:38:35.872	Network	'110971967': balance management has been disabled - investor mode
+DQ	0	09:41:47.753	Trades	'110971967': deal #9698018248 buy 0.01 XAUUSD at 4393.32 done (based on order #9998934049)
+CS	0	09:41:49.373	Trades	'110971967': deal #9698018666 buy 0.01 XAUUSD at 4393.48 done (based on order #9998934496)
+JL	0	09:41:49.374	Trades	'110971967': deal #9698018676 buy 0.01 XAUUSD at 4393.46 done (based on order #9998934497)
+KN	0	09:43:18.284	Trades	'110971967': deal #9698038223 buy 0.01 XAUUSD at 4394.96 done (based on order #9998953039)
+KM	1	09:46:51.768	Network	'110971967': connection to MetaQuotes-Demo lost
+QG	0	09:46:52.282	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+DO	0	09:46:52.602	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 241.37 ms, build 6104)
+EQ	0	09:46:53.068	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 41 positions, 8 orders, 12540 symbols, 0 spreads
+QQ	0	09:46:53.068	Network	'110971967': trading has been disabled - investor mode
+GO	0	09:46:53.068	Network	'110971967': balance management has been disabled - investor mode
+JF	1	09:47:22.133	Network	'110971967': connection to MetaQuotes-Demo lost
+KN	0	09:48:03.573	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 165.50 ms, build 6104)
+GP	0	09:48:03.962	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 41 positions, 8 orders, 12540 symbols, 0 spreads
+OQ	0	09:48:03.962	Network	'110971967': trading has been disabled - investor mode
+IH	0	09:48:03.962	Network	'110971967': balance management has been disabled - investor mode
+OF	1	09:48:05.439	Network	'110971967': connection to MetaQuotes-Demo lost
+GN	0	09:48:13.181	Network	'110971967': authorized on MetaQuotes-Demo through Access Point HK 1 (ping: 344.18 ms, build 6104)
+DO	0	09:49:27.551	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 0 (ping: 197.01 ms, build 6104)
+JP	0	09:49:27.968	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 41 positions, 8 orders, 12540 symbols, 0 spreads
+NP	0	09:49:27.968	Network	'110971967': trading has been disabled - investor mode
+MH	0	09:49:27.972	Network	'110971967': balance management has been disabled - investor mode
+ID	0	09:49:28.898	Network	'110971967': scanning network for access points
+CM	0	09:50:32.444	Network	'110971967': scanning network finished
+HE	0	09:50:32.444	Network	'110971967': auto connecting to a better access point with 83 % quality (previous: 67 %)
+DG	1	09:50:32.446	Network	'110971967': connection to MetaQuotes-Demo lost
+PN	0	09:50:33.419	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 247.46 ms, build 6104)
+DO	0	09:50:33.909	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 41 positions, 8 orders, 12540 symbols, 0 spreads
+HP	0	09:50:33.909	Network	'110971967': trading has been disabled - investor mode
+JI	0	09:50:33.909	Network	'110971967': balance management has been disabled - investor mode
+JJ	0	09:54:21.593	Trades	'110971967': deal #9698153155 sell 0.01 XAUUSD at 4395.83 done (based on order #9999062832)
+JI	0	09:54:43.470	Trades	'110971967': deal #9698159254 sell 0.01 XAUUSD at 4397.30 done (based on order #9999067516)
+IO	0	09:56:21.125	Trades	'110971967': deal #9698182466 sell 0.01 XAUUSD at 4398.77 done (based on order #9999090081)
+CQ	0	10:15:11.606	Trades	'110971967': deal #9698366250 buy 0.01 XAUUSD at 4398.29 done (based on order #9999267407)
+JM	0	10:15:42.688	Trades	'110971967': deal #9698376153 sell 0.01 XAUUSD at 4398.77 done (based on order #9999276932)
+MS	0	10:28:22.207	Trades	'110971967': deal #9698505259 buy 0.01 XAUUSD at 4398.50 done (based on order #9999403459)
+RM	0	10:32:42.858	Trades	'110971967': deal #9698569750 buy 0.01 XAUUSD at 4396.29 done (based on order #9999464814)
+RQ	0	10:33:43.044	Trades	'110971967': deal #9698582504 sell 0.01 XAUUSD at 4397.30 done (based on order #9999476525)
+EO	0	10:36:34.012	Trades	'110971967': deal #9698616893 buy 0.01 XAUUSD at 4396.89 done (based on order #9999509200)
+GK	1	10:38:56.076	Network	'110971967': connection to MetaQuotes-Demo lost
+IJ	0	10:38:58.718	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 247.46 ms, build 6104)
+FS	0	10:39:01.162	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 42 positions, 8 orders, 12540 symbols, 0 spreads
+KD	0	10:39:01.162	Network	'110971967': trading has been disabled - investor mode
+EM	0	10:39:01.162	Network	'110971967': balance management has been disabled - investor mode
+MF	0	10:39:07.762	Trades	'110971967': deal #9698645661 sell 0.01 XAUUSD at 4397.30 done (based on order #9999536560)
+GE	0	10:40:48.548	Trades	'110971967': deal #9698669517 sell 0.01 XAUUSD at 4398.77 done (based on order #9999559816)
+NK	0	10:43:13.675	Trades	'110971967': deal #9698705569 sell 0.01 XAUUSD at 4400.24 done (based on order #9999593778)
+NJ	0	10:43:31.535	Trades	'110971967': deal #9698714970 sell 0.01 XAUUSD at 4401.71 done (based on order #9999598324)
+CI	0	10:44:06.765	Trades	'110971967': deal #9698728148 sell 0.01 XAUUSD at 4403.18 done (based on order #9999611151)
+CH	0	10:44:47.012	Trades	'110971967': deal #9698742048 sell 0.01 XAUUSD at 4404.65 done (based on order #9999627633)
+IQ	0	10:49:05.316	Trades	'110971967': deal #9698807528 buy 0.01 XAUUSD at 4404.09 done (based on order #9999690388)
+RM	0	10:56:32.014	Trades	'110971967': deal #9698893465 sell 0.01 XAUUSD at 4404.65 done (based on order #9999762635)
+NL	0	10:57:00.901	Trades	'110971967': deal #9698903254 sell 0.01 XAUUSD at 4406.12 done (based on order #9999776512)
+NM	0	11:01:09.120	Trades	'110971967': deal #9698971738 buy 0.01 XAUUSD at 4400.54 done (based on order #9999847760)
+ON	0	11:01:10.619	Trades	'110971967': deal #9698972617 buy 0.01 XAUUSD at 4401.01 done (based on order #9999848576)
+DO	0	11:02:00.578	Trades	'110971967': deal #9698990427 buy 0.01 XAUUSD at 4398.72 done (based on order #9999865532)
+OI	0	11:02:30.369	Trades	'110971967': deal #9699006243 buy 0.01 XAUUSD at 4396.87 done (based on order #9999880709)
+IJ	0	11:02:30.370	Trades	'110971967': deal #9699006251 buy 0.01 XAUUSD at 4396.84 done (based on order #9999880710)
+RK	0	11:03:17.587	Trades	'110971967': deal #9699024985 buy 0.01 XAUUSD at 4395.31 done (based on order #9999898489)
+LE	0	11:03:34.923	Trades	'110971967': deal #9699031768 buy 0.01 XAUUSD at 4396.87 done (based on order #9999904832)
+II	0	11:03:55.668	Trades	'110971967': deal #9699038964 sell 0.01 XAUUSD at 4397.30 done (based on order #9999911317)
+FH	0	11:06:20.375	Trades	'110971967': deal #9699075194 sell 0.01 XAUUSD at 4398.77 done (based on order #9999946208)
+RN	0	11:10:16.529	Trades	'110971967': deal #9699124625 sell 0.01 XAUUSD at 4400.24 done (based on order #9999994330)
+LQ	0	11:11:51.526	Trades	'110971967': deal #9699155850 buy 0.01 XAUUSD at 4394.72 done (based on order #10000023909)
+LP	0	11:11:51.534	Trades	'110971967': deal #9699155857 buy 0.01 XAUUSD at 4394.72 done (based on order #10000023910)
+JO	0	11:14:35.101	Trades	'110971967': deal #9699241568 buy 0.01 XAUUSD at 4388.25 done (based on order #10000103286)
+NM	0	11:14:45.303	Trades	'110971967': deal #9699245490 buy 0.06 XAUUSD at 4388.78 done (based on order #10000107013)
+RL	0	11:14:45.304	Trades	'110971967': deal #9699245497 buy 0.01 XAUUSD at 4388.78 done (based on order #10000107014)
+CK	0	11:14:45.304	Trades	'110971967': deal #9699245498 buy 0.01 XAUUSD at 4388.75 done (based on order #10000107015)
+OJ	0	11:15:05.579	Trades	'110971967': deal #9699254013 buy 0.06 XAUUSD at 4388.25 done (based on order #10000115201)
+EH	0	11:17:07.226	Trades	'110971967': deal #9699315584 buy 0.06 XAUUSD at 4385.51 done (based on order #10000172518)
+MG	0	11:17:07.232	Trades	'110971967': deal #9699315597 buy 0.06 XAUUSD at 4385.50 done (based on order #10000172521)
+FF	0	11:17:28.511	Trades	'110971967': deal #9699324863 buy 0.06 XAUUSD at 4386.57 done (based on order #10000181499)
+DJ	0	11:18:53.558	Trades	'110971967': deal #9699347995 sell 0.06 XAUUSD at 4387.01 done (based on order #10000201220)
+IL	0	11:21:44.525	Trades	'110971967': deal #9699392253 sell 0.06 XAUUSD at 4388.48 done (based on order #10000245949)
+FR	0	11:25:44.694	Trades	'110971967': deal #9699466655 buy 0.06 XAUUSD at 4384.65 done (based on order #10000318345)
+LQ	0	11:26:41.408	Trades	'110971967': deal #9699483204 buy 0.06 XAUUSD at 4386.25 done (based on order #10000334608)
+KP	0	11:29:39.693	Trades	'110971967': deal #9699548770 buy 0.06 XAUUSD at 4382.31 done (based on order #10000396569)
+JO	0	11:29:59.302	Trades	'110971967': deal #9699555759 buy 0.06 XAUUSD at 4383.77 done (based on order #10000403603)
+OR	0	11:30:23.497	Trades	'110971967': deal #9699564851 sell 0.06 XAUUSD at 4384.07 done (based on order #10000410883)
+ML	0	11:34:53.322	Trades	'110971967': deal #9699676263 buy 0.06 XAUUSD at 4378.22 done (based on order #10000517976)
+EK	0	11:34:53.545	Trades	'110971967': deal #9699676398 buy 0.06 XAUUSD at 4378.31 done (based on order #10000518102)
+QJ	0	11:35:41.440	Trades	'110971967': deal #9699704901 buy 0.06 XAUUSD at 4377.31 done (based on order #10000544849)
+EH	0	11:35:43.980	Trades	'110971967': deal #9699705932 buy 0.06 XAUUSD at 4378.78 done (based on order #10000545884)
+IH	0	11:40:08.200	Trades	'110971967': deal #9699790937 sell 0.06 XAUUSD at 4379.66 done (based on order #10000627156)
+KF	0	11:46:43.878	Trades	'110971967': deal #9699903481 buy 0.06 XAUUSD at 4378.32 done (based on order #10000737079)
+JD	1	11:48:44.845	Network	'110971967': connection to MetaQuotes-Demo lost
+NL	0	11:48:45.910	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+JD	0	11:48:46.631	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 247.46 ms, build 6104)
+II	0	11:48:49.518	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 8 orders, 12540 symbols, 0 spreads
+GJ	0	11:48:49.518	Network	'110971967': trading has been disabled - investor mode
+IG	0	11:48:49.518	Network	'110971967': balance management has been disabled - investor mode
+GQ	1	11:49:16.952	Network	'110971967': connection to MetaQuotes-Demo lost
+HG	0	11:49:18.301	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 247.46 ms, build 6104)
+KI	0	11:49:18.809	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 8 orders, 12540 symbols, 0 spreads
+IJ	0	11:49:18.809	Network	'110971967': trading has been disabled - investor mode
+GG	0	11:49:18.809	Network	'110971967': balance management has been disabled - investor mode
+RS	2	11:50:50.864	MQL5.community	authorization failed
+GF	0	11:50:52.657	Trades	'110971967': deal #9699976914 buy 0.15 XAUUSD at 4377.70 done (based on order #10000807730)
+MJ	0	11:55:05.049	Trades	'110971967': deal #9700047415 sell 0.15 XAUUSD at 4378.19 done (based on order #10000871492)
+JE	1	11:56:31.932	Network	'110971967': connection to MetaQuotes-Demo lost
+HS	0	11:56:47.225	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 238.91 ms, build 6104)
+IM	0	11:56:52.094	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 8 orders, 12540 symbols, 0 spreads
+ON	0	11:56:52.094	Network	'110971967': trading has been disabled - investor mode
+IK	0	11:56:52.094	Network	'110971967': balance management has been disabled - investor mode
+FF	0	11:56:52.196	Network	'110971967': scanning network for access points
+DP	0	11:58:11.814	Network	'110971967': scanning network finished
+CE	0	11:58:40.051	Trades	'110971967': deal #9700105222 buy 0.15 XAUUSD at 4377.68 done (based on order #10000931373)
+MK	0	12:02:45.266	Trades	'110971967': deal #9700181174 sell 0.15 XAUUSD at 4378.19 done (based on order #10001002892)
+ES	0	12:04:15.207	Trades	'110971967': deal #9700252316 buy 0.15 XAUUSD at 4371.71 done (based on order #10001069338)
+RR	0	12:04:15.306	Trades	'110971967': deal #9700252363 buy 0.15 XAUUSD at 4371.78 done (based on order #10001069381)
+OP	0	12:04:15.308	Trades	'110971967': deal #9700252370 buy 0.15 XAUUSD at 4371.78 done (based on order #10001069382)
+IO	0	12:07:10.071	Trades	'110971967': deal #9700325844 buy 0.15 XAUUSD at 4370.79 done (based on order #10001138848)
+IN	0	12:09:30.865	Trades	'110971967': deal #9700368320 buy 0.15 XAUUSD at 4372.12 done (based on order #10001179883)
+LR	0	12:09:59.239	Trades	'110971967': deal #9700377996 sell 0.15 XAUUSD at 4372.31 done (based on order #10001188758)
+JS	0	12:11:47.436	Trades	'110971967': deal #9700409440 sell 0.15 XAUUSD at 4373.78 done (based on order #10001218711)
+RE	0	12:17:31.187	Trades	'110971967': deal #9700508386 sell 0.15 XAUUSD at 4376.72 done (based on order #10001314143)
+IF	0	12:18:46.868	Trades	'110971967': deal #9700529671 sell 0.15 XAUUSD at 4378.19 done (based on order #10001334522)
+OG	0	12:20:53.294	Trades	'110971967': deal #9700567668 sell 0.06 XAUUSD at 4379.66 done (based on order #10001370431)
+QH	0	12:25:55.051	Trades	'110971967': deal #9700648562 sell 0.06 XAUUSD at 4381.13 done (based on order #10001446835)
+HF	0	12:43:40.989	Trades	'110971967': deal #9700946641 buy 0.06 XAUUSD at 4376.79 done (based on order #10001729879)
+FE	0	12:50:55.960	Trades	'110971967': deal #9701062001 buy 0.06 XAUUSD at 4375.90 done (based on order #10001840159)
+JL	0	12:51:29.678	Trades	'110971967': deal #9701073188 sell 0.15 XAUUSD at 4375.25 done (based on order #10001849040)
+PS	1	12:56:10.107	Network	'110971967': connection to MetaQuotes-Demo lost
+PN	0	12:56:11.038	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+MI	0	12:56:11.750	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+RD	0	12:56:14.770	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 10 orders, 12540 symbols, 0 spreads
+IH	0	12:56:14.770	Network	'110971967': trading has been disabled - investor mode
+GQ	0	12:56:14.770	Network	'110971967': balance management has been disabled - investor mode
+HO	1	12:57:03.274	Network	'110971967': connection to MetaQuotes-Demo lost
+DI	0	12:57:05.023	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+KD	0	12:57:05.662	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 10 orders, 12540 symbols, 0 spreads
+LG	0	12:57:05.662	Network	'110971967': trading has been disabled - investor mode
+FQ	0	12:57:05.662	Network	'110971967': balance management has been disabled - investor mode
+EM	0	12:59:18.751	Trades	'110971967': deal #9701191081 buy 0.15 XAUUSD at 4377.38 done (based on order #10001963687)
+RM	1	13:01:49.087	Network	'110971967': connection to MetaQuotes-Demo lost
+PK	0	13:01:49.609	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+FF	0	13:01:50.028	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 28 positions, 10 orders, 12540 symbols, 0 spreads
+NF	0	13:01:50.028	Network	'110971967': trading has been disabled - investor mode
+DS	0	13:01:50.028	Network	'110971967': balance management has been disabled - investor mode
+ES	0	13:02:10.035	Trades	'110971967': deal #9701243926 sell 0.15 XAUUSD at 4376.72 done (based on order #10002014969)
+PK	0	13:05:57.597	Trades	'110971967': deal #9701318958 buy 0.15 XAUUSD at 4375.26 done (based on order #10002085637)
+PF	0	13:11:57.620	Trades	'110971967': deal #9701421238 sell 0.15 XAUUSD at 4376.72 done (based on order #10002182091)
+JG	0	13:15:02.713	Trades	'110971967': deal #9701476476 sell 0.15 XAUUSD at 4378.19 done (based on order #10002230354)
+QG	0	13:17:14.938	Trades	'110971967': deal #9701515752 buy 0.15 XAUUSD at 4377.02 done (based on order #10002272445)
+OF	0	13:18:39.349	Trades	'110971967': deal #9701540125 buy 0.15 XAUUSD at 4376.50 done (based on order #10002295428)
+HE	0	13:20:25.278	Trades	'110971967': deal #9701585274 buy 0.15 XAUUSD at 4371.67 done (based on order #10002337310)
+IS	0	13:20:48.240	Trades	'110971967': deal #9701593464 buy 0.15 XAUUSD at 4373.14 done (based on order #10002344924)
+NR	0	13:30:52.277	Trades	'110971967': deal #9701793118 buy 0.15 XAUUSD at 4368.72 done (based on order #10002531695)
+OQ	0	13:31:26.741	Trades	'110971967': deal #9701805016 buy 0.15 XAUUSD at 4370.25 done (based on order #10002543013)
+DQ	1	13:32:29.638	Network	'110971967': connection to MetaQuotes-Demo lost
+PG	0	13:32:31.273	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+PJ	0	13:32:33.605	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 24 positions, 10 orders, 12540 symbols, 0 spreads
+PJ	0	13:32:33.609	Network	'110971967': trading has been disabled - investor mode
+JG	0	13:32:33.610	Network	'110971967': balance management has been disabled - investor mode
+NO	0	13:36:04.923	Trades	'110971967': deal #9701910860 buy 0.15 XAUUSD at 4369.02 done (based on order #10002642407)
+RQ	0	13:36:35.680	Trades	'110971967': deal #9701923556 sell 0.15 XAUUSD at 4369.37 done (based on order #10002651524)
+FM	0	13:40:09.095	Trades	'110971967': deal #9702005037 buy 0.15 XAUUSD at 4365.84 done (based on order #10002730531)
+JL	0	13:40:25.325	Trades	'110971967': deal #9702012211 buy 0.15 XAUUSD at 4367.47 done (based on order #10002737461)
+QD	0	13:46:50.305	Trades	'110971967': deal #9702133597 sell 0.15 XAUUSD at 4367.90 done (based on order #10002853815)
+GF	0	13:52:25.960	Trades	'110971967': deal #9702232225 sell 0.15 XAUUSD at 4369.37 done (based on order #10002944842)
+KG	0	13:56:51.715	Trades	'110971967': deal #9702313898 sell 0.15 XAUUSD at 4372.31 done (based on order #10003024645)
+FH	0	13:57:31.186	Trades	'110971967': deal #9702332611 sell 0.15 XAUUSD at 4370.84 done (based on order #10003023251)
+JI	0	14:01:53.108	Trades	'110971967': deal #9702414202 sell 0.15 XAUUSD at 4373.78 done (based on order #10003121077)
+LJ	0	14:04:19.107	Trades	'110971967': deal #9702459422 sell 0.15 XAUUSD at 4375.25 done (based on order #10003163607)
+KE	1	14:15:12.495	Network	'110971967': connection to MetaQuotes-Demo lost
+JO	0	14:15:19.000	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+MG	0	14:15:19.663	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+MF	0	14:15:42.177	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+RK	0	14:15:42.997	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 28 positions, 10 orders, 12540 symbols, 0 spreads
+JI	0	14:15:42.997	Network	'110971967': trading has been disabled - investor mode
+PP	0	14:15:42.997	Network	'110971967': balance management has been disabled - investor mode
+QM	0	14:15:44.022	Network	'110971967': scanning network for access points
+DI	1	14:16:23.608	Network	'110971967': connection to MetaQuotes-Demo lost
+EL	0	14:16:26.134	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+QR	0	14:16:26.537	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 28 positions, 10 orders, 12540 symbols, 0 spreads
+QR	0	14:16:26.537	Network	'110971967': trading has been disabled - investor mode
+OO	0	14:16:26.537	Network	'110971967': balance management has been disabled - investor mode
+HI	1	14:17:36.704	Network	'110971967': connection to MetaQuotes-Demo lost
+EO	0	14:17:37.748	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+CR	0	14:17:38.489	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 28 positions, 10 orders, 12540 symbols, 0 spreads
+KR	0	14:17:38.489	Network	'110971967': trading has been disabled - investor mode
+EO	0	14:17:38.489	Network	'110971967': balance management has been disabled - investor mode
+PG	0	14:18:21.511	Trades	'110971967': deal #9702679621 sell 0.15 XAUUSD at 4376.72 done (based on order #10003372327)
+NH	0	14:19:58.769	Trades	'110971967': deal #9702721968 sell 0.15 XAUUSD at 4378.19 done (based on order #10003389801)
+PD	1	14:27:13.755	Network	'110971967': connection to MetaQuotes-Demo lost
+DQ	0	14:27:18.482	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 216.91 ms, build 6104)
+NL	0	14:27:21.150	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 30 positions, 10 orders, 12540 symbols, 0 spreads
+QO	0	14:27:21.154	Network	'110971967': trading has been disabled - investor mode
+GI	0	14:27:21.154	Network	'110971967': balance management has been disabled - investor mode
+CE	0	14:38:18.977	Trades	'110971967': deal #9703020616 buy 0.15 XAUUSD at 4377.07 done (based on order #10003699157)
+NK	0	14:47:01.584	Trades	'110971967': deal #9703171287 sell 0.15 XAUUSD at 4378.19 done (based on order #10003840384)
+NL	0	14:49:11.522	Trades	'110971967': deal #9703217024 sell 0.06 XAUUSD at 4379.66 done (based on order #10003883626)
+DM	0	14:50:49.763	Trades	'110971967': deal #9703265165 sell 0.06 XAUUSD at 4381.13 done (based on order #10003921472)
+KP	1	14:57:25.196	Network	'110971967': connection to MetaQuotes-Demo lost
+MH	0	15:26:51.590	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+IK	0	15:26:52.490	Network	'110971967': authorized on MetaQuotes-Demo through Access Point US 1 (ping: 354.79 ms, build 6104)
+HF	0	15:26:55.010	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 32 positions, 10 orders, 12540 symbols, 0 spreads
+IF	0	15:26:55.010	Network	'110971967': trading has been disabled - investor mode
+OS	0	15:26:55.010	Network	'110971967': balance management has been disabled - investor mode
+FN	0	15:26:55.729	Network	'110971967': scanning network for access points
+FH	0	15:27:44.023	Network	'110971967': scanning network finished
+CP	0	15:27:44.023	Network	'110971967': auto connecting to a better access point with 79 % quality (previous: 46 %)
+JM	1	15:27:44.024	Network	'110971967': connection to MetaQuotes-Demo lost
+HK	0	15:27:45.102	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 316.13 ms, build 6104)
+EF	0	15:27:45.664	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 32 positions, 10 orders, 12540 symbols, 0 spreads
+DF	0	15:27:45.664	Network	'110971967': trading has been disabled - investor mode
+NS	0	15:27:45.664	Network	'110971967': balance management has been disabled - investor mode
+IS	0	16:26:20.550	Trades	'110971967': deal #9704927028 sell 0.06 XAUUSD at 4391.43 done (based on order #10005495183)
+PD	0	16:32:37.920	Trades	'110971967': deal #9705033730 sell 0.06 XAUUSD at 4389.96 done (based on order #10005495238)
+KF	0	16:34:42.201	Trades	'110971967': deal #9705075317 sell 0.06 XAUUSD at 4388.49 done (based on order #10005495295)
+MG	0	16:44:19.112	Trades	'110971967': deal #9705239639 sell 0.06 XAUUSD at 4392.90 done (based on order #10005794967)
+KH	0	16:44:58.432	Trades	'110971967': deal #9705259201 sell 0.01 XAUUSD at 4394.37 done (based on order #10005813290)
+EI	0	16:45:17.794	Trades	'110971967': deal #9705273430 sell 0.01 XAUUSD at 4395.84 done (based on order #10005823505)
+ND	1	16:47:58.983	Network	'110971967': connection to MetaQuotes-Demo lost
+IL	0	16:48:00.252	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+OD	0	16:48:01.091	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 316.13 ms, build 6104)
+CI	0	16:48:03.954	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 14 orders, 12540 symbols, 0 spreads
+PJ	0	16:48:03.954	Network	'110971967': trading has been disabled - investor mode
+JF	0	16:48:03.954	Network	'110971967': balance management has been disabled - investor mode
+CQ	1	16:49:03.858	Network	'110971967': connection to MetaQuotes-Demo lost
+MD	0	16:49:06.185	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 316.13 ms, build 6104)
+HJ	0	16:49:06.674	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 14 orders, 12540 symbols, 0 spreads
+CJ	0	16:49:06.674	Network	'110971967': trading has been disabled - investor mode
+EG	0	16:49:06.674	Network	'110971967': balance management has been disabled - investor mode
+EP	0	16:54:57.622	Trades	'110971967': deal #9705460960 buy 0.01 XAUUSD at 4392.89 done (based on order #10006001276)
+QO	0	17:03:04.699	Trades	'110971967': deal #9705624210 buy 0.06 XAUUSD at 4389.47 done (based on order #10006155609)
+GM	0	17:03:04.706	Trades	'110971967': deal #9705624218 buy 0.01 XAUUSD at 4389.41 done (based on order #10006155610)
+CS	0	17:03:34.613	Trades	'110971967': deal #9705635220 sell 0.06 XAUUSD at 4387.02 done (based on order #10005495350)
+GK	0	17:04:47.825	Trades	'110971967': deal #9705660327 buy 0.06 XAUUSD at 4388.48 done (based on order #10006189941)
+NJ	0	17:05:22.538	Trades	'110971967': deal #9705671894 buy 0.06 XAUUSD at 4389.94 done (based on order #10006201059)
+HF	0	17:11:19.277	Trades	'110971967': deal #9705771739 sell 0.06 XAUUSD at 4385.55 done (based on order #10005495384)
+QH	0	17:12:19.474	Trades	'110971967': deal #9705802653 sell 0.06 XAUUSD at 4384.08 done (based on order #10005495425)
+KF	0	17:14:11.614	Trades	'110971967': deal #9705846194 buy 0.06 XAUUSD at 4385.50 done (based on order #10006365842)
+IE	0	17:14:23.805	Trades	'110971967': deal #9705851054 buy 0.06 XAUUSD at 4386.87 done (based on order #10006370418)
+QK	0	17:28:31.545	Trades	'110971967': deal #9706109160 sell 0.06 XAUUSD at 4387.02 done (based on order #10006613119)
+CR	1	17:44:30.881	Network	'110971967': connection to MetaQuotes-Demo lost
+MS	0	19:24:25.088	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 182.80 ms, build 6104)
+DO	0	19:24:28.748	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+QM	0	19:24:28.748	Network	'110971967': trading has been disabled - investor mode
+OD	0	19:24:28.748	Network	'110971967': balance management has been disabled - investor mode
+IP	0	19:24:30.349	Network	'110971967': scanning network for access points
+LQ	0	19:25:38.101	Network	'110971967': scanning network finished
+II	0	19:25:38.101	Network	'110971967': auto connecting to a better access point with 81 % quality (previous: 54 %)
+DR	1	19:25:38.102	Network	'110971967': connection to MetaQuotes-Demo lost
+DR	0	19:25:39.396	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 240.61 ms, build 6104)
+OO	0	19:25:40.197	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+NL	0	19:25:40.197	Network	'110971967': trading has been disabled - investor mode
+DD	0	19:25:40.197	Network	'110971967': balance management has been disabled - investor mode
+JS	1	19:32:21.016	Network	'110971967': connection to MetaQuotes-Demo lost
+LR	0	19:32:43.264	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 249.60 ms, build 6104)
+RH	0	19:32:43.665	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+CL	0	19:32:43.665	Network	'110971967': trading has been disabled - investor mode
+EE	0	19:32:43.665	Network	'110971967': balance management has been disabled - investor mode
+FP	0	19:32:44.867	Network	'110971967': scanning network for access points
+PF	0	19:33:56.155	Network	'110971967': scanning network finished
+QE	1	19:58:22.834	Network	'110971967': connection to MetaQuotes-Demo lost
+QO	0	19:58:34.440	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+IG	0	19:58:36.407	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 254.09 ms, build 6104)
+OK	0	19:58:48.605	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+FI	0	19:58:48.605	Network	'110971967': trading has been disabled - investor mode
+DP	0	19:58:48.605	Network	'110971967': balance management has been disabled - investor mode
+GM	0	19:58:49.504	Network	'110971967': scanning network for access points
+LI	1	19:59:43.088	Network	'110971967': connection to MetaQuotes-Demo lost
+LL	0	19:59:44.965	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 254.09 ms, build 6104)
+PR	0	19:59:46.258	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+ER	0	19:59:46.258	Network	'110971967': trading has been disabled - investor mode
+CO	0	19:59:46.258	Network	'110971967': balance management has been disabled - investor mode
+NI	1	20:04:16.895	Network	'110971967': connection to MetaQuotes-Demo lost
+HO	0	20:04:28.200	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 254.09 ms, build 6104)
+OO	0	20:04:59.944	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 254.09 ms, build 6104)
+RR	0	20:05:00.433	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+CR	0	20:05:00.433	Network	'110971967': trading has been disabled - investor mode
+EO	0	20:05:00.433	Network	'110971967': balance management has been disabled - investor mode
+DJ	0	20:05:01.059	Network	'110971967': scanning network for access points
+FL	0	20:05:59.465	Network	'110971967': scanning network finished
+NG	0	20:28:01.444	Terminal	exit with code 0
+KM	0	20:28:03.529	Network	'110971967': disconnected from MetaQuotes-Demo
+HJ	0	20:28:05.282	Terminal	stopped with 0
+LQ	0	20:28:05.751	Terminal	shutdown with 0
+EP	0	20:28:10.353	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\terminal64.exe" /update /path:"D:\MT5IndependentCandidateObserver" /portable
+NS	0	20:28:10.455	Terminal	exit with code 0
+FQ	0	20:28:10.457	Terminal	stopped with 0
+PD	0	20:28:10.564	Terminal	shutdown with 0
+JQ	0	20:28:37.307	Terminal	updating D:\MT5IndependentCandidateObserver\MQL5 folder
+FD	0	20:28:37.307	Terminal	453 files updated
+QM	0	20:28:37.495	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+IK	0	20:28:37.495	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 728 / 931 Gb disk, admin, GMT+5
+OF	0	20:28:37.495	Terminal	D:\MT5IndependentCandidateObserver
+ON	0	20:28:37.511	MCP	started on 127.0.0.1:22346
+OG	0	20:28:40.991	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 244.84 ms, build 6104)
+NK	0	20:28:41.451	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 36 positions, 10 orders, 12540 symbols, 0 spreads
+GI	0	20:28:41.451	Network	'110971967': trading has been disabled - investor mode
+IP	0	20:28:41.451	Network	'110971967': balance management has been disabled - investor mode

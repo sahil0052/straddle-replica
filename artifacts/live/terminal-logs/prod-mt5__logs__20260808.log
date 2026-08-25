@@ -1,0 +1,14 @@
+RO	0	23:00:28.565	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+JE	0	23:00:28.565	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 6 / 15 Gb memory, 9 / 237 Gb disk, admin, GMT+5
+OK	0	23:00:28.565	Terminal	C:\Program Files\MetaTrader 5
+PS	0	23:00:28.566	MCP	started on 127.0.0.1:22346
+CH	0	23:00:34.067	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 236.79 ms, build 5830)
+DJ	0	23:00:35.098	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 14 positions, 46 orders, 285 symbols, 0 spreads
+JK	0	23:00:35.098	Network	'901018': trading has been disabled - investor mode
+FR	0	23:00:35.098	Network	'901018': balance management has been disabled - investor mode
+KL	0	23:00:36.595	Network	'901018': scanning network for access points
+NH	0	23:00:47.806	Network	'901018': scanning network finished
+KP	0	23:00:51.601	Terminal	exit with code 0
+II	0	23:00:51.757	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+RL	0	23:00:51.813	Terminal	stopped with 0
+EO	0	23:00:51.819	Terminal	shutdown with 0

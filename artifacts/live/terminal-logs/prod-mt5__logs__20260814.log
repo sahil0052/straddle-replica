@@ -1,0 +1,32 @@
+MN	0	00:13:57.701	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\target_20260813_cycle_161854_current.ini"
+GN	0	00:13:57.741	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+GG	0	00:13:57.741	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 7 / 15 Gb memory, 11 / 237 Gb disk, admin, GMT+5
+LJ	0	00:13:57.741	Terminal	C:\Program Files\MetaTrader 5
+MO	0	00:13:57.741	Terminal	launched with C:\websites\mt5 2\tester\target_20260813_cycle_161854_current.ini
+IQ	3	00:13:57.743	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+MO	0	00:14:00.380	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 244.35 ms, build 5830)
+PM	0	00:14:00.813	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 8 positions, 48 orders, 285 symbols, 0 spreads
+QG	0	00:14:00.813	Network	'901018': trading has been disabled - investor mode
+MN	0	00:14:00.813	Network	'901018': balance management has been disabled - investor mode
+NH	0	00:14:00.864	Tester	automatic testing started
+DL	0	00:14:03.899	Tester	last test passed with result "successfully finished" in 0:00:00.095
+IE	0	00:14:04.007	Terminal	exit with code 0
+DL	0	00:14:04.033	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+II	0	00:14:04.076	Terminal	stopped with 0
+CM	0	00:14:04.185	Terminal	shutdown with 0
+ND	0	00:18:44.758	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\target_20260812_cycle_130157_final.ini"
+KD	0	00:18:44.793	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+KR	0	00:18:44.793	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 7 / 15 Gb memory, 11 / 237 Gb disk, admin, GMT+5
+DG	0	00:18:44.793	Terminal	C:\Program Files\MetaTrader 5
+CE	0	00:18:44.793	Terminal	launched with C:\websites\mt5 2\tester\target_20260812_cycle_130157_final.ini
+JG	3	00:18:44.794	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+NQ	0	00:18:47.340	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 244.35 ms, build 5830)
+FS	0	00:18:47.810	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 8 positions, 48 orders, 285 symbols, 0 spreads
+OM	0	00:18:47.810	Network	'901018': trading has been disabled - investor mode
+GH	0	00:18:47.810	Network	'901018': balance management has been disabled - investor mode
+HR	0	00:18:47.867	Tester	automatic testing started
+MF	0	00:18:58.243	Tester	last test passed with result "successfully finished" in 0:00:07.386
+CK	0	00:18:58.341	Terminal	exit with code 0
+IF	0	00:18:58.369	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+KD	0	00:18:58.411	Terminal	stopped with 0
+NG	0	00:18:58.415	Terminal	shutdown with 0

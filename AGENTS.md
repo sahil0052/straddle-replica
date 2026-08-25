@@ -468,6 +468,26 @@ Two mechanisms, both in `StraddleEngine.mqh`, both fed by the same four `m_runti
 `SafetyTriggered()` returns at 2320 before reading anything and `ExposureAllowsRearm()` returns true
 immediately. The Target itself never halted.
 
+**Full preset/startup audit — the trap is DORMANT, not live.** Of the 14 presets in `profiles/`, exactly
+**two** arm it: `latest_30_real_safe.set` and `latest_30_safe.set` (both `SafetyEnabled=true`,
+`DailyLossLimit=500.0`). **No startup `.ini` loads either one:**
+
+| startup ini | expert | preset it loads | `SafetyEnabled` |
+|---|---|---|---|
+| `monitor/real-vps-startup.ini` ← **the live VPS** | `StraddleReplica_REAL_EXACT` | `LATEST_30_REAL_EXACT.set` | **false** |
+| `monitor/fidelity-candidate-startup.ini` | `StraddleReplica` | `latest_30_shadow.set` | **false** |
+| `monitor/shadow-startup.ini` | `StraddleReplica` | `latest_30_shadow.set` | **false** |
+
+Note also that `latest_30_real_exact.set` does not merely disable the guards — it **omits all four values
+entirely**, so they fall through to the compiled defaults (`20.0 / 2.20 / 0.0 / 1000.0`), which are
+themselves the parity-correct set. Two independent layers therefore have to fail before the trap can fire.
+
+**The residual risk is a packaging path, not a running config.** `scripts/package_fidelity_candidate.ps1`
+(66), `scripts/package_fidelity_release.ps1` (54) and `scripts/package_real_bound_release.ps1` (47) all copy
+`latest_30_real_safe.set` into their bundles, and `tests/test_fidelity_presets.py` asserts it exists. So the
+trap ships in release artifacts even though nothing boots it. If anyone ever points a terminal at that
+`.set` by hand, parity dies on 2 of 13 days. That is the whole exposure, and it is a human step.
+
 But `latest_30_real_safe.set` arms all four, and `tools/forensics/guard_envelope.py` measures its numbers
 against the Target's **own historical envelope**. They are not margins; two of them are tripwires and one
 of them **the Target already walked through**:

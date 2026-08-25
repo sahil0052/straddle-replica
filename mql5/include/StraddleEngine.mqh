@@ -38,6 +38,11 @@ private:
    ulong             m_cycle_started_ms;
    datetime          m_restart_started_at;
    datetime          m_last_close_at;
+   // How many owned positions TryCloseOneOwnedPosition() steps over before it
+   // makes its single close attempt.  This exists so that ONE close request per
+   // tick and "a stalled ticket must not block the basket" can both hold at
+   // once; see the comment on TryCloseOneOwnedPosition for why that mattered.
+   int               m_close_skip;
    datetime          m_last_entry_fill_at;
    datetime          m_last_stop_update_at;
    int               m_deploy_index;
@@ -2370,39 +2375,80 @@ private:
          (m_profile.cancel_before_close ? CYCLE_CANCELING : CYCLE_CLOSING);
       m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);
       m_last_close_at=0;
+      m_close_skip=0;
       PersistCycle();
       LogEvent("close_begin","",0,0.0,0.0,reason);
      }
 
+   // True when the close pacer permits another close request.  Factored out of
+   // CloseOnePosition because the CYCLE_RESTARTING handler drains leftover
+   // positions by calling TryCloseOneOwnedPosition directly, and without this it
+   // drained them at the OnTimer period (100 ms) instead of at
+   // close_interval_seconds.  On 111638511 that produced runs of 2-4 market
+   // closes 39-127 ms apart on consecutive order tickets -- a cadence the Target
+   // never shows (0.2% of its stream in sub-100 ms clusters, versus 11.0% of
+   // ours).  Every close request must pass through here.
+   bool CloseIntervalElapsed(void) const
+     {
+      if(m_shadow_reset_active || m_halted)
+         return true;
+      if(m_profile.close_interval_seconds<=0 || m_last_close_at<=0)
+         return true;
+      return TimeCurrent()-m_last_close_at>=m_profile.close_interval_seconds;
+     }
+
+   // Issues AT MOST ONE close request per invocation.  The previous version kept
+   // walking the position list after a failed ClosePosition and closed the next
+   // one in the same tick, which is how several synchronous OrderSend round-trips
+   // ended up inside one 100 ms tick.
+   //
+   // The anti-stall property that motivated that loop is preserved by
+   // m_close_skip: a ticket whose close failed is stepped over on the NEXT
+   // invocation rather than in the same one, so a single quote-delayed ticket
+   // still cannot block the basket -- it just costs one pacing interval instead
+   // of firing a burst.
    bool TryCloseOneOwnedPosition(void)
      {
+      int owned=0;
       for(int index=PositionsTotal()-1;index>=0;index--)
         {
          ulong ticket=PositionGetTicket(index);
          if(ticket==0 || !IsOwnedPositionSelected())
             continue;
+         owned++;
+         if(owned<=m_close_skip)
+            continue;
          double volume=PositionGetDouble(POSITION_VOLUME);
          double price=PositionGetDouble(POSITION_PRICE_CURRENT);
+         string comment=PositionGetString(POSITION_COMMENT);
          if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
            {
             m_last_close_at=TimeCurrent();
-            LogEvent("close",PositionGetString(POSITION_COMMENT),ticket,volume,price,"STR CLOSE");
+            m_close_skip=0;
+            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
             return true;
            }
+         m_last_close_at=TimeCurrent();
+         m_close_skip++;
+         return false;
         }
+      // Either there are no owned positions, or the cursor has walked past the
+      // last one.  Rewind so the next pass starts from the top again.
+      m_close_skip=0;
       return false;
      }
 
    void CloseOnePosition(void)
      {
-      if(OwnedPositionCount()>0 &&
-         !m_shadow_reset_active &&
-         !m_halted &&
-         m_profile.close_interval_seconds>0 &&
-         m_last_close_at>0 &&
-         TimeCurrent()-m_last_close_at<m_profile.close_interval_seconds)
+      if(OwnedPositionCount()>0 && !CloseIntervalElapsed())
          return;
       if(TryCloseOneOwnedPosition())
+         return;
+      // A close that FAILED must not be read as "the basket is flat".  Without
+      // this the engine declared cycle_complete/flat on a transient rejection and
+      // dropped into CYCLE_RESTARTING with positions still open, which is the
+      // state that used to hammer them at the timer period.
+      if(OwnedPositionCount()>0)
          return;
       if(m_shadow_reset_active)
         {
@@ -2451,6 +2497,7 @@ private:
            {
             m_state=CYCLE_CLOSING;
             m_last_close_at=0;
+            m_close_skip=0;
            }
          else
             CompleteShadowReset();
@@ -2462,6 +2509,7 @@ private:
         {
          m_state=CYCLE_CLOSING;
          m_last_close_at=0;
+         m_close_skip=0;
          PersistCycle();
          return;
         }
@@ -2557,6 +2605,7 @@ public:
       m_cycle_started_ms=0;
       m_restart_started_at=0;
       m_last_close_at=0;
+      m_close_skip=0;
       m_last_entry_fill_at=0;
       m_last_stop_update_at=0;
       m_deploy_index=0;
@@ -3201,7 +3250,12 @@ public:
                }
               if(OwnedPositionCount()>0)
                 {
-                 TryCloseOneOwnedPosition();
+                 // Paced, exactly like CYCLE_CLOSING.  Reaching CYCLE_RESTARTING
+                 // with positions still open means a close request was rejected;
+                 // draining them at the OnTimer period turned that rejection into
+                 // a burst of market closes milliseconds apart.
+                 if(CloseIntervalElapsed())
+                    TryCloseOneOwnedPosition();
                  break;
                 }
               if(AlignmentHoldActive())

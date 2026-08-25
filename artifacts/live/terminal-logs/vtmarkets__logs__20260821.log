@@ -1,0 +1,43 @@
+HP	0	11:46:49.144	Terminal	shutdown with 0
+EP	0	11:47:15.592	Terminal	updating C:\Program Files\VT Markets (Pty) MT5 Terminal\MQL5 folder
+EQ	0	11:47:15.592	Terminal	453 files updated
+GR	0	11:47:15.641	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+PP	0	11:47:15.641	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+IP	0	11:47:15.641	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+DG	0	11:47:15.643	MCP	started on 127.0.0.1:22346
+PR	0	11:47:15.644	Compiler	full recompilation has been started
+NK	0	11:48:11.077	Compiler	full recompilation has been finished:  131 file(s) compiled
+ND	0	11:48:27.350	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+MR	0	11:48:27.350	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+DF	0	11:48:27.350	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+PQ	0	11:48:27.351	MCP	started on 127.0.0.1:22346
+LR	0	11:49:29.142	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+CQ	0	11:49:29.142	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+NQ	0	11:49:29.142	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+KP	0	11:49:29.144	MCP	started on 127.0.0.1:22346
+RP	0	12:02:45.678	Startup	successfully initialized from start config "C:\Program Files\VT Markets (Pty) MT5 Terminal\Config\vt_run.ini"
+GR	0	12:02:45.709	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+PQ	0	12:02:45.709	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+MP	0	12:02:45.709	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+CR	0	12:02:45.709	Terminal	launched with C:\Program Files\VT Markets (Pty) MT5 Terminal\Config\vt_run.ini
+GE	0	12:02:45.711	MCP	started on 127.0.0.1:22346
+GO	0	12:02:45.753	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\VTMarkets-Live 6\history\EURUSD, last access time 2023.06.08 10:59
+JD	0	12:02:45.755	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\VTMarkets-Live 6\history\GBPUSD, last access time 2023.06.08 10:59
+NK	0	12:02:45.757	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\VTMarkets-Live 6\history\USDCHF, last access time 2023.06.08 10:59
+LQ	0	12:02:45.759	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\VTMarkets-Live 6\history\USDJPY, last access time 2023.06.08 10:59
+ND	0	12:02:47.326	Scripts	script ExportHistory (EURUSD,H1) loaded successfully
+OP	0	12:03:27.786	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+HN	0	12:03:27.786	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+QR	0	12:03:27.786	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+ME	0	12:03:27.787	MCP	started on 127.0.0.1:22346
+GQ	0	12:03:27.795	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\Default\history\EURUSD, last access time 2023.06.08 10:59
+PD	0	12:03:27.797	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\Default\history\GBPUSD, last access time 2023.06.08 10:59
+RH	0	12:03:27.799	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\Default\history\USDCHF, last access time 2023.06.08 10:59
+FO	0	12:03:27.801	HistoryCenter	delete old files from C:\Program Files\VT Markets (Pty) MT5 Terminal\bases\Default\history\USDJPY, last access time 2023.06.08 10:59
+JQ	0	12:04:04.758	Startup	successfully initialized from start config "C:\Program Files\VT Markets (Pty) MT5 Terminal\Config\vt_run.ini"
+QE	0	12:04:04.791	Terminal	VT Markets (Pty) MT5 Terminal x64 build 6122 started for VT Markets (Pty) Ltd
+JQ	0	12:04:04.791	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+CQ	0	12:04:04.791	Terminal	C:\Program Files\VT Markets (Pty) MT5 Terminal
+MR	0	12:04:04.791	Terminal	launched with C:\Program Files\VT Markets (Pty) MT5 Terminal\Config\vt_run.ini
+GF	0	12:04:04.792	MCP	started on 127.0.0.1:22346
+FS	0	12:04:06.286	Scripts	script ExportHistory (EURUSD,H1) loaded successfully

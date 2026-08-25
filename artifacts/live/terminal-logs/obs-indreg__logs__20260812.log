@@ -1,0 +1,51 @@
+HO	0	10:12:01.498	Terminal	updating D:\MT5IndependentRegistration\MQL5 folder
+JJ	0	10:12:01.498	Terminal	453 files updated
+PH	0	10:12:02.375	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+EE	0	10:12:02.375	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 735 / 931 Gb disk, admin, GMT+5
+RH	0	10:12:02.375	Terminal	D:\MT5IndependentRegistration
+OS	0	10:12:02.379	MCP	started on 127.0.0.1:22346
+LE	0	10:12:02.380	Compiler	full recompilation has been started
+NL	0	10:13:06.564	Compiler	full recompilation has been finished:  131 file(s) compiled
+HJ	0	10:41:39.687	Network	new demo account '110971967' opened on MetaQuotes-Demo
+HQ	0	10:41:52.013	LiveUpdate	new version build 6104 (IDE: 6104, Tester: 6104) is available
+HM	0	10:41:52.666	Network	'110971967': authorized on MetaQuotes-Demo
+KE	0	10:41:52.666	Network	'110971967': previous successful authorization performed from 223.227.65.101 on 2026.08.12 08:11:44
+OD	0	10:41:54.005	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12540 symbols, 0 spreads
+CJ	0	10:41:54.005	Network	'110971967': trading has been enabled, demo account - hedging mode
+QN	0	10:41:54.005	Network	'110971967': balance management has been disabled - demo account
+OL	0	10:41:54.396	Network	'110971967': scanning network for access points
+LH	0	10:42:35.658	LiveUpdate	'mt5clw64' downloaded (58551 kb)
+PN	0	10:42:59.734	LiveUpdate	'mt5clwide64' downloaded (46072 kb)
+FG	0	10:43:06.740	LiveUpdate	'mt5clwtst64' downloaded (10852 kb)
+IM	0	10:43:09.921	Network	'110971967': scanning network finished
+RF	0	10:43:42.981	LiveUpdate	'mt5onnx64' downloaded (68964 kb)
+CQ	1	10:45:49.757	Network	'110971967': connection to MetaQuotes-Demo lost
+LD	0	10:45:51.133	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 192.86 ms, build 6104)
+QH	0	10:45:51.133	Network	'110971967': previous successful authorization performed from 223.227.65.101 on 2026.08.12 08:11:57
+PJ	0	10:45:51.911	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12540 symbols, 0 spreads
+DG	0	10:45:51.911	Network	'110971967': trading has been enabled, demo account - hedging mode
+JK	0	10:45:51.911	Network	'110971967': balance management has been disabled - demo account
+PM	0	10:49:43.673	LiveUpdate	'mt5onnxcuda64' downloaded (184307 kb)
+GD	0	10:49:44.606	LiveUpdate	downloaded successfully
+PP	0	10:49:44.607	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\518F03821AEC07C60FD00942E5AF3797\liveupdate\mt5clw64.6104' saved
+EL	0	10:49:44.608	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\518F03821AEC07C60FD00942E5AF3797\liveupdate\mt5clwide64.6104' saved
+IH	0	10:49:44.609	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\518F03821AEC07C60FD00942E5AF3797\liveupdate\mt5clwtst64.6104' saved
+KF	0	10:49:44.609	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\518F03821AEC07C60FD00942E5AF3797\liveupdate\mt5onnx64.6104' saved
+LE	0	10:49:44.610	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\518F03821AEC07C60FD00942E5AF3797\liveupdate\mt5onnxcuda64.6104' saved
+MN	1	10:50:50.683	Network	'110971967': connection to MetaQuotes-Demo lost
+QF	0	10:50:57.953	Network	'110971967': authorized on MetaQuotes-Demo through Access Point HK 1 (ping: 339.47 ms, build 6104)
+HJ	0	10:50:57.953	Network	'110971967': previous successful authorization performed from 223.227.65.101 on 2026.08.12 08:15:56
+CK	0	10:50:58.700	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12540 symbols, 0 spreads
+PE	0	10:50:58.701	Network	'110971967': trading has been enabled, demo account - hedging mode
+FI	0	10:50:58.701	Network	'110971967': balance management has been disabled - demo account
+OM	0	10:50:59.892	Network	'110971967': scanning network for access points
+PD	0	10:52:21.289	Network	'110971967': scanning network finished
+PL	0	10:52:21.289	Network	'110971967': auto connecting to a better access point with 82 % quality (previous: 72 %)
+IN	1	10:52:21.290	Network	'110971967': connection to MetaQuotes-Demo lost
+LG	0	10:52:23.436	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 238.85 ms, build 6104)
+RK	0	10:52:23.436	Network	'110971967': previous successful authorization performed from 223.227.65.101 on 2026.08.12 08:21:03
+NK	0	10:52:24.391	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12540 symbols, 0 spreads
+JD	0	10:52:24.391	Network	'110971967': trading has been enabled, demo account - hedging mode
+DH	0	10:52:24.391	Network	'110971967': balance management has been disabled - demo account
+GQ	1	11:37:29.025	Network	'110971967': connection to MetaQuotes-Demo lost
+HG	0	11:52:36.802	System	terminal stopped due to system shutdown

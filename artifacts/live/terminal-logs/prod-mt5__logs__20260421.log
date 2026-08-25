@@ -1,0 +1,15 @@
+RP	0	23:34:50.153	Terminal	shutdown with 0
+CQ	0	23:34:55.918	Terminal	updating C:\Program Files\MetaTrader 5\MQL5 folder
+RG	0	23:34:55.918	Terminal	453 files updated
+NR	0	23:34:55.992	Terminal	MetaTrader 5 x64 build 5809 started for MetaQuotes Ltd.
+FK	0	23:34:55.993	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 2 / 15 Gb memory, 34 / 237 Gb disk, admin, GMT+5
+KN	0	23:34:55.993	Terminal	C:\Program Files\MetaTrader 5
+ED	0	23:34:55.994	Compiler	full recompilation has been started
+CM	0	23:36:18.204	Compiler	full recompilation has been finished:  131 file(s) compiled
+LF	0	23:42:44.028	Network	new demo account '5049582774' opened on MetaQuotes-Demo
+DS	0	23:42:49.717	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point 45
+QL	0	23:42:49.717	Network	'5049582774': previous successful authorization performed from 223.188.130.180 on 2026.04.21 21:12:44
+QM	0	23:42:50.574	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+KL	0	23:42:50.574	Network	'5049582774': trading has been enabled - hedging mode
+FI	0	23:42:50.606	Network	'5049582774': scanning network for access points
+FL	0	23:43:42.338	Network	'5049582774': scanning network finished

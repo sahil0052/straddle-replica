@@ -1,0 +1,150 @@
+GL	0	09:37:30.918	Startup	successfully initialized from start config "C:\websites\mt5 2\monitor\observer-startup.ini"
+RH	0	09:37:31.033	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+KE	0	09:37:31.034	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 13 / 237 Gb disk, admin, GMT+5
+LD	0	09:37:31.034	Terminal	C:\Program Files\MetaTrader 5
+OR	0	09:37:31.034	Terminal	launched with C:\websites\mt5 2\monitor\observer-startup.ini
+OE	0	09:37:31.035	MCP	started on 127.0.0.1:22346
+EL	0	09:37:32.694	Experts	expert StraddleObserver (XAUUSD,H1) loaded successfully
+EI	0	09:37:58.510	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+FD	0	09:37:58.511	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 13 / 237 Gb disk, admin, GMT+5
+QE	0	09:37:58.511	Terminal	C:\Program Files\MetaTrader 5
+OR	0	09:37:58.511	MCP	started on 127.0.0.1:22346
+NI	0	09:38:00.999	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 244.35 ms, build 5830)
+QI	0	09:38:01.402	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 25 positions, 35 orders, 285 symbols, 0 spreads
+QE	0	09:38:01.402	Network	'901018': trading has been disabled - investor mode
+QP	0	09:38:01.402	Network	'901018': balance management has been disabled - investor mode
+EJ	0	09:38:02.537	Network	'901018': scanning network for access points
+CJ	0	09:38:15.896	Network	'901018': scanning network finished
+DR	0	09:38:15.896	Network	'901018': auto connecting to a better access point with 63 % quality (previous: 58 %)
+JD	1	09:38:15.897	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+HI	0	09:38:17.114	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+CJ	0	09:38:17.492	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 25 positions, 35 orders, 285 symbols, 0 spreads
+CD	0	09:38:17.492	Network	'901018': trading has been disabled - investor mode
+CQ	0	09:38:17.492	Network	'901018': balance management has been disabled - investor mode
+FN	0	09:38:30.443	Tester	MQL5 Cloud Server "MQL5 Cloud Europe 1: 10 gbit" found
+GE	0	09:38:30.443	Tester	MQL5 Cloud Server "MQL5 Cloud Europe 8: 10 gbit" found
+KO	1	09:55:32.649	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+KG	0	09:55:33.451	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+MP	0	09:55:33.826	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 25 positions, 35 orders, 285 symbols, 0 spreads
+EM	0	09:55:33.826	Network	'901018': trading has been disabled - investor mode
+MG	0	09:55:33.826	Network	'901018': balance management has been disabled - investor mode
+QM	1	09:57:07.548	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+NQ	0	09:57:09.998	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+OR	0	09:57:11.923	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 25 positions, 35 orders, 285 symbols, 0 spreads
+GS	0	09:57:11.923	Network	'901018': trading has been disabled - investor mode
+OI	0	09:57:11.923	Network	'901018': balance management has been disabled - investor mode
+JI	0	10:07:58.003	Trades	'901018': deal #3352383 sell 0.01 XAUUSD at 4348.75 done (based on order #21264853)
+NN	0	10:08:54.687	Trades	'901018': deal #3352401 sell 0.01 XAUUSD at 4347.28 done (based on order #21264850)
+IS	0	10:14:56.211	Trades	'901018': deal #3352442 buy 0.01 XAUUSD at 4346.72 done (based on order #21266470)
+QM	0	10:15:16.414	Trades	'901018': deal #3352450 buy 0.01 XAUUSD at 4346.52 done (based on order #21266471)
+HH	0	10:15:36.254	Trades	'901018': deal #3352453 buy 0.01 XAUUSD at 4346.52 done (based on order #21266473)
+KJ	0	10:22:36.957	Trades	'901018': deal #3352492 buy 0.01 XAUUSD at 4345.69 done (based on order #21266526)
+GK	0	10:24:43.188	Trades	'901018': deal #3352503 sell 0.01 XAUUSD at 4344.57 done (based on order #21266545)
+PH	0	10:25:03.449	Trades	'901018': deal #3352504 sell 0.01 XAUUSD at 4344.86 done (based on order #21266546)
+QQ	0	10:25:23.363	Trades	'901018': deal #3352507 buy 0.01 XAUUSD at 4345.18 done (based on order #21266550)
+HS	0	10:25:43.572	Trades	'901018': deal #3352509 buy 0.01 XAUUSD at 4345.55 done (based on order #21266552)
+FN	0	10:26:03.499	Trades	'901018': deal #3352511 buy 0.01 XAUUSD at 4345.88 done (based on order #21266554)
+KH	0	10:26:23.624	Trades	'901018': deal #3352514 buy 0.01 XAUUSD at 4345.85 done (based on order #21266557)
+NE	0	10:26:43.550	Trades	'901018': deal #3352516 sell 0.01 XAUUSD at 4345.35 done (based on order #21266559)
+FJ	0	10:27:03.567	Trades	'901018': deal #3352519 sell 0.01 XAUUSD at 4345.05 done (based on order #21266563)
+QH	0	10:27:23.402	Trades	'901018': deal #3352522 sell 0.01 XAUUSD at 4344.54 done (based on order #21266567)
+FN	0	10:27:43.622	Trades	'901018': deal #3352526 sell 0.01 XAUUSD at 4345.70 done (based on order #21266572)
+ES	0	10:30:35.037	Trades	'901018': deal #3352567 buy 0.01 XAUUSD at 4349.81 done (based on order #21266593)
+IQ	0	10:33:11.342	Trades	'901018': deal #3352613 sell 0.01 XAUUSD at 4346.61 done (based on order #21266594)
+HG	0	10:36:29.357	Trades	'901018': deal #3352633 sell 0.01 XAUUSD at 4345.17 done (based on order #21266599)
+ME	0	10:36:52.268	Trades	'901018': deal #3352644 sell 0.01 XAUUSD at 4343.75 done (based on order #21266603)
+KK	0	10:39:26.981	Trades	'901018': deal #3352672 sell 0.01 XAUUSD at 4342.37 done (based on order #21266607)
+LH	0	10:40:40.612	Trades	'901018': deal #3352690 sell 0.01 XAUUSD at 4340.92 done (based on order #21266611)
+DN	0	10:41:45.225	Trades	'901018': deal #3352706 sell 0.01 XAUUSD at 4339.35 done (based on order #21266614)
+HL	0	10:47:10.094	Trades	'901018': deal #3352741 sell 0.01 XAUUSD at 4338.00 done (based on order #21266616)
+HM	0	10:50:02.615	Trades	'901018': deal #3352775 buy 0.01 XAUUSD at 4338.48 done (based on order #21266963)
+QH	0	10:50:22.736	Trades	'901018': deal #3352784 buy 0.01 XAUUSD at 4338.60 done (based on order #21266964)
+OJ	0	10:50:42.568	Trades	'901018': deal #3352786 buy 0.01 XAUUSD at 4338.60 done (based on order #21266965)
+PE	0	10:51:02.686	Trades	'901018': deal #3352788 buy 0.01 XAUUSD at 4338.60 done (based on order #21266966)
+QG	0	10:51:22.586	Trades	'901018': deal #3352793 buy 0.01 XAUUSD at 4339.85 done (based on order #21266973)
+CN	0	10:55:40.674	Trades	'901018': deal #3352815 sell 0.01 XAUUSD at 4340.90 done (based on order #21266985)
+QS	0	10:59:58.828	Trades	'901018': deal #3352852 sell 0.01 XAUUSD at 4342.93 done (based on order #21267025)
+EN	0	11:00:19.021	Trades	'901018': deal #3352881 buy 0.01 XAUUSD at 4341.79 done (based on order #21267061)
+GG	0	11:00:38.914	Trades	'901018': deal #3352887 sell 0.01 XAUUSD at 4340.20 done (based on order #21267011)
+PJ	0	11:03:36.236	Trades	'901018': deal #3352914 buy 0.01 XAUUSD at 4340.07 done (based on order #21267094)
+RE	0	11:03:56.467	Trades	'901018': deal #3352920 buy 0.01 XAUUSD at 4341.84 done (based on order #21267095)
+RH	0	11:04:16.161	Trades	'901018': deal #3352925 sell 0.01 XAUUSD at 4340.45 done (based on order #21267102)
+QQ	0	11:06:42.310	Trades	'901018': deal #3352946 buy 0.01 XAUUSD at 4339.89 done (based on order #21267130)
+IS	0	11:10:09.681	Trades	'901018': deal #3352972 sell 0.01 XAUUSD at 4342.33 done (based on order #21267160)
+DQ	0	11:12:20.288	Trades	'901018': deal #3352987 sell 0.01 XAUUSD at 4340.77 done (based on order #21267154)
+QH	0	11:15:46.691	Trades	'901018': deal #3353027 buy 0.01 XAUUSD at 4338.66 done (based on order #21267225)
+ID	0	11:17:14.302	Trades	'901018': deal #3353044 sell 0.01 XAUUSD at 4336.26 done (based on order #21266618)
+ME	0	11:18:23.192	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+OQ	0	11:18:23.192	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 13 / 237 Gb disk, admin, GMT+5
+NQ	0	11:18:23.192	Terminal	C:\Program Files\MetaTrader 5
+KF	0	11:18:23.193	MCP	started on 127.0.0.1:22346
+QS	0	12:31:45.800	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+FJ	0	12:31:45.800	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+FO	0	12:31:45.800	Terminal	C:\Program Files\MetaTrader 5
+CH	0	12:31:45.801	MCP	started on 127.0.0.1:22346
+FI	0	12:32:00.432	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+QD	0	12:32:00.432	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+ME	0	12:32:00.432	Terminal	C:\Program Files\MetaTrader 5
+JR	3	12:32:00.432	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+HR	0	12:32:09.594	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+KK	0	12:32:09.594	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+KN	0	12:32:09.594	Terminal	C:\Program Files\MetaTrader 5
+NI	0	12:32:09.595	MCP	started on 127.0.0.1:22346
+DH	0	12:32:35.607	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+FE	0	12:32:35.608	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+JD	0	12:32:35.608	Terminal	C:\Program Files\MetaTrader 5
+OR	0	12:32:35.609	MCP	started on 127.0.0.1:22346
+MF	0	12:34:39.710	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+IO	0	12:34:39.711	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+IR	0	12:34:39.711	Terminal	C:\Program Files\MetaTrader 5
+RD	0	12:34:39.712	MCP	started on 127.0.0.1:22346
+KS	0	12:34:42.412	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+OP	0	12:34:55.728	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 51 orders, 285 symbols, 0 spreads
+OR	0	12:34:55.728	Network	'901018': trading has been disabled - investor mode
+KK	0	12:34:55.728	Network	'901018': balance management has been disabled - investor mode
+EE	0	12:37:53.887	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+RP	0	12:37:53.887	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+NQ	0	12:37:53.887	Terminal	C:\Program Files\MetaTrader 5
+QE	0	12:37:53.888	MCP	started on 127.0.0.1:22346
+NS	0	12:38:14.150	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+JJ	0	12:38:14.151	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+JO	0	12:38:14.151	Terminal	C:\Program Files\MetaTrader 5
+QO	0	12:38:14.152	MCP	started on 127.0.0.1:22346
+OI	0	12:38:53.604	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+CD	0	12:38:53.605	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+OE	0	12:38:53.605	Terminal	C:\Program Files\MetaTrader 5
+PQ	0	12:38:53.606	MCP	started on 127.0.0.1:22346
+NP	0	12:39:49.661	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+IN	0	12:39:49.661	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+IS	0	12:39:49.661	Terminal	C:\Program Files\MetaTrader 5
+JK	0	12:39:49.662	MCP	started on 127.0.0.1:22346
+PN	0	12:40:14.201	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+CH	0	12:40:14.201	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+GI	0	12:40:14.201	Terminal	C:\Program Files\MetaTrader 5
+OM	0	12:40:14.203	MCP	started on 127.0.0.1:22346
+OD	0	12:50:25.531	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+IR	0	12:50:25.531	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+DG	0	12:50:25.531	Terminal	C:\Program Files\MetaTrader 5
+LG	0	12:50:25.533	MCP	started on 127.0.0.1:22346
+MM	0	12:50:28.164	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+DM	0	12:50:28.622	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 4 positions, 50 orders, 285 symbols, 0 spreads
+JP	0	12:50:28.622	Network	'901018': trading has been disabled - investor mode
+FM	0	12:50:28.622	Network	'901018': balance management has been disabled - investor mode
+PF	0	12:50:48.304	Terminal	exit with code 0
+KS	0	12:50:48.714	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+NJ	0	12:50:48.766	Terminal	stopped with 0
+RR	0	12:50:48.769	Terminal	shutdown with 0
+IP	0	12:52:42.228	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+ON	0	12:52:42.228	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+RS	0	12:52:42.228	Terminal	C:\Program Files\MetaTrader 5
+GK	0	12:52:42.229	MCP	started on 127.0.0.1:22346
+EN	0	12:53:32.059	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+EH	0	12:53:32.060	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 18 / 237 Gb disk, admin, GMT+5
+HI	0	12:53:32.060	Terminal	C:\Program Files\MetaTrader 5
+QM	0	12:53:32.061	MCP	started on 127.0.0.1:22346
+RK	0	12:53:34.668	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 217.92 ms, build 5830)
+LG	0	12:53:35.166	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 4 positions, 50 orders, 285 symbols, 0 spreads
+RJ	0	12:53:35.166	Network	'901018': trading has been disabled - investor mode
+NS	0	12:53:35.166	Network	'901018': balance management has been disabled - investor mode
+QM	0	12:53:45.990	Trades	'901018': deal #3354195 buy 0.01 XAUUSD at 4353.95 done (based on order #21267933)
+FP	0	12:54:21.151	Trades	'901018': deal #3354218 sell 0.01 XAUUSD at 4353.25 done (based on order #21268631)

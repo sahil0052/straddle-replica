@@ -1,0 +1,429 @@
+PO	0	07:22:17.196	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+EE	0	07:22:17.312	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 8 / 15 Gb memory, 726 / 931 Gb disk, admin, GMT+5
+MG	0	07:22:17.312	Terminal	D:\MT5ObserverTerminal
+RP	3	07:22:17.347	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+GO	0	07:22:23.349	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 3 (ping: 363.56 ms, build 5830)
+HR	2	07:22:24.042	Objects	loading of 61968 objects took 2954 ms, reduce the number of objects please
+LO	0	07:22:36.120	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 5 positions, 52 orders, 285 symbols, 0 spreads
+OR	0	07:22:36.120	Network	'901018': trading has been disabled - investor mode
+KK	0	07:22:36.120	Network	'901018': balance management has been disabled - investor mode
+JG	0	07:22:36.127	Network	'901018': scanning network for access points
+RQ	0	07:23:00.648	Network	'901018': scanning network finished
+LJ	0	07:23:00.648	Network	'901018': auto connecting to a better access point with 29 % quality (previous: 0 %)
+QK	1	07:23:00.649	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+ML	0	07:23:06.306	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 422.58 ms, build 5830)
+FO	0	07:23:07.475	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 5 positions, 52 orders, 285 symbols, 0 spreads
+IQ	0	07:23:07.475	Network	'901018': trading has been disabled - investor mode
+EL	0	07:23:07.475	Network	'901018': balance management has been disabled - investor mode
+LK	0	07:23:49.457	Trades	'901018': deal #3320628 sell 0.01 XAUUSD at 4397.72 done (based on order #21229112)
+NI	0	07:24:10.034	Trades	'901018': deal #3320633 sell 0.01 XAUUSD at 4396.84 done (based on order #21229105)
+EP	0	07:30:00.093	Trades	'901018': deal #3320679 buy 0.01 XAUUSD at 4396.39 done (based on order #21229176)
+DS	0	07:30:20.286	Trades	'901018': deal #3320680 buy 0.01 XAUUSD at 4396.66 done (based on order #21229177)
+MR	0	07:32:02.304	Trades	'901018': deal #3320688 sell 0.01 XAUUSD at 4396.41 done (based on order #21229181)
+DO	0	07:38:50.095	Trades	'901018': deal #3320724 buy 0.01 XAUUSD at 4395.86 done (based on order #21229226)
+EE	0	07:51:13.497	Trades	'901018': deal #3320832 sell 0.01 XAUUSD at 4390.32 done (based on order #21228846)
+DD	0	07:53:09.491	Trades	'901018': deal #3320847 buy 0.01 XAUUSD at 4393.53 done (based on order #21229423)
+NI	0	07:56:40.933	Trades	'901018': deal #3320886 sell 0.01 XAUUSD at 4396.22 done (based on order #21229460)
+JN	0	07:59:25.895	Trades	'901018': deal #3320900 sell 0.01 XAUUSD at 4394.90 done (based on order #21229447)
+QS	0	08:07:32.138	Trades	'901018': deal #3320994 buy 0.01 XAUUSD at 4395.45 done (based on order #21229587)
+JP	1	08:10:20.117	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+GE	0	08:12:10.174	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 485.90 ms, build 5830)
+MF	0	08:12:16.230	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 53 orders, 285 symbols, 0 spreads
+KH	0	08:12:16.230	Network	'901018': trading has been disabled - investor mode
+OE	0	08:12:16.230	Network	'901018': balance management has been disabled - investor mode
+EQ	0	08:12:18.229	Network	'901018': scanning network for access points
+DG	0	08:12:30.750	Network	'901018': scanning network finished
+NM	0	08:12:42.439	Trades	'901018': deal #3321048 sell 0.01 XAUUSD at 4393.51 done (based on order #21229653)
+PR	0	08:15:07.314	Trades	'901018': deal #3321067 sell 0.01 XAUUSD at 4391.94 done (based on order #21229651)
+QP	0	08:25:25.580	Trades	'901018': deal #3321141 sell 0.01 XAUUSD at 4389.09 done (based on order #21228848)
+EI	0	08:26:06.556	Trades	'901018': deal #3321151 buy 0.01 XAUUSD at 4390.38 done (based on order #21229960)
+RK	0	08:26:26.731	Trades	'901018': deal #3321157 buy 0.01 XAUUSD at 4391.54 done (based on order #21229976)
+EI	0	08:27:39.926	Trades	'901018': deal #3321172 sell 0.01 XAUUSD at 4392.06 done (based on order #21229982)
+JO	0	08:31:56.656	Trades	'901018': deal #3321241 sell 0.01 XAUUSD at 4393.52 done (based on order #21230007)
+LR	0	08:43:28.861	Trades	'901018': deal #3321303 buy 0.01 XAUUSD at 4390.39 done (based on order #21230129)
+KM	0	08:50:39.745	Trades	'901018': deal #3321346 buy 0.01 XAUUSD at 4391.40 done (based on order #21230176)
+RP	0	09:00:19.808	Trades	'901018': deal #3321469 sell 0.01 XAUUSD at 4391.96 done (based on order #21230260)
+HF	0	09:02:42.264	Trades	'901018': deal #3321527 sell 0.01 XAUUSD at 4395.00 done (based on order #21230363)
+OK	0	09:05:41.990	Trades	'901018': deal #3321546 sell 0.01 XAUUSD at 4393.23 done (based on order #21230340)
+OI	0	09:12:42.890	Trades	'901018': deal #3321612 sell 0.01 XAUUSD at 4396.45 done (based on order #21230527)
+QP	0	09:28:13.735	Trades	'901018': deal #3321692 buy 0.01 XAUUSD at 4396.11 done (based on order #21230615)
+DM	0	09:32:25.892	Trades	'901018': deal #3321760 sell 0.01 XAUUSD at 4397.67 done (based on order #21230672)
+PR	0	09:35:52.468	Trades	'901018': deal #3321802 sell 0.01 XAUUSD at 4396.47 done (based on order #21230621)
+HR	1	09:45:51.967	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+KJ	0	09:45:55.887	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+OH	0	09:45:56.582	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 9 positions, 50 orders, 285 symbols, 0 spreads
+NJ	0	09:45:56.582	Network	'901018': trading has been disabled - investor mode
+FS	0	09:45:56.582	Network	'901018': balance management has been disabled - investor mode
+NM	0	09:52:13.650	Trades	'901018': deal #3321985 buy 0.01 XAUUSD at 4394.74 done (based on order #21230941)
+EO	0	10:03:11.877	Trades	'901018': deal #3322152 buy 0.01 XAUUSD at 4390.80 done (based on order #21231111)
+QJ	0	10:03:31.999	Trades	'901018': deal #3322155 buy 0.01 XAUUSD at 4390.80 done (based on order #21231113)
+QD	0	10:04:40.829	Trades	'901018': deal #3322178 buy 0.01 XAUUSD at 4392.22 done (based on order #21231139)
+QI	0	10:11:09.347	Trades	'901018': deal #3322225 sell 0.01 XAUUSD at 4393.54 done (based on order #21231190)
+GN	0	10:18:57.831	Trades	'901018': deal #3322314 sell 0.01 XAUUSD at 4396.23 done (based on order #21231264)
+EL	0	10:20:14.979	Trades	'901018': deal #3322331 sell 0.01 XAUUSD at 4395.01 done (based on order #21231214)
+GM	0	10:29:34.760	Trades	'901018': deal #3322437 buy 0.01 XAUUSD at 4391.69 done (based on order #21231416)
+FO	0	10:29:54.857	Trades	'901018': deal #3322442 buy 0.01 XAUUSD at 4391.11 done (based on order #21231417)
+KJ	0	10:34:25.907	Trades	'901018': deal #3322508 buy 0.01 XAUUSD at 4393.19 done (based on order #21231495)
+PK	0	10:44:20.040	Trades	'901018': deal #3322617 sell 0.01 XAUUSD at 4387.35 done (based on order #21228850)
+FF	0	10:45:53.750	Trades	'901018': deal #3322693 buy 0.01 XAUUSD at 4388.92 done (based on order #21231695)
+QQ	0	10:46:16.818	Trades	'901018': deal #3322700 buy 0.01 XAUUSD at 4390.12 done (based on order #21231699)
+GL	0	10:48:05.150	Trades	'901018': deal #3322740 sell 0.01 XAUUSD at 4390.53 done (based on order #21231741)
+RR	0	10:50:18.608	Trades	'901018': deal #3322817 sell 0.01 XAUUSD at 4393.04 done (based on order #21231824)
+MG	0	10:50:38.744	Trades	'901018': deal #3322825 sell 0.01 XAUUSD at 4391.55 done (based on order #21231759)
+JE	0	10:54:55.965	Trades	'901018': deal #3323004 sell 0.01 XAUUSD at 4395.01 done (based on order #21231870)
+EK	0	10:56:28.451	Trades	'901018': deal #3323035 sell 0.01 XAUUSD at 4396.30 done (based on order #21232040)
+PI	0	10:58:50.218	Trades	'901018': deal #3323104 sell 0.01 XAUUSD at 4397.95 done (based on order #21232080)
+JN	0	10:59:54.298	Trades	'901018': deal #3323163 sell 0.01 XAUUSD at 4399.42 done (based on order #21232161)
+CS	0	11:05:03.955	Trades	'901018': deal #3323291 buy 0.01 XAUUSD at 4393.68 done (based on order #21232320)
+KM	0	11:05:24.168	Trades	'901018': deal #3323295 buy 0.01 XAUUSD at 4394.09 done (based on order #21232325)
+DH	0	11:05:44.087	Trades	'901018': deal #3323306 buy 0.01 XAUUSD at 4394.20 done (based on order #21232335)
+KJ	0	11:06:04.310	Trades	'901018': deal #3323328 buy 0.01 XAUUSD at 4393.40 done (based on order #21232357)
+KD	0	11:06:24.207	Trades	'901018': deal #3323332 buy 0.01 XAUUSD at 4393.81 done (based on order #21232361)
+PG	0	11:06:44.421	Trades	'901018': deal #3323340 buy 0.01 XAUUSD at 4393.27 done (based on order #21232372)
+JQ	0	11:07:04.318	Trades	'901018': deal #3323352 buy 0.01 XAUUSD at 4394.17 done (based on order #21232386)
+ML	0	11:07:24.527	Trades	'901018': deal #3323372 buy 0.01 XAUUSD at 4394.15 done (based on order #21232406)
+DN	0	11:07:44.441	Trades	'901018': deal #3323376 buy 0.01 XAUUSD at 4395.59 done (based on order #21232410)
+EG	0	11:08:04.654	Trades	'901018': deal #3323388 sell 0.01 XAUUSD at 4394.67 done (based on order #21232422)
+HD	0	11:08:24.560	Trades	'901018': deal #3323394 sell 0.01 XAUUSD at 4396.06 done (based on order #21232427)
+OJ	0	11:09:38.971	Trades	'901018': deal #3323413 sell 0.01 XAUUSD at 4394.04 done (based on order #21232433)
+NJ	1	11:14:07.776	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+LR	0	11:14:08.753	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+GP	0	11:14:09.201	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 1 positions, 59 orders, 285 symbols, 0 spreads
+QR	0	11:14:09.201	Network	'901018': trading has been disabled - investor mode
+MK	0	11:14:09.201	Network	'901018': balance management has been disabled - investor mode
+OJ	0	11:16:49.800	Trades	'901018': deal #3323509 sell 0.01 XAUUSD at 4392.67 done (based on order #21232437)
+KG	0	11:19:06.969	Trades	'901018': deal #3323563 buy 0.01 XAUUSD at 4397.15 done (based on order #21232431)
+QO	1	11:53:01.068	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+QQ	0	11:53:02.430	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+HR	0	11:53:04.293	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 57 orders, 285 symbols, 0 spreads
+FM	0	11:53:04.293	Network	'901018': trading has been disabled - investor mode
+JH	0	11:53:04.293	Network	'901018': balance management has been disabled - investor mode
+QG	0	11:57:05.899	Trades	'901018': deal #3324095 buy 0.01 XAUUSD at 4399.23 done (based on order #21232434)
+CR	0	11:59:34.591	Trades	'901018': deal #3324156 buy 0.01 XAUUSD at 4400.09 done (based on order #21232438)
+IL	0	12:20:40.244	Trades	'901018': deal #3324369 buy 0.01 XAUUSD at 4401.56 done (based on order #21232443)
+IO	0	12:22:05.571	Trades	'901018': deal #3324420 buy 0.01 XAUUSD at 4403.07 done (based on order #21232447)
+LI	0	12:22:57.923	Trades	'901018': deal #3324452 buy 0.01 XAUUSD at 4404.68 done (based on order #21232449)
+OD	0	12:23:25.354	Trades	'901018': deal #3324463 sell 0.01 XAUUSD at 4402.76 done (based on order #21233596)
+CI	0	12:23:45.289	Trades	'901018': deal #3324465 sell 0.01 XAUUSD at 4402.76 done (based on order #21233597)
+KO	0	12:25:07.509	Trades	'901018': deal #3324494 sell 0.01 XAUUSD at 4401.44 done (based on order #21233631)
+KR	0	12:44:23.261	Trades	'901018': deal #3324811 buy 0.01 XAUUSD at 4397.14 done (based on order #21234003)
+KL	0	12:48:11.906	Trades	'901018': deal #3324874 buy 0.01 XAUUSD at 4398.61 done (based on order #21233975)
+OR	1	12:50:11.559	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+IJ	0	12:50:12.561	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+PG	0	12:50:13.165	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 7 positions, 53 orders, 285 symbols, 0 spreads
+NJ	0	12:50:13.165	Network	'901018': trading has been disabled - investor mode
+RS	0	12:50:13.165	Network	'901018': balance management has been disabled - investor mode
+CM	0	12:57:54.128	Trades	'901018': deal #3324954 buy 0.01 XAUUSD at 4400.29 done (based on order #21233915)
+IO	0	13:00:10.548	Trades	'901018': deal #3325060 buy 0.01 XAUUSD at 4406.01 done (based on order #21232453)
+EI	0	13:00:42.302	Trades	'901018': deal #3325093 buy 0.01 XAUUSD at 4407.61 done (based on order #21232455)
+FK	0	13:00:54.685	Trades	'901018': deal #3325112 sell 0.01 XAUUSD at 4406.05 done (based on order #21234351)
+II	0	13:00:54.996	Trades	'901018': deal #3325115 sell 0.01 XAUUSD at 4406.05 done (based on order #21234352)
+GO	0	13:00:55.300	Trades	'901018': deal #3325116 sell 0.01 XAUUSD at 4406.05 done (based on order #21234353)
+QL	0	13:00:55.615	Trades	'901018': deal #3325117 sell 0.01 XAUUSD at 4406.04 done (based on order #21234354)
+QR	0	13:00:55.944	Trades	'901018': deal #3325119 sell 0.01 XAUUSD at 4406.04 done (based on order #21234355)
+EP	0	13:01:39.194	Trades	'901018': deal #3325144 sell 0.01 XAUUSD at 4404.78 done (based on order #21234387)
+DI	0	13:05:20.859	Trades	'901018': deal #3325225 buy 0.01 XAUUSD at 4408.99 done (based on order #21232457)
+LD	0	13:07:08.070	Trades	'901018': deal #3325300 buy 0.01 XAUUSD at 4410.48 done (based on order #21232459)
+GI	0	13:08:04.174	Trades	'901018': deal #3325342 sell 0.01 XAUUSD at 4409.55 done (based on order #21234647)
+KO	0	13:08:27.454	Trades	'901018': deal #3325359 sell 0.01 XAUUSD at 4408.30 done (based on order #21234672)
+IN	1	13:23:30.010	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+GF	0	13:23:39.990	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+QS	0	13:23:45.560	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 4 positions, 50 orders, 285 symbols, 0 spreads
+KN	0	13:23:45.560	Network	'901018': trading has been disabled - investor mode
+OG	0	13:23:45.560	Network	'901018': balance management has been disabled - investor mode
+OP	0	13:24:33.712	Trades	'901018': deal #3325619 buy 0.01 XAUUSD at 4404.54 done (based on order #21234945)
+RS	0	13:25:42.604	Trades	'901018': deal #3325666 buy 0.01 XAUUSD at 4406.08 done (based on order #21234883)
+IM	0	13:31:01.237	Trades	'901018': deal #3325758 buy 0.01 XAUUSD at 4403.05 done (based on order #21235106)
+JH	0	13:32:29.512	Trades	'901018': deal #3325816 buy 0.01 XAUUSD at 4401.56 done (based on order #21235172)
+JJ	0	13:36:42.979	Trades	'901018': deal #3325939 buy 0.01 XAUUSD at 4398.62 done (based on order #21235314)
+HD	0	13:39:47.246	Trades	'901018': deal #3325964 buy 0.01 XAUUSD at 4400.10 done (based on order #21235293)
+OH	0	13:45:45.384	Trades	'901018': deal #3326083 sell 0.01 XAUUSD at 4402.20 done (based on order #21235535)
+KN	0	13:48:23.424	Trades	'901018': deal #3326129 sell 0.01 XAUUSD at 4400.83 done (based on order #21235584)
+PN	1	13:56:52.107	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+OG	0	13:57:12.217	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 251.03 ms, build 5830)
+FD	0	13:57:21.489	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 8 positions, 49 orders, 285 symbols, 0 spreads
+HN	0	13:57:21.489	Network	'901018': trading has been disabled - investor mode
+HG	0	13:57:21.489	Network	'901018': balance management has been disabled - investor mode
+MS	0	13:57:22.890	Network	'901018': scanning network for access points
+OE	0	13:57:51.199	Network	'901018': scanning network finished
+GM	0	13:57:51.199	Network	'901018': auto connecting to a better access point with 67 % quality (previous: 22 %)
+LO	1	13:57:51.200	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+CP	0	13:57:55.388	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 198.01 ms, build 5830)
+LS	0	13:57:56.872	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 8 positions, 49 orders, 285 symbols, 0 spreads
+NM	0	13:57:56.872	Network	'901018': trading has been disabled - investor mode
+RH	0	13:57:56.872	Network	'901018': balance management has been disabled - investor mode
+RP	0	14:06:52.960	Trades	'901018': deal #3326326 buy 0.01 XAUUSD at 4400.11 done (based on order #21235785)
+QS	0	14:17:32.122	Trades	'901018': deal #3326524 buy 0.01 XAUUSD at 4397.14 done (based on order #21235908)
+JP	1	14:21:52.106	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+ED	0	14:22:37.636	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 383.39 ms, build 5830)
+RE	0	14:22:50.285	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 10 positions, 50 orders, 285 symbols, 0 spreads
+IH	0	14:22:50.391	Network	'901018': trading has been disabled - investor mode
+CE	0	14:22:50.393	Network	'901018': balance management has been disabled - investor mode
+LQ	0	14:22:51.900	Network	'901018': scanning network for access points
+EG	0	14:23:06.003	Network	'901018': scanning network finished
+KR	0	14:39:18.450	Trades	'901018': deal #3326841 buy 0.01 XAUUSD at 4398.78 done (based on order #21235851)
+HS	0	14:46:15.090	Trades	'901018': deal #3326960 sell 0.01 XAUUSD at 4397.57 done (based on order #21236458)
+NN	0	14:55:00.140	Trades	'901018': deal #3327051 buy 0.01 XAUUSD at 4397.19 done (based on order #21236551)
+PF	0	15:59:38.771	Trades	'901018': deal #3327712 sell 0.01 XAUUSD at 4401.12 done (based on order #21237252)
+LD	0	16:00:06.696	Trades	'901018': deal #3327791 sell 0.01 XAUUSD at 4404.23 done (based on order #21237319)
+EJ	0	16:00:26.653	Trades	'901018': deal #3327802 sell 0.01 XAUUSD at 4403.51 done (based on order #21237329)
+MO	0	16:00:46.884	Trades	'901018': deal #3327809 sell 0.01 XAUUSD at 4400.04 done (based on order #21237336)
+GM	0	16:01:06.808	Trades	'901018': deal #3327820 sell 0.01 XAUUSD at 4399.36 done (based on order #21237347)
+CQ	1	16:01:33.090	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+DG	0	16:01:37.807	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 220.59 ms, build 5830)
+FG	0	16:02:13.721	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 220.59 ms, build 5830)
+GG	0	16:02:27.036	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 0 orders, 285 symbols, 0 spreads
+EN	0	16:02:27.036	Network	'901018': trading has been disabled - investor mode
+MF	0	16:02:27.036	Network	'901018': balance management has been disabled - investor mode
+IN	0	16:02:27.154	Trades	'901018': deal #3327867 sell 0.01 XAUUSD at 4399.11 done (based on order #21237396)
+ON	0	16:02:28.123	Network	'901018': scanning network for access points
+MF	0	16:02:42.679	Network	'901018': scanning network finished
+NN	0	16:02:42.679	Network	'901018': auto connecting to a better access point with 62 % quality (previous: 59 %)
+OP	1	16:02:42.679	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+OE	0	16:02:44.015	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+IF	0	16:02:47.293	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 2 positions, 0 orders, 285 symbols, 0 spreads
+DH	0	16:02:47.293	Network	'901018': trading has been disabled - investor mode
+LE	0	16:02:47.293	Network	'901018': balance management has been disabled - investor mode
+GS	0	16:02:47.418	Trades	'901018': deal #3327880 buy 0.01 XAUUSD at 4399.89 done (based on order #21237409)
+QM	0	16:03:07.311	Trades	'901018': deal #3327885 buy 0.01 XAUUSD at 4399.34 done (based on order #21237414)
+OG	0	16:04:34.604	Trades	'901018': deal #3327905 sell 0.01 XAUUSD at 4396.99 done (based on order #21237420)
+HJ	0	16:10:38.165	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+MG	0	16:10:38.166	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 7 / 15 Gb memory, 724 / 931 Gb disk, admin, GMT+5
+RI	0	16:10:38.166	Terminal	D:\MT5ObserverTerminal
+MS	3	16:10:38.166	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+HL	0	16:10:40.398	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+EO	0	16:10:40.940	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 2 positions, 58 orders, 285 symbols, 0 spreads
+MQ	0	16:10:40.940	Network	'901018': trading has been disabled - investor mode
+QL	0	16:10:40.940	Network	'901018': balance management has been disabled - investor mode
+HF	2	16:10:41.132	Objects	loading of 61968 objects took 1843 ms, reduce the number of objects please
+GJ	1	16:30:31.784	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+MR	0	16:30:33.753	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+MP	0	16:30:34.347	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 57 orders, 285 symbols, 0 spreads
+KS	0	16:30:34.347	Network	'901018': trading has been disabled - investor mode
+KJ	0	16:30:34.347	Network	'901018': balance management has been disabled - investor mode
+MF	0	16:33:11.418	Trades	'901018': deal #3328170 buy 0.01 XAUUSD at 4401.49 done (based on order #21237423)
+QM	1	16:35:47.739	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+QR	0	16:35:48.985	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+QQ	0	16:35:49.454	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 4 positions, 56 orders, 285 symbols, 0 spreads
+MS	0	16:35:49.454	Network	'901018': trading has been disabled - investor mode
+MJ	0	16:35:49.454	Network	'901018': balance management has been disabled - investor mode
+CF	0	16:39:16.135	Trades	'901018': deal #3328228 buy 0.01 XAUUSD at 4402.98 done (based on order #21237427)
+HO	0	16:44:16.278	Trades	'901018': deal #3328284 sell 0.01 XAUUSD at 4400.27 done (based on order #21237903)
+MS	0	16:45:27.463	Trades	'901018': deal #3328297 buy 0.01 XAUUSD at 4400.02 done (based on order #21237913)
+RM	0	16:56:15.838	Trades	'901018': deal #3328435 buy 0.01 XAUUSD at 4404.38 done (based on order #21237431)
+PP	0	16:57:23.976	Trades	'901018': deal #3328459 sell 0.01 XAUUSD at 4403.05 done (based on order #21238081)
+HE	0	17:10:12.819	Trades	'901018': deal #3328552 sell 0.01 XAUUSD at 4401.89 done (based on order #21238180)
+KD	0	17:15:05.440	Trades	'901018': deal #3328597 buy 0.01 XAUUSD at 4400.04 done (based on order #21238226)
+DI	0	17:31:42.359	Trades	'901018': deal #3328774 sell 0.01 XAUUSD at 4394.07 done (based on order #21237428)
+FN	0	17:38:04.965	Trades	'901018': deal #3328906 sell 0.01 XAUUSD at 4392.54 done (based on order #21237432)
+PS	0	17:40:46.449	Trades	'901018': deal #3329008 buy 0.01 XAUUSD at 4393.45 done (based on order #21238665)
+IM	0	17:41:12.096	Trades	'901018': deal #3329020 buy 0.01 XAUUSD at 4394.79 done (based on order #21238675)
+MG	0	17:50:34.199	Trades	'901018': deal #3329160 sell 0.01 XAUUSD at 4396.91 done (based on order #21238809)
+QE	0	17:50:54.480	Trades	'901018': deal #3329177 sell 0.01 XAUUSD at 4395.59 done (based on order #21238795)
+PD	0	17:55:14.986	Trades	'901018': deal #3329255 buy 0.01 XAUUSD at 4393.75 done (based on order #21238926)
+FI	0	17:56:27.122	Trades	'901018': deal #3329293 sell 0.01 XAUUSD at 4390.84 done (based on order #21237437)
+EN	0	17:56:47.294	Trades	'901018': deal #3329466 sell 0.01 XAUUSD at 4385.76 done (based on order #21237440)
+DS	0	17:57:07.196	Trades	'901018': deal #3329498 buy 0.01 XAUUSD at 4384.15 done (based on order #21239202)
+IR	0	17:57:27.320	Trades	'901018': deal #3329536 sell 0.01 XAUUSD at 4386.70 done (based on order #21237442)
+MG	0	17:58:03.191	Trades	'901018': deal #3329548 sell 0.01 XAUUSD at 4388.07 done (based on order #21237444)
+IE	0	17:58:27.408	Trades	'901018': deal #3329565 sell 0.01 XAUUSD at 4389.45 done (based on order #21237447)
+MK	0	17:58:30.111	Trades	'901018': deal #3329579 sell 0.01 XAUUSD at 4388.08 done (based on order #21237449)
+GI	0	17:58:50.472	Trades	'901018': deal #3329587 sell 0.06 XAUUSD at 4388.38 done (based on order #21237451)
+QQ	0	17:59:13.691	Trades	'901018': deal #3329594 buy 0.01 XAUUSD at 4388.38 done (based on order #21239286)
+FS	0	17:59:36.006	Trades	'901018': deal #3329606 buy 0.01 XAUUSD at 4386.25 done (based on order #21239299)
+LM	0	17:59:47.373	Trades	'901018': deal #3329614 buy 0.01 XAUUSD at 4386.93 done (based on order #21239308)
+HG	0	18:01:14.823	Trades	'901018': deal #3329664 sell 0.01 XAUUSD at 4385.23 done (based on order #21239325)
+CJ	0	18:03:58.123	Trades	'901018': deal #3329718 buy 0.06 XAUUSD at 4388.08 done (based on order #21239430)
+FD	0	18:06:34.762	Trades	'901018': deal #3329780 buy 0.01 XAUUSD at 4385.83 done (based on order #21239497)
+FG	0	18:08:06.742	Trades	'901018': deal #3329843 buy 0.01 XAUUSD at 4384.10 done (based on order #21239561)
+QQ	0	18:08:26.864	Trades	'901018': deal #3329849 buy 0.01 XAUUSD at 4383.98 done (based on order #21239562)
+QL	0	18:08:47.097	Trades	'901018': deal #3329852 sell 0.06 XAUUSD at 4382.33 done (based on order #21239441)
+HS	1	18:09:06.699	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+ND	0	18:09:08.819	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+IG	0	18:09:11.623	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 7 positions, 46 orders, 285 symbols, 0 spreads
+KI	0	18:09:11.623	Network	'901018': trading has been disabled - investor mode
+CD	0	18:09:11.623	Network	'901018': balance management has been disabled - investor mode
+MS	0	18:10:13.905	Trades	'901018': deal #3329904 sell 0.06 XAUUSD at 4380.81 done (based on order #21237453)
+DN	0	18:10:34.181	Trades	'901018': deal #3329908 buy 0.01 XAUUSD at 4382.75 done (based on order #21239624)
+GH	0	18:10:54.017	Trades	'901018': deal #3329914 buy 0.01 XAUUSD at 4382.75 done (based on order #21239633)
+DD	0	18:12:18.744	Trades	'901018': deal #3329955 sell 0.06 XAUUSD at 4379.34 done (based on order #21237456)
+RE	0	18:12:38.930	Trades	'901018': deal #3329971 buy 0.01 XAUUSD at 4381.56 done (based on order #21239691)
+EG	0	18:15:06.184	Trades	'901018': deal #3330006 buy 0.06 XAUUSD at 4378.52 done (based on order #21239729)
+EM	0	18:15:26.414	Trades	'901018': deal #3330018 sell 0.01 XAUUSD at 4378.48 done (based on order #21239740)
+QS	0	18:15:46.272	Trades	'901018': deal #3330021 sell 0.06 XAUUSD at 4377.82 done (based on order #21237458)
+ON	0	18:16:06.380	Trades	'901018': deal #3330032 buy 0.06 XAUUSD at 4377.94 done (based on order #21239755)
+OI	0	18:16:26.321	Trades	'901018': deal #3330036 buy 0.06 XAUUSD at 4378.34 done (based on order #21239760)
+MD	0	18:16:46.557	Trades	'901018': deal #3330044 sell 0.01 XAUUSD at 4378.16 done (based on order #21239767)
+RJ	0	18:17:06.483	Trades	'901018': deal #3330049 sell 0.01 XAUUSD at 4378.64 done (based on order #21239772)
+RP	0	18:17:26.734	Trades	'901018': deal #3330052 buy 0.06 XAUUSD at 4378.75 done (based on order #21239776)
+PR	0	18:18:27.874	Trades	'901018': deal #3330090 buy 0.01 XAUUSD at 4380.73 done (based on order #21239780)
+IS	0	18:19:51.166	Trades	'901018': deal #3330106 sell 0.01 XAUUSD at 4377.74 done (based on order #21239782)
+GO	0	18:21:07.686	Trades	'901018': deal #3330138 buy 0.01 XAUUSD at 4382.20 done (based on order #21239783)
+OI	0	18:22:45.581	Trades	'901018': deal #3330168 buy 0.01 XAUUSD at 4383.64 done (based on order #21239788)
+FK	0	18:23:07.526	Trades	'901018': deal #3330186 buy 0.01 XAUUSD at 4385.11 done (based on order #21239792)
+CK	1	18:23:51.191	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+EL	0	18:23:52.952	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+CO	0	18:23:53.582	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 5 positions, 55 orders, 285 symbols, 0 spreads
+QQ	0	18:23:53.582	Network	'901018': trading has been disabled - investor mode
+IL	0	18:23:53.582	Network	'901018': balance management has been disabled - investor mode
+LD	0	18:28:19.854	Trades	'901018': deal #3330274 buy 0.01 XAUUSD at 4386.61 done (based on order #21239796)
+OI	0	18:29:00.273	Trades	'901018': deal #3330275 sell 0.01 XAUUSD at 4384.80 done (based on order #21240078)
+DP	0	18:30:54.518	Trades	'901018': deal #3330328 buy 0.01 XAUUSD at 4388.24 done (based on order #21239800)
+EL	0	18:31:25.047	Trades	'901018': deal #3330335 sell 0.01 XAUUSD at 4386.48 done (based on order #21240142)
+HR	0	18:31:48.729	Trades	'901018': deal #3330349 sell 0.01 XAUUSD at 4384.96 done (based on order #21240156)
+KO	0	18:32:25.808	Trades	'901018': deal #3330365 buy 0.01 XAUUSD at 4383.65 done (based on order #21240174)
+EJ	0	18:42:30.277	Trades	'901018': deal #3330559 buy 0.01 XAUUSD at 4389.47 done (based on order #21239802)
+HK	0	18:42:50.854	Trades	'901018': deal #3330570 sell 0.01 XAUUSD at 4387.70 done (based on order #21240386)
+DI	0	18:44:45.255	Trades	'901018': deal #3330611 sell 0.01 XAUUSD at 4386.26 done (based on order #21240435)
+OQ	0	18:46:11.295	Trades	'901018': deal #3330653 buy 0.01 XAUUSD at 4383.63 done (based on order #21240475)
+QS	0	18:46:31.436	Trades	'901018': deal #3330658 buy 0.01 XAUUSD at 4385.33 done (based on order #21240465)
+GR	0	18:51:34.645	Trades	'901018': deal #3330713 sell 0.01 XAUUSD at 4387.34 done (based on order #21240551)
+GG	0	18:53:14.676	Trades	'901018': deal #3330724 sell 0.01 XAUUSD at 4385.81 done (based on order #21240566)
+PG	1	18:54:27.773	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+MH	0	18:54:30.154	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+PK	0	18:54:32.616	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 4 positions, 52 orders, 285 symbols, 0 spreads
+LE	0	18:54:32.616	Network	'901018': trading has been disabled - investor mode
+PP	0	18:54:32.616	Network	'901018': balance management has been disabled - investor mode
+HG	0	19:05:47.637	Trades	'901018': deal #3330915 sell 0.01 XAUUSD at 4387.36 done (based on order #21240771)
+GG	1	19:06:53.098	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+GO	0	19:06:55.177	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+QK	0	19:06:56.391	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 52 orders, 285 symbols, 0 spreads
+DE	0	19:06:56.391	Network	'901018': trading has been disabled - investor mode
+LO	0	19:06:56.391	Network	'901018': balance management has been disabled - investor mode
+GH	2	19:07:08.004	MQL5.community	authorization failed
+HL	1	19:07:22.650	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+PP	0	19:07:26.696	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+FR	0	19:07:27.072	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 3 positions, 52 orders, 285 symbols, 0 spreads
+GM	0	19:07:27.072	Network	'901018': trading has been disabled - investor mode
+GH	0	19:07:27.072	Network	'901018': balance management has been disabled - investor mode
+RP	0	19:08:10.256	Trades	'901018': deal #3330996 buy 0.01 XAUUSD at 4391.13 done (based on order #21239804)
+JM	0	19:09:34.064	Trades	'901018': deal #3331048 sell 0.01 XAUUSD at 4388.97 done (based on order #21240906)
+RL	0	19:11:18.883	Trades	'901018': deal #3331096 buy 0.01 XAUUSD at 4388.05 done (based on order #21240926)
+EO	0	19:11:39.153	Trades	'901018': deal #3331109 buy 0.01 XAUUSD at 4385.97 done (based on order #21240963)
+MF	0	19:17:47.808	Trades	'901018': deal #3331278 sell 0.01 XAUUSD at 4386.66 done (based on order #21241139)
+CK	0	19:18:45.740	Trades	'901018': deal #3331329 buy 0.01 XAUUSD at 4392.39 done (based on order #21239806)
+LF	0	19:19:10.426	Trades	'901018': deal #3331366 buy 0.01 XAUUSD at 4393.99 done (based on order #21239816)
+KP	0	19:19:58.274	Trades	'901018': deal #3331419 buy 0.06 XAUUSD at 4395.47 done (based on order #21239822)
+OR	0	19:20:40.086	Trades	'901018': deal #3331455 buy 0.06 XAUUSD at 4396.84 done (based on order #21239824)
+CM	0	19:21:00.287	Trades	'901018': deal #3331490 buy 0.06 XAUUSD at 4397.20 done (based on order #21239826)
+FP	0	19:21:24.535	Trades	'901018': deal #3331537 sell 0.01 XAUUSD at 4398.41 done (based on order #21241393)
+FF	0	19:21:44.905	Trades	'901018': deal #3331567 sell 0.06 XAUUSD at 4399.35 done (based on order #21241422)
+QK	0	19:22:04.837	Trades	'901018': deal #3331613 sell 0.06 XAUUSD at 4403.52 done (based on order #21241465)
+NI	0	19:22:24.880	Trades	'901018': deal #3331665 sell 0.06 XAUUSD at 4403.47 done (based on order #21241580)
+OO	0	19:22:44.799	Trades	'901018': deal #3331697 sell 0.01 XAUUSD at 4403.28 done (based on order #21241613)
+LM	0	19:23:05.148	Trades	'901018': deal #3331705 sell 0.01 XAUUSD at 4403.58 done (based on order #21241622)
+LR	0	19:23:24.941	Trades	'901018': deal #3331747 sell 0.01 XAUUSD at 4406.27 done (based on order #21241663)
+CP	0	19:23:45.175	Trades	'901018': deal #3331769 sell 0.01 XAUUSD at 4407.36 done (based on order #21241685)
+II	0	19:24:05.216	Trades	'901018': deal #3331789 buy 0.01 XAUUSD at 4405.26 done (based on order #21241706)
+RD	0	19:24:37.889	Trades	'901018': deal #3331802 sell 0.01 XAUUSD at 4402.42 done (based on order #21241714)
+NF	0	19:25:33.703	Trades	'901018': deal #3331849 buy 0.01 XAUUSD at 4405.54 done (based on order #21241713)
+CP	0	19:25:53.870	Trades	'901018': deal #3331866 buy 0.01 XAUUSD at 4405.37 done (based on order #21241717)
+IR	0	19:26:58.130	Trades	'901018': deal #3331887 buy 0.01 XAUUSD at 4408.35 done (based on order #21241721)
+FM	0	19:27:18.297	Trades	'901018': deal #3331945 buy 0.01 XAUUSD at 4414.37 done (based on order #21241725)
+GP	0	19:27:38.121	Trades	'901018': deal #3331985 sell 0.01 XAUUSD at 4413.69 done (based on order #21241962)
+FI	0	19:27:58.250	Trades	'901018': deal #3332006 buy 0.01 XAUUSD at 4410.14 done (based on order #21241728)
+GD	0	19:28:18.064	Trades	'901018': deal #3332014 buy 0.01 XAUUSD at 4409.61 done (based on order #21241733)
+NF	0	19:28:38.201	Trades	'901018': deal #3332023 buy 0.01 XAUUSD at 4408.42 done (based on order #21241735)
+RQ	0	19:28:58.090	Trades	'901018': deal #3332038 buy 0.01 XAUUSD at 4408.84 done (based on order #21241737)
+CL	0	19:30:29.022	Trades	'901018': deal #3332082 sell 0.01 XAUUSD at 4405.63 done (based on order #21242057)
+MM	0	19:31:00.111	Trades	'901018': deal #3332104 buy 0.01 XAUUSD at 4406.91 done (based on order #21242071)
+LH	0	19:40:38.454	Trades	'901018': deal #3332237 buy 0.01 XAUUSD at 4405.39 done (based on order #21242206)
+PE	0	19:43:58.252	Trades	'901018': deal #3332336 sell 0.01 XAUUSD at 4409.69 done (based on order #21242323)
+PK	0	19:44:18.371	Trades	'901018': deal #3332339 sell 0.01 XAUUSD at 4409.91 done (based on order #21242324)
+II	0	19:45:22.360	Trades	'901018': deal #3332370 sell 0.01 XAUUSD at 4412.03 done (based on order #21242358)
+HN	0	19:46:19.270	Trades	'901018': deal #3332447 sell 0.01 XAUUSD at 4413.97 done (based on order #21242432)
+NL	0	19:46:39.406	Trades	'901018': deal #3332456 sell 0.01 XAUUSD at 4412.40 done (based on order #21242441)
+ER	0	19:46:59.224	Trades	'901018': deal #3332463 sell 0.01 XAUUSD at 4413.42 done (based on order #21242450)
+FP	0	19:47:19.344	Trades	'901018': deal #3332476 sell 0.01 XAUUSD at 4414.12 done (based on order #21242462)
+ME	0	19:47:39.156	Trades	'901018': deal #3332495 sell 0.01 XAUUSD at 4416.98 done (based on order #21242478)
+CD	0	19:47:59.503	Trades	'901018': deal #3332509 buy 0.01 XAUUSD at 4416.63 done (based on order #21242492)
+PI	0	19:48:33.878	Trades	'901018': deal #3332518 sell 0.01 XAUUSD at 4415.86 done (based on order #21242497)
+FQ	0	19:49:16.832	Trades	'901018': deal #3332558 buy 0.01 XAUUSD at 4419.17 done (based on order #21242495)
+RS	0	19:49:37.054	Trades	'901018': deal #3332596 buy 0.01 XAUUSD at 4420.13 done (based on order #21242498)
+FM	0	19:52:48.501	Trades	'901018': deal #3332664 buy 0.01 XAUUSD at 4421.96 done (based on order #21242503)
+FH	0	19:53:19.826	Trades	'901018': deal #3332686 buy 0.01 XAUUSD at 4423.42 done (based on order #21242507)
+JJ	0	19:53:40.003	Trades	'901018': deal #3332733 buy 0.01 XAUUSD at 4425.60 done (based on order #21242512)
+QD	0	19:53:59.923	Trades	'901018': deal #3332750 buy 0.01 XAUUSD at 4425.83 done (based on order #21242516)
+IH	0	19:54:25.030	Trades	'901018': deal #3332786 sell 0.01 XAUUSD at 4425.22 done (based on order #21242870)
+KQ	0	19:54:44.893	Trades	'901018': deal #3332792 buy 0.01 XAUUSD at 4427.80 done (based on order #21242518)
+CL	0	19:55:05.100	Trades	'901018': deal #3332812 sell 0.01 XAUUSD at 4423.88 done (based on order #21242897)
+OQ	0	19:55:24.899	Trades	'901018': deal #3332824 sell 0.01 XAUUSD at 4423.88 done (based on order #21242898)
+EG	0	19:55:45.053	Trades	'901018': deal #3332830 sell 0.01 XAUUSD at 4425.26 done (based on order #21242915)
+IJ	0	19:57:02.910	Trades	'901018': deal #3332870 buy 0.01 XAUUSD at 4421.95 done (based on order #21242956)
+QH	1	19:57:04.722	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+IM	0	19:57:07.413	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 224.12 ms, build 5830)
+HM	0	19:57:23.214	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 5 positions, 53 orders, 285 symbols, 0 spreads
+DP	0	19:57:23.214	Network	'901018': trading has been disabled - investor mode
+HM	0	19:57:23.214	Network	'901018': balance management has been disabled - investor mode
+GK	0	19:58:07.899	Trades	'901018': deal #3332904 buy 0.01 XAUUSD at 4419.09 done (based on order #21242987)
+DE	0	20:00:15.804	Trades	'901018': deal #3332968 buy 0.01 XAUUSD at 4420.60 done (based on order #21242969)
+PG	0	20:02:58.947	Trades	'901018': deal #3333021 buy 0.01 XAUUSD at 4423.85 done (based on order #21242927)
+PM	0	20:04:08.889	Trades	'901018': deal #3333055 sell 0.01 XAUUSD at 4423.04 done (based on order #21243151)
+DS	0	20:06:01.866	Trades	'901018': deal #3333094 sell 0.01 XAUUSD at 4421.50 done (based on order #21243188)
+DN	0	20:10:07.807	Trades	'901018': deal #3333221 buy 0.01 XAUUSD at 4419.04 done (based on order #21243269)
+DI	0	20:10:28.050	Trades	'901018': deal #3333239 buy 0.01 XAUUSD at 4419.48 done (based on order #21243252)
+FD	0	20:16:31.409	Trades	'901018': deal #3333339 sell 0.01 XAUUSD at 4414.60 done (based on order #21242501)
+FJ	0	20:48:04.431	Trades	'901018': deal #3333837 sell 0.01 XAUUSD at 4419.99 done (based on order #21243955)
+EO	0	20:48:25.448	Trades	'901018': deal #3333843 sell 0.01 XAUUSD at 4419.55 done (based on order #21243956)
+RR	0	20:48:45.308	Trades	'901018': deal #3333848 buy 0.01 XAUUSD at 4421.74 done (based on order #21243962)
+IO	3	20:57:47.409	MemoryException	6756864 bytes not available, 0 heapmin result
+HI	3	20:57:47.941	MemoryException	6756864 bytes not available, 0 heapmin result
+KS	3	20:57:47.942	MemoryException	4214784 bytes not available, 0 heapmin result
+EQ	0	21:01:00.890	Trades	'901018': deal #3334027 sell 0.01 XAUUSD at 4424.86 done (based on order #21244152)
+LG	0	21:01:22.934	Trades	'901018': deal #3334039 sell 0.01 XAUUSD at 4423.38 done (based on order #21244164)
+QJ	0	21:06:56.268	Trades	'901018': deal #3334139 buy 0.01 XAUUSD at 4422.04 done (based on order #21244256)
+ME	0	21:15:41.499	Trades	'901018': deal #3334279 buy 0.01 XAUUSD at 4419.09 done (based on order #21244401)
+KG	0	21:16:35.694	Trades	'901018': deal #3334287 buy 0.01 XAUUSD at 4420.59 done (based on order #21244378)
+LN	0	21:27:31.890	Trades	'901018': deal #3334499 sell 0.01 XAUUSD at 4426.22 done (based on order #21244628)
+OS	0	21:27:52.016	Trades	'901018': deal #3334503 sell 0.01 XAUUSD at 4427.08 done (based on order #21244629)
+IQ	0	21:28:11.804	Trades	'901018': deal #3334506 sell 0.01 XAUUSD at 4427.08 done (based on order #21244630)
+PG	0	21:32:20.671	Trades	'901018': deal #3334567 sell 0.01 XAUUSD at 4425.02 done (based on order #21244697)
+IE	0	21:44:58.488	Trades	'901018': deal #3334650 sell 0.01 XAUUSD at 4425.66 done (based on order #21244787)
+PE	0	21:59:57.063	Trades	'901018': deal #3334739 buy 0.01 XAUUSD at 4425.03 done (based on order #21244866)
+KE	0	22:02:29.129	Network	'901018': scanning network for access points
+PS	0	22:02:46.499	Network	'901018': scanning network finished
+GK	0	22:02:46.500	Network	'901018': auto connecting to a better access point with 61 % quality (previous: 24 %)
+MM	1	22:02:46.647	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+HS	0	22:02:49.378	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 242.13 ms, build 5830)
+MQ	0	22:02:52.787	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 5 positions, 51 orders, 285 symbols, 0 spreads
+OS	0	22:02:52.787	Network	'901018': trading has been disabled - investor mode
+KJ	0	22:02:52.787	Network	'901018': balance management has been disabled - investor mode
+OF	0	22:03:08.513	Trades	'901018': deal #3334748 buy 0.01 XAUUSD at 4423.43 done (based on order #21244904)
+FO	0	22:15:43.606	Trades	'901018': deal #3334825 sell 0.01 XAUUSD at 4423.94 done (based on order #21245033)
+LS	0	22:19:41.054	Trades	'901018': deal #3334858 buy 0.01 XAUUSD at 4423.89 done (based on order #21245061)
+DN	3	22:21:29.296	MemoryException	6756864 bytes not available, 0 heapmin result
+GH	3	22:21:29.309	MemoryException	4214784 bytes not available, 0 heapmin result
+IL	1	22:21:57.471	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+IP	0	22:21:59.823	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 242.13 ms, build 5830)
+KQ	0	22:22:03.054	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 6 positions, 51 orders, 285 symbols, 0 spreads
+LL	0	22:22:03.054	Network	'901018': trading has been disabled - investor mode
+LI	0	22:22:03.054	Network	'901018': balance management has been disabled - investor mode
+HD	3	22:22:21.756	MemoryException	6756864 bytes not available, 0 heapmin result
+MO	3	22:22:21.757	MemoryException	4214784 bytes not available, 0 heapmin result
+PI	3	22:23:35.499	MemoryException	6756864 bytes not available, 0 heapmin result
+DM	1	22:25:35.841	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+LP	0	22:26:10.589	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 242.13 ms, build 5830)
+FR	0	22:28:37.525	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server (ping: 453.14 ms, build 5830)
+FP	0	22:28:42.467	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 6 positions, 51 orders, 285 symbols, 0 spreads
+ES	0	22:28:42.467	Network	'901018': trading has been disabled - investor mode
+EJ	0	22:28:42.467	Network	'901018': balance management has been disabled - investor mode
+OD	0	22:28:42.939	Network	'901018': scanning network for access points
+EM	2	22:28:56.374	MQL5.community	authorization failed
+LK	0	22:29:17.777	Network	'901018': scanning network finished
+ON	0	22:38:54.515	Trades	'901018': deal #3334986 buy 0.01 XAUUSD at 4422.02 done (based on order #21245199)
+QH	0	22:51:28.111	Trades	'901018': deal #3335118 buy 0.01 XAUUSD at 4420.48 done (based on order #21245290)
+ND	0	23:09:22.882	Trades	'901018': deal #3335318 sell 0.01 XAUUSD at 4413.11 done (based on order #21242505)
+EJ	0	23:10:30.767	Trades	'901018': deal #3335347 sell 0.01 XAUUSD at 4411.53 done (based on order #21242509)
+IG	0	23:12:49.801	Trades	'901018': deal #3335361 buy 0.01 XAUUSD at 4415.04 done (based on order #21245578)
+JQ	0	23:15:35.461	Trades	'901018': deal #3335378 buy 0.01 XAUUSD at 4419.08 done (based on order #21245355)
+FS	0	23:26:38.860	Trades	'901018': deal #3335433 sell 0.01 XAUUSD at 4416.06 done (based on order #21245590)
+QN	0	23:36:02.054	Trades	'901018': deal #3335520 buy 0.01 XAUUSD at 4412.09 done (based on order #21245758)
+JG	0	23:40:30.485	Trades	'901018': deal #3335547 sell 0.01 XAUUSD at 4410.19 done (based on order #21242514)
+OK	0	23:44:28.467	Trades	'901018': deal #3335565 buy 0.01 XAUUSD at 4413.49 done (based on order #21245807)
+HJ	0	23:45:20.295	Trades	'901018': deal #3335580 sell 0.01 XAUUSD at 4414.59 done (based on order #21245821)
+EH	0	23:55:04.516	Trades	'901018': deal #3335649 sell 0.01 XAUUSD at 4408.55 done (based on order #21242517)
+JM	0	23:55:24.652	Trades	'901018': deal #3335668 sell 0.01 XAUUSD at 4408.14 done (based on order #21242519)
+RL	0	23:56:17.029	Trades	'901018': deal #3335683 buy 0.01 XAUUSD at 4409.28 done (based on order #21245950)
+QN	0	23:56:37.128	Trades	'901018': deal #3335687 buy 0.01 XAUUSD at 4409.64 done (based on order #21245951)
+IF	0	23:58:20.940	Trades	'901018': deal #3335708 sell 0.01 XAUUSD at 4405.55 done (based on order #21242521)
+FK	0	23:59:53.447	Trades	'901018': deal #3335728 buy 0.01 XAUUSD at 4406.51 done (based on order #21245992)

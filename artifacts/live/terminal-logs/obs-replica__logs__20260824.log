@@ -1,0 +1,16 @@
+CO	0	08:36:37.991	Terminal	MetaTrader 5 x64 build 6120 started for MetaQuotes Ltd.
+EE	0	08:36:37.998	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 877 / 931 Gb disk, admin, GMT+5
+MK	0	08:36:37.998	Terminal	D:\MT5ReplicaObserverTerminal
+CP	3	08:36:37.999	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+NP	0	08:38:41.256	Terminal	MetaTrader 5 x64 build 6120 started for MetaQuotes Ltd.
+IN	0	08:38:41.256	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 877 / 931 Gb disk, admin, GMT+5
+KL	0	08:38:41.256	Terminal	D:\MT5ReplicaObserverTerminal
+MH	3	08:38:41.257	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+OI	0	08:39:13.059	Terminal	MetaTrader 5 x64 build 6120 started for MetaQuotes Ltd.
+CF	0	08:39:13.059	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 877 / 931 Gb disk, admin, GMT+5
+RD	0	08:39:13.059	Terminal	D:\MT5ReplicaObserverTerminal
+QQ	3	08:39:13.060	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+GR	0	08:39:47.753	Terminal	MetaTrader 5 x64 build 6120 started for MetaQuotes Ltd.
+KO	0	08:39:47.754	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 877 / 931 Gb disk, admin, GMT+5
+CM	0	08:39:47.754	Terminal	D:\MT5ReplicaObserverTerminal
+FJ	3	08:39:47.754	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]

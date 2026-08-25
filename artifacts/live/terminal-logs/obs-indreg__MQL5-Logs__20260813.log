@@ -1,0 +1,52 @@
+IO	0	20:15:27.148	StraddleReplica (XAUUSD,M1)	[STR] Initialized profile=LATEST_30 symbol=XAUUSD levels=30 replica=true mode=STR_RUNTIME_NORMAL
+MR	0	20:35:37.669	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283221.
+JF	0	20:35:40.956	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283254.
+LK	0	20:39:30.277	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283390.
+LH	0	20:39:30.277	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283402.
+JM	0	20:47:54.958	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283661.
+DQ	0	20:48:42.678	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283718.
+KF	0	20:48:42.678	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3283737.
+CE	0	20:50:11.676	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10015 comment=Invalid price
+JD	0	20:52:38.348	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10015 comment=Invalid price
+LF	0	20:57:10.271	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10015 comment=Invalid price
+EQ	0	20:57:14.401	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10015 comment=Invalid price
+GM	0	21:00:32.117	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284181.
+KR	0	21:00:43.414	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284198.
+JG	0	21:02:31.972	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284283.
+RD	0	21:02:52.906	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284300.
+HH	0	21:03:32.380	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284336.
+QM	0	21:03:54.326	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284353.
+OR	0	21:04:14.177	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284358.
+CG	0	21:09:15.145	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284568.
+LK	0	21:40:02.322	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285531.
+OF	0	21:40:33.174	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10016 comment=Invalid stops
+FQ	0	21:55:21.634	StraddleReplica (XAUUSD,M1)	[STR] OrderSend failed error=4756 retcode=10015 comment=Invalid price
+JR	0	22:14:13.664	StraddleReplica (XAUUSD,M1)	[STR] Initialized profile=LATEST_30 symbol=XAUUSD levels=30 replica=true mode=STR_RUNTIME_NORMAL
+QO	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284448.
+IL	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284455.
+PQ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284517.
+RF	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284522.
+PJ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284568.
+CO	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284637.
+FL	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284638.
+OQ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284666.
+EE	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3284703.
+KJ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285029.
+QO	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285212.
+HL	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285248.
+EP	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285371.
+DE	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285471.
+EJ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285490.
+OO	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285531.
+FS	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285613.
+DP	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285637.
+NE	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285721.
+HJ	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285806.
+ON	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285821.
+NS	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285899.
+FP	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285905.
+GE	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3285917.
+GI	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3286033.
+EN	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3286112.
+OS	0	22:14:13.769	StraddleReplica (XAUUSD,M1)	[STR] Deferred deal-history processing ticket=3286213.
+PO	0	22:17:48.348	StraddleReplica (XAUUSD,M1)	[STR] Initialized profile=LATEST_30 symbol=XAUUSD levels=30 replica=true mode=STR_RUNTIME_NORMAL

@@ -1,0 +1,174 @@
+CO	0	13:31:51.521	Terminal	MetaTrader 5 x64 build 5813 started for MetaQuotes Ltd.
+GF	0	13:31:51.522	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 30 / 237 Gb disk, admin, GMT+5
+QK	0	13:31:51.522	Terminal	C:\Program Files\MetaTrader 5
+NO	0	13:31:52.705	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+PD	2	13:31:53.582	Network	'5049582774': authorization on MetaQuotes-Demo failed (Invalid account)
+JD	0	13:32:53.727	LiveUpdate	new version build 5833 (IDE: 5833, Tester: 5833) is available
+PR	0	13:33:14.627	LiveUpdate	'mt5clw64' downloaded (54247 kb)
+JE	0	13:33:34.883	LiveUpdate	'mt5clwide64' downloaded and updated (43748 kb)
+NM	0	13:33:37.941	LiveUpdate	'mt5clwtst64' downloaded and updated (10659 kb)
+MR	0	13:33:43.196	LiveUpdate	'mt5onnx64' downloaded and updated (14688 kb)
+RK	0	13:34:00.129	Experts	automated trading is enabled
+CM	0	13:34:00.473	Experts	automated trading is disabled
+HI	0	13:34:04.107	Experts	automated trading is enabled
+LQ	0	13:34:33.629	LiveUpdate	'mt5onnxcuda64' downloaded and updated (172178 kb)
+CH	0	13:34:33.638	LiveUpdate	downloaded successfully
+DN	0	13:46:01.104	Experts	automated trading is disabled
+EH	0	13:47:32.806	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+HS	0	13:47:32.920	Terminal	exit with code 0
+PP	0	13:47:32.999	Terminal	stopped with 0
+KD	0	13:47:33.002	Terminal	shutdown with 0
+MN	0	13:47:35.703	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\terminal64.exe" /update /path:"C:\Program Files\MetaTrader 5" /portable
+II	0	13:47:35.911	Terminal	exit with code 0
+MN	0	13:47:35.913	Terminal	stopped with 0
+NN	0	13:47:36.020	Terminal	shutdown with 0
+DD	0	13:47:39.675	Terminal	MetaTrader 5 x64 build 5833 started for MetaQuotes Ltd.
+CR	0	13:47:39.676	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 30 / 237 Gb disk, admin, GMT+5
+LG	0	13:47:39.676	Terminal	C:\Program Files\MetaTrader 5
+PK	0	13:47:40.815	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+RK	2	13:47:41.577	Network	'5049582774': authorization on MetaQuotes-Demo failed (Invalid account)
+FN	0	14:10:23.509	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+QE	0	14:10:23.627	Terminal	exit with code 0
+GR	0	14:10:23.700	Terminal	stopped with 0
+OJ	0	14:10:23.703	Terminal	shutdown with 0
+NH	0	14:10:24.513	Terminal	MetaTrader 5 x64 build 5833 started for MetaQuotes Ltd.
+OF	0	14:10:24.514	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 6 / 15 Gb memory, 30 / 237 Gb disk, admin, GMT+5
+JK	0	14:10:24.514	Terminal	C:\Program Files\MetaTrader 5
+PO	0	14:10:25.479	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+LG	2	14:10:26.106	Network	'5049582774': authorization on MetaQuotes-Demo failed (Invalid account)
+DJ	0	15:37:47.998	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+HQ	0	15:37:48.100	Terminal	exit with code 0
+NF	0	15:37:48.177	Terminal	stopped with 0
+KF	0	15:37:48.180	Terminal	shutdown with 0
+GL	0	15:39:54.050	Terminal	MetaTrader 5 x64 build 5833 started for MetaQuotes Ltd.
+HJ	0	15:39:54.051	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 6 / 15 Gb memory, 30 / 237 Gb disk, admin, GMT+5
+QO	0	15:39:54.051	Terminal	C:\Program Files\MetaTrader 5
+QM	2	15:39:55.475	Network	'5049582774': authorization on MetaQuotes-Demo failed (Invalid account)
+IN	0	15:45:31.604	Network	new demo account '5053116560' opened on MetaQuotes-Demo
+KH	0	15:45:34.381	LiveUpdate	new version build 6012 (IDE: 6012, Tester: 6012) is available
+EE	0	15:45:34.798	Network	'5053116560': authorized on MetaQuotes-Demo through Access Point IN 1
+FP	0	15:45:34.798	Network	'5053116560': previous successful authorization performed from 223.188.6.31 on 2026.07.16 13:15:34
+LQ	0	15:45:37.169	Network	'5053116560': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12671 symbols, 0 spreads
+KP	0	15:45:37.169	Network	'5053116560': trading has been enabled - hedging mode
+QM	0	15:45:37.670	Network	'5053116560': scanning network for access points
+HE	0	15:46:30.933	LiveUpdate	'mt5clw64' downloaded (58407 kb)
+GS	0	15:46:42.372	Network	'5053116560': scanning network finished
+KH	0	15:47:08.474	LiveUpdate	'mt5clwide64' downloaded (46045 kb)
+QQ	0	15:47:15.963	LiveUpdate	'mt5clwtst64' downloaded (10815 kb)
+LH	0	15:48:17.523	LiveUpdate	'mt5onnx64' downloaded (68441 kb)
+DR	0	15:51:47.554	LiveUpdate	'mt5onnxcuda64' downloaded (184307 kb)
+II	0	15:51:48.015	LiveUpdate	downloaded successfully
+RO	1	15:53:05.441	Network	'5053116560': connection to MetaQuotes-Demo lost
+EJ	0	15:53:06.058	Network	'5053116560': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 229.95 ms, build 6012)
+HF	0	15:53:06.058	Network	'5053116560': previous successful authorization performed from 223.188.6.31 on 2026.07.16 13:15:37
+KG	0	15:53:06.453	Network	'5053116560': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12671 symbols, 0 spreads
+LE	0	15:53:06.453	Network	'5053116560': trading has been enabled - hedging mode
+IS	1	16:12:43.835	Network	'5053116560': connection to MetaQuotes-Demo lost
+RF	0	16:12:44.389	Network	'5053116560': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 229.95 ms, build 6012)
+HJ	0	16:12:44.389	Network	'5053116560': previous successful authorization performed from 223.188.6.31 on 2026.07.16 13:23:08
+FJ	0	16:12:44.887	Network	'5053116560': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12671 symbols, 0 spreads
+QI	0	16:12:44.887	Network	'5053116560': trading has been enabled - hedging mode
+JE	0	16:32:47.857	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+EL	0	16:40:42.544	Experts	automated trading is enabled
+EJ	0	16:40:42.954	Trades	'5053116560': market sell 0.01 XAUUSD
+RP	0	16:40:43.225	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+LG	0	16:40:43.226	Trades	'5053116560': deal #57209546087 sell 0.01 XAUUSD at 4028.07 done (based on order #57559337082)
+GD	0	16:40:43.226	Trades	'5053116560': order #57559337082 sell 0.01 / 0.01 XAUUSD at 4028.07 done in 273.155 ms
+CF	0	16:40:43.579	Trades	use MetaTrader VPS Hosting Service to speed up the execution: 0.41 ms via 'VPS Amsterdam 09' instead of 229.95 ms
+EJ	0	16:41:55.790	Trades	'5053116560': market sell 0.02 XAUUSD
+MP	0	16:41:57.140	Trades	'5053116560': accepted market sell 0.02 XAUUSD
+FG	0	16:41:57.143	Trades	'5053116560': deal #57209563672 sell 0.02 XAUUSD at 4029.02 done (based on order #57559354803)
+CG	0	16:41:57.143	Trades	'5053116560': order #57559354803 sell 0.02 / 0.02 XAUUSD at 4029.02 done in 1353.724 ms
+EI	0	16:43:16.272	Trades	'5053116560': market buy 0.02 XAUUSD, close #57559354803 sell 0.02 XAUUSD 4029.02
+KS	0	16:43:16.543	Trades	'5053116560': deal #57209579560 buy 0.02 XAUUSD at 4028.59 done (based on order #57559371039)
+HR	0	16:43:16.544	Trades	'5053116560': accepted market buy 0.02 XAUUSD
+RG	0	16:43:16.544	Trades	'5053116560': order #57559371039 buy 0.02 / 0.02 XAUUSD at 4028.59 done in 271.791 ms
+KE	0	16:43:16.544	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559337082 sell 0.01 XAUUSD 4028.07
+OH	0	16:43:16.811	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559337082 sell 0.01 XAUUSD 4028.07
+HE	0	16:43:16.815	Trades	'5053116560': deal #57209579612 buy 0.01 XAUUSD at 4028.59 done (based on order #57559371097)
+HH	0	16:43:16.815	Trades	'5053116560': order #57559371097 buy 0.01 / 0.01 XAUUSD at 4028.59 done in 270.391 ms
+PO	0	16:43:17.073	Trades	'5053116560': market sell 0.01 XAUUSD
+DE	0	16:43:17.339	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+LL	0	16:43:17.339	Trades	'5053116560': deal #57209579693 sell 0.01 XAUUSD at 4028.37 done (based on order #57559371180)
+PQ	0	16:43:17.339	Trades	'5053116560': order #57559371180 sell 0.01 / 0.01 XAUUSD at 4028.37 done in 266.065 ms
+KL	0	16:43:43.971	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559371180 sell 0.01 XAUUSD 4028.37
+EP	0	16:43:44.281	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559371180 sell 0.01 XAUUSD 4028.37
+FL	0	16:43:44.282	Trades	'5053116560': deal #57209586415 buy 0.01 XAUUSD at 4028.29 done (based on order #57559378019)
+MG	0	16:43:44.282	Trades	'5053116560': order #57559378019 buy 0.01 / 0.01 XAUUSD at 4028.29 done in 311.067 ms
+LD	0	16:43:44.428	Trades	'5053116560': market sell 0.01 XAUUSD
+PN	0	16:43:44.707	Trades	'5053116560': deal #57209586520 sell 0.01 XAUUSD at 4027.97 done (based on order #57559378128)
+CO	0	16:43:44.707	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+FJ	0	16:43:44.707	Trades	'5053116560': order #57559378128 sell 0.01 / 0.01 XAUUSD at 4027.97 done in 279.129 ms
+PD	0	16:43:47.679	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559378128 sell 0.01 XAUUSD 4027.97
+FK	0	16:43:47.953	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559378128 sell 0.01 XAUUSD 4027.97
+LD	0	16:43:47.956	Trades	'5053116560': deal #57209587903 buy 0.01 XAUUSD at 4027.56 done (based on order #57559379464)
+MO	0	16:43:47.956	Trades	'5053116560': order #57559379464 buy 0.01 / 0.01 XAUUSD at 4027.56 done in 277.375 ms
+GL	0	16:43:47.976	Trades	'5053116560': market sell 0.01 XAUUSD
+PF	0	16:43:48.252	Trades	'5053116560': deal #57209588512 sell 0.01 XAUUSD at 4027.12 done (based on order #57559379911)
+DG	0	16:43:48.252	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+IR	0	16:43:48.252	Trades	'5053116560': order #57559379911 sell 0.01 / 0.01 XAUUSD at 4027.12 done in 276.953 ms
+MS	0	16:43:54.083	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559379911 sell 0.01 XAUUSD 4027.12
+KS	0	16:43:54.356	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559379911 sell 0.01 XAUUSD 4027.12
+IK	0	16:43:54.357	Trades	'5053116560': deal #57209591957 buy 0.01 XAUUSD at 4026.79 done (based on order #57559383171)
+EF	0	16:43:54.357	Trades	'5053116560': order #57559383171 buy 0.01 / 0.01 XAUUSD at 4026.79 done in 274.003 ms
+OE	0	16:43:54.381	Trades	'5053116560': market sell 0.01 XAUUSD
+IO	0	16:43:54.668	Trades	'5053116560': deal #57209592352 sell 0.01 XAUUSD at 4026.55 done (based on order #57559383545)
+LP	0	16:43:54.668	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+LK	0	16:43:54.668	Trades	'5053116560': order #57559383545 sell 0.01 / 0.01 XAUUSD at 4026.55 done in 286.951 ms
+LJ	0	16:44:16.373	Trades	'5053116560': market sell 0.02 XAUUSD
+LP	0	16:44:16.658	Trades	'5053116560': deal #57209600518 sell 0.02 XAUUSD at 4027.59 done (based on order #57559391907)
+JQ	0	16:44:16.659	Trades	'5053116560': accepted market sell 0.02 XAUUSD
+MD	0	16:44:16.659	Trades	'5053116560': order #57559391907 sell 0.02 / 0.02 XAUUSD at 4027.59 done in 286.175 ms
+QI	0	16:45:38.542	Trades	'5053116560': market buy 0.02 XAUUSD, close #57559391907 sell 0.02 XAUUSD 4027.59
+ML	0	16:45:38.943	Trades	'5053116560': accepted market buy 0.02 XAUUSD, close #57559391907 sell 0.02 XAUUSD 4027.59
+KQ	0	16:45:38.943	Trades	'5053116560': deal #57209617371 buy 0.02 XAUUSD at 4027.19 done (based on order #57559409039)
+GL	0	16:45:38.944	Trades	'5053116560': order #57559409039 buy 0.02 / 0.02 XAUUSD at 4027.19 done in 402.579 ms
+QR	0	16:45:38.944	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559383545 sell 0.01 XAUUSD 4026.55
+KL	0	16:45:39.224	Trades	'5053116560': deal #57209617427 buy 0.01 XAUUSD at 4027.17 done (based on order #57559409099)
+PK	0	16:45:39.225	Trades	'5053116560': accepted market buy 0.01 XAUUSD
+GH	0	16:45:39.225	Trades	'5053116560': order #57559409099 buy 0.01 / 0.01 XAUUSD at 4027.17 done in 281.241 ms
+JO	0	16:45:39.237	Trades	'5053116560': market sell 0.01 XAUUSD
+IE	0	16:45:39.512	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+RL	0	16:45:39.513	Trades	'5053116560': deal #57209617521 sell 0.01 XAUUSD at 4026.88 done (based on order #57559409196)
+OQ	0	16:45:39.513	Trades	'5053116560': order #57559409196 sell 0.01 / 0.01 XAUUSD at 4026.88 done in 276.752 ms
+IL	0	16:45:47.796	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559409196 sell 0.01 XAUUSD 4026.88
+NS	0	16:45:48.065	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559409196 sell 0.01 XAUUSD 4026.88
+GL	0	16:45:48.066	Trades	'5053116560': deal #57209620817 buy 0.01 XAUUSD at 4026.62 done (based on order #57559412499)
+JG	0	16:45:48.066	Trades	'5053116560': order #57559412499 buy 0.01 / 0.01 XAUUSD at 4026.62 done in 270.480 ms
+ED	0	16:45:48.094	Trades	'5053116560': market sell 0.01 XAUUSD
+JN	0	16:45:48.370	Trades	'5053116560': deal #57209621002 sell 0.01 XAUUSD at 4026.27 done (based on order #57559412689)
+LO	0	16:45:48.371	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+JJ	0	16:45:48.372	Trades	'5053116560': order #57559412689 sell 0.01 / 0.01 XAUUSD at 4026.27 done in 278.408 ms
+GK	0	16:46:01.467	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559412689 sell 0.01 XAUUSD 4026.27
+JK	0	16:46:01.719	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559412689 sell 0.01 XAUUSD 4026.27
+CD	0	16:46:01.719	Trades	'5053116560': deal #57209626598 buy 0.01 XAUUSD at 4026.11 done (based on order #57559418308)
+HO	0	16:46:01.722	Trades	'5053116560': order #57559418308 buy 0.01 / 0.01 XAUUSD at 4026.11 done in 255.283 ms
+RL	0	16:46:02.216	Trades	'5053116560': market sell 0.01 XAUUSD
+EF	0	16:46:02.488	Trades	'5053116560': deal #57209626807 sell 0.01 XAUUSD at 4025.97 done (based on order #57559418528)
+OG	0	16:46:02.489	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+LR	0	16:46:02.489	Trades	'5053116560': order #57559418528 sell 0.01 / 0.01 XAUUSD at 4025.97 done in 273.588 ms
+IS	0	16:46:11.545	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559418528 sell 0.01 XAUUSD 4025.97
+GR	0	16:46:12.059	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559418528 sell 0.01 XAUUSD 4025.97
+HK	0	16:46:12.060	Trades	'5053116560': deal #57209631012 buy 0.01 XAUUSD at 4025.83 done (based on order #57559422692)
+DF	0	16:46:12.060	Trades	'5053116560': order #57559422692 buy 0.01 / 0.01 XAUUSD at 4025.83 done in 515.376 ms
+CE	0	16:46:12.074	Trades	'5053116560': market sell 0.01 XAUUSD
+DO	0	16:46:12.472	Trades	'5053116560': deal #57209631223 sell 0.01 XAUUSD at 4025.61 done (based on order #57559422912)
+CP	0	16:46:12.473	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+DK	0	16:46:12.474	Trades	'5053116560': order #57559422912 sell 0.01 / 0.01 XAUUSD at 4025.61 done in 399.969 ms
+LJ	0	16:46:25.274	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559422912 sell 0.01 XAUUSD 4025.61
+DJ	0	16:46:25.527	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559422912 sell 0.01 XAUUSD 4025.61
+PS	0	16:46:25.528	Trades	'5053116560': deal #57209637953 buy 0.01 XAUUSD at 4025.33 done (based on order #57559429479)
+FN	0	16:46:25.529	Trades	'5053116560': order #57559429479 buy 0.01 / 0.01 XAUUSD at 4025.33 done in 255.451 ms
+NM	0	16:46:25.545	Trades	'5053116560': market sell 0.01 XAUUSD
+CG	0	16:46:25.817	Trades	'5053116560': accepted market sell 0.01 XAUUSD
+HN	0	16:46:25.820	Trades	'5053116560': deal #57209638093 sell 0.01 XAUUSD at 4025.16 done (based on order #57559429635)
+PS	0	16:46:25.821	Trades	'5053116560': order #57559429635 sell 0.01 / 0.01 XAUUSD at 4025.16 done in 275.239 ms
+RS	0	16:47:46.760	Trades	'5053116560': market sell 0.02 XAUUSD
+DI	0	16:47:47.849	Trades	'5053116560': deal #57209666039 sell 0.02 XAUUSD at 4026.17 done (based on order #57559458125)
+PJ	0	16:47:47.850	Trades	'5053116560': accepted market sell 0.02 XAUUSD
+NN	0	16:47:47.850	Trades	'5053116560': order #57559458125 sell 0.02 / 0.02 XAUUSD at 4026.17 done in 1089.414 ms
+EP	0	16:47:55.446	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+DK	0	16:47:55.654	Terminal	exit with code 0
+RJ	0	16:47:55.658	Network	'5053116560': disconnected from MetaQuotes-Demo
+RF	0	16:47:55.739	Terminal	stopped with 0
+LF	0	16:47:55.743	Terminal	shutdown with 0

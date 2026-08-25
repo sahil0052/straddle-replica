@@ -1,0 +1,703 @@
+0	2026.04.21 23:34:58.672	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Advisors\ExpertMACD.mq5 - 0 errors, 0 warnings, 1942 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:34:58.679	Compiler	compiled ExpertMACD.mq5
+0	2026.04.21 23:35:00.842	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Advisors\ExpertMAMA.mq5 - 0 errors, 0 warnings, 2159 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:00.851	Compiler	compiled ExpertMAMA.mq5
+0	2026.04.21 23:35:03.042	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Advisors\ExpertMAPSAR.mq5 - 0 errors, 0 warnings, 2186 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:03.047	Compiler	compiled ExpertMAPSAR.mq5
+0	2026.04.21 23:35:04.501	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Advisors\ExpertMAPSARSizeOptimized.mq5 - 0 errors, 0 warnings, 1449 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:04.506	Compiler	compiled ExpertMAPSARSizeOptimized.mq5
+0	2026.04.21 23:35:05.159	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\ChartInChart\ChartInChart.mq5 - 0 errors, 0 warnings, 648 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:05.162	Compiler	compiled ChartInChart.mq5
+0	2026.04.21 23:35:06.532	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\Controls\Controls.mq5 - 0 errors, 0 warnings, 1364 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:06.538	Compiler	compiled Controls.mq5
+0	2026.04.21 23:35:08.327	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\Correlation Matrix 3D\Correlation Matrix 3D.mqproj - 0 errors, 0 warnings, 1785 ms elapsed, cpu='X64 Regular'
+0	2026.04.21 23:35:08.332	Compiler	compiled Correlation Matrix 3D.mqproj
+0	2026.04.21 23:35:08.816	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\MACD\MACD Sample.mq5 - 0 errors, 0 warnings, 480 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:08.818	Compiler	compiled MACD Sample.mq5
+0	2026.04.21 23:35:09.337	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\Math 3D\Math 3D.mqproj - 0 errors, 0 warnings, 513 ms elapsed, cpu='X64 Regular'
+0	2026.04.21 23:35:09.338	Compiler	compiled Math 3D.mqproj
+0	2026.04.21 23:35:10.872	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\Math 3D Morpher\Math 3D Morpher.mqproj - 0 errors, 0 warnings, 1529 ms elapsed, cpu='X64 Regular'
+0	2026.04.21 23:35:10.876	Compiler	compiled Math 3D Morpher.mqproj
+0	2026.04.21 23:35:11.369	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Examples\Moving Average\Moving Average.mq5 - 0 errors, 0 warnings, 489 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:11.373	Compiler	compiled Moving Average.mq5
+0	2026.04.21 23:35:11.924	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BlackCrows WhiteSoldiers CCI.mq5 - 0 errors, 0 warnings, 545 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:11.927	Compiler	compiled BlackCrows WhiteSoldiers CCI.mq5
+0	2026.04.21 23:35:12.673	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BlackCrows WhiteSoldiers MFI.mq5 - 0 errors, 0 warnings, 741 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:12.676	Compiler	compiled BlackCrows WhiteSoldiers MFI.mq5
+0	2026.04.21 23:35:13.240	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BlackCrows WhiteSoldiers RSI.mq5 - 0 errors, 0 warnings, 558 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:13.243	Compiler	compiled BlackCrows WhiteSoldiers RSI.mq5
+0	2026.04.21 23:35:13.718	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BlackCrows WhiteSoldiers Stoch.mq5 - 0 errors, 0 warnings, 469 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:13.721	Compiler	compiled BlackCrows WhiteSoldiers Stoch.mq5
+0	2026.04.21 23:35:14.189	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Engulfing CCI.mq5 - 0 errors, 0 warnings, 464 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:14.192	Compiler	compiled BullishBearish Engulfing CCI.mq5
+0	2026.04.21 23:35:14.663	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Engulfing MFI.mq5 - 0 errors, 0 warnings, 468 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:14.665	Compiler	compiled BullishBearish Engulfing MFI.mq5
+0	2026.04.21 23:35:15.139	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Engulfing RSI.mq5 - 0 errors, 0 warnings, 470 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:15.142	Compiler	compiled BullishBearish Engulfing RSI.mq5
+0	2026.04.21 23:35:15.621	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Engulfing Stoch.mq5 - 0 errors, 0 warnings, 474 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:15.623	Compiler	compiled BullishBearish Engulfing Stoch.mq5
+0	2026.04.21 23:35:16.393	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Harami CCI.mq5 - 0 errors, 0 warnings, 764 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:16.396	Compiler	compiled BullishBearish Harami CCI.mq5
+0	2026.04.21 23:35:16.922	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Harami MFI.mq5 - 0 errors, 0 warnings, 522 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:16.925	Compiler	compiled BullishBearish Harami MFI.mq5
+0	2026.04.21 23:35:17.514	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Harami RSI.mq5 - 0 errors, 0 warnings, 586 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:17.518	Compiler	compiled BullishBearish Harami RSI.mq5
+0	2026.04.21 23:35:18.405	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish Harami Stoch.mq5 - 0 errors, 0 warnings, 881 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:18.409	Compiler	compiled BullishBearish Harami Stoch.mq5
+0	2026.04.21 23:35:19.132	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish MeetingLines CCI.mq5 - 0 errors, 0 warnings, 715 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:19.134	Compiler	compiled BullishBearish MeetingLines CCI.mq5
+0	2026.04.21 23:35:19.721	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish MeetingLines MFI.mq5 - 0 errors, 0 warnings, 582 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:19.724	Compiler	compiled BullishBearish MeetingLines MFI.mq5
+0	2026.04.21 23:35:20.280	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish MeetingLines RSI.mq5 - 0 errors, 0 warnings, 551 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:20.284	Compiler	compiled BullishBearish MeetingLines RSI.mq5
+0	2026.04.21 23:35:20.785	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\BullishBearish MeetingLines Stoch.mq5 - 0 errors, 0 warnings, 497 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:20.789	Compiler	compiled BullishBearish MeetingLines Stoch.mq5
+0	2026.04.21 23:35:21.425	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\DarkCloud PiercingLine CCI.mq5 - 0 errors, 0 warnings, 632 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:21.428	Compiler	compiled DarkCloud PiercingLine CCI.mq5
+0	2026.04.21 23:35:21.918	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\DarkCloud PiercingLine MFI.mq5 - 0 errors, 0 warnings, 487 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:21.921	Compiler	compiled DarkCloud PiercingLine MFI.mq5
+0	2026.04.21 23:35:22.460	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\DarkCloud PiercingLine RSI.mq5 - 0 errors, 0 warnings, 534 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:22.463	Compiler	compiled DarkCloud PiercingLine RSI.mq5
+0	2026.04.21 23:35:23.110	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\DarkCloud PiercingLine Stoch.mq5 - 0 errors, 0 warnings, 643 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:23.112	Compiler	compiled DarkCloud PiercingLine Stoch.mq5
+0	2026.04.21 23:35:23.815	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\HangingMan Hammer CCI.mq5 - 0 errors, 0 warnings, 694 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:23.818	Compiler	compiled HangingMan Hammer CCI.mq5
+0	2026.04.21 23:35:24.805	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\HangingMan Hammer MFI.mq5 - 0 errors, 0 warnings, 982 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:24.809	Compiler	compiled HangingMan Hammer MFI.mq5
+0	2026.04.21 23:35:25.562	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\HangingMan Hammer RSI.mq5 - 0 errors, 0 warnings, 747 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:25.565	Compiler	compiled HangingMan Hammer RSI.mq5
+0	2026.04.21 23:35:26.225	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\HangingMan Hammer Stoch.mq5 - 0 errors, 0 warnings, 655 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:26.229	Compiler	compiled HangingMan Hammer Stoch.mq5
+0	2026.04.21 23:35:26.968	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\MorningEvening StarDoji CCI.mq5 - 0 errors, 0 warnings, 735 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:26.973	Compiler	compiled MorningEvening StarDoji CCI.mq5
+0	2026.04.21 23:35:27.843	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\MorningEvening StarDoji MFI.mq5 - 0 errors, 0 warnings, 863 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:27.845	Compiler	compiled MorningEvening StarDoji MFI.mq5
+0	2026.04.21 23:35:28.524	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\MorningEvening StarDoji RSI.mq5 - 0 errors, 0 warnings, 674 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:28.529	Compiler	compiled MorningEvening StarDoji RSI.mq5
+0	2026.04.21 23:35:29.204	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\Free Robots\MorningEvening StarDoji Stoch.mq5 - 0 errors, 0 warnings, 671 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:29.207	Compiler	compiled MorningEvening StarDoji Stoch.mq5
+0	2026.04.21 23:35:29.637	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Accelerator.mq5 - 0 errors, 0 warnings, 419 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:29.640	Compiler	compiled Accelerator.mq5
+0	2026.04.21 23:35:30.047	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\AD.mq5 - 0 errors, 0 warnings, 402 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:30.049	Compiler	compiled AD.mq5
+0	2026.04.21 23:35:30.531	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ADX.mq5 - 0 errors, 0 warnings, 477 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:30.533	Compiler	compiled ADX.mq5
+0	2026.04.21 23:35:31.083	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ADXW.mq5 - 0 errors, 0 warnings, 544 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:31.086	Compiler	compiled ADXW.mq5
+0	2026.04.21 23:35:31.598	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Alligator.mq5 - 0 errors, 0 warnings, 507 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:31.601	Compiler	compiled Alligator.mq5
+0	2026.04.21 23:35:32.072	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\AMA.mq5 - 0 errors, 0 warnings, 466 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:32.075	Compiler	compiled AMA.mq5
+0	2026.04.21 23:35:32.498	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ASI.mq5 - 0 errors, 0 warnings, 419 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:32.501	Compiler	compiled ASI.mq5
+0	2026.04.21 23:35:32.912	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ATR.mq5 - 0 errors, 0 warnings, 406 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:32.914	Compiler	compiled ATR.mq5
+0	2026.04.21 23:35:33.333	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Awesome_Oscillator.mq5 - 0 errors, 0 warnings, 414 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:33.336	Compiler	compiled Awesome_Oscillator.mq5
+0	2026.04.21 23:35:33.808	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\BB.mq5 - 0 errors, 0 warnings, 467 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:33.810	Compiler	compiled BB.mq5
+0	2026.04.21 23:35:34.326	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Bears.mq5 - 0 errors, 0 warnings, 511 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:34.328	Compiler	compiled Bears.mq5
+0	2026.04.21 23:35:34.945	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Bulls.mq5 - 0 errors, 0 warnings, 612 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:34.948	Compiler	compiled Bulls.mq5
+0	2026.04.21 23:35:35.341	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\BW-ZoneTrade.mq5 - 0 errors, 0 warnings, 388 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:35.344	Compiler	compiled BW-ZoneTrade.mq5
+0	2026.04.21 23:35:35.938	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Canvas\FlameChart.mq5 - 0 errors, 0 warnings, 589 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:35.942	Compiler	compiled FlameChart.mq5
+0	2026.04.21 23:35:36.470	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\CCI.mq5 - 0 errors, 0 warnings, 520 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:36.472	Compiler	compiled CCI.mq5
+0	2026.04.21 23:35:37.119	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\CHO.mq5 - 0 errors, 0 warnings, 641 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:37.121	Compiler	compiled CHO.mq5
+0	2026.04.21 23:35:37.657	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\CHV.mq5 - 0 errors, 0 warnings, 531 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:37.659	Compiler	compiled CHV.mq5
+0	2026.04.21 23:35:38.069	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ColorBars.mq5 - 0 errors, 0 warnings, 406 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:38.073	Compiler	compiled ColorBars.mq5
+0	2026.04.21 23:35:38.492	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ColorCandlesDaily.mq5 - 0 errors, 0 warnings, 415 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:38.496	Compiler	compiled ColorCandlesDaily.mq5
+0	2026.04.21 23:35:38.921	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ColorLine.mq5 - 0 errors, 0 warnings, 419 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:38.923	Compiler	compiled ColorLine.mq5
+0	2026.04.21 23:35:39.354	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Custom Moving Average.mq5 - 0 errors, 0 warnings, 427 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:39.356	Compiler	compiled Custom Moving Average.mq5
+0	2026.04.21 23:35:39.734	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\DEMA.mq5 - 0 errors, 0 warnings, 374 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:39.735	Compiler	compiled DEMA.mq5
+0	2026.04.21 23:35:40.309	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\DeMarker.mq5 - 0 errors, 0 warnings, 569 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:40.313	Compiler	compiled DeMarker.mq5
+0	2026.04.21 23:35:40.720	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\DPO.mq5 - 0 errors, 0 warnings, 402 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:40.721	Compiler	compiled DPO.mq5
+0	2026.04.21 23:35:41.111	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Envelopes.mq5 - 0 errors, 0 warnings, 385 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:41.113	Compiler	compiled Envelopes.mq5
+0	2026.04.21 23:35:41.504	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Force_Index.mq5 - 0 errors, 0 warnings, 388 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:41.507	Compiler	compiled Force_Index.mq5
+0	2026.04.21 23:35:41.918	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Fractals.mq5 - 0 errors, 0 warnings, 408 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:41.921	Compiler	compiled Fractals.mq5
+0	2026.04.21 23:35:42.383	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\FrAMA.mq5 - 0 errors, 0 warnings, 457 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:42.385	Compiler	compiled FrAMA.mq5
+0	2026.04.21 23:35:42.930	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Gator.mq5 - 0 errors, 0 warnings, 539 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:42.933	Compiler	compiled Gator.mq5
+0	2026.04.21 23:35:43.388	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Gator_2.mq5 - 0 errors, 0 warnings, 451 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:43.392	Compiler	compiled Gator_2.mq5
+0	2026.04.21 23:35:43.872	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Heiken_Ashi.mq5 - 0 errors, 0 warnings, 475 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:43.875	Compiler	compiled Heiken_Ashi.mq5
+0	2026.04.21 23:35:44.279	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Ichimoku.mq5 - 0 errors, 0 warnings, 400 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:44.282	Compiler	compiled Ichimoku.mq5
+0	2026.04.21 23:35:44.674	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\MACD.mq5 - 0 errors, 0 warnings, 388 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:44.676	Compiler	compiled MACD.mq5
+0	2026.04.21 23:35:45.034	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\MarketFacilitationIndex.mq5 - 0 errors, 0 warnings, 352 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:45.037	Compiler	compiled MarketFacilitationIndex.mq5
+0	2026.04.21 23:35:45.502	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\MFI.mq5 - 0 errors, 0 warnings, 462 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:45.506	Compiler	compiled MFI.mq5
+0	2026.04.21 23:35:46.063	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\MI.mq5 - 0 errors, 0 warnings, 552 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:46.067	Compiler	compiled MI.mq5
+0	2026.04.21 23:35:46.651	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Momentum.mq5 - 0 errors, 0 warnings, 578 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:46.656	Compiler	compiled Momentum.mq5
+0	2026.04.21 23:35:47.218	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\OBV.mq5 - 0 errors, 0 warnings, 551 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:47.221	Compiler	compiled OBV.mq5
+0	2026.04.21 23:35:47.753	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\OsMA.mq5 - 0 errors, 0 warnings, 528 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:47.756	Compiler	compiled OsMA.mq5
+0	2026.04.21 23:35:49.448	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Panels\ChartPanel\ChartPanel.mq5 - 0 errors, 0 warnings, 1685 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:49.452	Compiler	compiled ChartPanel.mq5
+0	2026.04.21 23:35:51.121	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Panels\SimplePanel\SimplePanel.mq5 - 0 errors, 0 warnings, 1663 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:51.127	Compiler	compiled SimplePanel.mq5
+0	2026.04.21 23:35:51.608	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ParabolicSAR.mq5 - 0 errors, 0 warnings, 476 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:51.610	Compiler	compiled ParabolicSAR.mq5
+0	2026.04.21 23:35:52.145	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Price_Channel.mq5 - 0 errors, 0 warnings, 530 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:52.147	Compiler	compiled Price_Channel.mq5
+0	2026.04.21 23:35:52.665	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\PVT.mq5 - 0 errors, 0 warnings, 513 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:52.668	Compiler	compiled PVT.mq5
+0	2026.04.21 23:35:53.130	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ROC.mq5 - 0 errors, 0 warnings, 458 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:53.134	Compiler	compiled ROC.mq5
+0	2026.04.21 23:35:53.601	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\RSI.mq5 - 0 errors, 0 warnings, 463 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:53.603	Compiler	compiled RSI.mq5
+0	2026.04.21 23:35:54.048	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\RVI.mq5 - 0 errors, 0 warnings, 440 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:54.051	Compiler	compiled RVI.mq5
+0	2026.04.21 23:35:54.497	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\StdDev.mq5 - 0 errors, 0 warnings, 442 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:54.500	Compiler	compiled StdDev.mq5
+0	2026.04.21 23:35:55.043	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Stochastic.mq5 - 0 errors, 0 warnings, 539 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:55.046	Compiler	compiled Stochastic.mq5
+0	2026.04.21 23:35:55.657	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\TEMA.mq5 - 0 errors, 0 warnings, 604 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:55.659	Compiler	compiled TEMA.mq5
+0	2026.04.21 23:35:56.354	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\TRIX.mq5 - 0 errors, 0 warnings, 691 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:56.357	Compiler	compiled TRIX.mq5
+0	2026.04.21 23:35:56.797	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Ultimate_Oscillator.mq5 - 0 errors, 0 warnings, 436 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:56.799	Compiler	compiled Ultimate_Oscillator.mq5
+0	2026.04.21 23:35:57.202	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\VIDYA.mq5 - 0 errors, 0 warnings, 398 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:57.205	Compiler	compiled VIDYA.mq5
+0	2026.04.21 23:35:57.584	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\Volumes.mq5 - 0 errors, 0 warnings, 375 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:57.587	Compiler	compiled Volumes.mq5
+0	2026.04.21 23:35:57.964	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\VROC.mq5 - 0 errors, 0 warnings, 373 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:57.966	Compiler	compiled VROC.mq5
+0	2026.04.21 23:35:58.367	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\WPR.mq5 - 0 errors, 0 warnings, 396 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:58.369	Compiler	compiled WPR.mq5
+0	2026.04.21 23:35:58.794	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\W_AD.mq5 - 0 errors, 0 warnings, 420 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:58.797	Compiler	compiled W_AD.mq5
+0	2026.04.21 23:35:59.365	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ZigZag.mq5 - 0 errors, 0 warnings, 563 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:59.367	Compiler	compiled ZigZag.mq5
+0	2026.04.21 23:35:59.797	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Examples\ZigzagColor.mq5 - 0 errors, 0 warnings, 425 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:35:59.799	Compiler	compiled ZigzagColor.mq5
+0	2026.04.21 23:36:00.227	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Camarilla Channel.mq5 - 0 errors, 0 warnings, 423 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:00.230	Compiler	compiled Camarilla Channel.mq5
+0	2026.04.21 23:36:00.639	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\DeMark Channel.mq5 - 0 errors, 0 warnings, 405 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:00.641	Compiler	compiled DeMark Channel.mq5
+0	2026.04.21 23:36:01.062	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Donchian Channel.mq5 - 0 errors, 0 warnings, 417 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:01.068	Compiler	compiled Donchian Channel.mq5
+0	2026.04.21 23:36:01.556	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Fibonacci Channel.mq5 - 0 errors, 0 warnings, 482 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:01.558	Compiler	compiled Fibonacci Channel.mq5
+0	2026.04.21 23:36:02.020	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Keltner Channel.mq5 - 0 errors, 0 warnings, 457 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:02.022	Compiler	compiled Keltner Channel.mq5
+0	2026.04.21 23:36:03.042	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\MarketProfile Canvas.mq5 - 0 errors, 0 warnings, 1015 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:03.045	Compiler	compiled MarketProfile Canvas.mq5
+0	2026.04.21 23:36:03.478	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\MarketProfile.mq5 - 0 errors, 0 warnings, 428 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:03.480	Compiler	compiled MarketProfile.mq5
+0	2026.04.21 23:36:04.076	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\MurreyMath Channel.mq5 - 0 errors, 0 warnings, 592 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:04.078	Compiler	compiled MurreyMath Channel.mq5
+0	2026.04.21 23:36:04.568	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\NRTR Channel.mq5 - 0 errors, 0 warnings, 485 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:04.570	Compiler	compiled NRTR Channel.mq5
+0	2026.04.21 23:36:05.222	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Parabolic Channel.mq5 - 0 errors, 0 warnings, 647 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:05.224	Compiler	compiled Parabolic Channel.mq5
+0	2026.04.21 23:36:05.671	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Pivot Channel.mq5 - 0 errors, 0 warnings, 442 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:05.674	Compiler	compiled Pivot Channel.mq5
+0	2026.04.21 23:36:06.093	Compile	C:\Program Files\MetaTrader 5\MQL5\Indicators\Free Indicators\Woodie Channel.mq5 - 0 errors, 0 warnings, 407 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:06.096	Compiler	compiled Woodie Channel.mq5
+0	2026.04.21 23:36:06.479	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\AccountInfo\AccountInfoSample.mq5 - 0 errors, 0 warnings, 380 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:06.482	Compiler	compiled AccountInfoSample.mq5
+0	2026.04.21 23:36:06.862	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\ArrayDouble\ArrayDoubleSample.mq5 - 0 errors, 0 warnings, 376 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:06.864	Compiler	compiled ArrayDoubleSample.mq5
+0	2026.04.21 23:36:07.346	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\Canvas\CanvasSample.mq5 - 0 errors, 0 warnings, 477 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:07.348	Compiler	compiled CanvasSample.mq5
+0	2026.04.21 23:36:07.958	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\Canvas\Charts\HistogramChartSample.mq5 - 0 errors, 0 warnings, 605 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:07.963	Compiler	compiled HistogramChartSample.mq5
+0	2026.04.21 23:36:08.781	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\Canvas\Charts\LineChartSample.mq5 - 0 errors, 0 warnings, 813 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:08.785	Compiler	compiled LineChartSample.mq5
+0	2026.04.21 23:36:09.708	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\Canvas\Charts\PieChartSample.mq5 - 0 errors, 0 warnings, 918 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:09.712	Compiler	compiled PieChartSample.mq5
+0	2026.04.21 23:36:10.446	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\ObjectChart\ObjChartSample.mq5 - 0 errors, 0 warnings, 728 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:10.448	Compiler	compiled ObjChartSample.mq5
+0	2026.04.21 23:36:10.847	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\ObjectSphere\SphereSample.mq5 - 0 errors, 0 warnings, 394 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:10.848	Compiler	compiled SphereSample.mq5
+0	2026.04.21 23:36:11.224	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Double\BitonicSort.mq5 - 0 errors, 0 warnings, 370 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:11.226	Compiler	compiled BitonicSort.mq5
+0	2026.04.21 23:36:11.656	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Double\FFT.mq5 - 0 errors, 0 warnings, 426 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:11.659	Compiler	compiled FFT.mq5
+0	2026.04.21 23:36:12.042	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Double\MatrixMult.mq5 - 0 errors, 0 warnings, 380 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:12.045	Compiler	compiled MatrixMult.mq5
+0	2026.04.21 23:36:13.014	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Double\Wavelet.mq5 - 0 errors, 0 warnings, 964 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:13.020	Compiler	compiled Wavelet.mq5
+0	2026.04.21 23:36:13.542	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Float\BitonicSort.mq5 - 0 errors, 0 warnings, 517 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:13.544	Compiler	compiled BitonicSort.mq5
+0	2026.04.21 23:36:13.981	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Float\FFT.mq5 - 0 errors, 0 warnings, 433 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:13.984	Compiler	compiled FFT.mq5
+0	2026.04.21 23:36:14.485	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Float\MatrixMult.mq5 - 0 errors, 0 warnings, 496 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:14.487	Compiler	compiled MatrixMult.mq5
+0	2026.04.21 23:36:15.467	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Float\Wavelet.mq5 - 0 errors, 0 warnings, 976 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:15.472	Compiler	compiled Wavelet.mq5
+0	2026.04.21 23:36:16.093	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OpenCL\Seascape\Seascape.mqproj - 0 errors, 0 warnings, 618 ms elapsed, cpu='X64 Regular'
+0	2026.04.21 23:36:16.096	Compiler	compiled Seascape.mqproj
+0	2026.04.21 23:36:16.653	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\OrderInfo\OrderInfoSample.mq5 - 0 errors, 0 warnings, 552 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:16.655	Compiler	compiled OrderInfoSample.mq5
+0	2026.04.21 23:36:17.186	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\PositionInfo\PositionInfoSample.mq5 - 0 errors, 0 warnings, 525 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:17.188	Compiler	compiled PositionInfoSample.mq5
+0	2026.04.21 23:36:17.693	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\Remnant 3D\Remnant 3D.mqproj - 0 errors, 0 warnings, 501 ms elapsed, cpu='X64 Regular'
+0	2026.04.21 23:36:17.695	Compiler	compiled Remnant 3D.mqproj
+0	2026.04.21 23:36:18.163	Compile	C:\Program Files\MetaTrader 5\MQL5\Scripts\Examples\SymbolInfo\SymbolInfoSample.mq5 - 0 errors, 0 warnings, 464 ms elapsed without optimizations, cpu='X64 Regular'
+0	2026.04.21 23:36:18.165	Compiler	compiled SymbolInfoSample.mq5
+
+0	2026.04.22 01:23:29.982	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1374 ms elapsed, cpu='AVX2 + FMA3'
+0	2026.04.22 01:23:34.246	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1267 ms elapsed, cpu='AVX2 + FMA3'
+0	2026.04.22 01:23:46.080	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1301 ms elapsed, cpu='AVX2 + FMA3'
+
+0	2026.04.22 08:50:09.120	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1079 ms elapsed, cpu='AVX2 + FMA3'
+0	2026.04.22 08:50:17.953	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1082 ms elapsed, cpu='AVX2 + FMA3'
+
+0	2026.04.22 10:42:37.841	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1157 ms elapsed, cpu='AVX2 + FMA3'
+
+0	2026.04.22 17:57:38.056	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1089 ms elapsed, cpu='AVX2 + FMA3'
+
+0	2026.04.22 22:19:19.763	Compile	C:\Program Files\MetaTrader 5\MQL5\Experts\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1073 ms elapsed, cpu='AVX2 + FMA3'
+
+0	2026.06.05 11:02:12.391	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1600 ms elapsed, cpu='X64 Regular'
+
+0	2026.06.05 11:09:01.307	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1633 ms elapsed, cpu='X64 Regular'
+
+0	2026.06.05 11:42:11.471	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1558 ms elapsed, cpu='X64 Regular'
+
+0	2026.06.08 20:01:44.838	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1664 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.03 22:35:22.087	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1569 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.03 23:26:09.800	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1341 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.03 23:31:06.650	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1483 ms elapsed, cpu='X64 Regular'
+
+2	2026.07.31 00:57:55.203	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 1 errors, 0 warnings
+
+0	2026.07.31 00:58:30.815	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1142 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:16:37.578	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1362 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:49:48.102	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1244 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:53:45.118	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1123 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:54:40.101	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1168 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:55:32.751	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1099 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 01:57:08.565	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1374 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 02:04:19.120	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1425 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 02:07:38.850	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1111 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 02:16:49.950	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1170 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 02:20:32.159	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1393 ms elapsed, cpu='X64 Regular'
+
+0	2026.07.31 02:25:05.626	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1215 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 20:35:02.250	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1038 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 21:10:33.979	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1100 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 21:22:13.744	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1121 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 21:56:06.490	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1092 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 21:59:19.135	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1057 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 22:04:58.355	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1045 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 22:24:16.903	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1242 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 22:57:06.845	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 2 warnings, 1277 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 22:57:49.378	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1253 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 23:23:21.838	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1338 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 23:33:05.421	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1265 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.01 23:33:05.561	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1373 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 05:44:14.699	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1297 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 05:56:01.214	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1479 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 06:13:31.075	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1904 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 06:21:33.394	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1886 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 06:34:06.850	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2552 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 06:42:14.753	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1947 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 06:53:12.618	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2065 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 07:08:33.740	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2103 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 07:29:40.314	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 3098 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 07:29:40.523	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 3276 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 10:26:32.838	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1226 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 10:32:00.530	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1132 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 10:32:02.788	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1235 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 13:32:49.403	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1051 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 14:02:51.396	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1129 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 20:56:13.158	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1228 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:00:46.154	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1289 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:06:20.256	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1303 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:06:21.983	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 946 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:15:59.654	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1480 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:16:00.030	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1855 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:28:21.346	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1566 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:29:57.349	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1491 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:29:57.642	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1908 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:50:32.463	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2426 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:51:49.929	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1992 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:54:42.250	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1490 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 21:55:10.801	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1434 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:11:38.909	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2503 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:13:19.130	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2084 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:14:45.210	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 2703 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:17:05.561	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1497 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:17:05.862	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1921 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:18:10.428	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1951 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:18:10.914	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2437 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:26:09.526	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 2300 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:26:09.980	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2756 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:26:38.617	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2134 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 22:26:52.417	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 1624 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 23:37:40.556	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1559 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.04 23:37:49.569	Compile	C:\websites\mt5 2\mql5\StraddleTargetProbe.mq5 - 0 errors, 0 warnings, 984 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.06 20:24:37.636	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1452 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.06 20:28:02.753	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1157 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.08 14:32:46.163	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1277 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.08 15:43:50.873	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1441 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.08 15:44:02.533	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1213 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.08 15:49:55.450	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1246 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.08 15:49:57.750	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1203 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 10:29:13.797	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1401 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 10:29:24.702	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1239 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 10:31:28.612	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1270 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 10:31:30.726	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1288 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 10:38:22.512	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1351 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 14:37:16.818	Compile	C:\Users\HPUSER\.codex\visualizations\2026\08\10\019feae1-8aef-7290-912c-b407bcf791af\compile-audit\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1566 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 19:17:35.931	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1474 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 19:26:52.501	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1460 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 19:35:32.233	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1553 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 20:48:47.340	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1541 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 20:52:11.617	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1738 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 20:58:44.471	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1431 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.10 20:58:55.762	Compile	C:\websites\mt5 bot\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1497 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 08:46:12.233	Compile	C:\websites\mt5 bot\.deploy\hostinger\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1654 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 10:41:48.675	Compile	C:\websites\mt5 bot\.deploy\hostinger\TrendGridRecovery.mq5 - 0 errors, 0 warnings, 1577 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:38:50.717	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1536 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:39:11.335	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1274 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:43:11.653	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1272 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:43:19.913	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1241 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:55:19.367	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 5122 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:55:32.321	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1449 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:58:51.089	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1981 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 13:59:04.595	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1408 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:01:34.318	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2194 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:01:46.949	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2131 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:04:25.166	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1977 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:04:37.175	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1982 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:30:27.272	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1388 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 14:30:45.885	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1440 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 15:00:56.830	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1565 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 15:04:45.007	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1455 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 16:06:52.949	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1570 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 16:22:29.404	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1747 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 16:22:32.423	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1709 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.11 16:23:26.981	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1478 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 10:32:23.084	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1301 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 10:45:46.369	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1269 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 10:50:32.482	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1284 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 16:56:21.639	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1748 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 16:57:05.516	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1504 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 17:05:40.730	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2359 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 17:05:55.429	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1851 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:08:40.142	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1904 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:11:31.901	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1958 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:12:02.904	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1755 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:17:36.320	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1820 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:18:26.006	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1655 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:19:49.337	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1774 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:24:20.580	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1734 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:24:48.331	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1850 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:48:02.469	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1613 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 18:48:53.742	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1603 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 20:31:42.848	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1411 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 20:32:13.638	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1491 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 20:54:11.300	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1319 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 20:55:06.313	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1399 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 21:02:40.636	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2672 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 22:20:59.495	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1602 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.12 22:22:23.563	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1617 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:23:37.447	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2660 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:27:45.704	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2106 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:28:36.719	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2764 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:28:40.609	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2396 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:28:42.842	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1722 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:31:29.688	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2146 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 08:31:46.439	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2164 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 12:47:12.812	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2336 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 14:04:45.348	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2581 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 14:12:31.997	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1954 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 14:25:11.996	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 3516 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 14:35:28.011	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1676 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 16:54:26.526	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2384 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 17:10:46.735	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2022 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 17:11:36.669	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2038 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 19:37:41.276	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2413 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 19:40:27.409	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1786 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 19:45:22.623	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2106 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 19:45:37.121	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2125 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 19:57:13.701	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1914 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 20:08:05.571	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 9094 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:21:11.583	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2090 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:22:10.388	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1840 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:27:20.822	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2541 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:27:54.291	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2322 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:36:51.408	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2982 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 21:51:20.142	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 5828 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 22:16:58.343	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1867 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 22:45:19.676	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 4243 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 23:13:07.049	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1728 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 23:22:55.455	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1773 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 23:45:22.420	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1856 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.13 23:51:24.472	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1761 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 00:00:50.947	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1869 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 00:09:28.845	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1866 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 02:59:25.583	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1881 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 02:59:55.498	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1855 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 02:59:59.750	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1814 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 07:14:00.248	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2058 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 07:17:23.648	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 2016 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.14 07:22:06.551	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1824 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 07:44:09.812	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 4319 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 11:15:58.549	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1985 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 11:19:24.141	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1872 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 13:10:13.898	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1758 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 13:16:12.940	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1882 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 13:16:15.814	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1866 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 14:32:38.880	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2299 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 14:33:04.432	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2386 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 15:23:42.872	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1890 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 15:58:06.782	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1876 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 16:16:38.182	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1845 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 17:30:12.638	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1990 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 17:50:49.451	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1904 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.17 17:50:49.464	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1932 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.18 15:07:44.096	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1773 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.18 23:18:37.891	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1946 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.18 23:18:43.381	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1786 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.18 23:18:48.925	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1224 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 07:58:51.813	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1679 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 07:58:55.122	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1682 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 07:59:42.077	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1712 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 07:59:45.440	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1743 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 07:59:53.076	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1686 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 09:36:54.732	Compile	C:\websites\mt5 2\mql5\StraddleReplica.mq5 - 0 errors, 0 warnings, 1712 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 09:37:01.016	Compile	C:\websites\mt5 2\mql5\StraddleObserver.mq5 - 0 errors, 0 warnings, 1163 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.19 10:39:51.851	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1683 ms elapsed, cpu='X64 Regular'
+
+2	2026.08.25 11:40:40.748	Compile	C:\websites\mt5 - 3 errors, 0 warnings
+
+0	2026.08.25 11:43:07.794	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2082 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 11:48:10.025	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1824 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 14:00:23.548	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2066 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 15:02:21.162	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1889 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 15:47:11.197	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2412 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 16:29:28.160	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 1800 ms elapsed, cpu='X64 Regular'
+
+0	2026.08.25 16:55:02.252	Compile	C:\websites\mt5 2\mql5\StraddleReplicaReal.mq5 - 0 errors, 0 warnings, 2052 ms elapsed, cpu='X64 Regular'

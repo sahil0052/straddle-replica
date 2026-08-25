@@ -1,0 +1,126 @@
+HO	0	07:22:12.953	Terminal	MetaTrader 5 x64 build 6104 started for MetaQuotes Ltd.
+CE	0	07:22:12.987	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 8 / 15 Gb memory, 727 / 931 Gb disk, admin, GMT+5
+QD	0	07:22:12.987	Terminal	D:\MT5IndependentCandidateObserver
+OL	0	07:22:12.988	MCP	started on 127.0.0.1:22346
+ED	0	07:22:16.876	LiveUpdate	new version build 6116 (IDE: 6116, Tester: 6116) is available
+FL	0	07:22:17.859	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 231.49 ms, build 6116)
+NR	0	07:22:20.303	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+QR	0	07:22:20.303	Network	'110971967': trading has been disabled - investor mode
+OO	0	07:22:20.303	Network	'110971967': balance management has been disabled - investor mode
+KJ	0	07:22:21.593	Network	'110971967': scanning network for access points
+GQ	0	07:24:05.150	LiveUpdate	'mt5clw64' downloaded (67123 kb)
+DD	0	07:24:10.675	Network	'110971967': scanning network finished
+HL	0	07:24:38.864	LiveUpdate	'mt5clwide64' downloaded (46554 kb)
+HE	0	07:24:45.543	LiveUpdate	'mt5clwtst64' downloaded (10864 kb)
+IL	0	07:25:35.900	LiveUpdate	'mt5onnx64' downloaded (68964 kb)
+KF	0	07:27:40.484	LiveUpdate	'mt5onnxcuda64' downloaded (184307 kb)
+DM	0	07:27:40.889	LiveUpdate	downloaded successfully
+DH	0	07:27:40.892	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\mt5clw64.6116' saved
+LS	0	07:27:40.920	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\mt5clwide64.6116' saved
+DQ	0	07:27:40.921	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\mt5clwtst64.6116' saved
+NM	0	07:27:40.921	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\mt5onnx64.6116' saved
+OJ	0	07:27:40.981	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\mt5onnxcuda64.6116' saved
+PF	1	08:10:11.268	Network	'110971967': connection to MetaQuotes-Demo lost
+GO	0	08:12:17.830	Network	'110971967': authorized on MetaQuotes-Demo through Access Point US 1 (ping: 489.86 ms, build 6116)
+IQ	0	08:12:21.145	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+FQ	0	08:12:21.145	Network	'110971967': trading has been disabled - investor mode
+DH	0	08:12:21.145	Network	'110971967': balance management has been disabled - investor mode
+PE	0	08:12:22.252	Network	'110971967': scanning network for access points
+QM	0	08:14:35.727	Network	'110971967': scanning network finished
+ND	0	08:14:35.738	Network	'110971967': auto connecting to a better access point with 69 % quality (previous: 47 %)
+MF	1	08:14:35.926	Network	'110971967': connection to MetaQuotes-Demo lost
+IN	0	08:14:46.004	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 164.05 ms, build 6116)
+KP	0	08:14:53.357	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+PQ	0	08:14:53.357	Network	'110971967': trading has been disabled - investor mode
+JH	0	08:14:53.357	Network	'110971967': balance management has been disabled - investor mode
+HF	1	11:52:55.819	Network	'110971967': connection to MetaQuotes-Demo lost
+HO	0	11:52:57.124	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 164.05 ms, build 6116)
+DP	0	11:52:57.837	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+KQ	0	11:52:57.837	Network	'110971967': trading has been disabled - investor mode
+MH	0	11:52:57.837	Network	'110971967': balance management has been disabled - investor mode
+LG	1	12:50:10.143	Network	'110971967': connection to MetaQuotes-Demo lost
+NO	0	12:50:11.352	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 164.05 ms, build 6116)
+CP	0	12:50:12.038	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+HP	0	12:50:12.038	Network	'110971967': trading has been disabled - investor mode
+JI	0	12:50:12.038	Network	'110971967': balance management has been disabled - investor mode
+DG	1	13:23:28.251	Network	'110971967': connection to MetaQuotes-Demo lost
+CP	0	13:23:40.411	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 164.05 ms, build 6116)
+IO	0	13:23:45.440	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+JP	0	13:23:45.440	Network	'110971967': trading has been disabled - investor mode
+PI	0	13:23:45.440	Network	'110971967': balance management has been disabled - investor mode
+LG	1	13:23:45.953	Network	'110971967': connection to MetaQuotes-Demo lost
+JP	0	13:23:46.663	Network	'110971967': authorized on MetaQuotes-Demo through Access Point EU 1 (ping: 164.05 ms, build 6116)
+LO	0	13:23:47.047	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+OO	0	13:23:47.047	Network	'110971967': trading has been disabled - investor mode
+II	0	13:23:47.047	Network	'110971967': balance management has been disabled - investor mode
+RD	1	13:56:51.770	Network	'110971967': connection to MetaQuotes-Demo lost
+IP	0	13:57:14.511	Network	'110971967': authorized on MetaQuotes-Demo through Access Point HA (ping: 232.40 ms, build 6116)
+PN	0	13:57:21.486	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+OO	0	13:57:21.486	Network	'110971967': trading has been disabled - investor mode
+IJ	0	13:57:21.486	Network	'110971967': balance management has been disabled - investor mode
+LG	0	13:57:23.045	Network	'110971967': scanning network for access points
+GS	0	13:58:59.996	Network	'110971967': scanning network finished
+CK	0	13:58:59.996	Network	'110971967': auto connecting to a better access point with 80 % quality (previous: 56 %)
+LD	1	13:58:59.998	Network	'110971967': connection to MetaQuotes-Demo lost
+IL	0	13:59:00.764	LiveUpdate	new version build 6116 (IDE: 6116, Tester: 6116) is available
+RD	0	13:59:01.123	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 297.31 ms, build 6116)
+LI	0	13:59:01.644	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+CJ	0	13:59:01.644	Network	'110971967': trading has been disabled - investor mode
+EG	0	13:59:01.644	Network	'110971967': balance management has been disabled - investor mode
+KQ	1	14:21:33.583	Network	'110971967': connection to MetaQuotes-Demo lost
+IG	0	14:22:28.681	Network	'110971967': authorized on MetaQuotes-Demo through Access Point US 1 (ping: 347.70 ms, build 6116)
+OI	0	14:22:39.126	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+LJ	0	14:22:39.126	Network	'110971967': trading has been disabled - investor mode
+NG	0	14:22:39.126	Network	'110971967': balance management has been disabled - investor mode
+GR	0	14:22:39.514	Network	'110971967': scanning network for access points
+LD	0	14:24:12.170	Network	'110971967': scanning network finished
+HL	0	14:24:12.209	Network	'110971967': auto connecting to a better access point with 83 % quality (previous: 49 %)
+JQ	1	14:24:12.388	Network	'110971967': connection to MetaQuotes-Demo lost
+CG	0	14:24:13.456	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+JI	0	14:24:16.485	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+EI	0	14:24:16.485	Network	'110971967': trading has been disabled - investor mode
+KG	0	14:24:16.485	Network	'110971967': balance management has been disabled - investor mode
+GN	1	16:01:40.590	Network	'110971967': connection to MetaQuotes-Demo lost
+GK	0	16:01:45.600	LiveUpdate	new version build 6116 (IDE: 6116, Tester: 6116) is available
+GJ	0	16:01:49.029	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+OD	0	16:01:53.756	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+HE	0	16:01:53.756	Network	'110971967': trading has been disabled - investor mode
+JL	0	16:01:53.756	Network	'110971967': balance management has been disabled - investor mode
+EI	2	16:02:04.800	MQL5.community	authorization failed
+KS	2	16:02:04.800	Virtual Hosting	failed to get list of virtual hosts [1009]
+HJ	1	16:02:14.957	Network	'110971967': connection to MetaQuotes-Demo lost
+OJ	0	16:02:18.770	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+JD	0	16:02:21.151	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+IE	0	16:02:21.151	Network	'110971967': trading has been disabled - investor mode
+OL	0	16:02:21.151	Network	'110971967': balance management has been disabled - investor mode
+FJ	1	16:30:25.994	Network	'110971967': connection to MetaQuotes-Demo lost
+QJ	0	16:30:33.396	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+CD	0	16:30:36.193	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+HD	0	16:30:36.193	Network	'110971967': trading has been disabled - investor mode
+RL	0	16:30:36.193	Network	'110971967': balance management has been disabled - investor mode
+EK	1	16:35:44.823	Network	'110971967': connection to MetaQuotes-Demo lost
+OJ	0	16:35:46.201	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+OS	0	16:35:46.825	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+HD	0	16:35:46.825	Network	'110971967': trading has been disabled - investor mode
+JM	0	16:35:46.825	Network	'110971967': balance management has been disabled - investor mode
+FI	0	17:35:55.184	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\9417312DE8B9A6071D4BC6D9D7FA1E59\liveupdate\terminal64.exe" /update /path:"D:\MT5IndependentCandidateObserver" /portable
+RJ	0	17:35:55.283	Terminal	exit with code 0
+CH	0	17:35:55.286	Terminal	stopped with 0
+FS	0	17:35:55.404	Terminal	shutdown with 0
+JF	0	17:36:16.781	Terminal	MetaTrader 5 x64 build 6116 started for MetaQuotes Ltd.
+JL	0	17:36:16.782	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 7 / 15 Gb memory, 724 / 931 Gb disk, admin, GMT+5
+HM	0	17:36:16.782	Terminal	D:\MT5IndependentCandidateObserver
+LE	0	17:36:16.783	MCP	started on 127.0.0.1:22346
+KQ	0	17:36:19.414	Network	'110971967': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 277.55 ms, build 6116)
+HO	0	17:36:19.923	Network	'110971967': terminal synchronized with MetaQuotes Ltd.: 38 positions, 8 orders, 12525 symbols, 0 spreads
+CP	0	17:36:19.923	Network	'110971967': trading has been disabled - investor mode
+EI	0	17:36:19.923	Network	'110971967': balance management has been disabled - investor mode
+QD	0	17:36:51.066	Network	'110971967': disconnected from MetaQuotes-Demo
+LM	2	17:36:54.966	Network	'901114': authorization on AchieverGlobalMarkets-Server failed (Invalid account)
+NN	0	17:37:24.871	Network	new demo account '111223633' opened on MetaQuotes-Demo
+OD	0	17:37:27.489	Network	'111223633': authorized on MetaQuotes-Demo through Access Point IN 1
+PQ	0	17:37:27.489	Network	'111223633': previous successful authorization performed from 223.184.175.17 on 2026.08.17 15:07:25
+IQ	0	17:37:28.806	Network	'111223633': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 12525 symbols, 0 spreads
+LN	0	17:37:28.806	Network	'111223633': trading has been enabled, demo account - hedging mode
+RR	0	17:37:28.806	Network	'111223633': balance management has been disabled - demo account
+JH	0	17:37:28.926	Network	'111223633': scanning network for access points

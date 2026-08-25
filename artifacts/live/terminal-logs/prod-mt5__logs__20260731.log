@@ -1,0 +1,154 @@
+RO	0	00:59:49.942	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\terminal64.exe" /update /path:"C:\Program Files\MetaTrader 5" /portable
+NK	0	00:59:50.013	Terminal	exit with code 0
+FI	0	00:59:50.015	Terminal	stopped with 0
+JL	0	00:59:50.128	Terminal	shutdown with 0
+KE	0	00:59:54.935	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+FS	0	00:59:54.936	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 2 / 15 Gb memory, 3 / 237 Gb disk, admin, GMT+5
+QQ	0	00:59:54.936	Terminal	C:\Program Files\MetaTrader 5
+NE	0	00:59:54.939	MCP	started on 127.0.0.1:22346
+KM	0	00:59:58.367	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 3 (ping: 348.27 ms, build 5830)
+EL	0	00:59:58.968	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 11 positions, 46 orders, 285 symbols, 0 spreads
+LQ	0	00:59:58.968	Network	'901018': trading has been disabled - investor mode
+DL	0	00:59:58.968	Network	'901018': balance management has been disabled - investor mode
+DK	0	01:06:24.985	Trades	'901018': deal #3092909 sell 0.01 XAUUSD at 4112.48 done (based on order #20963774)
+NE	3	01:06:34.192	MemoryException	4595824 bytes not available, 0 heapmin result
+HO	3	01:06:34.192	MemoryException	4595824 bytes not available, 0 heapmin result
+DJ	3	01:06:35.982	MemoryException	17480124 bytes not available, 0 heapmin result
+PP	0	01:07:45.138	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+IM	0	01:07:45.139	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 0 / 15 Gb memory, 3 / 237 Gb disk, admin, GMT+5
+LS	0	01:07:45.139	Terminal	C:\Program Files\MetaTrader 5
+OK	0	01:07:45.141	MCP	started on 127.0.0.1:22346
+KN	0	01:08:59.867	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+DK	0	01:08:59.867	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 3 / 237 Gb disk, admin, GMT+5
+HJ	0	01:08:59.867	Terminal	C:\Program Files\MetaTrader 5
+DM	0	01:08:59.870	MCP	started on 127.0.0.1:22346
+OD	0	01:10:40.257	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+HR	0	01:10:40.257	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 4 / 237 Gb disk, admin, GMT+5
+LP	0	01:10:40.257	Terminal	C:\Program Files\MetaTrader 5
+OF	0	01:10:40.258	MCP	started on 127.0.0.1:22346
+LL	0	01:10:42.688	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 3 (ping: 348.27 ms, build 5830)
+GM	0	01:10:43.224	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 10 positions, 46 orders, 285 symbols, 0 spreads
+QP	0	01:10:43.224	Network	'901018': trading has been disabled - investor mode
+MM	0	01:10:43.224	Network	'901018': balance management has been disabled - investor mode
+CF	1	01:15:00.437	Network	'901018': connection to AchieverGlobalMarkets-Server lost
+JN	0	01:15:11.544	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 471.30 ms, build 5830)
+PH	0	01:15:12.055	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 10 positions, 46 orders, 285 symbols, 0 spreads
+RF	0	01:15:12.055	Network	'901018': trading has been disabled - investor mode
+NO	0	01:15:12.055	Network	'901018': balance management has been disabled - investor mode
+MJ	0	01:15:13.264	Network	'901018': scanning network for access points
+EJ	0	01:15:29.470	Network	'901018': scanning network finished
+JH	0	01:24:30.472	Trades	'901018': deal #3092967 buy 0.01 XAUUSD at 4110.54 done (based on order #20963823)
+LJ	0	01:28:29.716	Trades	'901018': deal #3092986 buy 0.01 XAUUSD at 4111.82 done (based on order #20963818)
+QK	0	01:32:36.461	Trades	'901018': deal #3093027 sell 0.01 XAUUSD at 4113.97 done (based on order #20963887)
+PH	0	01:34:04.631	Trades	'901018': deal #3093048 sell 0.01 XAUUSD at 4115.24 done (based on order #20963906)
+EN	0	01:35:27.509	Trades	'901018': deal #3093053 sell 0.01 XAUUSD at 4115.90 done (based on order #20963911)
+RS	0	01:48:14.159	Trades	'901018': deal #3093095 buy 0.01 XAUUSD at 4113.26 done (based on order #20963956)
+FR	0	02:01:37.170	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+HO	0	02:01:37.262	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+OD	0	02:01:37.263	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+LK	0	02:01:37.263	Terminal	C:\Program Files\MetaTrader 5
+IP	0	02:01:37.263	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+QG	0	02:01:37.264	MCP	started on 127.0.0.1:22346
+NL	0	02:01:40.328	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 471.30 ms, build 5830)
+ON	0	02:01:41.030	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 11 positions, 47 orders, 285 symbols, 0 spreads
+QP	0	02:01:41.030	Network	'901018': trading has been disabled - investor mode
+QM	0	02:01:41.030	Network	'901018': balance management has been disabled - investor mode
+HI	0	02:01:41.076	Tester	automatic testing started
+QN	0	02:01:41.223	Network	'901018': scanning network for access points
+IG	0	02:01:41.396	AutoTesting	XAUUSD: preliminary downloading of M1 history started
+KM	0	02:01:44.100	AutoTesting	XAUUSD: 20% history downloaded
+ID	0	02:01:46.076	AutoTesting	XAUUSD: 31% history downloaded
+RL	0	02:01:47.497	AutoTesting	XAUUSD: 41% history downloaded
+FD	0	02:01:48.757	AutoTesting	XAUUSD: 50% history downloaded
+LL	0	02:01:50.032	AutoTesting	XAUUSD: 60% history downloaded
+DG	0	02:01:52.015	AutoTesting	XAUUSD: 72% history downloaded
+PO	0	02:01:53.938	AutoTesting	XAUUSD: 82% history downloaded
+MG	0	02:01:54.012	Network	'901018': scanning network finished
+ON	0	02:01:54.012	Network	'901018': auto connecting to better point was skipped due tester is working
+OP	0	02:01:54.807	AutoTesting	XAUUSD: 90% history downloaded
+DH	0	02:01:56.222	AutoTesting	XAUUSD: preliminary downloading of M1 history completed in 0:00:15.141
+LN	0	02:01:58.401	Tester	last test passed with result "successfully finished" in 0:00:00.090
+GP	0	02:01:58.626	Terminal	exit with code 0
+DN	0	02:01:59.420	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+LL	0	02:01:59.549	Terminal	stopped with 0
+OO	0	02:01:59.666	Terminal	shutdown with 0
+HE	0	02:02:49.097	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+MD	0	02:02:49.135	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+EQ	0	02:02:49.135	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+RG	0	02:02:49.135	Terminal	C:\Program Files\MetaTrader 5
+KK	0	02:02:49.135	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+GJ	0	02:02:49.136	MCP	started on 127.0.0.1:22346
+NQ	0	02:02:51.537	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 254.50 ms, build 5830)
+QQ	0	02:03:10.653	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 12 positions, 47 orders, 285 symbols, 0 spreads
+JL	0	02:03:10.653	Network	'901018': trading has been disabled - investor mode
+RH	0	02:03:10.653	Network	'901018': balance management has been disabled - investor mode
+RE	0	02:03:10.706	Tester	automatic testing started
+QF	0	02:03:13.025	Tester	last test passed with result "successfully finished" in 0:00:00.388
+NH	0	02:03:13.130	Terminal	exit with code 0
+PQ	0	02:03:13.329	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+ED	0	02:03:13.441	Terminal	stopped with 0
+IG	0	02:03:13.552	Terminal	shutdown with 0
+QM	0	02:04:30.953	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+NS	0	02:04:30.990	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+FI	0	02:04:30.990	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+IO	0	02:04:30.990	Terminal	C:\Program Files\MetaTrader 5
+LS	0	02:04:30.990	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+KR	0	02:04:30.992	MCP	started on 127.0.0.1:22346
+NI	0	02:04:33.634	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 254.50 ms, build 5830)
+PI	0	02:04:34.198	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 12 positions, 47 orders, 285 symbols, 0 spreads
+GD	0	02:04:34.198	Network	'901018': trading has been disabled - investor mode
+CQ	0	02:04:34.198	Network	'901018': balance management has been disabled - investor mode
+RM	0	02:04:34.240	Tester	automatic testing started
+ON	0	02:04:53.230	Tester	last test passed with result "successfully finished" in 0:00:16.498
+GP	0	02:04:53.330	Terminal	exit with code 0
+RI	0	02:04:54.158	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+RL	0	02:04:54.208	Terminal	stopped with 0
+RH	0	02:04:54.212	Terminal	shutdown with 0
+DE	0	02:08:15.533	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+LK	0	02:08:15.568	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+CQ	0	02:08:15.569	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+HG	0	02:08:15.569	Terminal	C:\Program Files\MetaTrader 5
+MK	0	02:08:15.569	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+PJ	0	02:08:15.570	MCP	started on 127.0.0.1:22346
+IQ	0	02:08:18.087	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 254.50 ms, build 5830)
+IQ	0	02:08:18.521	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 13 positions, 47 orders, 285 symbols, 0 spreads
+IL	0	02:08:18.521	Network	'901018': trading has been disabled - investor mode
+II	0	02:08:18.521	Network	'901018': balance management has been disabled - investor mode
+RE	0	02:08:18.565	Tester	automatic testing started
+NF	0	02:08:24.676	Tester	last test passed with result "successfully finished" in 0:00:03.916
+CH	0	02:08:24.813	Terminal	exit with code 0
+JQ	0	02:08:25.668	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+FD	0	02:08:25.785	Terminal	stopped with 0
+DP	0	02:08:25.788	Terminal	shutdown with 0
+DM	0	02:22:37.825	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+RS	0	02:22:37.883	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+JI	0	02:22:37.884	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+PO	0	02:22:37.884	Terminal	C:\Program Files\MetaTrader 5
+MS	0	02:22:37.884	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+CR	0	02:22:37.885	MCP	started on 127.0.0.1:22346
+OI	0	02:22:41.056	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 254.50 ms, build 5830)
+GI	0	02:22:59.988	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 11 positions, 47 orders, 285 symbols, 0 spreads
+ID	0	02:22:59.988	Network	'901018': trading has been disabled - investor mode
+EQ	0	02:22:59.988	Network	'901018': balance management has been disabled - investor mode
+EM	0	02:23:00.036	Tester	automatic testing started
+OO	0	02:23:07.335	Tester	last test passed with result "successfully finished" in 0:00:04.129
+DP	0	02:23:07.432	Terminal	exit with code 0
+KI	0	02:23:08.120	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+RL	0	02:23:08.233	Terminal	stopped with 0
+CH	0	02:23:08.237	Terminal	shutdown with 0
+EE	0	02:26:39.000	Startup	successfully initialized from start config "C:\websites\mt5 2\tester\smoke_latest_30.ini"
+IK	0	02:26:39.064	Terminal	MetaTrader 5 x64 build 6061 started for MetaQuotes Ltd.
+LQ	0	02:26:39.064	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 5 / 237 Gb disk, admin, GMT+5
+FG	0	02:26:39.064	Terminal	C:\Program Files\MetaTrader 5
+GK	0	02:26:39.064	Terminal	launched with C:\websites\mt5 2\tester\smoke_latest_30.ini
+LJ	0	02:26:39.066	MCP	started on 127.0.0.1:22346
+MP	0	02:26:42.297	Network	'901018': authorized on AchieverGlobalMarkets-Server through Access Server 2 (ping: 254.50 ms, build 5830)
+NQ	0	02:26:42.817	Network	'901018': terminal synchronized with Achiever Global Markets Ltd.: 11 positions, 47 orders, 285 symbols, 0 spreads
+DL	0	02:26:42.817	Network	'901018': trading has been disabled - investor mode
+LI	0	02:26:42.817	Network	'901018': balance management has been disabled - investor mode
+QE	0	02:26:42.877	Tester	automatic testing started
+NG	0	02:26:49.899	Tester	last test passed with result "successfully finished" in 0:00:03.921
+DH	0	02:26:49.998	Terminal	exit with code 0
+LQ	0	02:26:50.141	Network	'901018': disconnected from AchieverGlobalMarkets-Server
+ME	0	02:26:50.188	Terminal	stopped with 0
+HP	0	02:26:50.191	Terminal	shutdown with 0

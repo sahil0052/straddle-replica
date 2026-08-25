@@ -1,0 +1,127 @@
+KO	0	20:26:17.180	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\terminal64.exe" /update /path:"C:\Program Files\MetaTrader 5" /portable
+DK	0	20:26:17.247	Terminal	exit with code 0
+DI	0	20:26:17.249	Terminal	stopped with 0
+IL	0	20:26:17.366	Terminal	shutdown with 0
+RF	0	20:26:22.331	Terminal	updating C:\Program Files\MetaTrader 5\MQL5 folder
+MO	0	20:26:22.331	Terminal	48 files updated
+KF	0	20:26:22.392	Terminal	MetaTrader 5 x64 build 6012 started for MetaQuotes Ltd.
+IP	0	20:26:22.392	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 3 / 15 Gb memory, 22 / 237 Gb disk, admin, GMT+5
+NQ	0	20:26:22.392	Terminal	C:\Program Files\MetaTrader 5
+JE	0	20:26:22.394	MCP	started on 127.0.0.1:22346
+QO	0	20:26:23.405	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+GH	0	20:26:23.645	LiveUpdate	new version build 6034 (IDE: 6034, Tester: 6034) is available
+FH	0	20:26:24.176	Network	'5053116560': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 229.95 ms, build 6034)
+HD	0	20:26:24.176	Network	'5053116560': previous successful authorization performed from 223.188.16.233 on 2026.07.16 13:42:46
+HE	0	20:26:24.664	Network	'5053116560': terminal synchronized with MetaQuotes Ltd.: 2 positions, 0 orders, 12647 symbols, 0 spreads
+PH	0	20:26:24.664	Network	'5053116560': trading has been enabled, demo account - hedging mode
+PL	0	20:26:24.664	Network	'5053116560': balance management has been disabled - demo account
+LN	0	20:26:24.703	Trades	use MetaTrader VPS Hosting Service to speed up the execution: 0.41 ms via 'VPS Amsterdam 09' instead of 229.95 ms
+KN	0	20:26:26.442	Network	'5053116560': scanning network for access points
+LE	0	20:26:26.790	Trades	'5053116560': market sell 0.03 XAUUSD
+GO	0	20:26:27.102	Trades	'5053116560': accepted market sell 0.03 XAUUSD
+FF	0	20:26:27.102	Trades	'5053116560': deal #57287711655 sell 0.03 XAUUSD at 4145.91 done (based on order #57639915782)
+FK	0	20:26:27.104	Trades	'5053116560': order #57639915782 sell 0.03 / 0.03 XAUUSD at 4145.91 done in 314.016 ms
+RJ	0	20:27:14.731	Trades	'5053116560': market sell 0.04 XAUUSD
+CP	0	20:27:28.675	Trades	'5053116560': accepted market sell 0.04 XAUUSD
+NG	0	20:27:28.676	Trades	'5053116560': deal #57287732684 sell 0.04 XAUUSD at 4147.17 done (based on order #57639937205)
+HD	0	20:27:28.679	Trades	'5053116560': order #57639937205 sell 0.04 / 0.04 XAUUSD at 4147.17 done in 13948.348 ms
+RK	0	20:28:02.689	Network	'5053116560': scanning network finished
+RS	0	20:28:02.689	Network	'5053116560': auto connecting to a better access point with 67 % quality (previous: 0 %)
+MN	1	20:28:02.690	Network	'5053116560': connection to MetaQuotes-Demo lost
+MK	0	20:28:03.908	Network	'5053116560': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 283.35 ms, build 6034)
+RG	0	20:28:03.908	Network	'5053116560': previous successful authorization performed from 106.219.196.124 on 2026.07.22 17:56:23
+FF	0	20:28:04.312	Network	'5053116560': terminal synchronized with MetaQuotes Ltd.: 4 positions, 0 orders, 12647 symbols, 0 spreads
+PH	0	20:28:04.312	Network	'5053116560': trading has been enabled, demo account - hedging mode
+PL	0	20:28:04.312	Network	'5053116560': balance management has been disabled - demo account
+HS	0	20:28:06.099	Trades	'5053116560': market sell 0.05 XAUUSD
+HI	0	20:28:06.313	Trades	'5053116560': accepted market sell 0.05 XAUUSD
+GP	0	20:28:06.313	Trades	'5053116560': deal #57287746330 sell 0.05 XAUUSD at 4148.92 done (based on order #57639951089)
+IM	0	20:28:06.313	Trades	'5053116560': order #57639951089 sell 0.05 / 0.05 XAUUSD at 4148.92 done in 213.968 ms
+EO	0	20:28:48.957	Experts	automated trading is disabled
+DO	0	20:28:49.781	Experts	automated trading is enabled
+QF	0	20:28:56.346	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+DS	0	20:29:23.691	LiveUpdate	'mt5clw64' downloaded (64163 kb)
+FH	0	20:29:33.326	Experts	automated trading is disabled
+DN	0	20:29:34.115	Experts	automated trading is enabled
+LD	0	20:29:46.852	Trade	'5053116560': one click trading has been enabled
+HO	0	20:29:53.569	Trades	'5053116560': bulk closing of all positions started
+EP	0	20:29:53.570	Trades	'5053116560': market buy 0.01 XAUUSD, close #57559429635 sell 0.01 XAUUSD 4025.16
+KF	0	20:29:53.570	Trades	'5053116560': market buy 0.02 XAUUSD, close #57559458125 sell 0.02 XAUUSD 4026.17
+CK	0	20:29:53.570	Trades	'5053116560': market buy 0.03 XAUUSD, close #57639915782 sell 0.03 XAUUSD 4145.91
+QI	0	20:29:53.570	Trades	'5053116560': market buy 0.04 XAUUSD, close #57639937205 sell 0.04 XAUUSD 4147.17
+EN	0	20:29:53.570	Trades	'5053116560': market buy 0.05 XAUUSD, close #57639951089 sell 0.05 XAUUSD 4148.92
+HN	0	20:29:53.840	Trades	'5053116560': accepted market buy 0.01 XAUUSD, close #57559429635 sell 0.01 XAUUSD 4025.16
+DN	0	20:29:53.840	Trades	'5053116560': deal #57287779785 buy 0.01 XAUUSD at 4148.99 done (based on order #57639985239)
+RM	0	20:29:53.840	Trades	'5053116560': deal #57287779786 buy 0.02 XAUUSD at 4148.99 done (based on order #57639985240)
+FP	0	20:29:53.840	Trades	'5053116560': order #57639985239 buy 0.01 / 0.01 XAUUSD at 4148.99 done in 270.130 ms
+KJ	0	20:29:53.840	Trades	'5053116560': accepted market buy 0.02 XAUUSD
+QO	0	20:29:53.840	Trades	'5053116560': order #57639985240 buy 0.02 / 0.02 XAUUSD at 4148.99 done in 270.155 ms
+LO	0	20:29:53.840	Trades	'5053116560': accepted market buy 0.03 XAUUSD, close #57639915782 sell 0.03 XAUUSD 4145.91
+KP	0	20:29:53.840	Trades	'5053116560': deal #57287779789 buy 0.03 XAUUSD at 4148.99 done (based on order #57639985243)
+JS	0	20:29:53.840	Trades	'5053116560': order #57639985243 buy 0.03 / 0.03 XAUUSD at 4148.99 done in 270.634 ms
+HS	0	20:29:53.840	Trades	'5053116560': accepted market buy 0.04 XAUUSD, close #57639937205 sell 0.04 XAUUSD 4147.17
+IR	0	20:29:53.841	Trades	'5053116560': accepted market buy 0.05 XAUUSD, close #57639951089 sell 0.05 XAUUSD 4148.92
+OJ	0	20:29:53.841	Trades	'5053116560': deal #57287779790 buy 0.04 XAUUSD at 4148.99 done (based on order #57639985245)
+OE	0	20:29:53.841	Trades	'5053116560': order #57639985245 buy 0.04 / 0.04 XAUUSD at 4148.99 done in 271.099 ms
+RG	0	20:29:53.841	Trades	'5053116560': deal #57287779791 buy 0.05 XAUUSD at 4148.99 done (based on order #57639985246)
+KJ	0	20:29:53.841	Trades	'5053116560': order #57639985246 buy 0.05 / 0.05 XAUUSD at 4148.99 done in 271.502 ms
+JE	0	20:31:38.934	Network	'5053116560': disconnected from MetaQuotes-Demo
+GS	3	20:31:39.165	Experts	automated trading is disabled because the account has been changed
+DG	0	20:31:41.685	Network	'29565': authorized on XWealthVentures-Server
+IO	0	20:31:42.609	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+KS	0	20:31:42.609	Network	'29565': trading has been disabled - investor mode
+EN	0	20:31:42.609	Network	'29565': balance management has been disabled - investor mode
+JJ	0	20:31:42.844	Network	'29565': scanning network for access points
+QO	0	20:31:45.529	LiveUpdate	'mt5clwide64' downloaded (46341 kb)
+LD	0	20:31:53.723	Network	'29565': scanning network finished
+EL	0	20:31:53.723	Network	'29565': auto connecting to a better access point with 59 % quality (previous: 55 %)
+OS	1	20:31:53.724	Network	'29565': connection to XWealthVentures-Server lost
+EE	0	20:31:57.308	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+GD	0	20:31:58.206	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+MJ	0	20:31:58.206	Network	'29565': trading has been disabled - investor mode
+CG	0	20:31:58.206	Network	'29565': balance management has been disabled - investor mode
+EP	0	20:32:05.635	LiveUpdate	'mt5clwtst64' downloaded (10821 kb)
+DI	0	20:35:15.473	LiveUpdate	'mt5onnx64' downloaded (68441 kb)
+LS	1	20:38:17.919	Network	'29565': connection to XWealthVentures-Server lost
+FE	0	20:38:19.058	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+LG	0	20:38:19.696	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+RJ	0	20:38:19.696	Network	'29565': trading has been disabled - investor mode
+PG	0	20:38:19.696	Network	'29565': balance management has been disabled - investor mode
+IS	0	20:41:37.364	LiveUpdate	'mt5onnxcuda64' downloaded (184307 kb)
+QF	0	20:41:38.291	LiveUpdate	downloaded successfully
+GQ	0	20:41:38.292	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\mt5clw64.6034' saved
+HQ	0	20:41:38.293	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\mt5clwide64.6034' saved
+CE	0	20:41:38.293	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\mt5clwtst64.6034' saved
+QG	0	20:41:38.293	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\mt5onnx64.6034' saved
+CH	0	20:41:38.294	LiveUpdate	'C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\mt5onnxcuda64.6034' saved
+RQ	1	21:37:19.915	Network	'29565': connection to XWealthVentures-Server lost
+FJ	0	21:37:21.147	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+DJ	0	21:37:21.543	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+RH	0	21:37:21.543	Network	'29565': trading has been disabled - investor mode
+HR	0	21:37:21.543	Network	'29565': balance management has been disabled - investor mode
+DQ	1	22:02:08.530	Network	'29565': connection to XWealthVentures-Server lost
+GJ	0	22:02:14.035	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+LJ	0	22:02:14.801	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+JH	0	22:02:14.801	Network	'29565': trading has been disabled - investor mode
+PR	0	22:02:14.801	Network	'29565': balance management has been disabled - investor mode
+KQ	1	22:06:40.887	Network	'29565': connection to XWealthVentures-Server lost
+PJ	0	22:06:45.294	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+PJ	0	22:06:45.915	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+FH	0	22:06:45.915	Network	'29565': trading has been disabled - investor mode
+LR	0	22:06:45.915	Network	'29565': balance management has been disabled - investor mode
+JQ	1	22:07:50.585	Network	'29565': connection to XWealthVentures-Server lost
+LJ	0	22:07:55.920	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+LJ	0	22:07:59.225	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+JH	0	22:07:59.225	Network	'29565': trading has been disabled - investor mode
+PR	0	22:07:59.225	Network	'29565': balance management has been disabled - investor mode
+JQ	1	22:13:48.217	Network	'29565': connection to XWealthVentures-Server lost
+IJ	0	22:13:53.250	Network	'29565': authorized on XWealthVentures-Server through Backup Access Server  (ping: 243.37 ms, build 5830)
+JJ	0	22:13:54.407	Network	'29565': terminal synchronized with XWealth Ventures Limited: 0 positions, 0 orders, 53 symbols, 0 spreads
+LH	0	22:13:54.407	Network	'29565': trading has been disabled - investor mode
+FR	0	22:13:54.407	Network	'29565': balance management has been disabled - investor mode
+OS	0	22:13:56.919	Terminal	exit with code 0
+LL	2	22:13:57.117	Virtual Hosting	failed to get list of virtual hosts [1003] (http - read first answer failed)
+CO	0	22:13:57.118	Network	'29565': disconnected from XWealthVentures-Server
+II	2	22:13:57.160	MQL5.community	authorization failed
+KS	0	22:13:57.174	Terminal	stopped with 0
+QJ	0	22:13:57.179	Terminal	shutdown with 0

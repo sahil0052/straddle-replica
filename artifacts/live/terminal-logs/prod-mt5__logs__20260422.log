@@ -1,0 +1,206 @@
+CN	0	00:09:18.673	Trades	'5049582774': market buy 0.01 XAUUSD
+CD	0	00:09:18.890	Trades	'5049582774': accepted market buy 0.01 XAUUSD
+KM	0	00:09:18.899	Trades	'5049582774': deal #56031646433 buy 0.01 XAUUSD at 4701.59 done (based on order #56336724513)
+IP	0	00:09:18.899	Trades	'5049582774': order #56336724513 buy 0.01 / 0.01 XAUUSD at 4701.59 done in 226.356 ms
+LI	0	00:09:19.479	Trades	use MetaTrader VPS Hosting Service to speed up the execution: 0.26 ms via 'VPS Amsterdam 10' instead of 195.26 ms
+JG	0	00:09:22.699	Experts	automated trading is enabled
+RQ	0	00:09:23.479	Experts	automated trading is disabled
+NE	0	00:09:24.529	Experts	automated trading is enabled
+ES	0	00:09:25.506	Experts	automated trading is disabled
+NJ	0	00:09:37.954	Trade	'5049582774': one click trading has been enabled
+KL	0	00:09:39.074	Trades	'5049582774': market sell 0.01 XAUUSD
+FF	0	00:09:39.292	Trades	'5049582774': accepted market sell 0.01 XAUUSD
+HM	0	00:09:39.297	Trades	'5049582774': deal #56031651098 sell 0.01 XAUUSD at 4701.04 done (based on order #56336729265)
+MR	0	00:09:39.298	Trades	'5049582774': order #56336729265 sell 0.01 / 0.01 XAUUSD at 4701.04 done in 223.925 ms
+LM	0	00:09:39.862	Trades	'5049582774': market buy 0.01 XAUUSD
+EG	0	00:09:40.082	Trades	'5049582774': accepted market buy 0.01 XAUUSD
+HP	0	00:09:40.082	Trades	'5049582774': deal #56031651244 buy 0.01 XAUUSD at 4701.10 done (based on order #56336729414)
+OS	0	00:09:40.096	Trades	'5049582774': order #56336729414 buy 0.01 / 0.01 XAUUSD at 4701.10 done in 234.177 ms
+FP	0	00:09:40.561	Trades	'5049582774': market sell 0.01 XAUUSD
+IJ	0	00:09:40.776	Trades	'5049582774': accepted market sell 0.01 XAUUSD
+HQ	0	00:09:40.781	Trades	'5049582774': deal #56031651336 sell 0.01 XAUUSD at 4700.95 done (based on order #56336729513)
+IN	0	00:09:40.781	Trades	'5049582774': order #56336729513 sell 0.01 / 0.01 XAUUSD at 4700.95 done in 220.753 ms
+GI	0	00:09:41.165	Trades	'5049582774': market buy 0.01 XAUUSD
+RS	0	00:09:41.390	Trades	'5049582774': accepted market buy 0.01 XAUUSD
+FL	0	00:09:41.390	Trades	'5049582774': deal #56031651489 buy 0.01 XAUUSD at 4701.11 done (based on order #56336729682)
+OG	0	00:09:41.391	Trades	'5049582774': order #56336729682 buy 0.01 / 0.01 XAUUSD at 4701.11 done in 225.859 ms
+CE	0	00:09:51.839	Trades	'5049582774': market sell 0.01 XAUUSD, close #56336729682 buy 0.01 XAUUSD 4701.11
+NI	0	00:09:52.047	Trades	'5049582774': accepted market sell 0.01 XAUUSD, close #56336729682 buy 0.01 XAUUSD 4701.11
+EJ	0	00:09:52.047	Trades	'5049582774': deal #56031653261 sell 0.01 XAUUSD at 4701.07 done (based on order #56336731550)
+FG	0	00:09:52.047	Trades	'5049582774': order #56336731550 sell 0.01 / 0.01 XAUUSD at 4701.07 done in 208.707 ms
+CN	0	00:09:52.450	Trades	'5049582774': market buy 0.01 XAUUSD, close #56336729513 sell 0.01 XAUUSD 4700.95
+FP	0	00:09:52.684	Trades	'5049582774': deal #56031653358 buy 0.01 XAUUSD at 4701.20 done (based on order #56336731651)
+EO	0	00:09:52.685	Trades	'5049582774': accepted market buy 0.01 XAUUSD
+HD	0	00:09:52.685	Trades	'5049582774': order #56336731651 buy 0.01 / 0.01 XAUUSD at 4701.20 done in 234.664 ms
+NJ	0	00:09:52.877	Trades	'5049582774': market sell 0.01 XAUUSD, close #56336729414 buy 0.01 XAUUSD 4701.10
+QL	0	00:09:53.086	Trades	'5049582774': deal #56031653468 sell 0.01 XAUUSD at 4701.07 done (based on order #56336731759)
+LL	0	00:09:53.087	Trades	'5049582774': accepted market sell 0.01 XAUUSD
+KO	0	00:09:53.087	Trades	'5049582774': order #56336731759 sell 0.01 / 0.01 XAUUSD at 4701.07 done in 209.741 ms
+HF	0	00:09:53.275	Trades	'5049582774': market buy 0.01 XAUUSD, close #56336729265 sell 0.01 XAUUSD 4701.04
+KI	0	00:09:53.488	Trades	'5049582774': accepted market buy 0.01 XAUUSD, close #56336729265 sell 0.01 XAUUSD 4701.04
+FF	0	00:09:53.490	Trades	'5049582774': deal #56031653509 buy 0.01 XAUUSD at 4701.20 done (based on order #56336731798)
+JI	0	00:09:53.490	Trades	'5049582774': order #56336731798 buy 0.01 / 0.01 XAUUSD at 4701.20 done in 214.632 ms
+DO	0	00:09:53.599	Trades	'5049582774': market sell 0.01 XAUUSD, close #56336724513 buy 0.01 XAUUSD 4701.59
+JN	0	00:09:53.802	Trades	'5049582774': accepted market sell 0.01 XAUUSD, close #56336724513 buy 0.01 XAUUSD 4701.59
+JP	0	00:09:53.807	Trades	'5049582774': deal #56031653547 sell 0.01 XAUUSD at 4701.12 done (based on order #56336731836)
+RM	0	00:09:53.808	Trades	'5049582774': order #56336731836 sell 0.01 / 0.01 XAUUSD at 4701.12 done in 209.099 ms
+QN	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud Asia 2: 10 gbit" found
+IK	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud USA 1: 10 gbit" found
+IR	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud Europe 2: 10 gbit" found
+JG	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud USA 2: 10 gbit" found
+HE	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud Asia 1: 1 gbit" found
+DL	0	00:33:29.337	Tester	MQL5 Cloud Server "MQL5 Cloud Europe 3: 10 gbit" found
+OE	0	00:34:04.729	Experts	expert V4 1hr time frame (XAUUSD,H1) loaded successfully
+KN	2	00:34:12.936	Experts	initializing of V4 1hr time frame (XAUUSD,H1) failed with code 1
+EO	0	00:34:12.944	Experts	expert V4 1hr time frame (XAUUSD,H1) removed
+PG	0	01:24:32.281	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+OM	0	01:31:47.932	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+RD	0	01:31:48.413	Terminal	exit with code 0
+NQ	0	01:31:48.418	Network	'5049582774': disconnected from MetaQuotes-Demo
+DK	0	01:31:49.490	Terminal	stopped with 0
+HS	0	01:31:49.507	Terminal	shutdown with 0
+QG	0	01:31:51.381	Terminal	MetaTrader 5 x64 build 5809 started for MetaQuotes Ltd.
+DO	0	01:31:51.382	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 4 / 15 Gb memory, 37 / 237 Gb disk, admin, GMT+5
+JS	0	01:31:51.382	Terminal	C:\Program Files\MetaTrader 5
+LH	0	01:31:52.269	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+FO	0	01:31:52.902	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 195.26 ms, build 5809)
+PP	0	01:31:52.902	Network	'5049582774': previous successful authorization performed from 223.188.130.180 on 2026.04.21 21:12:49
+DQ	0	01:31:53.415	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+JQ	0	01:31:53.415	Network	'5049582774': trading has been enabled - hedging mode
+FN	0	01:31:53.440	Trades	use MetaTrader VPS Hosting Service to speed up the execution: 0.26 ms via 'VPS Amsterdam 10' instead of 195.26 ms
+KS	0	01:32:00.396	Trades	'5049582774': market sell 0.01 XAUUSD
+MJ	2	01:32:00.618	Trades	'5049582774': failed market sell 0.01 XAUUSD [Market closed]
+GS	0	01:32:01.924	Trades	'5049582774': market buy 0.01 XAUUSD
+DJ	2	01:32:02.129	Trades	'5049582774': failed market buy 0.01 XAUUSD [Market closed]
+NH	0	01:35:25.177	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+PS	0	01:35:25.555	Terminal	exit with code 0
+CS	0	01:35:25.560	Network	'5049582774': disconnected from MetaQuotes-Demo
+CN	0	01:35:25.590	Terminal	stopped with 0
+MM	0	01:35:25.595	Terminal	shutdown with 0
+KD	0	07:47:12.732	Terminal	MetaTrader 5 x64 build 5809 started for MetaQuotes Ltd.
+PQ	0	07:47:12.732	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 2 / 15 Gb memory, 38 / 237 Gb disk, admin, GMT+5
+QP	0	07:47:12.732	Terminal	C:\Program Files\MetaTrader 5
+QJ	0	07:47:14.032	Experts	expert TrendGridRecovery (XAUUSD,H1) loaded successfully
+RG	0	07:47:14.274	LiveUpdate	new version build 5810 (IDE: 5810, Tester: 5810) is available
+HM	0	07:47:14.767	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 195.26 ms, build 5810)
+OR	0	07:47:14.767	Network	'5049582774': previous successful authorization performed from 223.188.130.180 on 2026.04.21 23:01:53
+JS	0	07:47:15.162	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+DS	0	07:47:15.162	Network	'5049582774': trading has been enabled - hedging mode
+OH	0	07:47:15.181	Trades	use MetaTrader VPS Hosting Service to speed up the execution: 0.26 ms via 'VPS Amsterdam 10' instead of 195.26 ms
+NM	0	07:47:16.696	Network	'5049582774': scanning network for access points
+QF	0	07:47:43.646	LiveUpdate	'mt5clw64' downloaded (59932 kb)
+LP	0	07:48:03.247	LiveUpdate	'mt5clwide64' downloaded (43660 kb)
+NH	0	07:48:04.414	Network	'5049582774': scanning network finished
+RQ	0	07:48:07.774	LiveUpdate	'mt5clwtst64' downloaded (10624 kb)
+II	0	07:48:15.286	LiveUpdate	'mt5onnx64' downloaded (14688 kb)
+NS	0	07:50:47.476	LiveUpdate	'mt5onnxcuda64' downloaded (172178 kb)
+MI	0	07:50:48.433	LiveUpdate	downloaded successfully
+MR	0	07:54:48.868	Experts	expert TrendGridRecovery (XAUUSD,H1) removed
+OF	0	09:34:32.251	Network	'5049582774': disconnected from MetaQuotes-Demo
+OR	0	09:43:53.724	LiveUpdate	new version build 5810 (IDE: 5810, Tester: 5810) is available
+GQ	0	09:43:53.936	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 203.33 ms, build 5810)
+CN	0	09:43:53.936	Network	'5049582774': previous successful authorization performed from 106.205.174.239 on 2026.04.22 05:17:15
+EO	0	09:43:54.360	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+GN	0	09:43:54.360	Network	'5049582774': trading has been enabled - hedging mode
+DE	1	10:43:33.731	Network	'5049582774': connection to MetaQuotes-Demo lost
+FM	0	10:43:34.590	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 203.33 ms, build 5810)
+LR	0	10:43:34.590	Network	'5049582774': previous successful authorization performed from 106.205.174.239 on 2026.04.22 07:13:55
+IS	0	10:43:35.022	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+CS	0	10:43:35.022	Network	'5049582774': trading has been enabled - hedging mode
+DJ	0	13:13:28.163	Network	'5049582774': disconnected from MetaQuotes-Demo
+NF	0	13:15:26.587	LiveUpdate	new version build 5810 (IDE: 5810, Tester: 5810) is available
+KM	0	13:15:26.873	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 203.33 ms, build 5810)
+KM	0	13:15:26.873	Network	'5049582774': previous successful authorization performed from 106.205.174.239 on 2026.04.22 08:13:36
+CS	0	13:15:27.379	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+IR	0	13:15:27.379	Network	'5049582774': trading has been enabled - hedging mode
+GK	0	13:15:43.310	Network	'5049582774': disconnected from MetaQuotes-Demo
+PJ	0	15:00:00.207	Terminal	exit with code 0
+LK	0	15:00:07.282	Terminal	stopped with 0
+FS	0	15:00:07.292	Terminal	shutdown with 0
+EG	2	17:55:18.387	Terminal	terminal process already started
+PR	0	17:55:18.387	Terminal	exit with code 0
+JS	0	17:55:18.387	Terminal	stopped with 0
+FK	0	17:55:18.502	Terminal	shutdown with 0
+RO	2	17:55:28.880	Terminal	terminal process already started
+GJ	0	17:55:28.880	Terminal	exit with code 0
+NK	0	17:55:28.881	Terminal	stopped with 0
+LS	0	17:55:28.989	Terminal	shutdown with 0
+OG	2	17:56:37.558	Terminal	terminal process already started
+ER	0	17:56:37.559	Terminal	exit with code 0
+CP	0	17:56:37.559	Terminal	stopped with 0
+OK	0	17:56:37.662	Terminal	shutdown with 0
+MO	2	17:57:52.068	Terminal	terminal process already started
+LJ	0	17:57:52.068	Terminal	exit with code 0
+JH	0	17:57:52.068	Terminal	stopped with 0
+HS	0	17:57:52.171	Terminal	shutdown with 0
+QF	2	17:59:55.049	Terminal	terminal process already started
+DR	0	17:59:55.049	Terminal	exit with code 0
+NP	0	17:59:55.049	Terminal	stopped with 0
+NK	0	17:59:55.165	Terminal	shutdown with 0
+JN	2	18:00:16.130	Terminal	terminal process already started
+OJ	0	18:00:16.130	Terminal	exit with code 0
+EH	0	18:00:16.130	Terminal	stopped with 0
+RS	0	18:00:16.242	Terminal	shutdown with 0
+MF	0	18:21:49.028	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\terminal64.exe" /update /path:"C:\Program Files\MetaTrader 5" /portable
+CP	0	18:21:49.050	Terminal	exit with code 0
+CF	0	18:21:49.052	Terminal	stopped with 0
+CE	0	18:21:49.055	Terminal	shutdown with 0
+PL	0	18:57:43.455	LiveUpdate	start "C:\Users\HPUSER\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\liveupdate\terminal64.exe" /update /path:"C:\Program Files\MetaTrader 5" /portable
+GG	0	18:57:43.523	Terminal	exit with code 0
+PL	0	18:57:43.524	Terminal	stopped with 0
+EH	0	18:57:43.632	Terminal	shutdown with 0
+HJ	0	18:57:50.527	Terminal	MetaTrader 5 x64 build 5810 started for MetaQuotes Ltd.
+MD	0	18:57:50.528	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 1 / 15 Gb memory, 36 / 237 Gb disk, admin, GMT+5
+KF	0	18:57:50.528	Terminal	C:\Program Files\MetaTrader 5
+GP	0	18:57:53.085	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 203.33 ms, build 5810)
+PO	0	18:57:53.085	Network	'5049582774': previous successful authorization performed from 106.205.174.239 on 2026.04.22 10:45:28
+DN	0	18:57:53.473	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+JO	0	18:57:53.473	Network	'5049582774': trading has been enabled - hedging mode
+JF	0	18:57:54.493	Network	'5049582774': scanning network for access points
+QO	0	18:58:45.929	Network	'5049582774': scanning network finished
+OK	1	18:59:16.413	Network	'5049582774': connection to MetaQuotes-Demo lost
+RN	0	18:59:17.326	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 183.40 ms, build 5810)
+RR	0	18:59:17.326	Network	'5049582774': previous successful authorization performed from 157.49.176.127 on 2026.04.22 16:28:01
+DP	0	18:59:17.826	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+JQ	0	18:59:17.826	Network	'5049582774': trading has been enabled - hedging mode
+DO	1	20:15:53.328	Network	'5049582774': connection to MetaQuotes-Demo lost
+PJ	0	20:15:58.634	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 247.66 ms, build 5810)
+ME	0	20:15:58.634	Network	'5049582774': previous successful authorization performed from 106.219.197.135 on 2026.04.22 16:29:26
+DD	0	20:15:59.052	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+JE	0	20:15:59.052	Network	'5049582774': trading has been enabled - hedging mode
+FP	0	20:16:00.959	Network	'5049582774': scanning network for access points
+RE	0	20:17:11.323	Network	'5049582774': scanning network finished
+DQ	1	21:11:44.280	Network	'5049582774': connection to MetaQuotes-Demo lost
+LQ	0	21:12:47.430	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point JP 1 (ping: 594.79 ms, build 5810)
+EO	0	21:12:47.430	Network	'5049582774': previous successful authorization performed from 152.59.88.103 on 2026.04.22 17:46:07
+KO	0	21:12:48.352	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+QO	0	21:12:48.352	Network	'5049582774': trading has been enabled - hedging mode
+MF	0	21:12:50.109	Network	'5049582774': scanning network for access points
+QO	0	21:14:12.978	Network	'5049582774': scanning network finished
+OG	0	21:14:12.978	Network	'5049582774': auto connecting to a better access point with 85 % quality (previous: 31 %)
+CJ	1	21:14:12.979	Network	'5049582774': connection to MetaQuotes-Demo lost
+OL	0	21:14:13.899	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 2 (ping: 189.78 ms, build 5810)
+OS	0	21:14:13.899	Network	'5049582774': previous successful authorization performed from 152.58.96.102 on 2026.04.22 18:42:56
+LR	0	21:14:14.231	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+RS	0	21:14:14.231	Network	'5049582774': trading has been enabled - hedging mode
+EI	1	21:34:38.302	Network	'5049582774': connection to MetaQuotes-Demo lost
+OF	0	22:18:16.788	Terminal	MetaTrader 5 x64 build 5810 started for MetaQuotes Ltd.
+HO	0	22:18:16.789	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 6 / 15 Gb memory, 28 / 237 Gb disk, admin, GMT+5
+FR	0	22:18:16.789	Terminal	C:\Program Files\MetaTrader 5
+QD	0	22:18:19.218	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 250.14 ms, build 5812)
+MI	0	22:18:19.218	Network	'5049582774': previous successful authorization performed from 152.59.89.63 on 2026.04.22 19:04:54
+PK	0	22:18:20.112	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+NK	0	22:18:20.112	Network	'5049582774': trading has been enabled - hedging mode
+JR	0	22:18:20.766	Network	'5049582774': scanning network for access points
+DR	0	22:19:28.626	Network	'5049582774': scanning network finished
+IG	1	23:46:29.691	Network	'5049582774': connection to MetaQuotes-Demo lost
+PL	0	23:46:29.987	LiveUpdate	new version build 5812 (IDE: 5812, Tester: 5812) is available
+JG	0	23:46:30.267	Network	'5049582774': authorized on MetaQuotes-Demo through Access Point IN 1 (ping: 310.20 ms, build 5812)
+LH	0	23:46:30.267	Network	'5049582774': previous successful authorization performed from 106.219.220.114 on 2026.04.22 19:48:28
+LI	0	23:46:30.764	Network	'5049582774': terminal synchronized with MetaQuotes Ltd.: 0 positions, 0 orders, 6055 symbols, 0 spreads
+RH	0	23:46:30.764	Network	'5049582774': trading has been enabled - hedging mode
+MD	0	23:47:20.190	LiveUpdate	'mt5clw64' downloaded (54127 kb)
+RR	0	23:47:58.528	LiveUpdate	'mt5clwide64' downloaded (43346 kb)
+JK	0	23:48:08.016	LiveUpdate	'mt5clwtst64' downloaded (10651 kb)
+DS	0	23:48:19.537	LiveUpdate	'mt5onnx64' downloaded (14688 kb)
+KG	1	23:56:09.300	Network	'5049582774': connection to MetaQuotes-Demo lost
