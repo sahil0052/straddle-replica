@@ -197,17 +197,72 @@ Therefore:
 * Sell stops were observed re-armed up to 35 steps below market ON THE LATTICE. The Target EA NEVER moves opposite-side pendings toward market during trends.
 * If a lattice price is currently invalid (market has crossed it), WAIT for price to return — do not re-anchor.
 
-### F. Trend Rescue (2x Volume) — TRIGGER STILL UNVERIFIED
+### F. Trend Rescue (2x Volume) — TRIGGER CONFIRMED
 * Replacement volume: exactly `2x` tier (0.12 at L11–20, 0.30 at L21–30). Final-regime volume histogram
   is `{0.01: 3581, 0.02: 5, 0.06: 2260, 0.12: 55, 0.15: 2091, 0.30: 65}` — the 0.12/0.30 counts are the
   rescue population. **CONFIRMED.**
-* Trigger: `trend_rescue_drawdown_money = 400.0` is a **hypothesis, not a measurement.** The rescue
-  population is tiny and concentrated: only 4 final-regime cycles contain rescue *fills* (old idx 252
-  with 44 rescue orders / 19 fills, 197 with 32/18, 250 with 20/1, plus 187 with 10 orders / 0 fills and
-  244 with 8/0). Cycle 252 held floating to `-$652` for hours without triggering a close, which bears
-  directly on the $400 constant. Discriminating drawdown vs. distance-from-anchor vs. consecutive open
-  levels is the open audit item.
+* **Population.** 125 rescue orders in **6 of 100** final-regime cycles (187, 197, 234, 244, 250, 252),
+  fills in 5. Clean **3 EARLY / 3 LATE** split across the Jul-24 break, so none of these knobs moved
+  with the pacing family. Cancel-replace dominates re-arm 89 to 36.
+* **The decision instant.** Every earlier measurement was taken at the first 2x placement and was
+  therefore wrong. `ProcessTrendRescue` does ONE action per tick and `TryCancelOneTrendRescueOrder`
+  returns early until the trend side is fully pulled, so by the first 2x placement every base pending
+  being replaced is already gone — the trend-side pending count reads 0 *by construction*. The correct
+  instant is the **first cancel of a trend-side base pending later re-placed at 2x**. Re-measured:
+
+  | cyc | reg | trend | floating | move(M15,6) | pend[trend] | mark age |
+  |---|---|---|---|---|---|---|
+  | 187 | EARLY | B | −147.25 | +40.97 | 3 | 0 s |
+  | 197 | EARLY | S | −398.82 | −21.08 | 16 | 2 s |
+  | 234 | EARLY | S | −759.25 | −29.74 | 10 | 47 s |
+  | 244 | LATE | B | −77.92 | +36.37 | 6 | 227 s |
+  | 250 | LATE | B | −375.51 | +21.87 | 19 | 196 s |
+  | 252 | LATE | S | −382.85 | −19.85 | 11 | 28 s |
+
+* `trend_rescue_bars = 6` **CONFIRMED** — unique argmax over `{2,4,6,8,10,12,16,24}`. Only at 6 do all
+  six events clear 20 (min 19.85). Every other lookback lets a real event fire below the threshold.
+* `trend_rescue_minimum_pending_levels = 3` **CONFIRMED** — the minimum of `3 16 10 6 19 11` sits
+  exactly ON the threshold with zero margin.
+* `trend_rescue_volume_multiplier = 2.0` **CONFIRMED** — and the cancel COUNT equals the trend-side
+  pending count in every measurable event (3/3, 11/11, 20/20, 12/12): the rescue pulls *every* surviving
+  base pending on the trend side and re-places it at 2x. The 0.10–0.12 s cancel gaps re-derive
+  `InterOrderDelayMs = 100` a **fourth** independent way.
+* `trend_rescue_drawdown_money = 400.0` **CONFIRMED** — the value was right; two earlier readings of it
+  were not. `m_trend_rescue_side` is a **latch**, so the right question is not "what was floating at the
+  first action" but "did floating reach −X at or before it", evaluated only at trade prints where the
+  mark is exact. On that test: **miss = 0**, and the falsifier count falls monotonically 12 → 4 across
+  −300 → −400, sits **flat at 4 through −440**, and only improves at −460 by buying two *impossible*
+  negative leads. 400 is the corner of the plateau. Of the 4 falsifiers, 3 are blocked by `move_price`
+  (moves of −17.70, +16.71, +15.60) and the survivor (cyc 253) goes true with 14.6 min of cycle left.
+  Floating is exactly linear in the mark, so the mark each event needed for −400 is closed-form, and
+  4 of 6 sit within **0.17 / 1.01 / 4.08 / 6.44 points** of it — cycle 197 was $1.18 short with a 2 s
+  mark and crossed −400 **5.4 seconds** after the sweep began.
+* **BOUNDED, NOT POINT-IDENTIFIED.** The report carries no tick feed: the reconstructed mark is the set
+  of trade prints, fresh for only **0.3%** of the timeline (median gap 32 s, p90 388 s, max 49 h). Any
+  drawdown threshold evaluated off-print carries unbounded error. This single fact explains every
+  symptom that previously looked like a rule error — 212–698-minute leads that *grew* under a freshness
+  gate, negative leads, and an M15 proxy that pointed at the wrong side in 3 of 6 events.
+* **Why the rescue exists.** `PendingPriceIsValid` requires a buy stop above the ask, so once price
+  marches past a buy level's lattice price that level can never be re-armed — the trend-side lattice is
+  destroyed level by level. Three independent corroborations: rescue cycles are duration ranks
+  `[1,3,9,11,13,22]` of 99; the more-exhausted side (`gone[trend] > gone[opp]`) identifies the rescued
+  side **5/6** where the price proxy managed 3/6; and in 4 of 6 events the first 2x order sits at the
+  very next level beyond the deepest occupied trend-side level. Duration alone is a confound but not the
+  rule — top-22 by duration leaves 16 falsifiers, and cycle 204 ran 55.52 h without ever rescuing.
+* **Best exact predictor found (not a replica parameter).** `maxfill[trend] >= 16` alone: miss 1,
+  falsifiers 21, side **5/6**, lead median **10.3 min**. At `>= 19`: lead median **4.3 min**, zero
+  negative leads. Compare the best price-based row anywhere: lead median 212 min, side 3/6. `maxfill ≡
+  maxopen` identically, proving nothing closes on the losing side. Recorded as corroboration of the
+  exhaustion mechanism, **not** proposed as a new gate — the six values span 12–25 with no clean cut.
 * The breakeven-liquidation clause formerly listed here is **refuted** — see §B.
+
+### F2. `.ex5` hashes are meaningless — the MQL5 compiler is non-deterministic
+Two consecutive compiles of byte-identical source produced **112,986** and **114,142** bytes with
+different MD5s. Never use `.ex5` size or hash as a source-integrity check, and do not read a perpetually
+`M mql5/*.ex5` git status as evidence of a source change. Compare `.mq5`/`.mqh` sources instead.
+Compile via `Start-Process -Wait` (as `scripts/build.ps1` does) — MetaEditor detaches if invoked
+directly, returning exit 0 without producing a log or a binary.
+
 
 ### G. Large-Trend Survival Mechanism
 There is NO special trend-survival module. Survival in 40–50+ point runs emerges from the invariants

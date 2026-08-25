@@ -171,17 +171,55 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           config.max_stop_updates_per_pass=1;
           config.stop_updates_on_timer=true;
           config.trend_rescue_enabled=true;
+          // Target EA parity: the rescue fired in 6 of the 100 final-regime cycles
+          // (3 before the Jul-24 break, 3 after -- so these knobs did NOT change
+          // with the pacing family). 125 rescue orders total. The decision instant
+          // for all measurements below is the FIRST cancel of a trend-side base
+          // pending that is later re-placed at 2x -- not the first 2x placement,
+          // which happens many ticks later because TryCancelOneTrendRescueOrder
+          // returns early until the whole trend side has been pulled.
           config.trend_rescue_timeframe=PERIOD_M15;
+          // Target EA parity: 6 is the unique argmax over lookbacks {2,4,6,8,10,
+          // 12,16,24} -- only at 6 do all six events clear move_price (min 19.85,
+          // 0.75% under and inside reconstruction error, since a "bar close" here
+          // is the last trade print in the bucket rather than the true OHLC close).
+          // Every other lookback lets a real event fire below the threshold.
           config.trend_rescue_bars=6;
+          // Target EA parity: trend-side base pendings at the decision instant were
+          // 3 16 10 6 19 11. The minimum sits exactly ON the threshold with zero
+          // margin -- the signature of a real gate rather than a fitted one.
           config.trend_rescue_minimum_pending_levels=3;
           config.trend_rescue_move_price=20.0;
-          // Target EA parity: reconstructed floating drawdown at the moment the
-          // first 2x rescue order of each cycle was opened clusters at -$350 to
-          // -$450 (Jul 17: -$444, Jul 28: -$354/-$357; the lone Jul 23 -$813
-          // reading is a late re-trigger inside an already-rescued cycle).
+          // Target EA parity: 400 is the corner of the falsifier plateau. Asking the
+          // question a LATCH requires -- did floating reach -X at or before the first
+          // observable action, evaluated only at trade prints where the mark is exact
+          // -- the count of cycles that go true without rescuing falls monotonically
+          // 12 -> 4 across -300 -> -400, sits FLAT at 4 through -440, and only drops
+          // at -460 by buying two impossible negative leads (the EA acting before its
+          // own gate opened). Zero missed events anywhere below -520.
+          //
+          // Because floating is exactly linear in the mark, the mark each event would
+          // have needed for floating to touch -400 is closed-form; 4 of 6 sit within
+          // a few points of it at the decision instant, inside the local 6 h range:
+          //   cyc 197 float -398.82, needed 0.17 pts (mark 2 s old; crossed -400
+          //           5.4 s after the sweep began)      cyc 252 -382.85, 1.01 pts
+          //   cyc 250 -375.51, 4.08 pts (mark 196 s stale)  cyc 244 -77.92, 6.44 pts
+          //   cyc 234 already -759.25          cyc 187 22.98 pts, 10.5-min print gap
+          // The residual is 1 falsifier in 94 (cyc 253) and it goes true with only
+          // 14.6 min of cycle left; 3 of the other 4 are blocked by move_price
+          // (moves of -17.70, +16.71, +15.60).
+          //
+          // NOTE: this threshold is BOUNDED, not point-identified. The report carries
+          // no tick feed -- the reconstructed mark is the set of trade prints, fresh
+          // for only 0.3% of the timeline (median gap 32 s, p90 388 s, max 49 h).
           config.trend_rescue_drawdown_money=400.0;
           // Target EA parity: rescue replacements trade at exactly 2x the tier
           // volume in the dataset (0.12 = 2x0.06 at L11-20, 0.30 = 2x0.15 at L21-30).
+          // The cancel count EQUALS the trend-side pending count in every event
+          // measurable (3/3, 11/11, 20/20, 12/12): the rescue pulls every surviving
+          // base pending on the trend side and re-places it at 2x. Cancel-to-cancel
+          // gaps of 0.10-0.12 s re-derive InterOrderDelayMs=100 a fourth independent
+          // way (after deployment gaps, flatten sweeps, and the cooldown intercept).
           config.trend_rescue_volume_multiplier=2.0;
           // Target EA parity: final-regime (Jul 14-30) lot schedule measured
           // from every order the Target EA placed in that window:
