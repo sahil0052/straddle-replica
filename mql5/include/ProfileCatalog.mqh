@@ -123,12 +123,50 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           // median of $29.40 with the bulk of exits landing between $25-$33.
           config.cycle_target_money=30.0;
          config.cancel_before_close=true;
+         // Target EA parity: THE 20-SECOND PACING FAMILY.
+         // The Target EA's operator raised all four pacing knobs from 0 to 20 in a
+         // single change on 2026-07-24 midday. The flatten close mode proves the
+         // date: 69 consecutive burst-close sweeps (Jul 14 -> Jul 24 09:10), then 32
+         // consecutive paced sweeps (Jul 24 15:48 -> Jul 30 17:10). That is 2 runs
+         // where a state-dependent rule on a 69/32 split would give ~45, so it is a
+         // settings change, not a runtime condition. Measured on each side:
+         //
+         //   knob                     before Jul 24         after Jul 24
+         //   close_interval_seconds   0.106 s/close         20.19 s/close
+         //   rearm_delay_seconds      no floor, 42/1196     floor 19.80 s, only
+         //                            delays under 4.5 s    2/581 under 19 s
+         //   restart_delay_ms         floor 1.17 s,         floor 20.91 s,
+         //                            64/68 under 4.5 s     32/32 over 20.9 s
+         //   deploy_fill_cooldown     gap after an in-burst gap after an in-burst
+         //                            fill = 0.13 s         fill = 20.17 s
+         //
+         // Parity must track the LATER configuration, so all four are 20.
+         //
+         // The cooldown is the strongest of the four: across 32 post-break
+         // deployments, burst span = 6.12 s + 19.898 s * (in-burst fills) with a max
+         // residual of 0.66 s over fill counts {0,1,2,3,7,10}, and the 6.12 s
+         // intercept over 59 placement gaps re-derives InterOrderDelayMs = 100
+         // independently. Causally, 25 of 25 gaps that follow an in-burst fill are
+         // >= 15 s while 0 of 1863 gaps that do not are, so the pause is attached to
+         // the fill rather than to the clock.
+         //
+         // rearm_delay_seconds was previously 5 on the strength of a modal bucket
+         // ("490 of 2,370 re-arms in the first 5 s"). That reading pooled the two
+         // regimes: a delay parameter shows up as a FLOOR, not a spike, because the
+         // re-arms that expose it are the ones where price was already back at the
+         // level and only the timer was holding them. 5 is refuted on both sides of
+         // the break. A 5 s delay sampled by a 20 s evaluation clock is refuted too:
+         // that scatters across 20/40/60 s, but the post-break counts are 48 near
+         // 20 s against 5 near 40 s and 5 near 60 s.
+         //
+         // All four sit ~0.1-0.9 s off a round 20.00 because the engine compares a
+         // whole-second TimeCurrent() against the threshold and samples it on a
+         // 100 ms timer; the sign of the offset depends on which timestamp the
+         // report exposes (close_time is pre-fill, so re-arms read 19.8).
          config.deployment_fill_cooldown_seconds=20;
          config.close_interval_seconds=20;
          config.restart_delay_ms=20000;
-          // Target EA parity: level re-arms are modally 0-5s after a stop-out
-          // (490 of 2,370 measured re-arms landed inside the first 5s bucket).
-          config.rearm_delay_seconds=5;
+         config.rearm_delay_seconds=20;
           config.stop_scan_newest_first=true;
           config.max_stop_updates_per_pass=1;
           config.stop_updates_on_timer=true;

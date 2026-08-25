@@ -261,7 +261,7 @@ public:
       request.tp=0.0;
       request.deviation=m_deviation_points;
       request.type=(is_buy ? ORDER_TYPE_BUY_STOP : ORDER_TYPE_SELL_STOP);
-      request.type_filling=ORDER_FILLING_RETURN;
+      request.type_filling=MarketFillingMode();
       request.type_time=ORDER_TIME_GTC;
       request.comment=comment;
       return Send(request,result,true);

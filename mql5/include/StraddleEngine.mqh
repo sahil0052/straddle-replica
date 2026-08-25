@@ -2351,8 +2351,8 @@ private:
            {
             m_last_close_at=TimeCurrent();
             LogEvent("close",PositionGetString(POSITION_COMMENT),ticket,volume,price,"STR CLOSE");
+            return true;
            }
-         return true;
         }
       return false;
      }
@@ -2835,42 +2835,46 @@ public:
           return;
          }
 
-       // 20-Point Auto-Recenter Rule (Target EA parity): the historical dataset
-       // shows the Target EA liquidates flat and redeploys at market once price
-       // drifts ~20 pts from the cycle anchor (exit distance-from-anchor median
-       // 17.65 pts, histogram peak 15.0-22.5 pts across 99 final-regime cycles),
-       // accepting small or slightly negative nets instead of holding drawdown.
-       if(m_profile.trend_rescue_enabled &&
-          m_anchor>0.0 &&
-          m_state==CYCLE_RUNNING)
-         {
-          double recenter_bid=SymbolInfoDouble(m_runtime.symbol,SYMBOL_BID);
-          if(recenter_bid>0.0)
-            {
-             double dist_from_anchor=MathAbs(recenter_bid-m_anchor);
-             if(dist_from_anchor>=20.0 ||
-                (m_cycle_realized>=50.0*scale &&
-                 basket.net>=-20.0*scale &&
-                 dist_from_anchor>=15.0))
-               {
-                LogLifecycleEvent("basket_trigger","","grid_recenter");
-                BeginClose("grid_recenter",false);
-                return;
-               }
-            }
-         }
-
-       // Trend Rescue Breakeven Liquidation Rule (Only closes if net profit is near breakeven >= -$10):
-       if(m_trend_rescue_side!=0 && m_cycle_realized>=200.0*scale)
-         {
-          double cycle_net=m_cycle_realized+floating;
-          if(cycle_net>=-10.0*scale)
-            {
-             LogLifecycleEvent("basket_trigger","","rescue_breakeven_reached");
-             BeginClose("rescue_breakeven",false);
-             return;
-            }
-         }
+       // ------------------------------------------------------------------
+       // The $30 basket target above is the Target EA's ONLY money exit.
+       //
+       // Two further exit rules previously lived here -- a 20-point
+       // "grid_recenter" and a "rescue_breakeven" liquidation.  Both were
+       // written from the mission brief's hypotheses and never measured.
+       // Both are now refuted against the 901018 dataset (100 final-regime
+       // cycles delimited by their own flatten sweeps).  See
+       // tools/forensics/q3p_replicarules.py for the scoring harness; it
+       // reports, for every candidate rule, the first tick at which the rule
+       // would have fired versus the tick at which the Target EA actually
+       // closed:
+       //
+       //   grid_recenter   (dist>=20 || (realized>=50 && net>=-20 && dist>=15))
+       //       would fire on 49/100 cycles, 27 of them >5 min early, at a
+       //       median net of -$19.36 where the Target EA went on to bank
+       //       +$36.00.  Aggregate profit destroyed: $5,738.88.  Both clauses
+       //       are equally culpable (27 and 26 of 100).  The distance gate
+       //       does not even separate the exit groups: cycles that exited on
+       //       the money target were >=20 pts from the anchor 18/72 of the
+       //       time, versus 1/6 for the below-zero exits.
+       //
+       //   rescue_breakeven (realized>=200 && net>=-10)
+       //       would fire on 14/100 cycles, 9 of them >5 min early, at a
+       //       median net of +$10.16 where the Target EA banked +$42.62.
+       //       Aggregate profit destroyed: $623.52.  Decisively, the marked
+       //       total at exit has ZERO cycles in [-25,0) under two independent
+       //       segmentations -- a "close at breakeven" rule would pile up
+       //       exactly there.
+       //
+       // A flat threshold on realized_since_cycle_start + floating is the
+       // whole rule.  Three independent estimators agree on its value:
+       // exact burst-flatten total 29.31, whole-sweep total 29.36, and
+       // decision-instant marked total 30.46.  A size-scaled threshold
+       // (net >= k * $/pt, or k * open_positions) is refuted outright: 0/100
+       // cycles fire at the decision and 97/100 fire prematurely.
+       //
+       // Do not reintroduce a distance, drawdown or breakeven exit without
+       // first re-running q3o/q3p and showing a median lead near zero.
+       // ------------------------------------------------------------------
       }
 
    int PendingDealIndex(const ulong deal_ticket) const

@@ -1,57 +1,30 @@
-﻿---
+---
 name: target-ea-parity
 description: >-
   Core operating directive for the StraddleReplica project. Enforces 100% mathematical,
   architectural, and operational lockstep parity between our replica EA (111387094) and the
-  Target EA (901018 on AchieverGlobalMarkets). Grants full autonomous execution authority to
-  detect, implement, compile, and deploy any parity fixes immediately without asking.
+  Target EA (901018 on AchieverGlobalMarkets). Read AGENTS.md at the repository root for the
+  authoritative, measurement-backed invariants.
 ---
 
-# Target EA Parity & Autonomous Execution Directive
+# Target EA Parity — see `AGENTS.md`
 
-## 1. Prime Mission Directive
-The **sole and overriding goal** of this project is to make our EA (`111387094`) behave with **100% identical logic, risk profile, execution speed, lot sizing, and lifecycle reset behavior** as the Target EA (`901018`).
+**`AGENTS.md` at the repository root is the single source of truth.** Read it before making any
+change to `mql5/include/`.
 
-### Autonomous Action Authority
-Whenever you detect a logic difference, parameter mismatch, boundary drift, or synchronization delay between our EA and the Target EA:
-* **DO NOT WAIT OR ASK FOR PERMISSION.**
-* **Proactively research, modify code, compile (`metaeditor64.exe`), deploy to VPS, and verify execution immediately.**
+This file previously carried its own copy of the invariant table. That copy had drifted badly out of
+date and was actively dangerous — it specified the **June-regime lot schedule** (0.01/0.03/0.06 at
+level boundaries 15/25/30) and a **single-stage 1.0-step trail activating at step 1**. Both are wrong
+for the final regime that parity must track, and `AGENTS.md` explicitly warns against regressing to
+the former. Duplicating the table is how that drift happened, so it is not duplicated here.
 
----
+The three headline corrections, so that an agent reading only this file is not misled:
 
-## 2. Core Architectural Invariants (Target EA Exact Standards)
-
-### A. Lot Sizing Schedule (Strict Parity)
-From forensic analysis of all 17,632 closed trades in `ReportHistory-901018.xlsx`:
-* **Levels 1 to 15 (0.0 to 22.5 pts)**: `0.01` lots (covers 73.1% of all historical trades).
-* **Levels 16 to 25 (24.0 to 37.5 pts)**: `0.03` lots (covers 20.5% of historical trades).
-* **Levels 26 to 30 (39.0 to 45.0 pts)**: `0.06` lots (extreme boundaries only).
-
-### B. Compact Cycle Boundary & Auto-Recenter
-* **Median Cycle Price Span**: `20.01 points`.
-* **20-Point Auto-Recenter Rule**: If `dist_from_anchor >= 20.0 pts` or `(realized >= $50.0 && net >= -$20.0 && dist >= 15.0 pts)`, execute `BeginClose("grid_recenter", false)` and redeploy flat at current market price.
-* **Trend Rescue Breakeven Liquidation**: If `realized >= $200.0` and `net >= -$10.0`, liquidate flat and restart immediately.
-
-### C. Step Spacing
-* Step mode: `STR_STEP_ANCHOR_DIVISOR` with `divisor = 3000.0` (Step $\approx 1.50$ to $1.51$ points on XAUUSD).
-* Total levels: 30 Buy levels above Anchor + 30 Sell levels below Anchor.
-
-### D. Trailing Stops
-* Activation: Step 1.
-* Distance: 1.0 step.
-* Fast pip locking on pullbacks to bank cash gains continuously into balance.
-
----
-
-## 3. Standard Deployment & Verification Workflow
-
-1. **Edit Source**: Update `mql5/include/StraddleEngine.mqh`, `ProfileCatalog.mqh`, etc.
-2. **Compile**: Run MetaEditor on Windows (`0 errors, 0 warnings` required):
-   `D:\MT5ReplicaObserverTerminal\metaeditor64.exe /portable /compile:D:\MT5ReplicaObserverTerminal\MQL5\Experts\StraddleReplicaVPS\StraddleReplicaReal.mq5`
-3. **Deploy Artifacts**:
-   * Copy `.ex5` to `C:\Users\HPUSER\Desktop\StraddleReplicaReal.ex5`.
-   * Upload `.ex5` to AWS VPS `/home/ubuntu/mt5-straddle-shadow/MQL5/Experts/StraddleReplica/StraddleReplicaReal.ex5`.
-   * Overwrite default `StraddleReplica.ex5` on VPS.
-4. **Service Restart**:
-   `sudo systemctl restart straddle-shadow-mt5.service`
-5. **Verify Logs**: Confirm `[STR] Initialized profile=LATEST_30 levels=30 replica=true` in MQL5 logs.
+* **Lot tiers** are `0.01` at L1–10, `0.06` at L11–20, `0.15` at L21–30 (final regime, Jul 14–30).
+* **The trail is two-stage**: activate at 2.0 favorable steps trailing 2.0 steps, tighten to a fixed
+  1.0-step trail at 3.0 favorable steps. Confirmed by an empty band of exactly one step width in the
+  locked-profit distribution across 2,695 SL closures.
+* **`realized + floating >= $30` is the only money exit.** The 20-point auto-recenter and the
+  rescue-breakeven liquidation that earlier revisions of this file specified are **refuted** and have
+  been removed from the engine; together they destroyed a measured $6,362 across 100 cycles. Do not
+  reintroduce them. See §2B and §3 of `AGENTS.md` for the evidence standard.
