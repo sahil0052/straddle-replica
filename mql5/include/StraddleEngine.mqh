@@ -1869,9 +1869,6 @@ private:
 
    void RearmOneMissingLevel(void)
      {
-      MqlTick current_tick={};
-      SymbolInfoTick(m_runtime.symbol,current_tick);
-
       for(int index=0;index<m_profile.levels_per_side;index++)
         {
           if(m_buy_levels[index].rearm_requested &&
@@ -1891,11 +1888,14 @@ private:
                    m_profile.trend_rescue_volume_multiplier
                  : m_profile.lots[index]
              );
-              // Dynamic wave trailing: ensure pending buy stop is positioned near current market if crossed or drifted
-              if(current_tick.ask>0.0 && (!PendingPriceIsValid(true,m_buy_levels[index].target_price) || (m_buy_levels[index].target_price-current_tick.ask>10.0*m_step)))
-                {
-                 m_buy_levels[index].target_price=NormalizePrice(current_tick.ask+(index+1)*m_step);
-                }
+              // Target EA parity: re-arms ALWAYS return to the original anchor
+              // lattice price. Measured against 1,797 mid-cycle re-arms in the
+              // final regime, 99.4% land exactly (<0.1 step) on the price of the
+              // same (side,level) slot from the cycle's deployment burst; sell
+              // stops were observed re-armed up to 35 steps away from market on
+              // the original lattice. The Target EA never re-anchors pendings to
+              // market. If the lattice price is currently invalid (market has
+              // crossed it), wait for price to return instead of moving the level.
               if(!PendingPriceIsValid(true,m_buy_levels[index].target_price))
                  continue;
              if(!ExposureAllowsRearm(m_buy_levels[index].volume))
@@ -1934,11 +1934,9 @@ private:
                    m_profile.trend_rescue_volume_multiplier
                  : m_profile.lots[index]
              );
-              // Dynamic wave trailing: ensure pending sell stop is positioned near current market if crossed or drifted
-              if(current_tick.bid>0.0 && (!PendingPriceIsValid(false,m_sell_levels[index].target_price) || (current_tick.bid-m_sell_levels[index].target_price>10.0*m_step)))
-                {
-                 m_sell_levels[index].target_price=NormalizePrice(current_tick.bid-(index+1)*m_step);
-                }
+              // Target EA parity: sell-side re-arms also return to the original
+              // anchor lattice price (see buy-side note above). Never re-anchor
+              // to market; wait for price to return if currently invalid.
               if(!PendingPriceIsValid(false,m_sell_levels[index].target_price))
                  continue;
              if(!ExposureAllowsRearm(m_sell_levels[index].volume))

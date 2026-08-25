@@ -104,9 +104,20 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           // (range 2989-3011, all deviation explained by 0.01 price rounding).
           config.anchor_divisor = 3000.0;
           config.trail_distance_steps=1.0;
-          // Target EA parity: SL activation begins at 1 favorable step
-          // (winning-trade SL locks cluster at +0.0/+0.5 steps from entry).
-          config.lock_trigger_steps=1.0;
+          // Target EA parity: SL-lock profit distribution across 287 winners
+          // closed at SL is continuous on [0,1) steps, has a hard GAP on (1,2),
+          // and is continuous again on [2,~8]. Zero losers ever closed at SL
+          // (SL is never placed below entry). The unique trailing model that
+          // reproduces all three facts:
+          //   - activate at 2.0 favorable steps, SL = market - 2.0 steps
+          //     (first lock is exactly breakeven, never sub-entry)
+          //   - pre-tighten trail distance 2.0 steps -> SL profits in [0,1)
+          //   - tighten at 3.0 favorable steps to 1.0-step trail -> profits >= 2
+          //   - runners keep the fixed 1.0-step trail (max observed 7.96 steps,
+          //     profit = peak - 1 step; no further tightening)
+          config.lock_trigger_steps=2.0;
+          config.pre_tighten_trail_distance_steps=2.0;
+          config.tighten_trigger_steps=3.0;
          config.activation_uses_trailing_distance=true;
           // Target EA parity: positive final-regime cycle nets cluster at a
           // median of $29.40 with the bulk of exits landing between $25-$33.
@@ -126,7 +137,11 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           config.trend_rescue_bars=6;
           config.trend_rescue_minimum_pending_levels=3;
           config.trend_rescue_move_price=20.0;
-          config.trend_rescue_drawdown_money=800.0;
+          // Target EA parity: reconstructed floating drawdown at the moment the
+          // first 2x rescue order of each cycle was opened clusters at -$350 to
+          // -$450 (Jul 17: -$444, Jul 28: -$354/-$357; the lone Jul 23 -$813
+          // reading is a late re-trigger inside an already-rescued cycle).
+          config.trend_rescue_drawdown_money=400.0;
           // Target EA parity: rescue replacements trade at exactly 2x the tier
           // volume in the dataset (0.12 = 2x0.06 at L11-20, 0.30 = 2x0.15 at L21-30).
           config.trend_rescue_volume_multiplier=2.0;

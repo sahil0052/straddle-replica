@@ -43,10 +43,31 @@ The Target EA changed regimes several times inside `ReportHistory-901018.xlsx`. 
 * Step mode: `STR_STEP_ANCHOR_DIVISOR` with `divisor = 3000.0` (Step $\approx 1.50$ to $1.51$ points on XAUUSD).
 * Total levels: 30 Buy levels above Anchor + 30 Sell levels below Anchor.
 
-### D. Trailing Stops
-* Activation: Step 1.
-* Distance: 1.0 step.
-* Fast pip locking on pullbacks to bank cash gains continuously into balance.
+### D. Trailing Stops (SL Ratchet Equation — forensically identified)
+Measured from 287 final-regime winners closed exactly at SL (profit distribution is continuous on
+[0,1) steps, has a hard GAP on (1,2), and is continuous on [2,~8] steps; ZERO losers ever closed at SL):
+* **Activation**: 2.0 favorable steps (`lock_trigger_steps = 2.0`). First SL = `market - 2.0*step` = exact breakeven. SL is NEVER placed below entry.
+* **Pre-tighten phase**: trail at `2.0` steps distance while favorable < 3.0 steps (SL profits land in [0,1) steps).
+* **Tighten**: at 3.0 favorable steps (`tighten_trigger_steps = 3.0`), trail distance tightens to `1.0` step (SL profits ≥ 2 steps).
+* **Runners**: the 1.0-step trail is FIXED — it never tightens further (max observed locked profit 7.96 steps; profit = peak − 1 step).
+* **Continuous tick trailing**: SL moves on every tick (smooth profit distribution, no lattice), monotonic ratchet only.
+* **No take-profit is ever set** (0 of 3,449 final-regime positions had a TP).
+
+### E. Pending-Order Re-Arms (Static Lattice — NO dynamic repositioning)
+* Re-arms ALWAYS return to the **original anchor lattice price**: 99.4% of 1,797 measured mid-cycle re-arms landed exactly (<0.1 step) on the same (side,level) price from the cycle's deployment burst.
+* Sell stops were observed re-armed up to 35 steps below market ON THE LATTICE. The Target EA NEVER moves opposite-side pendings toward market during trends.
+* If a lattice price is currently invalid (market has crossed it), WAIT for price to return — do not re-anchor.
+
+### F. Trend Rescue (2x Volume)
+* Trigger: reconstructed floating drawdown at first rescue order clusters at **-$350 to -$450** → `trend_rescue_drawdown_money = 400.0`.
+* Replacement volume: exactly `2x` tier (0.12 at L11–20, 0.30 at L21–30).
+* Breakeven liquidation: `realized >= $200.0 && net >= -$10.0` → liquidate flat, restart.
+
+### G. Large-Trend Survival Mechanism
+There is NO special trend-survival module. Survival in 40–50+ point runs emerges from the invariants above:
+trailing SLs continuously bank realized cash (observed $180–$980 realized per big cycle) while the static
+lattice re-arms harvest pullbacks; exits fire when `net >= $30` basket target, the 20-pt recenter, or the
+breakeven liquidation rule is met — floating drawdown at exit is offset by banked realized cash.
 
 ---
 
