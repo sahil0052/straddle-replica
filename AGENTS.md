@@ -83,13 +83,90 @@ The Target EA changed regimes several times inside `ReportHistory-901018.xlsx`. 
   first close's own price recovers 13/32. **This is instrument degradation, not a moved target** — the
   pre-break burst population is the precise instrument (it liquidates in ~1 s) and it is what the four
   §B estimators were dominated by. `$30` stands.
+* **THE THRESHOLD, CONFIRMED MARK-FREE AT n=99.** A flatten closes the whole basket, so the money the
+  cycle banks at its exit — `realised_before_sweep + realised_by_sweep` — **is** the total the EA saw at
+  its decision, and it needs no mark, no spread assumption and no bid/ask model. Median = **`29.32`**.
+  That is a fourth independent estimator agreeing with the three already in-code (`29.31` / `29.36` /
+  `30.46`). `cycle_target_money = 30.0` is settled; stop re-testing it.
+* **THE MARKED RECONSTRUCTION CANNOT ADJUDICATE THIS RULE, AND NEVER COULD.** Use the free calibration
+  point before trusting any mark-walk: at `t0`, the instant the Target itself flattened, its own value
+  *was* the threshold. Measured there, the reconstruction reads **median `25.23`, mean `12.25`,
+  p10 `-35.59`, p90 `+47.70`, only 16/99 inside [28,34], and 66/99 BELOW 30**. The cause is measured too:
+  price dispersion inside one flatten sweep is median `0.610` pt / p90 `6.790` pt, and multiplied by
+  20–170 $/pt of gross exposure that is a **p90 error of `$102.30` per reading**. The $30 threshold is
+  **0.29×** the instrument's own noise floor. A reconstruction with less resolution than the quantity it
+  measures cannot produce a finding about that quantity in either direction.
+* **RETRACTED — the "gated cycles" were gap-throughs, not a missing gate.** The claim that 5–13 cycles
+  held a total above $30 without closing is **withdrawn**. The basket total is not continuous in time: it
+  carries 20–170 $/pt, so an ordinary tick sequence moves it by hundreds of dollars between two 100 ms
+  polls. Dividing each overshoot by its own gross sensitivity gives the price move needed to explain it —
+  **median `0.83` pt, p75 `1.58` pt, and 46 of 47 within the `6.79` pt dispersion already observed inside
+  the sweeps.** Every previously-gated cycle resolves as ordinary noise: 194 → `1.20p`, 187 → `1.62p`,
+  250 → `2.41p`, 253 → `4.44p`, 252 → `6.41p`. Four hypotheses died getting here — starvation (0/10
+  intervals busy, cycle 194 idle 85.9 min), EA downtime (the silences are the broker's break, below), a
+  size-scaled target (0/100 at the decision), and cycle-boundary attribution (`R carry = 0.00` on all ten,
+  and only 3/99 cycles have any money settling after their own sweep).
+* **THE SYMMETRY IS THE PROOF, and it forbids adding a condition.** Exits overshoot by a move of `0.83` pt
+  and undershoot by `0.91` pt — same magnitude, opposite sign, one mechanism. A hold rule produces a
+  one-sided right tail; a second exit rule produces a one-sided left tail. Symmetric smearing around a
+  median of `29.32` is the signature of a single threshold that is exactly right, with execution physics
+  doing the rest. **The outcome distribution being wide (29/99 inside [25,35]) is therefore not evidence of
+  a missing rule and must not be treated as such.**
+* **`close_interval_seconds = 20` costs `$1.96` per flatten. Do not touch it.** Tested as the suspected
+  mechanism behind the negative exits and **refuted on three counts**: the median slip delta across the
+  regime break is `+0.06` pt = **`$62.74` total over 32 post-break flattens**; slip does not scale with
+  sweep span (under-5 s `0.03p`, 1–3 min `0.41p`, over-3 min `-0.02p` — non-monotonic, longest bucket
+  best); and three of the six worst exits happened **BEFORE** the break in **1–3 second** sweeps at
+  `0.1 s`/close. A loss taken in one second is not caused by 20-second pacing.
+* **THE BROKER SESSION BREAK, measured at minute resolution: `22:58 → 23:59` server time, 62 minutes with
+  zero activity of any kind, account-wide, every one of the 13 trading days**, plus two Fri→Mon holes of
+  `2964.1` and `2947.4` min. Any mark taken at the far side of one of these values the entire basket at a
+  reopen extreme — cycle 244's "crossing" sits at a gap-before of **177,824 s**. Filter on gap-before, not
+  on hour-of-day: it subsumes both the daily break and the weekend.
 * **OPEN RESIDUALS** (characterised, deliberately not modelled):
-  * 6/100 exits land below `-$25` (worst `-170.20`) with no discoverable rule — no floor, no distance
+  * 6/100 exits land below `-$25` (worst `-149.29`) with no discoverable rule — no floor, no distance
     signature, no pinned quantity, and young cycle ages (four under 20 min). Most consistent with
     discretionary/manual flattens. Do not invent a rule for these; that is exactly what cost $6,362.
-  * 5/100 cycles sustained a total above $30 for 6–257 min without closing (all heavily loaded,
-    32–94 $/pt, 4–57 h old). Leading hypothesis: the basket check is skipped while the EA is
-    deploying/re-arming. Untested.
+    The sweep-slip explanation was tested and refuted (above), so this note stands as originally written.
+
+### B1b. The accumulator is CYCLE-scoped — confirmed on both sides (`tools/forensics/accumulator_scope.py`)
+§B settled the **threshold** (`$30.00`, four independent estimators, mark-free median `29.32` at n=99). It
+did **not** settle the **scope** of the accumulator compared against it — and **scope is a bigger divergence
+than value.** If the Target's accumulator were day- or run-scoped rather than per-cycle, every exit in the
+run would fire at the wrong moment and no threshold tuning could fix it.
+
+The three hypotheses make catastrophically different predictions, so the test is cheap and decisive:
+
+* **DAY-scoped** — the day total already cleared 30, so cycles 2..n of each day exit at a per-cycle value
+  near **zero**. Predicts a large *negative* ordinal-within-day gradient.
+* **RUN-scoped** — after the first winning cycle the condition is permanently satisfied; per-cycle exit
+  values **collapse toward zero** and stay there.
+* **CYCLE-scoped** — every ordinal and every quartile centres on 30 alike.
+
+Measured on the mark-free identity (a flatten closes the whole basket, so
+`realised_before_sweep + realised_by_sweep` **is** the total the EA saw):
+
+| ordinal in day | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| median exit $ | 30.94 | 33.80 | 32.29 | 37.97 | 26.27 | 24.49 |
+| frac ≥ $20 | 69% | 77% | 69% | 75% | 75% | 100% |
+
+first-of-day median `30.94` vs later-in-day `29.32` → difference **−1.63**, where day-scoping predicts a
+large negative number. Run quartiles `33.59 / 28.77 / 26.84 / 41.42` show **no collapse**. **76% of cycles
+exit on ≥$20 of their OWN money**; only 12/99 at ≤$5. The test had real power — all **13 trading days had
+≥2 cycles**.
+
+**The tails were interrogated, not accepted.** An ordinal-1 mean of `$345.78` against a median of `$30.94`
+at n=13 means one cycle carries ~$4.1k, which could have been a cycle-attribution bug invalidating every
+median above. Discriminated by pre/burst split + cycle span: cycle 175's `$3,592` is the known 2.10-lot
+basket ripping in a fast sweep (burst `+$3,541`), cycle 187's `+690/−578` split is the 23.2-hour
+session-break boundary. **5%-trimmed mean `$34.48`** — the tails do not contaminate the central estimate.
+
+**Replica side confirmed too.** `m_cycle_realized` is zeroed per cycle (`StraddleEngine.mqh:1642/1798/2537`),
+and the recalculation path passes `m_cycle_started_msc` as a hard lower bound into `CCycleDealLedger::
+TryRecalculate`, which triple-filters on **magic, symbol, and `DEAL_TIME_MSC >= cycle_started_msc`**.
+`HistorySelect` runs at second resolution so it loads a *superset*; the explicit msc comparison narrows it
+exactly. Cycle-scoped by construction. **This question is closed — do not reopen it with a mark-based script.**
 
 ### B2. The 20-Second Pacing Family (all four flipped 0 → 20 on 2026-07-24)
 
@@ -192,6 +269,96 @@ Therefore:
 > `STR B2`, 14.03 points of slippage), 4 were exactly zero, 2,392 positive. The ratchet equation above
 > is unaffected — it was derived from the full 2,695-position SL population, not the 287.
 
+### D2. The ratchet's money-weighted fingerprint — a PREDICTED HOLE, measured
+The ratchet equation in §D was derived from SL-price reconstruction. `tools/forensics/parity_verdict.py`
+confirms it a second time with a **completely independent instrument**: close price vs open price only —
+no SL reconstruction, no marks, no spread model, no linkage to the SL comment value.
+
+The two-stage design makes a falsifiable prediction about where stops land. Stage 1 activates at 2.0
+favourable steps with SL at exact breakeven, then trails 2.0 steps behind, so a peak in `[2.0, 3.0)`
+closes in `[0.0, 1.0)`. Stage 2 tightens to 1.0 step at 3.0 steps, so a peak `>= 3.0` closes at `>= 2.0`.
+**A correct two-stage ratchet therefore cannot close between 1.0 and 2.0 steps of profit.** A
+single-stage trail would fill that band smoothly.
+
+Measured over all 2,480 final-regime SL closures, as **density per unit step width** (raw counts
+understate it because the bands differ in width):
+
+| band | positions/step | reading |
+|---|---|---|
+| breakeven `[-0.25, 0.25)` | **700** | stage-1 activation spike |
+| `[0.25, 1.0)` | **755** | stage-1 trail |
+| `[1.0, 2.0)` | **138** | **the predicted hole** |
+| `[2.0, 3.0)` | **799** | stage-2 floor |
+
+The hole is depleted **5.5×–5.8×** against the bands on either side of it. `median steps locked = 2.134`
+sits *on* the stage-2 floor; `p10 = 0.125` sits *on* breakeven. A one-stage trail at 1.0 step would pile
+up at 1.0; a one-stage trail at 2.0 could never reach 2.0+. Only two stages with a tighten produce this.
+
+The 138 that *do* land in the hole are **NOT** a pacing signature. That was an earlier, wrong reading
+(recorded here and in `StopScheduler.mqh`, both now corrected). See §D3 — they are stop-fill slippage,
+and at the level the EA actually *wrote*, the band is empty.
+
+### D3. The instrument hierarchy — and the exact wall (`tools/forensics/attested_stop.py`)
+§D2's hole is measured on **fill price**, which conflates two different things. Parity depends on only one:
+
+* the **DECISION** — where the EA *wrote* the stop. This is the rule, and the only thing the replica must match.
+* the **EXECUTION** — where the position *filled*. Differs by broker slippage, which **no parameter in
+  either EA controls**.
+
+Three instruments measure the decision, in ascending order of quality:
+
+| instrument | what it is | mass in forbidden band `(1.0,2.0)` |
+|---|---|---|
+| `close_price` | the fill, + slippage | 138 / 2,480 = **5.56%** |
+| `position.stop_loss` | newest SL write on the record | 8 / 2,480 = **0.32%** |
+| **`[sl <price>]` exit comment** | **the broker's attestation of the level that fired** | 8 / 2,480 = **0.32%** |
+
+The band fills up *exactly* as the measurement degrades. That monotone ordering is the whole argument.
+
+On the attested price — 2,480 samples, no SL reconstruction, no mark, no spread model — the density per
+0.05 step across the wall is:
+
+| `[0.50,1.00)` | `[1.00,1.25)` | `[1.25,1.50)` | `[1.50,1.75)` | `[1.75,1.90)` | `[1.90,1.95)` | `[1.95,2.00)` | `[2.00,2.05)` |
+|---|---|---|---|---|---|---|---|
+| 43.3 | **0.0** | **0.0** | **0.0** | **0.0** | **0.0** | 8.0 | 56.0 |
+
+**The forbidden band `(1.00, 1.95)` is exactly empty — 0 of 2,480** — with large mass immediately on both
+sides. The only residue is 8 stops in `[1.95, 2.00)`, and each is **0, 1 or 2 ticks** below 2.0000 (tick
+0.01 on a step of ~1.36 = 0.735% of a step): that is `NormalizeDouble`/`MathRound` quantisation plus the
+`stops_level` clamp, not a rule difference. This is the strongest ratchet evidence in the project.
+
+**Monotonicity verified on the same population.** `position.stop_loss` equals the attested fired level in
+**99.8%** of cases, is tighter in 0.1% (a later ratchet write) and looser in 0.1% (≤ 0.105 steps, clamp
+noise). A loosening write would contradict the return conditions at the bottom of `StopScheduler::Calculate`;
+effectively none occur.
+
+**7.7% of stops fill BETTER than their own trigger** (192/2,480, median +0.857 steps, max +5.765). Three
+hypotheses were tested and two refuted: mislabelled flattens (only 3.1% flatten-adjacent vs 1.1% baseline)
+and stale-write pacing (42.2% exceed the 1.0-step bound a tighten can be wrong by). It is genuine
+favourable slippage — a bounce between trigger and fill. Not an EA behaviour, not a classifier defect.
+
+> **ACTIVATION IS NOT EXACT BREAKEVEN.** Do not "correct" it to zero. Because the gate is polled on a
+> 100 ms timer, the tick that first satisfies `favorable_steps >= 2.0` has usually already overshot to
+> `2.0 + e`, so the stop lands at `entry + e*step`. Measured on attested prices: **median +0.124 steps,
+> p10 +0.029, p90 +0.222, and 0 of 317 at exact breakeven.** The distribution is **strictly positive**,
+> which is the signature of a late poll — a `lock_offset_price` rule would give a constant, and
+> `pre_tighten != lock_trigger` would allow negatives. The offset is emergent from polling, not a
+> parameter, so the replica reproduces it automatically.
+
+**Hard falsifier passed:** 0 of 2,480 decisions sit below entry. The activation rule holds without
+exception across every measurable SL closure. (30 positions *fill* below entry — slippage again.)
+
+**The two derivations agree to four decimals.** §D reached the empty band by SL-price *reconstruction* and
+reported mode B spanning `+1.9853 … +17.5221`. §D3 reached it from the broker's *attested* fired price and
+found the 8 residue stops spanning `1.9853 … 2.0000`. **The same boundary value, `1.9853`, falls out of two
+instruments that share no intermediate quantity.** Likewise §D's "zero negative `locked` values" and §D3's
+hard falsifier are the same fact measured twice. Treat the wall as settled.
+
+### D4. Volume-blindness (`tools/forensics/ratchet_edges.py`, panel C)
+The ratchet has no volume term, so band structure must be identical across lot tiers. Measured medians
+**2.162 / 1.886 / 1.964 / 2.815** steps locked across volumes 0.01 / 0.06 / 0.12 / 0.15, with consistent
+breakeven and `>=2.0` shares. Confirmed volume-blind, as coded.
+
 ### E. Pending-Order Re-Arms (Static Lattice — NO dynamic repositioning)
 * Re-arms ALWAYS return to the **original anchor lattice price**: 99.4% of 1,797 measured mid-cycle re-arms landed exactly (<0.1 step) on the same (side,level) price from the cycle's deployment burst.
 * Sell stops were observed re-armed up to 35 steps below market ON THE LATTICE. The Target EA NEVER moves opposite-side pendings toward market during trends.
@@ -277,6 +444,156 @@ The economics confirm where the money comes from. In the final regime, SL closur
 ratchet is the profit engine; the basket exit is a *reset*, and it is expected to be net-negative.
 Any change that makes the basket exit fire more often is therefore a direct transfer out of the
 profit engine.
+
+### H. The guard-halt divergence class — `latest_30_real_safe.set` IS A PARITY TRAP
+Every other section here asks whether the replica computes the same *number* the Target computed. This
+class is different in kind and worse. **A guard that fires while the Target keeps trading is not a 1%
+divergence** — the replica enters `CYCLE_HALTED` and never returns, so correlation from that instant is
+zero. Rule parity is irrelevant if the machine is switched off.
+
+Two mechanisms, both in `StraddleEngine.mqh`, both fed by the same four `m_runtime` numbers:
+* `SafetyTriggered()` (2317) — checked from `CheckCycleTargets` (2837); drives `BeginClose(reason, true)`
+  (2352), which sets `m_halted=true`. The halt is **two-phase**: the basket flattens first, and only once
+  it is flat does `m_state=CYCLE_HALTED` land (2458), logging `cycle_complete`/`halted` and clearing
+  persistence. **Terminal** — there is no automatic return.
+* `ExposureAllowsRearm()` (2279) — five call sites (1344, 1901, 1942, 2144, 2190). Returns false and the
+  level is skipped. **Does not halt and does not log a halt** — the lattice just stops being replaced,
+  silently changing the grid geometry the rest of the run depends on. The quieter and more dangerous one.
+
+> **Line numbers in this section have rotted once already** (they read 2293/2814/2434/2255/2136/2173 before
+> being re-measured). Prefer the function names; treat the numbers as hints and re-grep before trusting one.
+
+**Production is disarmed, so there is no exposure today.** `STR_SAFETY_ENABLED_DEFAULT` is `false`
+(`mql5/StraddleReplicaReal.mq5:12`) and `latest_30_real_exact.set` sets `SafetyEnabled=false`, so
+`SafetyTriggered()` returns at 2320 before reading anything and `ExposureAllowsRearm()` returns true
+immediately. The Target itself never halted.
+
+But `latest_30_real_safe.set` arms all four, and `tools/forensics/guard_envelope.py` measures its numbers
+against the Target's **own historical envelope**. They are not margins; two of them are tripwires and one
+of them **the Target already walked through**:
+
+| guard in the "safe" preset | compiled default | Target's measured worst | verdict |
+|---|---|---|---|
+| `MaxGrossLots = 2.20` | `2.20` | 2.10 lots (cycle 175) | **4.5% margin** — never fired, but razor-thin |
+| `DailyLossLimit = 500.0` | **`0.0` = disabled** | **−$668.78** running intraday (2026-07-17) | **BREACHED — halts on 2 of 13 days** |
+| `MaxEquityLossPercent = 10.0` | `20.0` | 5.69% pessimistic (cycle 234, $980.05 on a $17,233 balance) | ~1.8× — but **unadjudicated** |
+| `MaxSpreadPoints = 1000.0` | `1000.0` | unmeasurable (no bid/ask series) | correctly sized; a $10 gold spread is a real liquidity hole |
+
+**`DailyLossLimit = 500.0` is the single worst configuration value in the project.** `TodayOwnedProfit()`
+(2290–2315) is re-evaluated on *every timer tick*, so the binding quantity is the **running intraday
+minimum**, not the day's closing P&L. Measured on the final regime:
+
+* **2026-07-14** dips to **−$640.29** and closes at **+$3,145.20** — the *best day in the sample*. The
+  replica would have flattened and parked in `CYCLE_HALTED` before earning any of it.
+* **2026-07-17** dips to **−$668.78** and recovers to −$250.99. The replica would have locked in −$500 and
+  then never traded again — strictly worse than the Target on a day the Target survived.
+
+The Target therefore demonstrably runs with **no daily loss limit**. For parity this value must be `0.0`,
+which is also the compiled default — the `.set` file *enables a tripwire the code deliberately leaves off*.
+
+> **Statistic discipline, recorded because this table was wrong once.** An earlier version of this row read
+> "−$499.78 (2026-07-06), margin $0.22 = 0.04%". `guard_envelope.py` now reproduces that figure **to the
+> cent** and shows what it was: the worst **closing** daily total over the **whole** dataset (2026-07-06 is
+> before `FINAL_REGIME_START`). The correct statistic for a tick-polled guard is the running minimum, and it
+> is −$668.78 — a breach, not a near-miss. Both statistics are printed side by side in Panel C so the two
+> numbers can never look like a contradiction again. **Never size a polled guard from a closing total.**
+
+`MaxGrossLots = 2.20` is *exactly one side's full ladder* (`10×0.01 + 10×0.06 + 10×0.15`), and 4.40 for
+both sides. A number that happens to equal one side of a two-sided strategy is a coin flip, not a risk
+limit — cycle 175's 2.10 came from base tiers alone, so **one more 0.15 level → 2.25 > 2.20 → halt**.
+Panel B tests the quieter mechanism exactly: replaying the exposure timeline and asking
+`ExposureAllowsRearm`'s own question at each of the 3,441 fills, **0 would have been refused** at 2.20 (or
+at any larger limit). So the silent-truncation risk I expected is **not realised in this dataset** — the
+prediction was wrong and the measurement says so. The margin is still only 0.10 lots.
+
+The equity guard is measured against `m_cycle_start_balance`, recaptured fresh each cycle (1641/1797), so it
+does **not** amortise: every cycle gets the same leash. It is **UNADJUDICATED and must stay that way** —
+`equity = balance + floating`, and the report has no bid/ask series. Note the failure mode that makes a
+realised-only measurement useless here: the dangerous instant is right after deployment, when *many legs are
+underwater simultaneously and realised is still exactly zero*, so true equity drawdown **exceeds** realised
+drawdown. (An earlier Panel D argued the opposite — "floating is positive while the winner runs" — and that
+one-sided claim is wrong; it is now refuted in the script's own text.) The pessimistic all-legs-at-their-
+worst figure peaks at **5.69%**, and §H's older mark-based **$1,043.86** exceeds it, which is consistent:
+a mark-based peak can be worse than the sum of settled losses. Also correcting this section: that $1,043.86
+was compared against a *notional* $10k balance, but the observed balance at the worst cycles was
+**$15.6k–$17.6k**, so the guard is **not** "already exceeded" at the balances actually observed.
+
+**The account grew ~10× inside this window (balance $1,864.12 → $19,720.46).** `MaxEquityLossPercent` is
+proportional and self-scales; `DailyLossLimit` is absolute, so $500 is **27%** of the account at the start
+of the window and **2.5%** at the end. A fixed-dollar guard cannot be correctly sized across a 10× balance
+change — which is the structural reason the compiled default disables it.
+
+Panels A–C of `guard_envelope.py` are **exact** (volume and settled deal money need no mark). Panel D is
+mark-free but pessimistic, and is stated only as an order-of-magnitude. Keep that distinction.
+
+**If these guards are ever wanted, they must sit well OUTSIDE the Target's measured envelope** — a
+disaster brake, not a risk budget. Raising live-money limits is the operator's decision; do not change
+them silently in either direction.
+
+**Code change made here (log-only, zero parity risk): the terminal `halted` event now names the guard.**
+`BeginClose()` logged the reason on `close_begin` (2362), but `close_begin` also fires for *every ordinary
+`$30` basket exit*, so the telemetry holds hundreds of them and only one is fatal — and the flatten sweep
+in between closes one position per timer tick, so the two lines can be far apart. The terminal event at
+2460 logged an **empty** reason. Added `m_halt_reason` (declared beside `m_halted` at 45), set in lockstep
+at the single `m_halted=halt_after` assignment (2356), and emitted on the `halted` event. `CYCLE_HALTED`
+has no automatic exit, so that line is the last thing the EA ever says: it has to be self-diagnosing. It
+is only ever read while `m_halted` is true, so the four `m_halted=false` reset sites need no clear.
+Compiles 0 errors / 0 warnings. This changes no trading decision — only what the log tells the operator.
+
+**Fix applied.** Of the five `ExposureAllowsRearm` sites, 1344/1901/1942 already logged
+`safety_rearm_blocked`; **2136 and 2173 returned with no log at all** — and those two are the
+*trend-rescue replacement* paths that place `lots × trend_rescue_volume_multiplier` (2.0×), i.e. the paths
+that hit the cap first. A rescue silently failing to place its replacement leaves the trend side starved
+(already structurally fragile via `PendingPriceIsValid`, §G) with nothing in telemetry. Both now log with
+reason `max_gross_lots_rescue`. Zero cost while safety is disarmed; pure observability once armed.
+Compiles clean (`0 errors, 0 warnings`).
+
+### I. The money-weighted parity verdict (`tools/forensics/parity_verdict.py`)
+Parity must be weighted by **money, not parameter count**. "24 of 25 parameters confirmed = 96%" is
+meaningless: `stop_scan_newest_first` reorders a scan loop, `cycle_target_money` decides when every basket
+in the run terminates. The denominator is `|realised money|` in the final regime — **$31,766.29** across
+**3,435 closed positions / 100 cycles**, net **+$7,837.55**.
+
+**There are exactly TWO closure mechanisms, and only two.** No `tp`, no `close_by`, no `<none>`, no
+unlinked exits — a structural result, not a summary:
+
+| mechanism | positions | net | share of \|money\| | win rate |
+|---|---|---|---|---|
+| `basket_flatten` | 955 | −$2,787.30 | 66.0% | 46.7% |
+| `sl` | 2,480 | +$10,624.85 | 34.0% | **96.0%** |
+
+That asymmetry is the designed division of labour (§G): the ratchet harvests winners one at a time, so the
+sweep is left holding whatever had not yet run. (§G's slightly different totals use a looser
+still-open/close-time filter; same measurement, same conclusion.)
+
+Every dollar's governing parameter is either **CONFIRMED** against the Target's own fills or
+**UNMEASURABLE** (the dataset cannot distinguish the replica's choice from any other, so any choice
+matches). Exactly **one** item is UNMEASURABLE, and it governs $0:
+* the commission-inclusion asymmetry (`OwnedFloatingProfit` excludes commission+fee; `m_cycle_realized`
+  and `TodayOwnedProfit` include them) — **commission is exactly $0.00 on 901018**. Document it; do not
+  "fix" it, because changing it would be inventing a rule.
+
+> CORRECTION: an earlier draft of this section listed `SYMBOL_TRADE_STOPS_LEVEL` /
+> `SYMBOL_TRADE_FREEZE_LEVEL` as a second unmeasurable gap, on the grounds that neither appears in
+> `TradeGateway.mqh`. That is true of that file and **false as a claim about the EA**. Both are read
+> live from the symbol: `STOPS_LEVEL` at `StraddleEngine.mqh:2511`, passed into `CStopScheduler::Calculate`
+> on *every* ratchet evaluation, where it clamps the desired SL (`MathMin(desired, bid - stops_level*point)`
+> for buys, `MathMax(desired, ask + ...)` for sells); and both at `StraddleEngine.mqh:1317-1318` inside
+> `PendingPriceIsValid`. The broker minimum is therefore respected dynamically, per symbol, per
+> evaluation — this was never a gap. Do not re-add it to the ledger.
+
+**Unmodelled residual: $296.80 = 0.9% of the denominator** (5/100 cycles below −$25: 231, 270, 256, 263,
+192). These are not replica rule failures — `basket_slipcost.py` showed the $30 rule fired correctly
+(`pre` sat at the threshold) and the money was lost during the sweep, a sweep the replica reproduces by
+construction because `close_interval_seconds = 20` matches. But no discovered rule *predicts* them, so
+they stay in the residual. **Money-weighted parity coverage: 99.07%.**
+
+Rule-level parity is complete for everything this dataset can adjudicate. Outcome-level parity is **not**
+100% and cannot be: a 100 ms poll on a basket carrying 20–170 $/pt resolves the $30 rule to ±one
+tick-jump. That is a property of the strategy, not a defect of the replica — the Target's own exit
+distribution has median 29.32 with the same smear (§B1). The parameter set is **exhausted** against this
+dataset; the only things that would move the number are a second Target dataset with non-zero commission,
+or broker stops-level telemetry from the replica's own account.
 
 ---
 

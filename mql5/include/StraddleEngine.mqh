@@ -43,6 +43,14 @@ private:
    int               m_deploy_index;
    bool              m_has_traded;
    bool              m_halted;
+   // Which guard set m_halted, carried forward so the TERMINAL "halted" event can
+   // name it.  BeginClose() logs the reason on "close_begin", but it is also called
+   // for every ordinary $30 basket exit, so the log holds hundreds of close_begin
+   // lines and only one of them is fatal -- and the flatten sweep in between takes
+   // one position per timer tick, so the two lines can be far apart.  Without this,
+   // an operator finding the EA parked in CYCLE_HALTED cannot tell WHICH limit
+   // killed it.  Kept in lockstep with m_halted at the single assignment site.
+   string            m_halt_reason;
    string            m_telemetry_file;
    int               m_atr_handle;
    string            m_cycle_id;
@@ -2133,8 +2141,23 @@ private:
                m_profile.lots[index]*
                m_profile.trend_rescue_volume_multiplier
             );
+            // The rescue path doubles volume (trend_rescue_volume_multiplier),
+            // so it is the FIRST thing to hit max_gross_lots -- and it used to
+            // be the only ExposureAllowsRearm site that returned without a log.
+            // A rescue that silently no-ops leaves the trend side starved (see
+            // PendingPriceIsValid, ~1312) with nothing in telemetry to explain
+            // it.  guard_envelope.py measured why this matters: the Target's
+            // heaviest final-regime cycle peaked at 2.10 gross lots against the
+            // 2.20 cap in latest_30_real_safe.set, a 4.5% margin.
             if(!ExposureAllowsRearm(m_buy_levels[index].volume))
+              {
+               LogLifecycleEvent(
+                  "safety_rearm_blocked",
+                  StringFormat("STR B%d",m_buy_levels[index].level),
+                  "max_gross_lots_rescue"
+               );
                return;
+              }
             if(PlaceLevel(m_buy_levels[index]))
               {
                ClearTrendRescueReplacement(m_buy_levels[index],index);
@@ -2170,8 +2193,17 @@ private:
             m_profile.lots[index]*
             m_profile.trend_rescue_volume_multiplier
          );
+         // Sell-side twin of the buy-side rescue block above: log the block so a
+         // starved trend side is diagnosable instead of mysterious.
          if(!ExposureAllowsRearm(m_sell_levels[index].volume))
+           {
+            LogLifecycleEvent(
+               "safety_rearm_blocked",
+               StringFormat("STR S%d",m_sell_levels[index].level),
+               "max_gross_lots_rescue"
+            );
             return;
+           }
          if(PlaceLevel(m_sell_levels[index]))
            {
             ClearTrendRescueReplacement(m_sell_levels[index],index);
@@ -2330,6 +2362,10 @@ private:
       if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
          return;
       m_halted=halt_after;
+      // Kept in lockstep with m_halted so the terminal "halted" event can name the
+      // guard.  Only ever READ while m_halted is true, so the m_halted=false reset
+      // sites do not need to clear it.
+      m_halt_reason=(halt_after ? reason : "");
       ENUM_CYCLE_STATE replica_close_state=
          (m_profile.cancel_before_close ? CYCLE_CANCELING : CYCLE_CLOSING);
       m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);
@@ -2433,7 +2469,10 @@ private:
         {
          m_state=CYCLE_HALTED;
          LogLifecycleEvent("cycle_complete","","flat");
-         LogEvent("halted","",0,0.0,0.0,"");
+         // Name the guard on the terminal event.  CYCLE_HALTED has no automatic
+         // exit, so this is the last thing the EA ever says: it must be
+         // self-diagnosing.  Empty here previously.
+         LogEvent("halted","",0,0.0,0.0,m_halt_reason);
          ClearPersistence();
         }
       else
@@ -2866,14 +2905,42 @@ public:
        //       exactly there.
        //
        // A flat threshold on realized_since_cycle_start + floating is the
-       // whole rule.  Three independent estimators agree on its value:
-       // exact burst-flatten total 29.31, whole-sweep total 29.36, and
-       // decision-instant marked total 30.46.  A size-scaled threshold
-       // (net >= k * $/pt, or k * open_positions) is refuted outright: 0/100
-       // cycles fire at the decision and 97/100 fire prematurely.
+       // whole rule.  FOUR independent estimators agree on its value:
+       // exact burst-flatten total 29.31, whole-sweep total 29.36,
+       // decision-instant marked total 30.46, and -- the only one that needs
+       // no price mark at all -- the median money actually BANKED at the exit
+       // across 99 cycles, 29.32.  That last one is the load-bearing figure:
+       // a flatten closes the whole basket, so realised-at-exit IS the total
+       // the EA saw, with no bid/ask model and no stale-mark exposure.
+       // A size-scaled threshold (net >= k * $/pt, or k * open_positions) is
+       // refuted outright: 0/100 cycles fire at the decision and 97/100 fire
+       // prematurely.
+       //
+       // The exit VALUES scatter widely (only 29/99 inside [25,35], tails to
+       // +632 and -108) and that scatter is NOT a missing rule.  The basket
+       // carries 20-170 $/pt of gross exposure, so the decision variable
+       // moves in jumps of $3-30 per tick and cannot land on 30.  Dividing
+       // each overshoot by its own gross sensitivity gives the price move
+       // needed to explain it: median 0.83 pt, and 46 of 47 inside the
+       // 6.79 pt dispersion measured inside the flatten sweeps themselves.
+       // Undershoots need 0.91 pt.  Same magnitude, opposite sign, one
+       // mechanism -- price moving faster than a basket can be valued.  A
+       // hold rule would give a one-sided right tail; a second exit rule a
+       // one-sided left tail.  The symmetry is what rules both out.
+       //
+       // An earlier note here claimed 5-13 cycles held above $30 without
+       // closing.  RETRACTED.  That came from a mark-walk whose error, at the
+       // Target's own flatten instant where the true value is known to be 30,
+       // is median 25.23 with p10 -35.59 / p90 +47.70 -- a p90 of $102.30 per
+       // reading, i.e. 3.4x the threshold it was being used to test.  Every
+       // "gated" cycle resolves as ordinary tick noise (194 -> 1.20 pt,
+       // 187 -> 1.62, 250 -> 2.41, 253 -> 4.44, 252 -> 6.41).
        //
        // Do not reintroduce a distance, drawdown or breakeven exit without
-       // first re-running q3o/q3p and showing a median lead near zero.
+       // first re-running q3o/q3p and showing a median lead near zero.  And
+       // do not re-open the threshold question with a mark-based script: use
+       // tools/forensics/basket_resolution.py, which is mark-free, and check
+       // any new estimator against value@t0 before believing it.
        // ------------------------------------------------------------------
       }
 
