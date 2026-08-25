@@ -21,16 +21,23 @@ Whenever you detect a logic difference, parameter mismatch, boundary drift, or s
 
 ## 2. Core Architectural Invariants (Target EA Exact Standards)
 
-### A. Lot Sizing Schedule (Strict Parity)
-From forensic analysis of all 17,632 closed trades in `ReportHistory-901018.xlsx`:
-* **Levels 1 to 15 (0.0 to 22.5 pts)**: `0.01` lots (covers 73.1% of all historical trades).
-* **Levels 16 to 25 (24.0 to 37.5 pts)**: `0.03` lots (covers 20.5% of historical trades).
-* **Levels 26 to 30 (39.0 to 45.0 pts)**: `0.06` lots (extreme boundaries only).
+### A. Lot Sizing Schedule (Strict Parity — Final Regime)
+The Target EA changed regimes several times inside `ReportHistory-901018.xlsx`. Parity MUST track the
+**final regime (Jul 14–30)**, measured from every order placed in that window:
+* **Levels 1 to 10**: `0.01` lots (10,940 orders, zero exceptions at base volume).
+* **Levels 11 to 20**: `0.06` lots (2,624 orders).
+* **Levels 21 to 30**: `0.15` lots (378 orders).
+* Trend-rescue replacement orders trade at exactly `2x` the tier volume (0.12 at L11–20, 0.30 at L21–30).
+
+> NOTE: The older 0.01/0.03/0.06 schedule at 15/25/30 boundaries matches only the June regime and the
+> whole-history aggregate. Do NOT regress to it.
 
 ### B. Compact Cycle Boundary & Auto-Recenter
 * **Median Cycle Price Span**: `20.01 points`.
 * **20-Point Auto-Recenter Rule**: If `dist_from_anchor >= 20.0 pts` or `(realized >= $50.0 && net >= -$20.0 && dist >= 15.0 pts)`, execute `BeginClose("grid_recenter", false)` and redeploy flat at current market price.
 * **Trend Rescue Breakeven Liquidation**: If `realized >= $200.0` and `net >= -$10.0`, liquidate flat and restart immediately.
+* **Cycle Basket Target**: `cycle_target_money = 30.0` (positive final-regime cycle nets cluster at a median of $29.40; most exits land between $25 and $33).
+* **Re-arm Delay**: `rearm_delay_seconds = 5` (level re-arms are modally 0–5s after a stop-out; 490 of 2,370 measured re-arms landed inside the first 5s bucket).
 
 ### C. Step Spacing
 * Step mode: `STR_STEP_ANCHOR_DIVISOR` with `divisor = 3000.0` (Step $\approx 1.50$ to $1.51$ points on XAUUSD).

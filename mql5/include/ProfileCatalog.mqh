@@ -108,12 +108,16 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           // (winning-trade SL locks cluster at +0.0/+0.5 steps from entry).
           config.lock_trigger_steps=1.0;
          config.activation_uses_trailing_distance=true;
-         config.cycle_target_money=35.0;
+          // Target EA parity: positive final-regime cycle nets cluster at a
+          // median of $29.40 with the bulk of exits landing between $25-$33.
+          config.cycle_target_money=30.0;
          config.cancel_before_close=true;
          config.deployment_fill_cooldown_seconds=20;
          config.close_interval_seconds=20;
          config.restart_delay_ms=20000;
-         config.rearm_delay_seconds=20;
+          // Target EA parity: level re-arms are modally 0-5s after a stop-out
+          // (490 of 2,370 measured re-arms landed inside the first 5s bucket).
+          config.rearm_delay_seconds=5;
           config.stop_scan_newest_first=true;
           config.max_stop_updates_per_pass=1;
           config.stop_updates_on_timer=true;
@@ -126,9 +130,13 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           // Target EA parity: rescue replacements trade at exactly 2x the tier
           // volume in the dataset (0.12 = 2x0.06 at L11-20, 0.30 = 2x0.15 at L21-30).
           config.trend_rescue_volume_multiplier=2.0;
-         SetLotTier(config,1,15,0.01);
-         SetLotTier(config,16,25,0.02);
-         SetLotTier(config,26,30,0.06);
+          // Target EA parity: final-regime (Jul 14-30) lot schedule measured
+          // from every order the Target EA placed in that window:
+          //   L1-10 -> 0.01 (10,940 orders), L11-20 -> 0.06 (2,624 orders),
+          //   L21-30 -> 0.15 (378 orders). Zero exceptions at base volume.
+          SetLotTier(config,1,10,0.01);
+          SetLotTier(config,11,20,0.06);
+          SetLotTier(config,21,30,0.15);
          return true;
 
       case CUSTOM_PROFILE:
