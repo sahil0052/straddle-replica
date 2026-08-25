@@ -99,8 +99,14 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
       case LATEST_30:
          config.levels_per_side=30;
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;
-          config.anchor_divisor = 3800.0;
+          // Target EA parity: forensic audit of ReportHistory-901018 final regime
+          // (99 grid deployments, Jul 14-30) measured anchor/step median=3000.1
+          // (range 2989-3011, all deviation explained by 0.01 price rounding).
+          config.anchor_divisor = 3000.0;
           config.trail_distance_steps=1.0;
+          // Target EA parity: SL activation begins at 1 favorable step
+          // (winning-trade SL locks cluster at +0.0/+0.5 steps from entry).
+          config.lock_trigger_steps=1.0;
          config.activation_uses_trailing_distance=true;
          config.cycle_target_money=35.0;
          config.cancel_before_close=true;
@@ -117,7 +123,9 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           config.trend_rescue_minimum_pending_levels=3;
           config.trend_rescue_move_price=20.0;
           config.trend_rescue_drawdown_money=800.0;
-          config.trend_rescue_volume_multiplier=1.5;
+          // Target EA parity: rescue replacements trade at exactly 2x the tier
+          // volume in the dataset (0.12 = 2x0.06 at L11-20, 0.30 = 2x0.15 at L21-30).
+          config.trend_rescue_volume_multiplier=2.0;
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,25,0.02);
          SetLotTier(config,26,30,0.06);

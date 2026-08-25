@@ -2837,6 +2837,31 @@ public:
           return;
          }
 
+       // 20-Point Auto-Recenter Rule (Target EA parity): the historical dataset
+       // shows the Target EA liquidates flat and redeploys at market once price
+       // drifts ~20 pts from the cycle anchor (exit distance-from-anchor median
+       // 17.65 pts, histogram peak 15.0-22.5 pts across 99 final-regime cycles),
+       // accepting small or slightly negative nets instead of holding drawdown.
+       if(m_profile.trend_rescue_enabled &&
+          m_anchor>0.0 &&
+          m_state==CYCLE_RUNNING)
+         {
+          double recenter_bid=SymbolInfoDouble(m_runtime.symbol,SYMBOL_BID);
+          if(recenter_bid>0.0)
+            {
+             double dist_from_anchor=MathAbs(recenter_bid-m_anchor);
+             if(dist_from_anchor>=20.0 ||
+                (m_cycle_realized>=50.0*scale &&
+                 basket.net>=-20.0*scale &&
+                 dist_from_anchor>=15.0))
+               {
+                LogLifecycleEvent("basket_trigger","","grid_recenter");
+                BeginClose("grid_recenter",false);
+                return;
+               }
+            }
+         }
+
        // Trend Rescue Breakeven Liquidation Rule (Only closes if net profit is near breakeven >= -$10):
        if(m_trend_rescue_side!=0 && m_cycle_realized>=200.0*scale)
          {
