@@ -1,9 +1,0 @@
-GO	0	19:47:21.295	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
-JE	0	19:47:21.296	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 4600H with Radeon, AVX2, 5 / 15 Gb memory, 2 / 237 Gb disk, admin, GMT+5
-GK	0	19:47:21.296	Terminal	C:\Program Files\MetaTrader 5
-KS	0	19:47:21.298	MCP	started on 127.0.0.1:22346
-GK	1	19:47:28.301	Network	'901018': connection to AchieverGlobalMarkets-Server lost
-PN	0	19:47:44.507	Terminal	exit with code 0
-FK	0	19:47:45.508	Network	'901018': disconnected from AchieverGlobalMarkets-Server
-KR	0	19:47:45.536	Terminal	stopped with 0
-EJ	0	19:47:48.729	Terminal	shutdown with 0

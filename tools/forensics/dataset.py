@@ -12,6 +12,7 @@ replica's configuration leak into the reconstruction.
 from __future__ import annotations
 
 import csv
+import os
 import re
 import statistics
 from bisect import bisect_right
@@ -19,7 +20,14 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-GOLDEN = Path(__file__).resolve().parents[2] / ".cache" / "golden"
+# Default is the Target's export.  GOLDEN_DIR redirects the whole loader at
+# another directory written in the same schema -- which is how 111638511's own
+# API history (see fresh_to_golden.py, output .cache/fresh/) is measured by the
+# very same scripts, instead of by a parallel set of bespoke ones that would have
+# to be trusted separately.  Nothing else in this module changes, so a script
+# cannot tell which account it is reading and cannot special-case ours.
+_DEFAULT_GOLDEN = Path(__file__).resolve().parents[2] / ".cache" / "golden"
+GOLDEN = Path(os.environ.get("GOLDEN_DIR") or _DEFAULT_GOLDEN)
 GRID_RE = re.compile(r"^STR ([BS])(\d+)$")
 CONTRACT = 100.0  # XAUUSD: 1.00 lot = 100 oz, so profit = dprice * volume * 100
 
