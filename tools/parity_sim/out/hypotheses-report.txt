@@ -1,0 +1,33 @@
+HYPOTHESIS TEST REPORT (report-only)
+============================================================
+
+[H1 anchor vs last traded price] n=99
+  |anchor-last|/step: median=0.244 p90=1.529 max=28.373
+  signed median=-0.038 (0 => anchor == last price; +/-0.5 => bid/ask offset; verify vs ticks in Phase 1)
+  last-price age at deploy: median=2.0s
+
+[H2 basket target] n=90 positive cycles
+  fixed-$ nets:   median=32.69 CV=4.096
+  pct-of-balance: median=0.1993% CV=4.910
+  lower CV wins => FIXED-MONEY
+
+[H3 exit classification] {'micro-cycle(<8 trades)': 10, 'basket_target': 22, 'grid_recenter': 64, 'UNEXPLAINED': 13}
+  UNEXPLAINED: start=2026-07-17 15:44:46.325000 trades=24 net=2.50 dist=14.74 realized=43.17 rescue=False
+  UNEXPLAINED: start=2026-07-17 16:13:49.106000 trades=23 net=4.28 dist=14.53 realized=12.27 rescue=False
+  UNEXPLAINED: start=2026-07-22 15:47:36.475000 trades=12 net=19.25 dist=12.91 realized=20.78 rescue=False
+  UNEXPLAINED: start=2026-07-24 09:11:00.977000 trades=43 net=18.30 dist=12.19 realized=99.92 rescue=False
+  UNEXPLAINED: start=2026-07-24 15:52:37.161000 trades=10 net=16.23 dist=9.27 realized=7.97 rescue=False
+  UNEXPLAINED: start=2026-07-28 02:10:45.603000 trades=11 net=24.00 dist=9.23 realized=17.69 rescue=False
+  UNEXPLAINED: start=2026-07-29 20:20:19.779000 trades=19 net=7.68 dist=5.99 realized=41.32 rescue=False
+  UNEXPLAINED: start=2026-07-29 20:52:03.298000 trades=18 net=-53.61 dist=2.77 realized=12.61 rescue=False
+  UNEXPLAINED: start=2026-07-29 21:26:45.639000 trades=18 net=-4.41 dist=11.26 realized=52.14 rescue=False
+  UNEXPLAINED: start=2026-07-30 07:40:00.410000 trades=14 net=24.49 dist=5.71 realized=18.34 rescue=False
+  UNEXPLAINED: start=2026-07-30 15:46:38.015000 trades=10 net=23.28 dist=10.73 realized=18.64 rescue=False
+  UNEXPLAINED: start=2026-07-30 15:54:15.101000 trades=14 net=-75.30 dist=4.20 realized=-44.15 rescue=False
+  UNEXPLAINED: start=2026-07-30 16:22:00.414000 trades=19 net=19.22 dist=13.88 realized=28.43 rescue=False
+
+[H4 re-arm delay] n=1524 median=123.2s p25=40.7 p75=273.1
+  5s-bucket histogram (first 8): {0: 73, 5: 36, 10: 34, 15: 50, 20: 72, 25: 33, 30: 40, 35: 39}
+  shape note: monotonically-decaying from 0-5s bucket => event-driven (OnTrade/next-tick after delay), not a fixed timer lattice
+
+[H5 deployment burst span] n=101 median=6.1s max=205.1s (60 orders per burst)

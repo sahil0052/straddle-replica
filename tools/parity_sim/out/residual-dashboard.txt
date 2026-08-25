@@ -1,0 +1,13 @@
+PARITY RESIDUAL DASHBOARD
+============================================================
+
+[cycles] report=109 sim=129 delta=20
+[anchor]  n=47 unmatched=52 residual(steps): median=2.0902 max=10.1647
+[lattice] n=2820 price residual(steps): median=2.2331 p99=12.0099 exact(<0.1)=8.4%
+[volume]  exact=816 mismatched=2004 (28.94% exact)
+[cycle net]   |delta|$: median=24.94 p90=259.77 max=3651.67
+[cycle count] |delta|trades: median=13.0 max=127
+[exit reasons] sim: {'basket_target': 30, 'grid_recenter': 21, 'none': 2}
+[sl-winners report] n=287 med=2.20 p10=0.22 p90=3.89 max=7.96
+[sl-winners sim]    n=1158 med=2.81 p10=0.39 p90=5.05 max=11.96
+[sl gap(1,2)] report=0 sim=1 (both must be ~0)
