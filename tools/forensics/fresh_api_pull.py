@@ -52,9 +52,14 @@ from datetime import datetime, timedelta
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-TERMINAL = r"D:\MT5ReplicaObserverTerminal\terminal64.exe"
-OUTDIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__)))), "artifacts", "live", "mt5api")
+TERMINAL = os.environ.get("MT5_TERMINAL",
+                          r"D:\MT5ReplicaObserverTerminal\terminal64.exe")
+# MT5_OUTDIR lets a second account be dumped without overwriting the first.
+# Relative values resolve under artifacts/live/.
+_ART = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), "artifacts", "live")
+_OD = os.environ.get("MT5_OUTDIR", "mt5api")
+OUTDIR = _OD if os.path.isabs(_OD) else os.path.join(_ART, _OD)
 
 # Enum decodings.  Hardcoded rather than read off the module so the dumped CSVs
 # stay readable without the package installed.
@@ -103,27 +108,53 @@ def dump(name: str, rows: list[dict]) -> str:
 
 def main() -> None:
     login = int(os.environ["MT5_LOGIN"])
-    password = os.environ["MT5_PASSWORD"]
+    password = os.environ.get("MT5_PASSWORD", "")
     server = os.environ.get("MT5_SERVER", "MetaQuotes-Demo")
+    attach = os.environ.get("MT5_ATTACH", "") == "1"
 
     import MetaTrader5 as mt5  # noqa: N813
 
-    rule("CONNECT  (read-only session; host terminal is the retired observer)")
-    print(f"  host     : {TERMINAL}")
-    print(f"  account  : {login} @ {server}")
-    ok = mt5.initialize(path=TERMINAL, login=login, password=password,
-                        server=server, timeout=120_000, portable=False)
-    if not ok:
-        print(f"  FAILED: initialize -> {mt5.last_error()}")
-        # A second attempt without path attaches to whatever terminal is up.
-        # Only tried if the dedicated host refused, and reported loudly.
-        print("  retrying by attaching to an already-running terminal ...")
-        ok = mt5.initialize(login=login, password=password, server=server,
-                            timeout=120_000)
-        if not ok:
-            print(f"  FAILED again -> {mt5.last_error()}")
+    rule("CONNECT  (read-only session)")
+    if attach:
+        # ATTACH-ONLY.  Used when a terminal is ALREADY logged into the wanted
+        # account -- which is true of the operator's C:\Program Files\MetaTrader 5
+        # for 25954110 @ VantageMarkets-Demo.  A bare initialize() joins that
+        # session: no login, no password and no server is transmitted, and there
+        # is no way for this call to switch the account the operator is on.  The
+        # login is then ASSERTED, and a mismatch aborts rather than silently
+        # dumping the wrong account's history.
+        print("  mode     : ATTACH to the running terminal (no credentials sent)")
+        print(f"  expecting: {login}")
+        if not mt5.initialize():
+            print(f"  FAILED: initialize -> {mt5.last_error()}")
             sys.exit(2)
-        print("  NOTE: attached to the running terminal, not the dedicated host.")
+        got = mt5.account_info()
+        if got is None:
+            print(f"  account_info failed -> {mt5.last_error()}")
+            mt5.shutdown()
+            sys.exit(2)
+        if int(got.login) != login:
+            print(f"  ABORT: attached terminal is on {got.login} @ {got.server},"
+                  f" not {login}.  Refusing to dump the wrong account.")
+            mt5.shutdown()
+            sys.exit(3)
+        print(f"  attached : {got.login} @ {got.server}  -- login asserted OK")
+    else:
+        print(f"  host     : {TERMINAL}")
+        print(f"  account  : {login} @ {server}")
+        ok = mt5.initialize(path=TERMINAL, login=login, password=password,
+                            server=server, timeout=120_000, portable=False)
+        if not ok:
+            print(f"  FAILED: initialize -> {mt5.last_error()}")
+            # A second attempt without path attaches to whatever terminal is up.
+            # Only tried if the dedicated host refused, and reported loudly.
+            print("  retrying by attaching to an already-running terminal ...")
+            ok = mt5.initialize(login=login, password=password, server=server,
+                                timeout=120_000)
+            if not ok:
+                print(f"  FAILED again -> {mt5.last_error()}")
+                sys.exit(2)
+            print("  NOTE: attached to the running terminal, not the dedicated host.")
 
     ti = mt5.terminal_info()
     ai = mt5.account_info()

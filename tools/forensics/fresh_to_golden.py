@@ -75,10 +75,26 @@ from datetime import datetime, timedelta
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-SRC = os.path.join(ROOT, "artifacts", "live", "mt5api")
-DST = os.path.join(ROOT, ".cache", "fresh")
+SRC = os.environ.get("FRESH_SRC") or os.path.join(ROOT, "artifacts", "live", "mt5api")
+DST = os.environ.get("FRESH_DST") or os.path.join(ROOT, ".cache", "fresh")
 
-SERVER_OFFSET = timedelta(hours=3)      # server clock = UTC + 3 (EEST)
+# ZERO, and that is a correction.  This used to be timedelta(hours=3) on the
+# reasoning "server = UTC+3, and the API returns UTC".  Only the first half is
+# true.  srv() below builds datetime(1970,1,1) + seconds, which is
+# utcfromtimestamp -- and utcfromtimestamp of an MT5 epoch ALREADY yields the
+# server wall clock, because MT5 stores server time in that integer, not UTC.
+# Proof, taken from two brokers on two different server zones:
+#
+#   111638511  ticket 10199270833  terminal shows 2026.08.26 01:00:02
+#              fromtimestamp -> 06:30:02 IST  =>  utcfromtimestamp -> 01:00:02  OK
+#   25954110    ticket 1859686471  terminal shows 2026.08.26 13:27:13
+#              fromtimestamp -> 18:57:13 IST  =>  utcfromtimestamp -> 13:27:13  OK
+#
+# Adding 3 h on top pushed every .cache/fresh timestamp 3 hours into the future.
+# A constant shift leaves every interval statistic untouched, which is why it
+# went unnoticed, but it corrupts any absolute-time or regime-boundary comparison
+# against .cache/golden.
+SERVER_OFFSET = timedelta(0)
 
 # API enum name -> golden vocabulary.
 ORDER_TYPE_WORD = {
@@ -128,7 +144,11 @@ def rd(name: str) -> list[dict]:
 
 
 def srv(epoch: float) -> datetime:
-    """UTC epoch -> server wall clock, the base the golden CSVs are written in."""
+    """MT5 epoch -> server wall clock, the base the golden CSVs are written in.
+
+    No conversion: an MT5 timestamp interpreted as if it were UTC already IS the
+    broker's server clock.  See the SERVER_OFFSET note above.
+    """
     return datetime(1970, 1, 1) + timedelta(seconds=float(epoch)) + SERVER_OFFSET
 
 
@@ -175,8 +195,9 @@ def main() -> None:
     t0 = srv(min(num(d['time']) for d in deals))
     t1 = srv(max(num(d['time']) for d in deals))
     print(f"  span (server time) {t0:%Y-%m-%d %H:%M:%S} .. {t1:%Y-%m-%d %H:%M:%S}")
-    print(f"  time base: UTC+{int(SERVER_OFFSET.total_seconds() // 3600)}"
-          f" (server); local PC clock is UTC+5:30, so server = local - 2:30")
+    print("  time base: broker server clock, taken straight from the MT5 epoch"
+          " (offset applied: "
+          f"{int(SERVER_OFFSET.total_seconds())}s)")
 
     # ------------------------------------------------------------------- deals
     rule("deals.csv")

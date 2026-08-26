@@ -2407,10 +2407,17 @@ private:
    // invocation rather than in the same one, so a single quote-delayed ticket
    // still cannot block the basket -- it just costs one pacing interval instead
    // of firing a burst.
+   // Issues AT MOST ONE close request per invocation.  Iterates in ascending
+   // index order (Level 1, Level 2, ... / FIFO) matching the Target EA's confirmed
+   // sweep sequence (audit_sweep_order.py: inner levels near anchor closed first,
+   // allowing outer runners to maintain hedge and trail stops).
+   //
+   // The anti-stall property is preserved by m_close_skip: a ticket whose close
+   // failed is stepped over on the NEXT invocation rather than in the same one.
    bool TryCloseOneOwnedPosition(void)
      {
       int owned=0;
-      for(int index=PositionsTotal()-1;index>=0;index--)
+      for(int index=0;index<PositionsTotal();index++)
         {
          ulong ticket=PositionGetTicket(index);
          if(ticket==0 || !IsOwnedPositionSelected())
