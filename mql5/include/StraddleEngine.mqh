@@ -2853,10 +2853,6 @@ public:
                   m_profile.levels_per_side,
                   (m_runtime.replica_mode ? "true" : "false"),
                   EnumToString(m_runtime.runtime_mode));
-      if(PositionsTotal()>0)
-        {
-         BeginClose("force_clean_start",false);
-        }
       return true;
      }
 
