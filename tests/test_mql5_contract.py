@@ -288,7 +288,32 @@ def test_latest_profile_uses_observed_cancel_close_restart_lifecycle():
     assert "config.max_stop_updates_per_pass=1" in latest_profile
     assert "m_profile.cancel_before_close ? CYCLE_CANCELING : CYCLE_CLOSING" in engine
     assert "m_profile.cycle_target_money" in engine
-    assert "TimeCurrent()-m_last_close_at<m_profile.close_interval_seconds" in engine
+
+    # The 20 s sweep gate lives in ONE shared helper, and every close path is
+    # required to route through it.  This used to be an inline
+    # "TimeCurrent()-m_last_close_at<m_profile.close_interval_seconds" test in
+    # CloseOnePosition() only, which left the CYCLE_RESTARTING drain unpaced --
+    # a rejected close dropped the engine into CYCLE_RESTARTING with positions
+    # still open and it then hammered them at the 100 ms timer period.  Commit
+    # 6c340b5 hoisted the gate into CloseIntervalElapsed() and made both callers
+    # use it.  Measured after the fix on account 25954110 (2026-08-26, 28
+    # intra-sweep gaps): min 19.199 s, median 19.995 s, max 22.995 s, zero gaps
+    # under 19 s and zero under 1 s.
+    assert "bool CloseIntervalElapsed(void) const" in engine
+    assert (
+        "return TimeCurrent()-m_last_close_at>=m_profile.close_interval_seconds"
+        in engine
+    )
+    assert engine.count("CloseIntervalElapsed()") >= 2, (
+        "both CloseOnePosition() and the CYCLE_RESTARTING drain must gate on the "
+        "shared pacing helper"
+    )
+    assert "if(OwnedPositionCount()>0 && !CloseIntervalElapsed())" in engine
+    restart_drain = engine.split("case CYCLE_RESTARTING:", 1)[1].split(
+        "case CYCLE_HALTED:", 1
+    )[0]
+    assert "if(CloseIntervalElapsed())" in restart_drain
+    assert "TryCloseOneOwnedPosition()" in restart_drain
 
 
 def test_alignment_hold_blocks_any_cycle_start_until_release():
@@ -396,7 +421,13 @@ def test_latest_profile_applies_proven_m15_trend_rescue_state_machine():
         "config.trend_rescue_bars=6",
         "config.trend_rescue_minimum_pending_levels=3",
         "config.trend_rescue_move_price=20.0",
-        "config.trend_rescue_drawdown_money=800.0",
+        # 400.0, not 800.0.  Commit 5b2a830 ("Forensics Q2 Complete") measured the
+        # Target's own rescue trigger and moved the drawdown floor from the
+        # originally-guessed 800.0 down to the observed 400.0; this assertion was
+        # left behind.  The parameter is dormant in practice -- rescue-leg count is
+        # 0 in both the Target's 17,632-position book and in our live accounts --
+        # so it is pinned here to stop it drifting, not because it fires.
+        "config.trend_rescue_drawdown_money=400.0",
         "config.trend_rescue_volume_multiplier=2.0",
     ):
         assert setting in latest_profile

@@ -5,19 +5,25 @@ flatten "profitable short legs were closed first", and attributing a cycle that
 banked +$3.20 out of ~$140 peak floating to the 20-second pacing delay.  Both
 halves are testable, and our own code already answers the first half:
 
-    for(int index=PositionsTotal()-1;index>=0;index--)      StraddleEngine.mqh:2413
+    for(int index=0;index<PositionsTotal();index++)         StraddleEngine.mqh:2400
        ...
        if(m_gateway.ClosePosition(ticket,"STR CLOSE")) { ...; return true; }
 
 There is NO profit comparison anywhere in that loop, and no sort.  It walks MT5's
-position list from the LAST index down and closes the first owned ticket it
-reaches.  MT5 appends newly-opened positions at the end of that list, so the
-selection LEANS newest-first -- but only leans.  Two things break strictness: the
-index list COMPACTS as each position is removed, so the surviving tickets shift
-down between passes, and m_close_skip steps over a ticket whose close failed.
-Measured on the live account's own sweep, rho(close order, open time) = -0.70, not
--1.00.  So "LIFO" is the right intuition and the wrong word; "index order,
-newest-leaning" is exact.
+position list from index 0 UPWARD and closes the first owned ticket it reaches.
+(The loop ran DESCENDING until commit 9a0cf62, which flipped it to ascending to
+match the Target's own sweep sequence -- inner grid levels first.  Older comments
+in this repo, including earlier versions of this docstring, still describe the
+descending form; they are stale.)
+
+Direction of the walk does not make the selection strict either way.  MT5 appends
+newly-opened positions at the END of the list, so an ascending walk LEANS
+oldest-first and a descending one leans newest-first -- but only leans.  Two things
+break strictness: the index list COMPACTS as each position is removed, so the
+surviving tickets shift between passes, and m_close_skip steps over a ticket whose
+close failed.  So "FIFO"/"LIFO" is the right intuition and the wrong word; "index
+order" is exact, and the measured rho is what decides which way it leans in
+practice.
 
 Either way, "winners first" is not a policy -- it is what index order looks like
 when the winners happen to be the legs that opened last, which is exactly what a
@@ -128,9 +134,44 @@ def sweeps(path: str, label: str, after_break: bool | None):
     """Every flatten sweep: the positions closed in it, in close order.
 
     A sweep is anchored on the cycle's first `STR CLOSE` order, which is the EA's
-    own attestation that BeginClose() ran.  Positions closed within SWEEP_MAX of
-    that instant belong to the sweep; anything closed earlier was a stop-out and
-    is `pre` money, not sweep money.
+    own attestation that BeginClose() ran.
+
+    MEMBERSHIP IS BY MECHANISM, NOT BY TIME.  This used to admit any position
+    whose close_time fell inside SWEEP_MAX of the anchor, and that was wrong in a
+    way that manufactured a false finding.  Stop-losses keep firing WHILE a paced
+    flatten is in progress -- the ratchet is still live on every leg the sweep has
+    not reached yet -- so a time window silently absorbs those stop-outs and
+    reports them as flatten legs.  The effect is to inflate len(sw) while `span`
+    stays fixed, which deflates `per = span/(n-1)` below the 20 s gate and reads
+    out as a pacing breach that never happened.  It did exactly that on account
+    25954110: four legs at 18:03:10.767/.769/.770 and 18:03:11.680 were reported
+    as sub-second flatten closes when their deal comments are `[sl 4596.20]`,
+    `[sl 4596.16]`, `[sl 4596.15]`, `[sl 4597.11]` -- stops, not closes.  Measured
+    on `STR CLOSE` legs only, the same day's 28 intra-sweep gaps run min 19.199 s,
+    median 19.995 s, max 22.995 s, with zero under 19 s.
+
+    The discriminator is `stop_loss`, which the loader populates only for a
+    position whose close was attributable to its stop.  Validated both ways:
+    on .cache/vantage it partitions 132 closed positions into exactly 101
+    `stop_loss>0` / 31 `stop_loss==0`, matching the 101 `[sl ...]` and 31
+    `STR CLOSE` closing-deal comments one for one.  It is preferred over reading
+    the deal comment because the Target's broker leaves 2,732 closing-deal
+    comments empty, while `stop_loss` is populated for all 14,913 of its
+    stop-outs.
+
+    Buckets returned per sweep:
+        pre    money realized before the sweep began (stop-outs, closed money)
+        sw     the flatten legs -- `STR CLOSE` only, in close order
+        mid    stop-outs that fired DURING the sweep window.  Kept separate and
+               reported rather than dropped: they are real money and they are the
+               reason a naive span/(n-1) understates the pacing interval.
+
+    `exit` is pre + burst + mid_money, and ALL THREE terms are required.  Splitting
+    `mid` out of `burst` is what makes the pacing measurement honest, but the money
+    in it is still the cycle's money, so it has to be added back for the exit to
+    reconcile.  Checked on account 25954110 cycle 1: pre +147.60, burst -277.11,
+    mid +96.12 -> -33.39, which is the exact balance move the account recorded.
+    Dropping `mid` would have reported that cycle as -129.51.
     """
     DS.GOLDEN = Path(path)
     _o, _p, _d, cycles = DS.load_all()
@@ -143,20 +184,29 @@ def sweeps(path: str, label: str, after_break: bool | None):
         t0 = min(cl)
         if after_break is not None and (t0 >= PACING_BREAK) != after_break:
             continue
-        pre, sw = 0.0, []
+        pre, sw, mid = 0.0, [], []
         for p in c.positions:
             if p.is_open or not p.close_time:
                 continue
             if p.close_time < t0 - timedelta(seconds=5):
                 pre += p.net
             elif p.close_time <= t0 + timedelta(seconds=SWEEP_MAX):
-                sw.append(p)
+                # Closed inside the sweep window -- but WHY it closed decides
+                # which bucket it belongs to.
+                if p.stop_loss and p.stop_loss > 0:
+                    mid.append(p)
+                else:
+                    sw.append(p)
         if len(sw) < 4:
             continue
         sw.sort(key=lambda p: p.close_time)
+        mid.sort(key=lambda p: p.close_time)
         span = (sw[-1].close_time - sw[0].close_time).total_seconds()
-        out.append(dict(label=label, i=c.index, t0=t0, pre=pre, sw=sw,
-                        burst=sum(p.net for p in sw), span=span,
+        burst = sum(p.net for p in sw)
+        mid_money = sum(p.net for p in mid)
+        out.append(dict(label=label, i=c.index, t0=t0, pre=pre, sw=sw, mid=mid,
+                        burst=burst, mid_money=mid_money,
+                        exit=pre + burst + mid_money, span=span,
                         per=span / max(1, len(sw) - 1)))
     return out
 
@@ -205,11 +255,13 @@ def main() -> None:
               f"   median legs {statistics.median(len(r['sw']) for r in rows):>4.1f}")
 
     rule("A. FLATTEN ORDER.  rho = +1 FIFO (oldest first), -1 LIFO (newest first)")
-    print("  Our loop walks PositionsTotal()-1 down to 0 and closes the first owned")
-    print("  ticket, with no sort and no profit test.  MT5 appends new positions at the")
-    print("  end of that list, so our predicted score is rho(open) ~ -1 and rho(P&L) ~ 0.")
-    print("  If the Target scores the same, flatten ORDER is at parity.  If it scores")
-    print("  +1 it flattens FIFO, and our LIFO is a real architectural divergence.")
+    print("  Our loop walks MT5's position index and closes the first owned ticket, with")
+    print("  no sort and no profit test.  Since commit 9a0cf62 it walks 0 upward (it used")
+    print("  to walk down); either way the index compacts as tickets are removed, so the")
+    print("  selection only leans.  The prediction that matters is rho(P&L) ~ 0 -- no")
+    print("  profit key at all.  If the Target also scores ~0 there, flatten ORDER is at")
+    print("  parity; if it scores strongly negative it really does sell winners first and")
+    print("  we have a real architectural divergence.")
     print()
     print(f"  {'stream':<26} {'n':>4} {'rho vs OPEN time':>32}"
           f" {'rho vs P&L':>22} {'rho vs SIDE':>14}")
@@ -246,6 +298,14 @@ def main() -> None:
         omode = ("LIFO (newest first)" if ro < -0.5 else
                  "FIFO (oldest first)" if ro > 0.5 else "no open-order rule")
         print(f"  {lab:<26} order = {omode:<22} profit key = {tag}")
+    print()
+    print("  CAVEAT ON THE OPEN-ORDER LABEL.  The +/-0.5 cut is a blunt instrument and")
+    print("  the open-order column is the one it mislabels: a stream with only 3 sweeps")
+    print("  can land at rho -0.445 and print 'no open-order rule' while a 29-sweep")
+    print("  stream at -0.994 prints 'LIFO', when both are the same unsorted loop seen")
+    print("  at different sample sizes.  Read the rho and the n in panel A, not this")
+    print("  label.  The profit column is the one this panel exists to decide, and it")
+    print("  reads the same on every stream.")
 
     rule("C. DOES SWEEP DURATION PREDICT A WORSE EXIT?  (the pacing-cost claim)")
     print("  If the 20 s pacing is what destroys a cycle's profit, exit value must fall")
@@ -257,18 +317,18 @@ def main() -> None:
                ("1 - 3 min", 60, 180), ("3 - 6 min", 180, 360),
                ("over 6 min", 360, 1e9)]
     print(f"  {'span bucket':>12} {'cycles':>7} {'med exit':>10} {'med pre':>10}"
-          f" {'med burst':>11} {'worst exit':>11} {'exit < 0':>9}")
+          f" {'med burst':>11} {'med mid':>9} {'worst exit':>11} {'exit < 0':>9}")
     for name, lo, hi in buckets:
         g = [r for r in allrows if lo <= r["span"] < hi]
         if not g:
             continue
-        ex = [r["pre"] + r["burst"] for r in g]
+        ex = [r["exit"] for r in g]
         print(f"  {name:>12} {len(g):>7} {statistics.median(ex):>10.2f}"
               f" {statistics.median(r['pre'] for r in g):>10.2f}"
               f" {statistics.median(r['burst'] for r in g):>11.2f}"
+              f" {statistics.median(r['mid_money'] for r in g):>9.2f}"
               f" {min(ex):>11.2f} {sum(1 for x in ex if x < 0):>4}/{len(g):<4}")
-    rho = spearman([r["span"] for r in allrows],
-                   [r["pre"] + r["burst"] for r in allrows])
+    rho = spearman([r["span"] for r in allrows], [r["exit"] for r in allrows])
     print()
     print(f"  rho(sweep span, exit value) over {len(allrows)} Target sweeps"
           f" = {rho:+.3f}" if rho is not None else "  rho undefined")
@@ -276,8 +336,8 @@ def main() -> None:
     print("  is not what sets the exit value.")
 
     rule("D. THE TARGET'S CYCLE-EXIT DISTRIBUTION  (audit question 3)")
-    print("  exit = pre + burst = money realised in the cycle at the flatten, which is")
-    print("  the same quantity the $30 rule is evaluated on.  No mark, no reconstruction.")
+    print("  exit = pre + burst + mid = all money realised in the cycle, which is the")
+    print("  same quantity the $30 rule is evaluated on.  No mark, no reconstruction.")
     print()
     bands = [("< 0", -1e9, 0), ("0 .. 15", 0, 15), ("15 .. 25", 15, 25),
              ("25 .. 35", 25, 35), ("35 .. 60", 35, 60),
@@ -288,7 +348,7 @@ def main() -> None:
     for name, lo, hi in bands:
         cells = []
         for _lab, rows in cols:
-            ex = [r["pre"] + r["burst"] for r in rows]
+            ex = [r["exit"] for r in rows]
             k = sum(1 for x in ex if lo <= x < hi)
             cells.append(f"{k:>4} /{100.0 * k / len(ex) if ex else 0:>6.1f}%"
                          if ex else "     --     ")
@@ -300,7 +360,7 @@ def main() -> None:
                      ("min", min), ("max", max)):
         cells = []
         for _lab, rows in cols:
-            ex = [r["pre"] + r["burst"] for r in rows]
+            ex = [r["exit"] for r in rows]
             cells.append(f"{fn(ex):>12.2f}" if ex else "      --    ")
         print(f"  {stat:>10}" + "".join(f"{c:>21}" for c in cells))
     print()
@@ -318,9 +378,11 @@ def main() -> None:
               f"   {len(r['sw'])} legs   span {r['span']:.1f}s"
               f"   {r['per']:.2f} s/close")
         print(f"    realised BEFORE the flatten (stop-outs) : {r['pre']:>+9.2f}")
-        print(f"    the sweep itself                        : {r['burst']:>+9.2f}")
-        print(f"    cycle exit                              : "
-              f"{r['pre'] + r['burst']:>+9.2f}")
+        print(f"    the sweep itself ({len(r['sw'])} STR CLOSE legs)"
+              f"{'':>{max(0, 15 - len(str(len(r['sw']))))}}: {r['burst']:>+9.2f}")
+        print(f"    stop-outs that fired DURING the sweep   : "
+              f"{r['mid_money']:>+9.2f}   ({len(r['mid'])} legs)")
+        print(f"    cycle exit                              : {r['exit']:>+9.2f}")
         print()
         print(f"    {'#':>2} {'closed':>12} {'opened':>12} {'side':>5} {'vol':>5}"
               f" {'entry':>9} {'exit':>9} {'net':>8} {'orank':>6}  comment")
@@ -338,9 +400,12 @@ def main() -> None:
         print()
         print(f"    rho(close order, open time) = {ro:+.3f}"
               f"   rho(close order, P&L) = {rp:+.3f}")
-        print("    Neither is -1.000.  The loop has no sort at all: it walks MT5's")
-        print("    position index from the top down, and that index COMPACTS as each")
-        print("    position is removed, so raw index order only leans newest-first.")
+        print("    Neither column is +/-1.000, and cycle 2 comes out POSITIVE on both.")
+        print("    The loop has no sort at all: it walks MT5's position index, and that")
+        print("    index COMPACTS as each position is removed, so raw index order only")
+        print("    leans.  A positive rho(P&L) means the LOSERS were closed first in that")
+        print("    cycle -- the direct opposite of the 'winners first' claim, produced by")
+        print("    the same unsorted loop.  That is what 'no profit key' looks like.")
 
 
 if __name__ == "__main__":
