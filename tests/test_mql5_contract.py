@@ -316,6 +316,47 @@ def test_latest_profile_uses_observed_cancel_close_restart_lifecycle():
     assert "TryCloseOneOwnedPosition()" in restart_drain
 
 
+def test_flatten_sweep_walks_the_position_list_newest_first():
+    """The flatten sweep must be LIFO, because the Target's is.
+
+    tools/forensics/sweep_lifo.py measures the Target's pair-inversion rate --
+    the fraction of leg pairs closed in reverse-of-open order -- at 0.983 over
+    its 29 post-break sweeps, with 14 of 29 in EXACTLY reverse-of-open order and
+    0 of 29 in open order.  Pre-break: 0.853, with 60 exactly reverse and 1
+    exactly forward out of 219.  MT5 appends new positions to the end of the
+    list, so a DESCENDING index walk closes newest-first and reproduces that;
+    an ascending walk is FIFO, which the Target essentially never does.
+
+    Commit 9a0cf62 flipped this to ascending on the stated grounds that the
+    Target closes in ascending GRID LEVEL order, citing an audit_sweep_order.py
+    that does not exist in this repository.  That claim does not reproduce.
+    tools/forensics/sweep_level_order.py reads each Target flatten leg's level
+    straight off the Target's own position comment ("STR B7" matches 99.3% of its
+    17,632 positions and 100.0% of the 1,097 post-break ones) and finds median
+    rho(close order, level) = -0.086 over 219 pre-break sweeps and -0.400 over 29
+    post-break, with outer-first sweeps outnumbering inner-first 13 to 2 in the
+    post-break regime.  There is no ascending rule to match; if anything the sign
+    points the other way.  This test pins the direction that IS measured.
+    """
+    engine = ENGINE.read_text(encoding="utf-8")
+
+    body = engine.split("bool TryCloseOneOwnedPosition(void)", 1)[1].split(
+        "void CloseOnePosition(void)", 1
+    )[0]
+    assert "for(int index=PositionsTotal()-1;index>=0;index--)" in body, (
+        "the flatten sweep must walk the position list DESCENDING (newest first / "
+        "LIFO); the Target's inversion rate is 0.983 post-break with 0 of 29 "
+        "sweeps in open order -- see tools/forensics/sweep_lifo.py"
+    )
+    assert "for(int index=0;index<PositionsTotal();index++)" not in body, (
+        "an ascending walk makes the sweep FIFO, which the Target does not do"
+    )
+    # The anti-stall cursor must survive the direction, otherwise a quote-rejected
+    # ticket blocks the basket instead of costing one pacing interval.
+    assert "if(owned<=m_close_skip)" in body
+    assert "m_close_skip++" in body
+
+
 def test_alignment_hold_blocks_any_cycle_start_until_release():
     engine = ENGINE.read_text(encoding="utf-8")
 

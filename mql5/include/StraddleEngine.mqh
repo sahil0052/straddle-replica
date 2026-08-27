@@ -2397,7 +2397,7 @@ private:
       return TimeCurrent()-m_last_close_at>=m_profile.close_interval_seconds;
      }
 
-   // Issues AT MOST ONE close request per invocation.  The previous version kept
+   // Issues AT MOST ONE close request per invocation.  An older version kept
    // walking the position list after a failed ClosePosition and closed the next
    // one in the same tick, which is how several synchronous OrderSend round-trips
    // ended up inside one 100 ms tick.
@@ -2407,17 +2407,53 @@ private:
    // invocation rather than in the same one, so a single quote-delayed ticket
    // still cannot block the basket -- it just costs one pacing interval instead
    // of firing a burst.
-   // Issues AT MOST ONE close request per invocation.  Iterates in ascending
-   // index order (Level 1, Level 2, ... / FIFO) matching the Target EA's confirmed
-   // sweep sequence (audit_sweep_order.py: inner levels near anchor closed first,
-   // allowing outer runners to maintain hedge and trail stops).
    //
-   // The anti-stall property is preserved by m_close_skip: a ticket whose close
-   // failed is stepped over on the NEXT invocation rather than in the same one.
+   // THE WALK DIRECTION IS DESCENDING, AND THAT IS DELIBERATE.  MT5 appends new
+   // positions to the end of the list, so a descending walk closes the most
+   // recently opened leg first -- LIFO.  The Target's flatten sweep is LIFO:
+   // tools/forensics/sweep_lifo.py measures a pair-inversion rate of 0.983 over
+   // its 29 post-break sweeps, with 14 of those 29 in EXACTLY reverse-of-open
+   // order and 0 of 29 in open order (pre-break: 0.853, 60 exactly reverse, 1
+   // exactly forward out of 219).
+   //
+   // Commit 9a0cf62 briefly changed this to an ascending walk on the stated
+   // grounds that the Target "closes positions in ascending level order", citing
+   // an audit_sweep_order.py that is not in this repository.  That claim does not
+   // reproduce.  tools/forensics/sweep_level_order.py reads the level straight off
+   // the Target's OWN position comments -- "STR B7" / "STR S12" matches 17,515 of
+   // its 17,632 positions (99.3%) and 1,097 of 1,097 post-break (100.0%) -- and
+   // finds NO level ordering at all:
+   //
+   //   stream               sweeps  legs  median rho(order, level)  inner  outer
+   //   Target pre-break        219  2250          -0.086              54     63
+   //   Target post-break        29   255          -0.400               2     13
+   //
+   // Post-break the sign is NEGATIVE and outer-first sweeps outnumber inner-first
+   // 13 to 2.  Ascending is the one direction the evidence excludes.  (A geometric
+   // reconstruction from the fitted lattice is kept in that script as a
+   // cross-check; it agrees with our own comments 47/47 and 31/31 but carries a
+   // systematic off-by-one on Target cycles -- 86.1% agreement pre-break, 54.5%
+   // post-break, always geo = comment + 1 -- so do not use it for an absolute
+   // level.  Being off by one is monotone, which is why it reaches the same
+   // verdict.)
+   //
+   // Level and open time are decoupled here because level is a PER-SIDE
+   // coordinate: each wing numbers outward from the anchor independently, so
+   // "newest" only means "outermost" inside a one-sided trend.  An earlier note in
+   // this repository inferred "newest-first therefore outer-levels-first" from
+   // rho(order, open time) = -0.994.  The measurement was right; the inference was
+   // not.
+   //
+   // Do not re-flip this loop to ascending without first re-running sweep_lifo.py
+   // and showing the Target's inversion rate below 0.5.  Closing inner legs first
+   // to reduce drift exposure during the paced sweep would be a deliberate
+   // DIVERGENCE from the Target, and pacing has already been measured as a
+   // variance term rather than a bias term: rho(sweep span, cycle exit) = +0.015
+   // across 91 Target sweeps (flatten_order.py Panel C).
    bool TryCloseOneOwnedPosition(void)
      {
       int owned=0;
-      for(int index=0;index<PositionsTotal();index++)
+      for(int index=PositionsTotal()-1;index>=0;index--)
         {
          ulong ticket=PositionGetTicket(index);
          if(ticket==0 || !IsOwnedPositionSelected())
