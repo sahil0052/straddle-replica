@@ -96,6 +96,41 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          SetLotTier(config,21,30,0.05);
          return true;
 
+      case JUNE_2K:
+         // Target EA parity: initial $2,000 growth regime (June 23 - July 02, 2026).
+         // Turned $2,000 into $4,059 in 3.5 days with 2,313 micro-trades (85% win rate).
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         config.cycle_target_money=30.0;
+         config.cancel_before_close=true;
+         // Unpaced high-frequency micro-scalping (burst execution)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=1000;
+         config.deployment_fill_cooldown_seconds=0;
+         // Lot schedule for $2k: 0.01 at L1-15, 0.03 at L16-25, 0.06 at L26-30
+         SetLotTier(config,1,15,0.01);
+         SetLotTier(config,16,25,0.03);
+         SetLotTier(config,26,30,0.06);
+         // Trend rescue
+         config.trend_rescue_enabled=true;
+         config.trend_rescue_timeframe=PERIOD_M15;
+         config.trend_rescue_bars=6;
+         config.trend_rescue_minimum_pending_levels=0;
+         config.trend_rescue_move_price=20.0;
+         config.trend_rescue_drawdown_money=-400.0;
+         config.trend_rescue_volume_multiplier=2.0;
+         return true;
+
       case LATEST_30:
          config.levels_per_side=30;
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;

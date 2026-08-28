@@ -7,6 +7,9 @@
 #ifndef STR_SAFETY_ENABLED_DEFAULT
    #define STR_SAFETY_ENABLED_DEFAULT false
 #endif
+#ifndef STR_DEFAULT_PROFILE
+   #define STR_DEFAULT_PROFILE LATEST_30
+#endif
 
 #include "StraddleTypes.mqh"
 #include "StraddleEngine.mqh"
