@@ -169,6 +169,40 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.rearm_delay_seconds=20;
           config.stop_scan_newest_first=true;
           config.max_stop_updates_per_pass=1;
+          // Target EA parity: the 2026-07-24 change was a GLOBAL 20 s serialization of
+          // every trade action, not just the flatten sweep. The trailing stops moved
+          // onto the same clock, and that is provable by elimination on PRICE TWINS --
+          // pairs of positions whose armed stop prices agree within 0.05 on the same
+          // side. Two live stops at the same price MUST be taken by the same tick, so
+          // any twin pair that exits far apart cannot have had both stops live at that
+          // price; the second was moved there only after the first was already gone.
+          //
+          //   twin pairs        n      med gap   <0.1s apart   15-25 s apart
+          //   TARGET pre    18700        0.00s        16265              11
+          //   TARGET post     252       20.13s            0             165
+          //   OURS            342        0.01s           47               1
+          //
+          // Zero of 252 post-break twins fire together and 165 land in the 15-25 s
+          // bucket: one stop moves per 20 s. The pre-break book is the control -- same
+          // stop mathematics, no serialization, 87% of twins fire inside 100 ms, which
+          // is precisely the behaviour an interval of 0 produces and precisely what our
+          // own book shows. Corroborated on the whole stop population: consecutive
+          // stop-out gaps in the 5-200 s band land within 0.5 s of a x20 multiple for
+          // 320 of 498 post-break Target gaps (64.3%, mode exactly x1) against 170 of
+          // 3034 pre-break (5.6%) and 6 of 105 of ours (5.7%); and the post-break
+          // Target has 0 of 841 consecutive stop-outs closer than 100 ms (minimum gap
+          // 0.2890 s) where we have 43 of 341 (12.61%).
+          //
+          // Do NOT justify a value here from the whole Target book: pooled, it reads
+          // 52% sub-100 ms and appears to endorse an interval of 0, but that number is
+          // 94% pre-break rows and inverts on the comparable slice.
+          //
+          // The gate lives at StraddleEngine.mqh:2582 and stamps m_last_stop_update_at
+          // before scanning, so a pass that finds nothing to tighten still spends the
+          // slot -- the rate is "at most one stop move per 20 s". That is the right
+          // shape: the Target's twin gaps are mostly exactly 20 s with a 80-of-252 tail
+          // beyond 25 s, which is what burnt slots look like.
+          config.stop_update_interval_seconds=20;
           config.stop_updates_on_timer=true;
           config.trend_rescue_enabled=true;
           // Target EA parity: the rescue fired in 6 of the 100 final-regime cycles

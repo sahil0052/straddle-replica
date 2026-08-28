@@ -316,6 +316,73 @@ def test_latest_profile_uses_observed_cancel_close_restart_lifecycle():
     assert "TryCloseOneOwnedPosition()" in restart_drain
 
 
+def test_latest_profile_serializes_stop_moves_on_the_same_twenty_second_clock():
+    """The 2026-07-24 change paced the STOPS too, not just the flatten sweep.
+
+    This was implemented as a half-measure for a long time: close_interval_seconds
+    went to 20 while stop_update_interval_seconds stayed at 0, which made the
+    replica post-break on the flatten and pre-break on the stops.
+
+    The proof is by elimination on PRICE TWINS -- pairs of positions whose armed
+    stop prices agree within 0.05 on the same side.  Two live stops sitting at the
+    same price must be taken out by the SAME tick, so a twin pair that exits far
+    apart cannot have had both stops live at that price; the second was moved there
+    only after the first was already gone.
+
+        twin pairs        n    med gap   <0.1s apart   15-25 s apart
+        TARGET pre    18700      0.00s         16265              11
+        TARGET post     252     20.13s             0             165
+        OURS             68      0.01s            47               1
+
+    Zero of 252 post-break twins fire together and 165 land in the 15-25 s bucket.
+    The pre-break book is the control: same stop mathematics, no serialization,
+    87% of twins inside 100 ms -- which is exactly what an interval of 0 produces
+    and exactly what our own book shows.
+
+    Corroborated on the whole stop population: the post-break Target has 0 of 841
+    consecutive stop-outs closer than 100 ms (minimum gap 0.2890 s) where we have
+    43 of 341 (12.61%); and consecutive stop-out gaps in the 5-200 s band land
+    within 0.5 s of a x20 multiple for 320 of 498 post-break Target gaps (64.3%,
+    mode exactly x1) against 170 of 3034 pre-break (5.6%).
+
+    Do NOT re-derive this value from the pooled whole Target book.  Pooled it reads
+    52% sub-100 ms and appears to endorse an interval of 0, but that figure is 94%
+    pre-break rows and inverts on the comparable slice.
+    """
+    profile = PROFILE_CATALOG.read_text(encoding="utf-8")
+    engine = ENGINE.read_text(encoding="utf-8")
+    latest_profile = profile.split("case LATEST_30:", 1)[1].split(
+        "case CUSTOM_PROFILE:", 1
+    )[0]
+    stop_updater = engine.split("void UpdatePositionStops(void)", 1)[1].split(
+        "void CheckCycleTargets", 1
+    )[0]
+
+    assert "config.stop_update_interval_seconds=20;" in latest_profile, (
+        "the post-break Target moves at most one stop per 20 s -- 0 of 841 "
+        "consecutive stop-outs under 100 ms and 252 price-twin pairs at median "
+        "20.13 s; an interval of 0 reproduces the PRE-break regime instead"
+    )
+    assert "config.stop_update_interval_seconds=0;" not in latest_profile
+
+    # The consuming gate, and the fact that the clock is stamped BEFORE the scan --
+    # so a pass that finds nothing to tighten still spends its slot.  That makes the
+    # rate "at most one stop move per 20 s", which is the shape the Target shows
+    # (mostly exactly 20 s with an 80-of-252 tail beyond 25 s).
+    assert "m_profile.stop_update_interval_seconds>0 &&" in stop_updater
+    assert (
+        "now-m_last_stop_update_at<m_profile.stop_update_interval_seconds"
+        in stop_updater
+    )
+    assert stop_updater.index("m_last_stop_update_at=now;") < stop_updater.index(
+        "for(int offset=0;offset<position_total;offset++)"
+    )
+    # One modification per pass, newest first, driven off the timer.
+    assert "config.max_stop_updates_per_pass=1" in latest_profile
+    assert "config.stop_scan_newest_first=true" in latest_profile
+    assert "config.stop_updates_on_timer=true" in latest_profile
+
+
 def test_flatten_sweep_walks_the_position_list_newest_first():
     """The flatten sweep must be LIFO, because the Target's is.
 
