@@ -321,7 +321,7 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.trend_rescue_bars=6;
          config.trend_rescue_minimum_pending_levels=0;
          config.trend_rescue_move_price=20.0;
-         config.trend_rescue_drawdown_money=-400.0;
+         config.trend_rescue_drawdown_money=400.0;
          config.trend_rescue_volume_multiplier=2.0;
          return true;
 
