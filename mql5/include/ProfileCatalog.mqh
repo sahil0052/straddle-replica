@@ -29,6 +29,7 @@ void ResetProfile(SProfileConfig &config)
    config.max_stop_updates_per_pass=0;
    config.stop_scan_newest_first=false;
    config.stop_updates_on_timer=false;
+   config.replica_orphan_leak=false;
    config.trend_rescue_enabled=false;
    config.trend_rescue_timeframe=PERIOD_M15;
    config.trend_rescue_bars=6;
@@ -109,7 +110,21 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.activation_uses_trailing_distance=true;
          config.cycle_target_money=30.0;
          config.cancel_before_close=true;
-         // Unpaced high-frequency micro-scalping (burst execution)
+         // Unpaced high-frequency micro-scalping (burst execution).
+         //
+         // restart_delay_ms is 1000 here and deliberately NOT the 2000 carried by
+         // the six STARWAVE profiles.  Both numbers are measured; they belong to
+         // different epochs of the same EA:
+         //
+         //   pre-2026-07-24 (this regime)   restart floor 1.17 s, 64/68 under 4.5 s
+         //   Starwave 2026-08-21..08-29     floor(next_deploy)-floor(flat) = 2 s on
+         //                                  96 cycles and 3 s on 6, 102/148 = 68.9%
+         //
+         // The engine waits (restart_delay_ms+999)/1000 WHOLE seconds against a
+         // whole-second TimeCurrent(), so 1000 yields a 1 s floor (observed 1.17 s
+         // once tick lag is added) and 2000 yields a 2 s floor.  Raising this to
+         // 2000 would contradict the pre-break floor, so do not "align" it with
+         // the Starwave profiles.
          config.close_interval_seconds=0;
          config.stop_update_interval_seconds=0;
          config.stop_updates_on_timer=false;
@@ -117,6 +132,11 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.rearm_delay_seconds=0;
          config.restart_delay_ms=1000;
          config.deployment_fill_cooldown_seconds=0;
+         // Target EA parity: single-pointer level table, so a re-fill orphans the
+         // displaced position permanently (see SLevelState/replica_orphan_leak).
+         // This is a property of the BINARY, not of the pacing epoch, so every
+         // profile that reconstructs the real EA carries it.
+         config.replica_orphan_leak=true;
          // Lot schedule for $2k: 0.01 at L1-15, 0.03 at L16-25, 0.06 at L26-30
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,25,0.03);
@@ -202,6 +222,10 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.close_interval_seconds=20;
          config.restart_delay_ms=20000;
          config.rearm_delay_seconds=20;
+         // Target EA parity: same binary as JUNE_2K/STARWAVE_*, therefore the same
+         // single-pointer level table.  The 2026-07-24 change moved four pacing
+         // knobs; it did not change how positions are tracked.
+         config.replica_orphan_leak=true;
           config.stop_scan_newest_first=true;
           config.max_stop_updates_per_pass=1;
           // Target EA parity: the 2026-07-24 change was a GLOBAL 20 s serialization of
@@ -312,7 +336,10 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.pre_tighten_trail_distance_steps=2.0;
          config.tighten_trigger_steps=3.0;
          config.activation_uses_trailing_distance=true;
-         config.cycle_target_money=25.0;
+         // Basket target: epoch 2026-08-24 15:34 -> 2026-08-25 04:06 (20 cycles).
+         // Banked value p25/p50/p75 = 22.24/26.29/27.82; the 3-cycle censored
+         // bracket over 08-24 19:22..19:49 pins it to (26.41, 26.51].
+         config.cycle_target_money=26.5;
          config.cancel_before_close=true;
          // 0s burst execution (unpaced)
          config.close_interval_seconds=0;
@@ -322,6 +349,7 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.rearm_delay_seconds=0;
          config.restart_delay_ms=2000;
          config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
          config.stop_scan_newest_first=true;
          // Lot schedule (N30): 0.01 (L1-10), 0.06 (L11-20), 0.15 (L21-30)
          SetLotTier(config,1,10,0.01);
@@ -342,7 +370,10 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.pre_tighten_trail_distance_steps=2.0;
          config.tighten_trigger_steps=3.0;
          config.activation_uses_trailing_distance=true;
-         config.cycle_target_money=15.0;
+         // Basket target: epoch 2026-08-27 11:44 -> 2026-08-28 16:18, the single
+         // largest observed regime (52 cycles).  Banked value p25/p50/p75 =
+         // 4.34/6.40/11.63; the 7-cycle censored bracket pins it to (6.45, 6.75].
+         config.cycle_target_money=6.5;
          config.cancel_before_close=true;
          // 0s burst execution (unpaced)
          config.close_interval_seconds=0;
@@ -352,10 +383,156 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.rearm_delay_seconds=0;
          config.restart_delay_ms=2000;
          config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
          config.stop_scan_newest_first=true;
          // Lot schedule (N20): 0.01 (L1-6), 0.04 (L7-13), 0.15 (L14-20)
          SetLotTier(config,1,6,0.01);
          SetLotTier(config,7,13,0.04);
+         SetLotTier(config,14,20,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_30_HIGH:
+         // Starwave (60542) Parity: 30-level heavy-tail ladder (2026-08-21 14:35
+         // -> 2026-08-24 13:35, 10 cycles, deepest fill L23).  Identical geometry
+         // and execution cadence to STARWAVE_30; only the lot ladder is heavier.
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Banked value p25/p50/p75 = 26.43/26.67/30.37 -- the same target the
+         // next epoch used, so the operator retuned lots here, not the target.
+         config.cycle_target_money=26.5;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N30): 0.01 (L1-10), 0.05 (L11-20), 0.20 (L21-30).
+         // Tier boundaries 11/21 are the canonical floor(N/3)+1 / floor(2N/3)+1.
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.05);
+         SetLotTier(config,21,30,0.20);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_30_MID:
+         // Starwave (60542) Parity: 30-level light ladder / low target (2026-08-26
+         // 17:20 -> 2026-08-27 08:35, 18 cycles, deepest fill L18).  The third
+         // tier was never reached in this epoch; it inherits 0.15 from the
+         // observed N30 sibling (STARWAVE_30) rather than being invented.
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Banked value p25/p50/p75 = 7.62/13.56/14.90; the 4-cycle censored
+         // bracket over 08-27 02:33..04:28 pins it to (11.33, 11.98].
+         config.cycle_target_money=12.0;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N30): 0.01 (L1-10), 0.04 (L11-20), 0.15 (L21-30, inferred)
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.04);
+         SetLotTier(config,21,30,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_20_WIDE:
+         // Starwave (60542) Parity: 20-level heavy mid-tier / high target
+         // (2026-08-28 17:13 -> 21:56, 13 cycles across two epochs, deepest L12).
+         // Third tier never reached; inherits 0.15 from STARWAVE_20.
+         config.levels_per_side=20;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Banked value p25/p50/p75 = 28.64/30.19/46.28; the censored bracket on
+         // the 08-28 19:42+ epoch pins it to (27.73, 28.64].
+         config.cycle_target_money=28.5;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N20): 0.01 (L1-6), 0.06 (L7-13), 0.15 (L14-20, inferred)
+         SetLotTier(config,1,6,0.01);
+         SetLotTier(config,7,13,0.06);
+         SetLotTier(config,14,20,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_20_LIGHT:
+         // Starwave (60542) Parity: 20-level light mid-tier (2026-08-27 09:26 ->
+         // 11:03, 3 cycles, deepest fill L7).  This is the only configured lot
+         // ladder in the target tape that no other profile reproduces: after
+         // folding every manual partial-close fragment back onto its parent
+         // position_id, 2326 of 2327 level-tagged positions are covered by the
+         // other Starwave profiles and this ladder is the single remainder.
+         config.levels_per_side=20;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Only 3 cycles, so no censored bracket survives the >=3-mark filter;
+         // the target is the banked-value median (p25/p50/p75 = 14.30/17.80/22.95).
+         config.cycle_target_money=17.8;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N20): 0.01 (L1-6), 0.03 (L7-13), 0.15 (L14-20, inferred).
+         // N is not uniquely pinned here: only the tier-2 boundary was observed
+         // (b2=7 => N in {18,19,20}) because tier 3 was never reached.  N=20 is
+         // taken from the epoch that starts 41 minutes later the same day, whose
+         // observed pair b2=7 / b3=14 admits N=20 uniquely.
+         SetLotTier(config,1,6,0.01);
+         SetLotTier(config,7,13,0.03);
          SetLotTier(config,14,20,0.15);
          // Trend rescue disabled
          config.trend_rescue_enabled=false;
@@ -424,6 +601,11 @@ bool LoadCustomProfile(const SCustomProfileConfig &custom,SProfileConfig &config
    config.max_stop_updates_per_pass=custom.max_stop_updates_per_pass;
    config.stop_scan_newest_first=custom.stop_scan_newest_first;
    config.stop_updates_on_timer=custom.stop_updates_on_timer;
+   // CUSTOM_PROFILE is the only escape hatch from Target-parity orphan
+   // tracking: every built-in reconstruction of the real EA hard-codes
+   // replica_orphan_leak=true, so an operator who wants the sweep to flatten
+   // EVERYTHING carrying the magic must run CUSTOM_PROFILE with this false.
+   config.replica_orphan_leak=custom.replica_orphan_leak;
    SetLotTier(config,1,custom.tier1_end,custom.lot1);
    SetLotTier(config,custom.tier1_end+1,custom.tier2_end,custom.lot2);
    SetLotTier(config,custom.tier2_end+1,custom.levels_per_side,custom.lot3);

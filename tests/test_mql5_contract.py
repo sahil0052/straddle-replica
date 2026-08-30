@@ -23,26 +23,33 @@ def test_main_ea_exposes_required_inputs_and_event_handlers():
     source = app_source()
 
     for required in (
-        "input ENUM_STR_PROFILE Profile = LATEST_30",
-        "input ulong MagicNumber = 901018",
+        "input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE",
+        "#define STR_DEFAULT_PROFILE STARWAVE_30",
+        "input ulong MagicNumber = STR_DEFAULT_MAGIC",
+        "#define STR_DEFAULT_MAGIC 26011001",
         "input bool ReplicaMode = true",
         "input datetime ReplicaStartTime = 0",
         "input int InterOrderDelayMs = 100",
         "input double CustomPreTightenTrailDistanceSteps = 2.0",
         "input double CustomTightenTriggerSteps = 3.0",
-        "input bool CustomActivationUsesTrailingDistance = false",
+        # The five defaults below used to carry pre-Starwave placeholder values
+        # (false / false / 0.0 / false / 3000).  They are now the measured
+        # Starwave/Target settings, so CUSTOM_PROFILE is a Starwave clone out of
+        # the box and only the tier lots, N and the basket target need touching
+        # to reproduce any of the seven observed lot ladders.
+        "input bool CustomActivationUsesTrailingDistance = true",
         "input bool CustomStopUpdatesOnTimer = false",
         "input int CustomRearmDelaySeconds = 0",
         "input int CustomStopUpdateIntervalSeconds = 0",
         "input int CustomMaxStopUpdatesPerPass = 0",
-        "input bool CustomStopScanNewestFirst = false",
+        "input bool CustomStopScanNewestFirst = true",
         "input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT",
         "input double CustomLockOffsetPrice = 0.2",
-        "input double CustomCycleTargetMoney = 0.0",
-        "input bool CustomCancelBeforeClose = false",
+        "input double CustomCycleTargetMoney = 25.0",
+        "input bool CustomCancelBeforeClose = true",
         "input int CustomDeploymentFillCooldownSeconds = 0",
         "input int CustomCloseIntervalSeconds = 0",
-        "input int CustomRestartDelayMs = 3000",
+        "input int CustomRestartDelayMs = 2000",
         "int OnInit()",
         "void OnTick()",
         "void OnTimer()",
@@ -63,6 +70,10 @@ def test_profile_catalog_contains_all_observed_profiles():
         "JUNE_2K",
         "STARWAVE_30",
         "STARWAVE_20",
+        "STARWAVE_30_HIGH",
+        "STARWAVE_30_MID",
+        "STARWAVE_20_WIDE",
+        "STARWAVE_20_LIGHT",
     ):
         assert profile in source
     assert "config.anchor_divisor = 3000.0" in source
@@ -311,7 +322,7 @@ def test_latest_profile_uses_observed_cancel_close_restart_lifecycle():
         "both CloseOnePosition() and the CYCLE_RESTARTING drain must gate on the "
         "shared pacing helper"
     )
-    assert "if(OwnedPositionCount()>0 && !CloseIntervalElapsed())" in engine
+    assert "if(CyclePositionCount()>0 && !CloseIntervalElapsed())" in engine
     restart_drain = engine.split("case CYCLE_RESTARTING:", 1)[1].split(
         "case CYCLE_HALTED:", 1
     )[0]
@@ -455,7 +466,18 @@ def test_flat_detection_bypasses_position_close_interval():
         "if(", 1
     )[1].split("return;", 1)[0]
 
-    assert "OwnedPositionCount()>0" in close_interval_guard
+    # The pacing gate must be conditional on there being something left to close,
+    # so a sweep that has already emptied the book falls straight through to flat
+    # detection instead of idling for another close_interval_seconds.
+    #
+    # The counter is the CYCLE-scoped one, not the book-wide one: with
+    # replica_orphan_leak on, the orphans the Target abandons are still in the
+    # book forever, so OwnedPositionCount() never returns to 0 and the sweep
+    # would never see itself as finished.  CyclePositionCount() falls back to
+    # OwnedPositionCount() when the leak is off, so the non-leak profiles are
+    # unaffected.
+    assert "CyclePositionCount()>0" in close_interval_guard
+    assert "OwnedPositionCount()" not in close_interval_guard
 
 
 def test_flat_restart_state_restores_without_replaying_old_cycle_levels():
@@ -549,7 +571,13 @@ def test_latest_profile_applies_proven_m15_trend_rescue_state_machine():
         "m_profile.trend_rescue_timeframe,"
         "m_profile.trend_rescue_bars)"
     ) in engine
-    assert "OwnedFloatingProfit()>-m_profile.trend_rescue_drawdown_money" in engine
+    # Cycle-scoped, like the basket: the rescue's drawdown floor has to measure
+    # the same float the basket target measures, otherwise with the orphan leak on
+    # the abandoned positions' permanent negative float would hold the rescue
+    # armed forever.  CycleFloatingProfit() == OwnedFloatingProfit() when the leak
+    # is off.  (The parameter is dormant either way -- STR AVB/AVS and STR ORB/ORS
+    # are absent from the entire Target tape, so its rescue never fired.)
+    assert "CycleFloatingProfit()>-m_profile.trend_rescue_drawdown_money" in engine
     assert "bool TryCancelOneTrendRescueOrder" in engine
     assert "void PlaceOneTrendRescueReplacement" in engine
     assert "void ProcessTrendRescue" in engine
@@ -712,17 +740,40 @@ def test_deployment_pauses_after_entry_fill_and_restores_the_cooldown():
     assert 'GlobalKey("last_entry_fill_at")' in clear
 
 
-def test_invalid_price_during_deployment_cancels_the_partial_grid():
+def test_rejected_deployment_level_is_skipped_not_retried_or_aborted():
+    """Target-EA parity: a rejected level is skipped and the sweep continues.
+
+    Three of the 119 Starwave deployments came out incomplete and not one of
+    them aborted or re-anchored: 2026-08-21 18:03 placed B1..B25 with S15..S25
+    rejected (per-op cadence doubling to ~209 ms proves each failure still
+    consumed a timer tick) and traded that partial lattice for 2.5 days;
+    2026-08-24 06:12 skipped scattered levels on both sides; 2026-08-27 08:23
+    skipped only S1.  So the engine must advance past a rejection instead of
+    dropping into CYCLE_CANCELING or retrying the same level forever.
+    """
     engine = ENGINE.read_text(encoding="utf-8")
     deploy = engine.split("void DeployOne(void)", 1)[1].split(
         "void RearmOneMissingLevel", 1
     )[0]
 
-    assert "m_gateway.LastRetcode()==TRADE_RETCODE_INVALID_PRICE" in deploy
-    assert "m_state=CYCLE_CANCELING" in deploy
-    assert '"deployment_price_rejected"' in deploy
-    assert '"deployment_abort"' in deploy
+    # The abort-and-re-anchor path is gone.
+    assert (
+        "m_gateway.LastRetcode()==TRADE_RETCODE_INVALID_PRICE" not in deploy
+    )
+    assert "m_state=CYCLE_CANCELING" not in deploy
+    assert '"deployment_abort"' not in deploy
+
+    # The skip path is present and advances the sweep.
+    assert '"deployment_level_rejected"' in deploy
+    assert '"deployment_skip"' in deploy
+    assert deploy.count("m_deploy_index++;") == 2
+    assert deploy.index('"deployment_skip"') < deploy.rindex("m_deploy_index++;")
     assert "PersistCycle();" in deploy
+
+    # Degenerate guard: a sweep that armed nothing re-anchors instead of idling.
+    assert '"deployment_empty"' in deploy
+    assert "m_state=CYCLE_RESTARTING;" in deploy
+    assert "m_restart_started_at=TimeCurrent();" in deploy
 
 
 def test_restart_state_cleans_residual_exposure_before_becoming_idle():
@@ -734,13 +785,18 @@ def test_restart_state_cleans_residual_exposure_before_becoming_idle():
         "case CYCLE_HALTED:", 1
     )[0]
 
-    assert "OwnedOrderCount()>0 || OwnedPositionCount()>0" in start_cycle
+    # Cycle-scoped on the position half, book-wide on the order half.  The Target
+    # opened 149+ cycles while its orphan residue ratcheted 6 -> 148, so its
+    # "am I flat?" test cannot have been book-wide: the very first orphan would
+    # have blocked every later cycle forever.  Pendings are never orphaned, so
+    # OwnedOrderCount() stays.
+    assert "OwnedOrderCount()>0 || CyclePositionCount()>0" in start_cycle
     assert "TryCancelOneOwnedOrder()" in restarting
     assert "TryCloseOneOwnedPosition()" in restarting
     assert restarting.index("TryCancelOneOwnedOrder()") < restarting.index(
         "TryCloseOneOwnedPosition()"
     )
-    assert restarting.index("OwnedPositionCount()>0") < restarting.index(
+    assert restarting.index("CyclePositionCount()>0") < restarting.index(
         "TimeCurrent()-m_restart_started_at"
     )
 
@@ -1188,19 +1244,58 @@ def test_same_ticket_order_position_transition_is_one_level_identity():
 
 
 def test_rearm_requires_explicit_stop_exit_eligibility():
+    """The re-arm gate: hygienic when the leak is off, Target-exact when it is on.
+
+    Audit D6.  The Target re-arms a level whenever that level has no pending,
+    subject only to PendingPriceIsValid() and RearmDelayElapsed() -- there is no
+    "the position from the last fill must have closed first" condition.  One rule
+    explains all four measured buckets of the 1,120 mid-cycle re-arms uniformly
+    (969 SL-gated, 87 with the position still open, 3 closed some other way, 59
+    with no in-cycle fill at all), and it is what mints the orphans: the re-fill
+    overwrites the level's single position pointer.
+
+    Both halves are pinned.  The non-leak branch keeps the explicit
+    rearm_requested && !has_position eligibility, so the hygienic profiles are
+    unchanged; the leak branch returns true on the has-no-pending test alone.  The
+    three hard vetoes (already pending, mid trend-rescue swap, duplicate identity)
+    apply either way -- none of them is a Target-parity condition, they are
+    internal consistency guards.
+    """
     types = TYPES.read_text(encoding="utf-8")
     engine = ENGINE.read_text(encoding="utf-8")
     schedule = engine.split("void ScheduleLevelRearm", 1)[1].split(
         "long CurrentUtcMs", 1
     )[0]
+    eligible = function_body(engine, "bool RearmEligible(const SLevelState &level_state) const")
     rearm = engine.split("void RearmOneMissingLevel", 1)[1].split(
         "double OwnedFloatingProfit", 1
     )[0]
 
     assert "bool              rearm_requested;" in types
     assert "rearm_requested=true" in schedule
-    assert "m_buy_levels[index].rearm_requested" in rearm
-    assert "m_sell_levels[index].rearm_requested" in rearm
+
+    # the hygienic gate survives, unchanged, behind the leak switch
+    assert "return(level_state.rearm_requested && !level_state.has_position);" in eligible
+    # ...and is bypassed entirely when reproducing the Target
+    assert "if(OrphanLeakActive())" in eligible
+    assert eligible.index("if(OrphanLeakActive())") < eligible.index(
+        "level_state.rearm_requested"
+    )
+    # the vetoes come first, so leak mode never re-arms a level that already has
+    # a live pending, is mid trend-rescue replacement, or is quarantined
+    for veto in (
+        "level_state.has_pending",
+        "level_state.trend_rescue_replacement",
+        "level_state.duplicate_identity",
+    ):
+        assert veto in eligible
+        assert eligible.index(veto) < eligible.index("if(OrphanLeakActive())")
+
+    # both sides route through the shared predicate rather than testing the flag
+    # inline, so there is exactly one place the gate can be got wrong
+    assert "RearmEligible(m_buy_levels[index])" in rearm
+    assert "RearmEligible(m_sell_levels[index])" in rearm
+    assert "rearm_requested" not in rearm
     assert "ArmMissingLevelsAfterRestore" in engine
 
 
@@ -1332,9 +1427,11 @@ def test_starwave_profiles_enforce_unpaced_burst_execution_and_clean_geometry():
     assert "SetLotTier(config,1,10,0.01);" in sw30
     assert "SetLotTier(config,11,20,0.06);" in sw30
     assert "SetLotTier(config,21,30,0.15);" in sw30
-    
+    # Basket target = the epoch's censored bracket (26.41, 26.51], banked p50 26.29
+    assert "config.cycle_target_money=26.5;" in sw30
+
     # 2. STARWAVE_20 verification
-    sw20 = profile.split("case STARWAVE_20:", 1)[1].split("case CUSTOM_PROFILE:", 1)[0]
+    sw20 = profile.split("case STARWAVE_20:", 1)[1].split("case STARWAVE_30_HIGH:", 1)[0]
     assert "config.levels_per_side=20;" in sw20
     assert "config.anchor_divisor=3000.0;" in sw20
     assert "config.close_interval_seconds=0;" in sw20
@@ -1347,4 +1444,505 @@ def test_starwave_profiles_enforce_unpaced_burst_execution_and_clean_geometry():
     assert "SetLotTier(config,1,6,0.01);" in sw20
     assert "SetLotTier(config,7,13,0.04);" in sw20
     assert "SetLotTier(config,14,20,0.15);" in sw20
+    # 52-cycle epoch, the largest observed regime: bracket (6.45, 6.75], p50 6.40
+    assert "config.cycle_target_money=6.5;" in sw20
+
+
+def test_starwave_epoch_profiles_match_the_observed_lot_ladders():
+    """Every fully-resolved Starwave lot ladder in the target tape has a profile.
+
+    Ladders were recovered from 145 sweep-delimited cycles in
+    Starwave_60542_detailed_trades.csv.  Tier boundaries obey the canonical
+    floor(N/3)+1 / floor(2N/3)+1 rule, which is what pins N: a tier-2 boundary
+    at 11 with a tier-3 boundary at 21 admits only N in {30,31}; a boundary pair
+    of 7/14 admits only N=20.
+    """
+    profile = PROFILE_CATALOG.read_text(encoding="utf-8")
+
+    # epoch 2026-08-21 14:35 -> 08-24 13:35, 10 cycles, deepest fill L23
+    high = profile.split("case STARWAVE_30_HIGH:", 1)[1].split("case STARWAVE_30_MID:", 1)[0]
+    assert "config.levels_per_side=30;" in high
+    assert "SetLotTier(config,1,10,0.01);" in high
+    assert "SetLotTier(config,11,20,0.05);" in high
+    assert "SetLotTier(config,21,30,0.20);" in high
+    assert "config.cycle_target_money=26.5;" in high
+
+    # epoch 2026-08-26 17:20 -> 08-27 08:35, 18 cycles, bracket (11.33, 11.98]
+    mid = profile.split("case STARWAVE_30_MID:", 1)[1].split("case STARWAVE_20_WIDE:", 1)[0]
+    assert "config.levels_per_side=30;" in mid
+    assert "SetLotTier(config,1,10,0.01);" in mid
+    assert "SetLotTier(config,11,20,0.04);" in mid
+    assert "SetLotTier(config,21,30,0.15);" in mid
+    assert "config.cycle_target_money=12.0;" in mid
+
+    # epochs 2026-08-28 17:13 -> 21:56, 13 cycles, bracket (27.73, 28.64]
+    wide = profile.split("case STARWAVE_20_WIDE:", 1)[1].split("case STARWAVE_20_LIGHT:", 1)[0]
+    assert "config.levels_per_side=20;" in wide
+    assert "SetLotTier(config,1,6,0.01);" in wide
+    assert "SetLotTier(config,7,13,0.06);" in wide
+    assert "SetLotTier(config,14,20,0.15);" in wide
+    assert "config.cycle_target_money=28.5;" in wide
+
+    # epoch 2026-08-27 09:26 -> 11:03, 3 cycles, deepest fill L7.  This is the
+    # last uncovered ladder: after folding manual partial-close fragments back
+    # onto their parent position_id, it is the single (level, lot) pair in the
+    # whole tape that no other Starwave profile reproduces.
+    light = profile.split("case STARWAVE_20_LIGHT:", 1)[1].split("case CUSTOM_PROFILE:", 1)[0]
+    assert "config.levels_per_side=20;" in light
+    assert "SetLotTier(config,1,6,0.01);" in light
+    assert "SetLotTier(config,7,13,0.03);" in light
+    assert "SetLotTier(config,14,20,0.15);" in light
+    assert "config.cycle_target_money=17.8;" in light
+
+    # All Starwave epochs share one execution profile: unpaced 0s bursts, no
+    # timer-driven stop updates, 2s restart, newest-first stop scan, no rescue.
+    for body in (high, mid, wide, light):
+        assert "config.step_mode=STR_STEP_ANCHOR_DIVISOR;" in body
+        assert "config.anchor_divisor=3000.0;" in body
+        assert "config.trail_distance_steps=1.0;" in body
+        assert "config.lock_trigger_steps=2.0;" in body
+        assert "config.pre_tighten_trail_distance_steps=2.0;" in body
+        assert "config.tighten_trigger_steps=3.0;" in body
+        assert "config.activation_uses_trailing_distance=true;" in body
+        assert "config.cancel_before_close=true;" in body
+        assert "config.close_interval_seconds=0;" in body
+        assert "config.stop_update_interval_seconds=0;" in body
+        assert "config.stop_updates_on_timer=false;" in body
+        assert "config.max_stop_updates_per_pass=0;" in body
+        assert "config.rearm_delay_seconds=0;" in body
+        assert "config.restart_delay_ms=2000;" in body
+        assert "config.deployment_fill_cooldown_seconds=0;" in body
+        assert "config.stop_scan_newest_first=true;" in body
+        assert "config.trend_rescue_enabled=false;" in body
+        assert "return true;" in body
+
+
+def test_standalone_sources_mirror_the_starwave_profile_catalog():
+    """The all-in-one builds must carry the identical profile table."""
+    catalog = PROFILE_CATALOG.read_text(encoding="utf-8")
+    region = catalog.split("case STARWAVE_30:", 1)[1].split("case CUSTOM_PROFILE:", 1)[0]
+    normalized = "\n".join(line.rstrip() for line in region.splitlines())
+
+    types = (ROOT / "mql5" / "include" / "StraddleTypes.mqh").read_text(encoding="utf-8")
+    enum = types.split("enum ENUM_STR_PROFILE", 1)[1].split("};", 1)[0]
+    for name in ("STARWAVE_30_HIGH = 9", "STARWAVE_30_MID = 10", "STARWAVE_20_WIDE = 11", "STARWAVE_20_LIGHT = 12"):
+        assert name in enum
+
+    for standalone in ("ProfitBricks2K.mq5", "ProfitBricks2K_AllInOne.mq5"):
+        text = (ROOT / "mql5" / standalone).read_text(encoding="utf-8")
+        mirrored = text.split("case STARWAVE_30:", 1)[1].split("case CUSTOM_PROFILE:", 1)[0]
+        mirrored = "\n".join(line.rstrip() for line in mirrored.splitlines())
+        assert mirrored == normalized, f"{standalone} profile table drifted from the catalog"
+        for name in ("STARWAVE_30_HIGH = 9", "STARWAVE_30_MID = 10", "STARWAVE_20_WIDE = 11", "STARWAVE_20_LIGHT = 12"):
+            assert name in text
+        assert "config.cycle_target_money=25.0;" not in text
+        assert "config.cycle_target_money=15.0;" not in text
+
+
+def test_june_2k_pins_the_pre_break_pacing_family_at_a_one_second_restart():
+    """JUNE_2K is unpaced like Starwave but restarts on a 1 s floor, not 2 s.
+
+    The implementation specification asks for restart_delay_ms = 2000 on
+    STARWAVE_30, STARWAVE_20 *and* JUNE_2K.  The first two are measured that
+    way; JUNE_2K is not.  JUNE_2K reproduces the pre-2026-07-24 regime, whose
+    restart floor measures 1.17 s with 64/68 gaps under 4.5 s, while the
+    Starwave window (2026-08-21..08-29) measures floor(next_deploy)-floor(flat)
+    = 2 s on 96 cycles and 3 s on 6, i.e. 102/148 = 68.9%.
+
+    The engine waits (restart_delay_ms+999)/1000 WHOLE seconds against a
+    whole-second TimeCurrent(), so 1000 yields a 1 s floor and 2000 a 2 s
+    floor.  Aligning JUNE_2K on 2000 would therefore contradict its own epoch.
+    This test exists so that the split is machine-enforced rather than resting
+    on the in-source comment: before it, JUNE_2K was pinned only by its enum
+    membership.
+    """
+    carriers = {
+        "ProfileCatalog.mqh": PROFILE_CATALOG.read_text(encoding="utf-8"),
+        "ProfitBricks2K.mq5": (ROOT / "mql5" / "ProfitBricks2K.mq5").read_text(encoding="utf-8"),
+        "ProfitBricks2K_AllInOne.mq5": (
+            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+        ).read_text(encoding="utf-8"),
+    }
+
+    for name, text in carriers.items():
+        body = text.split("case JUNE_2K:", 1)[1].split("case LATEST_30:", 1)[0]
+
+        # Geometry: same lattice law as every modern profile.
+        assert "config.levels_per_side=30;" in body, name
+        assert "config.step_mode=STR_STEP_ANCHOR_DIVISOR;" in body, name
+        assert "config.anchor_divisor=3000.0;" in body, name
+
+        # Unpaced burst execution, shared with the Starwave family.
+        assert "config.close_interval_seconds=0;" in body, name
+        assert "config.stop_update_interval_seconds=0;" in body, name
+        assert "config.stop_updates_on_timer=false;" in body, name
+        assert "config.max_stop_updates_per_pass=0;" in body, name
+        assert "config.rearm_delay_seconds=0;" in body, name
+        assert "config.deployment_fill_cooldown_seconds=0;" in body, name
+
+        # The deliberate divergence, plus the citation that justifies it.
+        assert "config.restart_delay_ms=1000;" in body, name
+        assert "config.restart_delay_ms=2000;" not in body, name
+        assert "deliberately NOT the 2000" in body, name
+        assert "restart floor 1.17 s, 64/68 under 4.5 s" in body, name
+
+        # The $2,000-capital lot ladder (spec 6.3).
+        assert "SetLotTier(config,1,15,0.01);" in body, name
+        assert "SetLotTier(config,16,25,0.03);" in body, name
+        assert "SetLotTier(config,26,30,0.06);" in body, name
+
+        # Two-stage ratchet identical to Starwave: activate +2, tighten at +3.
+        assert "config.lock_trigger_steps=2.0;" in body, name
+        assert "config.pre_tighten_trail_distance_steps=2.0;" in body, name
+        assert "config.tighten_trigger_steps=3.0;" in body, name
+        assert "config.trail_distance_steps=1.0;" in body, name
+        assert "config.activation_uses_trailing_distance=true;" in body, name
+
+
+def test_engine_pins_mid_anchor_tick_driven_stops_and_whole_second_restart():
+    """The four engine-side clauses the profile table cannot express.
+
+    * anchor = mid, normalized  (spec 1.1)
+    * the deployment/pacing timer is inter_order_delay_ms, floored at 20 ms,
+      which is what makes InterOrderDelayMs = 100 the ~112 ms observed cadence
+      (spec 1.4)
+    * stop_updates_on_timer = false routes the trailing ratchet through OnTick,
+      and the interval / per-pass guards test > 0 so that the profile's zeros
+      mean "every tick" and "unconstrained" rather than "never" (spec 3)
+    * the restart wait is (restart_delay_ms+999)/1000 WHOLE seconds, the
+      integer division that makes 1000 a 1 s floor and 2000 a 2 s floor
+      (spec 5.2 step 3)
+
+    Asserted on the modular engine and on both standalone builds, since the
+    all-in-one files are generated copies of the includes
+    (tools/bundle_standalone.py) and a stale generation would go unnoticed here
+    without the assertion.
+    """
+    carriers = {
+        "StraddleEngine.mqh": ENGINE.read_text(encoding="utf-8"),
+        "ProfitBricks2K.mq5": (ROOT / "mql5" / "ProfitBricks2K.mq5").read_text(encoding="utf-8"),
+        "ProfitBricks2K_AllInOne.mq5": (
+            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+        ).read_text(encoding="utf-8"),
+    }
+
+    for name, text in carriers.items():
+        assert "m_anchor=NormalizePrice((tick.bid+tick.ask)/2.0);" in text, name
+        assert "int timer_ms=MathMax(20,m_runtime.inter_order_delay_ms);" in text, name
+        assert "if(!EventSetMillisecondTimer(timer_ms))" in text, name
+        assert "if(!m_profile.stop_updates_on_timer)" in text, name
+        assert "if(m_profile.stop_update_interval_seconds>0 &&" in text, name
+        assert "if(m_profile.max_stop_updates_per_pass>0 &&" in text, name
+        assert "(m_profile.restart_delay_ms+999)/1000)" in text, name
+
+
+# ---------------------------------------------------------------------------
+# replica_orphan_leak: the Target EA's single-pointer level table
+#
+# The Target's SLevelState holds ONE position ticket per (side,level).  A re-fill
+# overwrites the pointer and the displaced position is never tracked again: not
+# trailed, not counted in the basket, never closed by the sweep.  Measured on the
+# Starwave tape (audit D6/D7): 153 of 2,468 fills (6.20%) were still open at the
+# end of the window, 0/153 ever received an [sl] order, 0/146 sweeps left the
+# book flat, and 137/137 same-level overlapping pairs have the EARLIER position
+# never closed.  These tests pin the reproduction of that behaviour, because it
+# is the single largest behavioural divergence that was found between the two
+# EAs and the easiest one to "fix" back out by accident.
+# ---------------------------------------------------------------------------
+
+# Every built-in profile that reconstructs the real Target binary, and every one
+# that does not.  The leak is a property of the BINARY, not of the pacing epoch,
+# so it spans both the June-2026 and the August-2026 regimes.
+LEAK_PROFILES = (
+    "JUNE_2K",
+    "LATEST_30",
+    "STARWAVE_30",
+    "STARWAVE_20",
+    "STARWAVE_30_HIGH",
+    "STARWAVE_30_MID",
+    "STARWAVE_20_WIDE",
+    "STARWAVE_20_LIGHT",
+)
+NO_LEAK_PROFILES = ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30")
+
+
+def profile_case_bodies(text: str) -> dict[str, str]:
+    """Split LoadProfileConfig's switch into {profile name: case body}."""
+    switch = text.split("bool LoadProfileConfig(", 1)[1]
+    labels = [name for name in LEAK_PROFILES + NO_LEAK_PROFILES] + ["CUSTOM_PROFILE"]
+    positions = sorted(
+        (switch.index(f"case {name}:"), name)
+        for name in labels
+        if f"case {name}:" in switch
+    )
+    bodies = {}
+    for index, (start, name) in enumerate(positions):
+        end = positions[index + 1][0] if index + 1 < len(positions) else len(switch)
+        bodies[name] = switch[start:end]
+    return bodies
+
+
+def function_body(text: str, signature: str) -> str:
+    """The braced body that follows `signature`, found by brace counting.
+
+    Splitting on a fixed indented "\\n  }" is not safe in these sources: the
+    modular includes use 3-space class members with 5-space bodies while the
+    standalone concatenation preserves that, and several bodies contain nested
+    blocks at the same indentation.  Counting braces is indentation-agnostic.
+    """
+    assert signature in text, f"missing signature: {signature}"
+    cursor = text.index(signature) + len(signature)
+    start = text.index("{", cursor)
+    depth = 0
+    for index in range(start, len(text)):
+        if text[index] == "{":
+            depth += 1
+        elif text[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start : index + 1]
+    raise AssertionError(f"unterminated body for: {signature}")
+
+
+def test_types_declare_the_orphan_leak_flag_on_both_profile_structs():
+    """SProfileConfig and SCustomProfileConfig both carry the flag.
+
+    SCustomProfileConfig is what CUSTOM_PROFILE fills from the EA inputs, so
+    without the second declaration the only off-switch would not exist.
+    """
+    types = TYPES.read_text(encoding="utf-8")
+    assert types.count("bool              replica_orphan_leak;") == 2, types.count(
+        "bool              replica_orphan_leak;"
+    )
+
+    profile_struct = types.split("struct SProfileConfig", 1)[1].split("};", 1)[0]
+    custom_struct = types.split("struct SCustomProfileConfig", 1)[1].split("};", 1)[0]
+    assert "bool              replica_orphan_leak;" in profile_struct
+    assert "bool              replica_orphan_leak;" in custom_struct
+
+    # The evidence lives next to the declaration so the flag cannot be mistaken
+    # for a tidy-up knob and switched off as "obviously a bug".
+    assert "153 of 2,468" in profile_struct
+    assert "0/146 sweeps left the book flat" in profile_struct
+    assert "not closed by the sweep" in profile_struct
+
+    # The leak IS the single-pointer level table, so the level struct must keep
+    # one ticket, not a list.
+    level_struct = types.split("struct SLevelState", 1)[1].split("};", 1)[0]
+    assert "ulong             position_ticket;" in level_struct
+    assert "bool              has_position;" in level_struct
+    assert "position_tickets[" not in level_struct
+
+
+def test_profile_catalog_pins_the_orphan_leak_per_profile():
+    """False by default, true on every Target reconstruction, false on legacy."""
+    catalog = PROFILE_CATALOG.read_text(encoding="utf-8")
+
+    # ResetProfile is the baseline every case starts from: hygienic, so a new
+    # profile has to opt in to the leak explicitly.
+    reset_body = function_body(catalog, "void ResetProfile(")
+    assert "config.replica_orphan_leak=false;" in reset_body
+
+    bodies = profile_case_bodies(catalog)
+    for name in LEAK_PROFILES:
+        assert name in bodies, name
+        assert "config.replica_orphan_leak=true;" in bodies[name], name
+    for name in NO_LEAK_PROFILES:
+        assert name in bodies, name
+        # Legacy/experimental profiles are not reconstructions of the Target
+        # binary, so they inherit ResetProfile's hygienic false.
+        assert "replica_orphan_leak" not in bodies[name], name
+
+    # CUSTOM_PROFILE is routed through LoadCustomProfile, which is the one and
+    # only place the flag can be turned off from the EA inputs.
+    custom_body = catalog.split("bool LoadCustomProfile(", 1)[1]
+    assert "config.replica_orphan_leak=custom.replica_orphan_leak;" in custom_body
+    assert "only escape hatch" in custom_body
+
+
+def test_app_exposes_the_orphan_leak_input_and_wires_it():
+    source = app_source()
+    assert "input bool CustomReplicaOrphanLeak = true;" in source
+    assert "custom.replica_orphan_leak=CustomReplicaOrphanLeak;" in source
+    # Default ON matches the Starwave binary; the comment records why, and that
+    # turning it off is a deliberate DEVIATION rather than a bug fix.
+    assert "DEVIATION from the Target" in source
+
+
+def test_engine_reproduces_the_target_orphan_leak():
+    """The eight engine mechanisms that make a displaced position vanish.
+
+    Dropping the re-arm gate alone is INERT: ReconcileLevels() rebuilds
+    has_position from the live book on every pass, so a displaced position would
+    be re-adopted on the very next reconcile and then trailed and swept.  The
+    leak therefore needs a persistent orphan set plus a newest-per-level rule
+    inside the reconcile itself, and it needs the sweep, the trail and the basket
+    to be scoped to the tracked set.  All of it is asserted on the modular engine
+    and on both generated standalones.
+    """
+    carriers = {
+        "StraddleEngine.mqh": ENGINE.read_text(encoding="utf-8"),
+        "ProfitBricks2K.mq5": (ROOT / "mql5" / "ProfitBricks2K.mq5").read_text(encoding="utf-8"),
+        "ProfitBricks2K_AllInOne.mq5": (
+            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+        ).read_text(encoding="utf-8"),
+    }
+
+    for name, text in carriers.items():
+        # (1) The orphan set is engine state, not level state, so it outlives
+        # every cycle boundary -- a displaced position stays untracked for good.
+        assert "ulong             m_orphan_tickets[];" in text, name
+        assert "int               m_orphan_count;" in text, name
+        assert "bool OrphanLeakActive(void) const" in text, name
+        assert "return(m_profile.replica_orphan_leak);" in text, name
+
+        # (2) Newest-per-level inside the reconcile: the higher ticket wins and
+        # the loser is orphaned, which is what a single-pointer overwrite does.
+        assert "if(OrphanLeakActive() && IsOrphanTicket(ticket))" in text, name
+        assert "void AdoptPositionIntoLevel(" in text, name
+        assert "bool incoming_is_newer=(ticket>level_state.position_ticket);" in text, name
+        assert "PruneClosedOrphanTickets();" in text, name
+
+        # (3) A live position no longer blocks a fresh pending on its level --
+        # this is the mechanism that creates orphans in the first place.
+        assert "(!OrphanLeakActive() && level_state.has_position)" in text, name
+
+        # (4) Re-arm any level with no pending, subject only to
+        # PendingPriceIsValid()/RearmDelayElapsed(); no !has_position gate.
+        assert "bool RearmEligible(const SLevelState &level_state) const" in text, name
+        assert "return(level_state.rearm_requested && !level_state.has_position);" in text, name
+
+        # (5) The sweep closes only tracked positions, in exact reverse-of-ticket
+        # LIFO (measured 3718/3718).
+        assert "return TryCloseOneTrackedPosition();" in text, name
+        assert "bool TryCloseOneTrackedPosition(void)" in text, name
+
+        # (6) Orphans are never trailed: 0/153 ever received an [sl] order.
+        assert "void UpdateTrackedPositionStops(const MqlTick &tick)" in text, name
+        assert "bool TrailSelectedPosition(const MqlTick &tick,const ulong ticket)" in text, name
+        assert "UpdateTrackedPositionStops(tick);" in text, name
+
+        # (7) The basket sums only tracked positions, and the open-position gate
+        # counts only tracked ones.
+        assert "double floating=CycleFloatingProfit();" in text, name
+        assert "int open_pos_count=CyclePositionCount();" in text, name
+        assert "int CyclePositionCount(void) const" in text, name
+        assert "double CycleFloatingProfit(void) const" in text, name
+
+        # (8) One pending + one position on the same level is the normal steady
+        # state under the leak, so duplicate-identity must score the two entity
+        # kinds independently instead of summing them.
+        assert "entity_count=MathMax(" in text, name
+
+        # Two accounting families, not one repointed function: safety and the
+        # flat-book guards stay book-wide on purpose (counting orphans is the
+        # conservative choice there).
+        assert "int OwnedPositionCount(void) const" in text, name
+        assert "double OwnedFloatingProfit(void) const" in text, name
+
+        # A cycle boundary must not silently release a tracked ticket back into
+        # the tracked set: both start paths orphan whatever is still pointed at.
+        assert text.count("OrphanRemainingTrackedPositions();") == 2, name
+        # Reset in the constructor and in Initialize() only -- NOT in
+        # ResetLevelState(), which runs at every cycle start.
+        assert text.count("ResetOrphanTickets();") == 2, name
+        reset_level_state = function_body(text, "void ResetLevelState(void)")
+        assert "ResetOrphanTickets" not in reset_level_state, name
+
+        # Selection safety: RememberOrphanTicket() writes telemetry, and
+        # WriteTelemetry() calls CycleFloatingProfit(), which walks the book with
+        # PositionSelectByTicket().  Every property of the selected position must
+        # therefore be read BEFORE it, or the level records another position's
+        # volume.  This ordering was a real bug once; keep it pinned.
+        adopt = function_body(text, "void AdoptPositionIntoLevel(")
+        volume_read = adopt.index("double volume=PositionGetDouble(POSITION_VOLUME);")
+        orphan_call = adopt.index("RememberOrphanTicket(displaced,LevelCommentOf(level_state));")
+        assert volume_read < orphan_call, name
+        # ...and it must be read exactly once, so neither branch re-reads it from
+        # whatever position the telemetry write left selected.
+        assert adopt.count("PositionGetDouble(POSITION_VOLUME)") == 1, name
+        assert adopt.count("level_state.volume=volume;") == 2, name
+
+
+# ---------------------------------------------------------------------------
+# Standalone generation: the all-in-one builds are OUTPUT, never edited by hand
+#
+# mql5/ProfitBricks2K.mq5 and mql5/ProfitBricks2K_AllInOne.mq5 are mechanical
+# concatenations of the eight includes.  They were hand-mirrored for a long time
+# and had silently drifted 33 lines behind mql5/include (12 in StraddleTypes.mqh,
+# 21 in ProfileCatalog.mqh) -- which means both standalones were shipping WITHOUT
+# the replica_orphan_leak field and WITHOUT the eight profile assignments that
+# turn the Target's orphan leak on.  They compiled with zero errors and were
+# silently a different EA.  Nothing in the suite would have caught it: every other
+# assertion here reads the modular includes.
+#
+# tools/bundle_standalone.py is now the only writer, and this test is the thing
+# that makes forgetting to run it a red suite instead of a shipped divergence.
+# ---------------------------------------------------------------------------
+
+
+def test_standalone_builds_are_current_generated_copies_of_the_includes():
+    from tools import bundle_standalone
+
+    expected = bundle_standalone.build_from_worktree()
+    for target in bundle_standalone.TARGETS:
+        actual = target.read_text(encoding="utf-8")
+        assert actual == expected, (
+            f"{target.name} is stale: regenerate with "
+            f"`python tools/bundle_standalone.py --write`.\n"
+            f"{bundle_standalone.first_divergence(expected, actual)}"
+        )
+
+    # Both binaries differ only by their compile-time #define pins, and those live
+    # in the header block the bundler copies verbatim -- so as generated from the
+    # same header they are byte-identical.  If they ever legitimately diverge, the
+    # bundler needs a per-target header, not a hand edit.
+    assert len({target.read_bytes() for target in bundle_standalone.TARGETS}) == 1
+
+    # Every include must be represented, and no live #include may survive the
+    # inlining (an unresolved one would make the "standalone" build fail to
+    # compile outside mql5/include).
+    for filename, label in bundle_standalone.SECTIONS:
+        assert f"// SECTION: {label}" in expected, filename
+    assert '\n#include "' not in expected
+    assert expected.count(bundle_standalone.PLACEHOLDER) >= len(
+        bundle_standalone.SECTIONS
+    ) - 1
+
+    # The header still carries this pair's parity pins.  ProfitBricks2K is the
+    # JUNE_2K/901018 build; changing either is a behavioural change, not a
+    # packaging one.
+    header = "\n".join(bundle_standalone.header_of(expected))
+    assert "#define STR_DEFAULT_PROFILE JUNE_2K" in header
+    assert "#define STR_DEFAULT_MAGIC 901018" in header
+    assert "#property" in header
+
+
+def test_standalone_generator_round_trips_the_committed_tree():
+    """The transform is reversible against git HEAD, so it cannot be self-serving.
+
+    build_from_worktree() reads the header out of the file it is about to
+    overwrite, so a bundler bug plus a matching bad file would agree with each
+    other.  --verify closes that loop by rebuilding HEAD's committed standalone
+    from HEAD's committed includes and demanding byte equality.
+    """
+    import subprocess
+
+    from tools import bundle_standalone
+
+    def show(rev_path: str) -> str:
+        return subprocess.run(
+            ["git", "show", rev_path],
+            cwd=bundle_standalone.ROOT,
+            capture_output=True,
+            check=True,
+        ).stdout.decode("utf-8")
+
+    head = show("HEAD:mql5/ProfitBricks2K.mq5")
+    sources = {
+        name: show(f"HEAD:mql5/include/{name}")
+        for name, _ in bundle_standalone.SECTIONS
+    }
+    rebuilt = bundle_standalone.bundle(bundle_standalone.header_of(head), sources)
+    assert rebuilt == head, bundle_standalone.first_divergence(head, rebuilt)
 

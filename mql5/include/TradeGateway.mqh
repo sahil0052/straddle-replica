@@ -21,6 +21,36 @@ private:
       return ORDER_FILLING_RETURN;
      }
 
+   // Pending orders are ALWAYS sent with ORDER_FILLING_RETURN, never with
+   // MarketFillingMode().  This is measured, not stylistic.
+   //
+   // Cross-tab of Starwave_60542_orders_history.csv (10,863 orders, magic
+   // 26011001) on comment x type x type_filling:
+   //
+   //   comment      type          type_filling             n
+   //   STR B#/S#    4 BUY_STOP    2 RETURN              4257
+   //   STR B#/S#    5 SELL_STOP   2 RETURN              4279
+   //   STR CLOSE    0 BUY         0 FOK                  524
+   //   STR CLOSE    1 SELL        0 FOK                  473
+   //   [sl <price>] 0 BUY         1 IOC                  674
+   //   [sl <price>] 1 SELL        1 IOC                  637
+   //
+   // All 8,536 Target pendings carry type_filling=2; not one carries 0 or 1.
+   // The Target's own market closes carry 0 (FOK), which is what
+   // MarketFillingMode() returns on a symbol advertising SYMBOL_FILLING_FOK --
+   // so OpenMarket/ClosePosition keep using it and match.  IOC appears only on
+   // broker-generated stop-out orders, which the EA does not author.
+   //
+   // MQL5 also specifies RETURN as the mode used for the four pending order
+   // types regardless of SYMBOL_FILLING_MODE, so sending FOK on a
+   // TRADE_ACTION_PENDING request is not merely a fingerprint divergence: on a
+   // broker that does not advertise FOK for pendings it is retcode 10030
+   // (Unsupported filling mode) and the lattice never deploys.
+   ENUM_ORDER_TYPE_FILLING PendingFillingMode(void) const
+     {
+      return ORDER_FILLING_RETURN;
+     }
+
    bool IsSuccessful(const MqlTradeResult &result) const
      {
       return(result.retcode==TRADE_RETCODE_DONE ||
@@ -261,7 +291,7 @@ public:
       request.tp=0.0;
       request.deviation=m_deviation_points;
       request.type=(is_buy ? ORDER_TYPE_BUY_STOP : ORDER_TYPE_SELL_STOP);
-      request.type_filling=MarketFillingMode();
+      request.type_filling=PendingFillingMode();
       request.type_time=ORDER_TIME_GTC;
       request.comment=comment;
       return Send(request,result,true);

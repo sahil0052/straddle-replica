@@ -13,7 +13,11 @@ enum ENUM_STR_PROFILE
    CUSTOM_PROFILE = 5,
    JUNE_2K = 6,
    STARWAVE_30 = 7,
-   STARWAVE_20 = 8
+   STARWAVE_20 = 8,
+   STARWAVE_30_HIGH = 9,
+   STARWAVE_30_MID = 10,
+   STARWAVE_20_WIDE = 11,
+   STARWAVE_20_LIGHT = 12
   };
 
 enum ENUM_STR_STEP_MODE
@@ -68,6 +72,17 @@ struct SProfileConfig
    int               max_stop_updates_per_pass;
    bool              stop_scan_newest_first;
    bool              stop_updates_on_timer;
+   // Target EA parity: the level table owns exactly ONE position ticket per
+   // (side,level) and a re-fill OVERWRITES it, so the displaced position is
+   // never tracked again -- it is not trailed, not counted in the basket, and
+   // not closed by the sweep.  Measured on the Starwave tape: 153 of 2,468
+   // fills (6.20%) were still open at the end of the window, 148 of them
+   // survived at least one complete basket sweep and 66 survived 61 or more,
+   // 137/137 same-level overlapping pairs have the EARLIER position never
+   // closed, 0/146 sweeps left the book flat (residue ratchets 6 -> 148), and
+   // 0/153 orphans ever received an [sl] order despite 1-9 days of XAUUSD
+   // movement.  See ProfitBricks parity audit D6/D7.
+   bool              replica_orphan_leak;
    bool              trend_rescue_enabled;
    ENUM_TIMEFRAMES   trend_rescue_timeframe;
    int               trend_rescue_bars;
@@ -106,6 +121,7 @@ struct SCustomProfileConfig
    int               max_stop_updates_per_pass;
    bool              stop_scan_newest_first;
    bool              stop_updates_on_timer;
+   bool              replica_orphan_leak;
   };
 
 struct SRuntimeConfig

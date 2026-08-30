@@ -78,6 +78,17 @@ private:
    ulong             m_sell_trend_rescue_rearm_mask;
    int               m_trend_rescue_consumed_side;
    bool              m_alignment_hold_logged;
+   // Target EA parity (SProfileConfig.replica_orphan_leak): position tickets that
+   // were DISPLACED from the level table by a later fill on the same
+   // (side,level).  The Target's level table holds one ulong per level, so a
+   // re-fill overwrites the pointer and the older position becomes invisible to
+   // the EA forever: not trailed, not counted in the basket, never swept.  We
+   // reproduce that by remembering the displaced tickets and excluding them from
+   // every cycle-scoped operation.  Entries are pruned once the ticket is no
+   // longer live (a broker/manual close), and MT5 tickets never recycle, so the
+   // list is bounded by the number of positions the operator leaves open.
+   ulong             m_orphan_tickets[];
+   int               m_orphan_count;
 
    string GlobalKey(const string suffix) const
      {
@@ -289,6 +300,163 @@ private:
              PositionGetString(POSITION_SYMBOL)==m_runtime.symbol);
      }
 
+   bool OrphanLeakActive(void) const
+     {
+      return(m_profile.replica_orphan_leak);
+     }
+
+   string LevelCommentOf(const SLevelState &level_state) const
+     {
+      return StringFormat(
+         "STR %s%d",
+         (level_state.is_buy ? "B" : "S"),
+         level_state.level
+      );
+     }
+
+   void ResetOrphanTickets(void)
+     {
+      m_orphan_count=0;
+      ArrayResize(m_orphan_tickets,0);
+     }
+
+   bool IsOrphanTicket(const ulong ticket) const
+     {
+      for(int index=0;index<m_orphan_count;index++)
+        {
+         if(m_orphan_tickets[index]==ticket)
+            return true;
+        }
+      return false;
+     }
+
+   void RememberOrphanTicket(const ulong ticket,const string level_comment,
+                             const string reason="displaced_by_refill")
+     {
+      if(ticket==0 || IsOrphanTicket(ticket))
+         return;
+      ArrayResize(m_orphan_tickets,m_orphan_count+1);
+      m_orphan_tickets[m_orphan_count]=ticket;
+      m_orphan_count++;
+      LogLifecycleEvent("position_orphaned",level_comment,reason);
+     }
+
+   // Drops tickets that are no longer live.  MT5 never recycles a ticket, so a
+   // pruned entry can never be re-adopted by mistake.  Must not be called from
+   // inside a PositionGetTicket() walk: it moves the selected position.
+   void PruneClosedOrphanTickets(void)
+     {
+      int kept=0;
+      for(int index=0;index<m_orphan_count;index++)
+        {
+         if(!PositionSelectByTicket(m_orphan_tickets[index]))
+            continue;
+         m_orphan_tickets[kept]=m_orphan_tickets[index];
+         kept++;
+        }
+      if(kept==m_orphan_count)
+         return;
+      m_orphan_count=kept;
+      ArrayResize(m_orphan_tickets,m_orphan_count);
+     }
+
+   // The set of positions the LEVEL TABLE still points at, ascending by ticket.
+   // This is the Target EA's entire notion of "my open positions": one ticket
+   // per (side,level), anything displaced is gone.  Sorted ascending so callers
+   // can walk it forwards (oldest first) or reversed (newest first) and get an
+   // exact ticket-ordered LIFO sweep.
+   int CollectTrackedPositionTickets(ulong &tickets[]) const
+     {
+      ArrayResize(tickets,0);
+      int count=0;
+      for(int index=0;index<m_profile.levels_per_side;index++)
+        {
+         for(int side=0;side<2;side++)
+           {
+            bool has_position=(side==0
+                               ? m_buy_levels[index].has_position
+                               : m_sell_levels[index].has_position);
+            ulong ticket=(side==0
+                          ? m_buy_levels[index].position_ticket
+                          : m_sell_levels[index].position_ticket);
+            if(!has_position || ticket==0)
+               continue;
+            if(!PositionSelectByTicket(ticket) || !IsOwnedPositionSelected())
+               continue;
+            ArrayResize(tickets,count+1);
+            tickets[count]=ticket;
+            count++;
+           }
+        }
+      if(count>1)
+         ArraySort(tickets);
+      return count;
+     }
+
+   int TrackedPositionCount(void) const
+     {
+      ulong tickets[];
+      return CollectTrackedPositionTickets(tickets);
+     }
+
+   double TrackedFloatingProfit(void) const
+     {
+      ulong tickets[];
+      int count=CollectTrackedPositionTickets(tickets);
+      double total=0.0;
+      for(int index=0;index<count;index++)
+        {
+         if(!PositionSelectByTicket(tickets[index]))
+            continue;
+         total+=(
+            PositionGetDouble(POSITION_PROFIT)+
+            PositionGetDouble(POSITION_SWAP)
+         );
+        }
+      return total;
+     }
+
+   // Cycle-scoped accounting.  Identical to the Owned* pair when the leak is
+   // off; restricted to the tracked set when it is on, which is what makes the
+   // basket, the sweep and the restart drain all measure exactly what the
+   // Target's level table measures.
+   int CyclePositionCount(void) const
+     {
+      if(!OrphanLeakActive())
+         return OwnedPositionCount();
+      return TrackedPositionCount();
+     }
+
+   double CycleFloatingProfit(void) const
+     {
+      if(!OrphanLeakActive())
+         return OwnedFloatingProfit();
+      return TrackedFloatingProfit();
+     }
+
+   // Called immediately before the level table is wiped for a new cycle.  Any
+   // ticket the table still points at would otherwise be silently released and
+   // re-adopted by the next reconcile, which the tape rules out: all 153 of the
+   // Target's orphans stayed untracked to the end of the window, none of them
+   // ever received an [sl] order and none were swept by any of the 146 later
+   // baskets.  In the normal path StartCycle()'s guard has already established
+   // that nothing is tracked, so this is a no-op; it exists to make the
+   // invariant hold on the edge paths too.
+   void OrphanRemainingTrackedPositions(void)
+     {
+      if(!OrphanLeakActive())
+         return;
+      ulong tickets[];
+      int count=CollectTrackedPositionTickets(tickets);
+      for(int index=0;index<count;index++)
+        {
+         string level_comment="";
+         if(PositionSelectByTicket(tickets[index]))
+            level_comment=PositionGetString(POSITION_COMMENT);
+         RememberOrphanTicket(tickets[index],level_comment,"cycle_reset");
+        }
+     }
+
    void ClearLiveFlags(void)
      {
       for(int index=0;index<m_profile.levels_per_side;index++)
@@ -313,6 +481,17 @@ private:
       int entity_count=
          level_state.active_order_count+
          level_state.active_position_count;
+      // Target EA parity: with the orphan leak on, one pending plus one open
+      // position on the SAME level is the normal steady state -- the level
+      // re-arms at its original price while the displaced position is still
+      // open.  Summing the two would flag that as a duplicate identity and
+      // PlaceLevel() would then refuse the level for the rest of the cycle, so
+      // score the two entity kinds independently instead.
+      if(OrphanLeakActive())
+         entity_count=MathMax(
+            level_state.active_order_count,
+            level_state.active_position_count
+         );
       if(level_state.active_order_count==1 &&
          level_state.active_position_count==1 &&
          level_state.order_ticket>0 &&
@@ -322,18 +501,51 @@ private:
       if(duplicate && !level_state.duplicate_identity)
          LogLifecycleEvent(
             "duplicate_level_identity",
-            StringFormat(
-               "STR %s%d",
-               level_state.is_buy ? "B" : "S",
-               level_state.level
-            ),
+            LevelCommentOf(level_state),
             "multiple_active_entities"
          );
       level_state.duplicate_identity=duplicate;
      }
 
+   // Adopts the currently selected position into its level.  With the leak on the
+   // level keeps exactly ONE ticket -- whichever opened LATER, i.e. the higher
+   // ticket -- and the loser is orphaned for good, which is precisely what the
+   // Target's single-pointer level table does when a level re-fills while its
+   // previous position is still open.  active_position_count is therefore never
+   // incremented past 1 in leak mode.
+   void AdoptPositionIntoLevel(SLevelState &level_state,const ulong ticket)
+     {
+      // Read every property of the SELECTED position before anything that can
+      // move the selection.  RememberOrphanTicket() writes telemetry, and
+      // WriteTelemetry() calls CycleFloatingProfit(), which walks the book -- so
+      // reading volume after it would report some other position's volume.
+      double volume=PositionGetDouble(POSITION_VOLUME);
+      if(OrphanLeakActive() &&
+         level_state.has_position &&
+         level_state.position_ticket!=ticket)
+        {
+         bool incoming_is_newer=(ticket>level_state.position_ticket);
+         ulong displaced=(incoming_is_newer
+                          ? level_state.position_ticket
+                          : ticket);
+         RememberOrphanTicket(displaced,LevelCommentOf(level_state));
+         if(incoming_is_newer)
+           {
+            level_state.position_ticket=ticket;
+            level_state.volume=volume;
+           }
+         return;
+        }
+      level_state.active_position_count++;
+      level_state.has_position=true;
+      level_state.position_ticket=ticket;
+      level_state.volume=volume;
+     }
+
    void ReconcileLevels(const bool report_duplicates=true)
      {
+      if(OrphanLeakActive())
+         PruneClosedOrphanTickets();
       ClearLiveFlags();
       for(int order_index=0;order_index<OrdersTotal();order_index++)
         {
@@ -367,26 +579,16 @@ private:
          ulong ticket=PositionGetTicket(position_index);
          if(ticket==0 || !IsOwnedPositionSelected())
             continue;
+         if(OrphanLeakActive() && IsOrphanTicket(ticket))
+            continue;
          bool is_buy=false;
          int index=-1;
          if(!ParseLevelComment(PositionGetString(POSITION_COMMENT),is_buy,index))
             continue;
           if(is_buy)
-            {
-             m_buy_levels[index].active_position_count++;
-             m_buy_levels[index].has_position=true;
-             m_buy_levels[index].position_ticket=ticket;
-             m_buy_levels[index].volume=
-                PositionGetDouble(POSITION_VOLUME);
-            }
+             AdoptPositionIntoLevel(m_buy_levels[index],ticket);
           else
-            {
-             m_sell_levels[index].active_position_count++;
-             m_sell_levels[index].has_position=true;
-             m_sell_levels[index].position_ticket=ticket;
-             m_sell_levels[index].volume=
-                PositionGetDouble(POSITION_VOLUME);
-            }
+             AdoptPositionIntoLevel(m_sell_levels[index],ticket);
         }
       if(report_duplicates)
         {
@@ -844,10 +1046,10 @@ private:
         }
       ReconcileLevels(false);
       ArmMissingLevelsAfterRestore();
-      if(saved_state==CYCLE_CLOSING && OwnedPositionCount()>0)
+      if(saved_state==CYCLE_CLOSING && CyclePositionCount()>0)
          m_state=CYCLE_CLOSING;
       else if((saved_state==CYCLE_CLOSING || saved_state==CYCLE_CANCELING) &&
-              OwnedPositionCount()==0 && OwnedOrderCount()>0)
+              CyclePositionCount()==0 && OwnedOrderCount()>0)
          m_state=CYCLE_CANCELING;
       else
          m_state=CYCLE_RUNNING;
@@ -1036,7 +1238,7 @@ private:
       string event_comment=(comment!="" ? comment : level_key);
       ulong event_sequence=NextEventSequence();
       string event_id=EventId(kind,event_sequence,deal_ticket);
-      double floating=OwnedFloatingProfit();
+      double floating=CycleFloatingProfit();
       double scale=ContractScale();
       double basket_target=(
          m_profile.cycle_target_money>0.0
@@ -1345,7 +1547,12 @@ private:
      {
       if(level_state.duplicate_identity)
          return false;
-      if(level_state.has_pending || level_state.has_position)
+      // Target EA parity: an OPEN POSITION on this level does not block a fresh
+      // pending at the same price.  That is the mechanism by which the Target
+      // re-fills a level and orphans the position it was previously pointing at
+      // (see replica_orphan_leak).  A live PENDING still blocks, on both paths.
+      if(level_state.has_pending ||
+         (!OrphanLeakActive() && level_state.has_position))
          return true;
       if(!PendingPriceIsValid(level_state.is_buy,level_state.target_price))
         {
@@ -1643,8 +1850,9 @@ private:
      {
       if(m_halted || anchor<=0.0 || step<=0.0)
          return false;
-      if(OwnedOrderCount()>0 || OwnedPositionCount()>0 || m_state!=CYCLE_IDLE)
+      if(OwnedOrderCount()>0 || CyclePositionCount()>0 || m_state!=CYCLE_IDLE)
          return false;
+      OrphanRemainingTrackedPositions();
       ResetLevelState();
       m_anchor=NormalizePrice(anchor);
       m_step=NormalizePrice(step);
@@ -1719,7 +1927,7 @@ private:
       m_halted=false;
       if(OwnedOrderCount()>0)
          m_state=CYCLE_CANCELING;
-      else if(OwnedPositionCount()>0)
+      else if(CyclePositionCount()>0)
          m_state=CYCLE_CLOSING;
       else
         {
@@ -1769,7 +1977,7 @@ private:
          WriteShadowAck("REJECTED",command.command_seq,"invalid_command");
          return;
         }
-      if(OwnedOrderCount()>0 || OwnedPositionCount()>0 || m_state!=CYCLE_IDLE)
+      if(OwnedOrderCount()>0 || CyclePositionCount()>0 || m_state!=CYCLE_IDLE)
         {
          m_shadow_last_command_seq=command.command_seq;
          PersistShadowSequence();
@@ -1794,13 +2002,19 @@ private:
      {
       if(m_halted)
          return false;
-      if(OwnedOrderCount()>0 || OwnedPositionCount()>0)
+      // Target EA parity: the "am I flat?" test is over the LEVEL TABLE, not the
+      // account book.  The Target opened 149+ cycles while its orphan residue
+      // ratcheted 6 -> 148, which a book-wide test could not have done: the
+      // first orphan would have blocked every later cycle forever.  Pendings are
+      // never orphaned, so the order half of the test stays book-wide.
+      if(OwnedOrderCount()>0 || CyclePositionCount()>0)
          return false;
       if(m_runtime.start_time>0 && TimeCurrent()<m_runtime.start_time)
          return false;
       MqlTick tick={};
       if(!SymbolInfoTick(m_runtime.symbol,tick) || tick.bid<=0.0 || tick.ask<=0.0)
          return false;
+      OrphanRemainingTrackedPositions();
       ResetLevelState();
       m_anchor=NormalizePrice((tick.bid+tick.ask)/2.0);
       m_step=CalculateStep(m_anchor);
@@ -1835,6 +2049,23 @@ private:
      {
       if(m_deploy_index>=m_profile.levels_per_side*2)
         {
+         if(OwnedOrderCount()==0 && CyclePositionCount()==0)
+           {
+            // Degenerate case OUTSIDE the target's measured envelope: every one
+            // of the 2N attempts was rejected, so the sweep armed nothing.
+            // Staying in CYCLE_RUNNING would idle forever -- CheckCycleTargets()
+            // returns early while !m_has_traded with nothing open, and
+            // RearmOneMissingLevel() only fires for levels whose position closed
+            // on stop-loss.  Re-anchor after the flat delay instead.  The worst
+            // real Starwave deployment still armed 39 of 50 levels, so this
+            // branch cannot fire on any measured cycle.
+            m_state=CYCLE_RESTARTING;
+            m_restart_started_at=TimeCurrent();
+            PersistCycle();
+            LogLifecycleEvent("deployment_empty","","all_levels_rejected");
+            LogEvent("deployment_empty","",0,0.0,0.0,"all_levels_rejected");
+            return;
+           }
          m_state=CYCLE_RUNNING;
          ReconcileLevels();
          PersistCycle();
@@ -1850,44 +2081,95 @@ private:
       bool placed=(is_buy ? PlaceLevel(m_buy_levels[level_index])
                           : PlaceLevel(m_sell_levels[level_index]));
       if(placed)
-         m_deploy_index++;
-      else if(m_gateway.LastRetcode()==TRADE_RETCODE_INVALID_PRICE)
         {
-         string level_comment=StringFormat(
-            "STR %s%d",
-            (is_buy ? "B" : "S"),
-            level_index+1
-         );
-         // A broker-side quote can advance between the local tick validation
-         // and OrderCheck.  Continuing would leave a partial grid and retry
-         // this level indefinitely.  Cancel only our pending orders, then
-         // restart from a fresh anchor after the configured flat delay.
-         m_state=CYCLE_CANCELING;
-         PersistCycle();
-         LogLifecycleEvent(
-            "deployment_price_rejected",
-            level_comment,
-            "invalid_price"
-         );
-         LogEvent(
-            "deployment_abort",
-            level_comment,
-            0,
-            0.0,
-            0.0,
-            "invalid_price"
-         );
+         m_deploy_index++;
+         return;
         }
+      string level_comment=StringFormat(
+         "STR %s%d",
+         (is_buy ? "B" : "S"),
+         level_index+1
+      );
+      string reject_reason=StringFormat("retcode_%u",m_gateway.LastRetcode());
+      // TARGET EA PARITY -- A REJECTED LEVEL IS SKIPPED, NEVER RETRIED, AND
+      // NEVER ABORTS THE SWEEP.
+      //
+      // This branch previously dropped the whole cycle into CYCLE_CANCELING on
+      // TRADE_RETCODE_INVALID_PRICE (cancel everything, re-anchor) and, on any
+      // other retcode, fell through WITHOUT advancing m_deploy_index -- retrying
+      // the same level on every subsequent tick, forever.  The target does
+      // neither.  It attempts the level, fails, and advances anyway, spending
+      // one timer tick on the failure and leaving that (side,level) slot empty
+      // for the entire cycle.
+      //
+      // Measured on all three of the 119 Starwave deployments that came out
+      // incomplete (2.5%); there is not one abort-and-re-anchor event in the
+      // whole history:
+      //
+      //   2026-08-21 18:03  anchor 4617.58  step 1.54  (round(4617.58/3000,2),
+      //       B1-S1 = 3.08 = 2*step).  Placed B1 S1 B2 S2 ... B14 S14 then
+      //       B15..B25 with S15..S25 all rejected.  Per-successful-op cadence
+      //       DOUBLES across the tail -- B15 at +3.1 s to B25 at +5.4 s is
+      //       ~209 ms/op against ~105 ms in the interleaved head -- which is the
+      //       wasted tick of each failed SELL.  The skipped prices were valid:
+      //       S15 would have sat at 4594.48 while S1 filled at 4616.04 two
+      //       minutes later, i.e. ~23 dollars BELOW market.  The rejections were
+      //       transient and broker-side, not price-side.  That partial lattice
+      //       is what traded for the next 2.5 days, banking $479.75 over 64
+      //       closes with S15..S25 permanently absent.
+      //   2026-08-24 06:12  anchor 4636.08  step 1.55.  Scattered rejections on
+      //       BOTH sides (S6, S8..S14, B16, S16, B17, S17, B18, S19, B22) in
+      //       early Asia; same cadence doubling at each skip; sweep still ran
+      //       out to level 30.
+      //   2026-08-27 08:23  only S1 rejected -- the nearest level, i.e. a
+      //       stops_level/freeze-level rejection -- and the other 59 were placed.
+      //
+      // And the gaps are never back-filled: in all three cycles the skipped
+      // slots stayed empty while OTHER levels re-armed normally (08-21 saw 11
+      // distinct levels re-arm, e.g. B2 six times, B1 five times).  That is
+      // already our behaviour -- ScheduleLevelRearm() only sets rearm_requested
+      // when a level's position closes on stop-loss, and RearmOneMissingLevel()
+      // is gated on that flag, so a deployment-skipped level stays dormant.
+      LogLifecycleEvent("deployment_level_rejected",level_comment,reject_reason);
+      LogEvent(
+         "deployment_skip",
+         level_comment,
+         0,
+         0.0,
+         0.0,
+         reject_reason
+      );
+      m_deploy_index++;
+     }
+
+   // Target EA parity: the Target has neither a "re-arm requested" flag nor a
+   // "position still open" gate.  Its rule is simply "a level with no live
+   // pending gets one", throttled only by PendingPriceIsValid() and the re-arm
+   // delay.  That single rule accounts for all four re-arm buckets measured on
+   // the Starwave tape -- 969 after a stop-out, 87 while the level's previous
+   // position was STILL OPEN, 3 after some other exit, 59 with no in-cycle fill
+   // at all -- and for the p50 81 s latency, because a level that has just
+   // filled cannot re-arm until price retreats back through it.  The
+   // flag-driven path structurally cannot produce the 87 or the 59, because
+   // ScheduleLevelRearm() is only ever reached from the stop-exit branch of
+   // ProcessSelectedDeal().  Re-filling a level while its previous position is
+   // open is exactly what orphans that position (see replica_orphan_leak).
+   bool RearmEligible(const SLevelState &level_state) const
+     {
+      if(level_state.has_pending ||
+         level_state.trend_rescue_replacement ||
+         level_state.duplicate_identity)
+         return false;
+      if(OrphanLeakActive())
+         return true;
+      return(level_state.rearm_requested && !level_state.has_position);
      }
 
    void RearmOneMissingLevel(void)
      {
       for(int index=0;index<m_profile.levels_per_side;index++)
         {
-          if(m_buy_levels[index].rearm_requested &&
-             !m_buy_levels[index].has_pending &&
-             !m_buy_levels[index].has_position &&
-             !m_buy_levels[index].trend_rescue_replacement)
+          if(RearmEligible(m_buy_levels[index]))
             {
               if(!RearmDelayElapsed(m_buy_levels[index]))
                  continue;
@@ -1930,10 +2212,7 @@ private:
                 }
               return;
             }
-          if(m_sell_levels[index].rearm_requested &&
-             !m_sell_levels[index].has_pending &&
-             !m_sell_levels[index].has_position &&
-             !m_sell_levels[index].trend_rescue_replacement)
+          if(RearmEligible(m_sell_levels[index]))
             {
               if(!RearmDelayElapsed(m_sell_levels[index]))
                  continue;
@@ -1992,7 +2271,7 @@ private:
          m_profile.trend_rescue_move_price<=0.0 ||
          m_profile.trend_rescue_drawdown_money<=0.0 ||
          m_profile.trend_rescue_volume_multiplier<=1.0 ||
-         OwnedFloatingProfit()>-m_profile.trend_rescue_drawdown_money)
+         CycleFloatingProfit()>-m_profile.trend_rescue_drawdown_money)
          return 0;
       MqlTick tick={};
       if(!SymbolInfoTick(m_runtime.symbol,tick))
@@ -2450,8 +2729,46 @@ private:
    // DIVERGENCE from the Target, and pacing has already been measured as a
    // variance term rather than a bias term: rho(sweep span, cycle exit) = +0.015
    // across 91 Target sweeps (flatten_order.py Panel C).
+   // Leak-mode sweep.  Walks ONLY the tickets the level table still points at,
+   // strictly descending by ticket -- the exact reverse-of-ticket LIFO measured
+   // on all 3,718 Target sweep closes -- so orphans are never swept.  On the
+   // Starwave tape not one of the 146 baskets left the book flat and 148 of the
+   // 153 orphans survived at least one complete sweep, 66 of them 61 or more.
+   bool TryCloseOneTrackedPosition(void)
+     {
+      ulong tickets[];
+      int count=CollectTrackedPositionTickets(tickets);
+      int owned=0;
+      for(int index=count-1;index>=0;index--)
+        {
+         owned++;
+         if(owned<=m_close_skip)
+            continue;
+         ulong ticket=tickets[index];
+         if(!PositionSelectByTicket(ticket) || !IsOwnedPositionSelected())
+            continue;
+         double volume=PositionGetDouble(POSITION_VOLUME);
+         double price=PositionGetDouble(POSITION_PRICE_CURRENT);
+         string comment=PositionGetString(POSITION_COMMENT);
+         if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
+           {
+            m_last_close_at=TimeCurrent();
+            m_close_skip=0;
+            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
+            return true;
+           }
+         m_last_close_at=TimeCurrent();
+         m_close_skip++;
+         return false;
+        }
+      m_close_skip=0;
+      return false;
+     }
+
    bool TryCloseOneOwnedPosition(void)
      {
+      if(OrphanLeakActive())
+         return TryCloseOneTrackedPosition();
       int owned=0;
       for(int index=PositionsTotal()-1;index>=0;index--)
         {
@@ -2483,7 +2800,7 @@ private:
 
    void CloseOnePosition(void)
      {
-      if(OwnedPositionCount()>0 && !CloseIntervalElapsed())
+      if(CyclePositionCount()>0 && !CloseIntervalElapsed())
          return;
       if(TryCloseOneOwnedPosition())
          return;
@@ -2491,7 +2808,7 @@ private:
       // this the engine declared cycle_complete/flat on a transient rejection and
       // dropped into CYCLE_RESTARTING with positions still open, which is the
       // state that used to hammer them at the timer period.
-      if(OwnedPositionCount()>0)
+      if(CyclePositionCount()>0)
          return;
       if(m_shadow_reset_active)
         {
@@ -2536,7 +2853,7 @@ private:
          return;
       if(m_shadow_reset_active)
         {
-         if(OwnedPositionCount()>0)
+         if(CyclePositionCount()>0)
            {
             m_state=CYCLE_CLOSING;
             m_last_close_at=0;
@@ -2548,7 +2865,7 @@ private:
         }
       if(!m_halted &&
          m_profile.cancel_before_close &&
-         OwnedPositionCount()>0)
+         CyclePositionCount()>0)
         {
          m_state=CYCLE_CLOSING;
          m_last_close_at=0;
@@ -2576,6 +2893,64 @@ private:
         }
      }
 
+   // Trails the CURRENTLY SELECTED position one step.  Returns true only when a
+   // stop modification was actually issued, so callers can honour
+   // max_stop_updates_per_pass.
+   bool TrailSelectedPosition(const MqlTick &tick,const ulong ticket)
+     {
+      ENUM_POSITION_TYPE type=(ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
+      double entry=PositionGetDouble(POSITION_PRICE_OPEN);
+      double current_sl=PositionGetDouble(POSITION_SL);
+      double desired=0.0;
+      if(!m_stop_scheduler.Calculate(
+            type,
+            entry,
+            current_sl,
+            tick.bid,
+            tick.ask,
+            m_step,
+            m_tick_size,
+            (int)SymbolInfoInteger(m_runtime.symbol,SYMBOL_DIGITS),
+            m_point,
+            SymbolInfoInteger(
+               m_runtime.symbol,
+               SYMBOL_TRADE_STOPS_LEVEL
+            ),
+            m_profile,
+            desired))
+         return false;
+      if(!m_gateway.ModifyPosition(ticket,desired))
+         return false;
+      LogEvent("stop",PositionGetString(POSITION_COMMENT),ticket,
+               PositionGetDouble(POSITION_VOLUME),desired,"");
+      return true;
+     }
+
+   // Leak-mode trail.  Orphans are NEVER trailed: not one of the Target's 153
+   // orphans ever received an [sl] order, across 1-9 days of XAUUSD movement,
+   // while 1,311 tracked positions did.  Walking the tracked array (ascending by
+   // ticket, reversed when stop_scan_newest_first) preserves LATEST_30's
+   // newest-first single-update-per-pass cadence exactly.
+   void UpdateTrackedPositionStops(const MqlTick &tick)
+     {
+      ulong tickets[];
+      int count=CollectTrackedPositionTickets(tickets);
+      if(m_profile.stop_scan_newest_first && count>1)
+         ArrayReverse(tickets);
+      int update_count=0;
+      for(int index=0;index<count;index++)
+        {
+         if(!PositionSelectByTicket(tickets[index]) || !IsOwnedPositionSelected())
+            continue;
+         if(!TrailSelectedPosition(tick,tickets[index]))
+            continue;
+         update_count++;
+         if(m_profile.max_stop_updates_per_pass>0 &&
+            update_count>=m_profile.max_stop_updates_per_pass)
+            return;
+        }
+     }
+
    void UpdatePositionStops(void)
      {
       datetime now=TimeCurrent();
@@ -2588,6 +2963,11 @@ private:
       MqlTick tick={};
       if(!SymbolInfoTick(m_runtime.symbol,tick))
          return;
+      if(OrphanLeakActive())
+        {
+         UpdateTrackedPositionStops(tick);
+         return;
+        }
       int position_total=PositionsTotal();
       int update_count=0;
       for(int offset=0;offset<position_total;offset++)
@@ -2598,36 +2978,12 @@ private:
          ulong ticket=PositionGetTicket(index);
          if(ticket==0 || !IsOwnedPositionSelected())
             continue;
-         ENUM_POSITION_TYPE type=(ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
-         double entry=PositionGetDouble(POSITION_PRICE_OPEN);
-         double current_sl=PositionGetDouble(POSITION_SL);
-         double desired=0.0;
-         if(!m_stop_scheduler.Calculate(
-               type,
-               entry,
-               current_sl,
-               tick.bid,
-               tick.ask,
-               m_step,
-               m_tick_size,
-               (int)SymbolInfoInteger(m_runtime.symbol,SYMBOL_DIGITS),
-               m_point,
-               SymbolInfoInteger(
-                  m_runtime.symbol,
-                  SYMBOL_TRADE_STOPS_LEVEL
-               ),
-               m_profile,
-               desired))
+         if(!TrailSelectedPosition(tick,ticket))
             continue;
-         if(m_gateway.ModifyPosition(ticket,desired))
-           {
-            LogEvent("stop",PositionGetString(POSITION_COMMENT),ticket,
-                     PositionGetDouble(POSITION_VOLUME),desired,"");
-            update_count++;
-            if(m_profile.max_stop_updates_per_pass>0 &&
-               update_count>=m_profile.max_stop_updates_per_pass)
-               return;
-           }
+         update_count++;
+         if(m_profile.max_stop_updates_per_pass>0 &&
+            update_count>=m_profile.max_stop_updates_per_pass)
+            return;
         }
      }
 
@@ -2667,6 +3023,9 @@ public:
          m_history_reconcile_seeded=false;
          m_shadow_reset_active=false;
          m_alignment_hold_logged=false;
+       // NOT reset by ResetLevelState(): the orphan set must outlive every cycle
+       // boundary, because a displaced position stays untracked for good.
+       ResetOrphanTickets();
        ResetLevelState();
       }
 
@@ -2761,6 +3120,14 @@ public:
       m_telemetry_file=StringFormat("StraddleReplicaV2_%I64u_%s.csv",
                                     m_runtime.magic,m_runtime.symbol);
       WriteRuntimeManifest();
+       // A fresh Initialize() is a fresh binary lifetime: the Target holds its
+       // orphan set in RAM only, so a terminal restart or an input change makes
+       // it re-derive newest-per-level from an empty set.  That is exactly what
+       // the Target did at 2026-08-27 08:23 (59 cancels in 33 ms, then re-place
+       // at the identical anchor with a new ladder) and it is safety-positive:
+       // the worst case is that a previously hidden position becomes tracked
+       // again and therefore gets trailed and swept.
+       ResetOrphanTickets();
        ResetLevelState();
        m_state=CYCLE_IDLE;
        m_halted=false;
@@ -2934,7 +3301,7 @@ public:
       {
        if(m_state!=CYCLE_RUNNING && m_state!=CYCLE_DEPLOYING)
           return;
-       if(!m_has_traded && OwnedPositionCount()==0)
+       if(!m_has_traded && CyclePositionCount()==0)
           return;
 
        string safety_reason="";
@@ -2948,8 +3315,12 @@ public:
        double target=(m_profile.cycle_target_money>0.0
                       ? m_profile.cycle_target_money*scale
                       : m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);
-       double floating=OwnedFloatingProfit();
-       int open_pos_count=OwnedPositionCount();
+       // Target EA parity: the basket sums ONLY the positions the level table
+       // still points at.  Orphans contribute neither profit nor a position to
+       // the trigger, which is why several Target sweeps fired on a tracked net
+       // near the target while the raw book net was far away from it.
+       double floating=CycleFloatingProfit();
+       int open_pos_count=CyclePositionCount();
        SBasketSnapshot basket=m_basket_evaluator.Evaluate(
           m_cycle_realized,
           floating,
@@ -3289,12 +3660,13 @@ public:
                 TryCancelOneOwnedOrder();
                 break;
                }
-              if(OwnedPositionCount()>0)
+              if(CyclePositionCount()>0)
                 {
                  // Paced, exactly like CYCLE_CLOSING.  Reaching CYCLE_RESTARTING
                  // with positions still open means a close request was rejected;
                  // draining them at the OnTimer period turned that rejection into
-                 // a burst of market closes milliseconds apart.
+                 // a burst of market closes milliseconds apart.  Cycle-scoped, so
+                 // orphans cannot pin the engine in CYCLE_RESTARTING forever.
                  if(CloseIntervalElapsed())
                     TryCloseOneOwnedPosition();
                  break;

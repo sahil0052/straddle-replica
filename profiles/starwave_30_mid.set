@@ -1,0 +1,11 @@
+Profile=10
+TradeSymbol=
+MagicNumber=26011001
+ReplicaMode=true
+ReplicaStartTime=0
+InterOrderDelayMs=100
+DeviationPoints=100
+TelemetryEnabled=true
+RequireDemoAccount=true
+ExpectedAccountLogin=0
+SafetyEnabled=false

@@ -36,10 +36,13 @@ public:
       //   peak in (2.0, 3.0)     -> SL = peak - 2.0         -> locks in (0.0,1.0)
       //   peak >= 3.0            -> SL = peak - 1.0         -> locks at >= 2.0
       //
-      // so a locked value between 1.0 and 2.0 is UNREACHABLE: it would need a
-      // peak in (3.0,4.0) with the 2.0 distance still applied, but at peak >=
-      // 3.0 the ternary below has already switched to 1.0.  That makes the
-      // configuration falsifiable by a single histogram.
+      // so a locked value between 1.0 and 2.0 is unreachable THROUGH THE
+      // TRAILING BRANCH: it would need a peak in (3.0,4.0) with the 2.0
+      // distance still applied, but at peak >= 3.0 the ternary below has
+      // already switched to 1.0.  The one door into the band is the ACTIVATION
+      // branch, which applies pre_tighten unconditionally -- see the Starwave
+      // note below -- so the band is a deep trough, not a vacuum.  Either way
+      // the configuration is falsifiable by a single histogram.
       //
       // VERIFIED against the Target's 2,480 final-regime SL closures using the
       // broker's OWN attestation of the level that fired -- the price inside the
@@ -78,7 +81,55 @@ public:
       // constant, and a pre_tighten != lock_trigger would allow negatives.
       // This offset is emergent from polling, not a parameter: leave it alone.
       //
-      // DO NOT collapse these two branches into a single trailing distance.
+      // INDEPENDENTLY RE-VERIFIED ON THE STARWAVE ACCOUNT (magic 26011001,
+      // XAUUSD.u, 2026-08-21..28), all 1,311 attested SL closures, offset of the
+      // fired level above entry in units of that cycle's step:
+      //
+      //   [0,1) 541 | [1.00,1.95) 19 | [1.95,2.00) 4 | >=2.0 746 | <0 1
+      //
+      // Quarter-step buckets: 158/131/137/114 below the wall, 4/8/6/6 inside it,
+      // 155/107/110/87 above -- a 20-30x trough exactly where the two branches
+      // forbid mass.  That confirms lock_trigger=2, pre_tighten=2,
+      // tighten_trigger=3, trail_distance=1 on the Starwave data alone, without
+      // reusing any Target measurement.
+      //
+      // The 23 in-band residuals are NOT a rule difference, and must not be
+      // "fixed":
+      //   * 3 of them (1.987, 1.994, 1.987) are one cent of step-inference error
+      //     away from exactly 2.0 -- step is recovered as round(anchor/3000,2),
+      //     so a 0.01 error moves a 2.000 ratio to 1.987.
+      //   * the rest (1.12 .. 1.82) are the activation branch doing its job: it
+      //     applies pre_tighten UNCONDITIONALLY, so a first poll that already
+      //     finds favorable_steps in [3,4) writes entry + (favorable-2)*step,
+      //     i.e. straight into the band.  The next poll ratchets it out again,
+      //     so only positions hit within about one poll of activation are ever
+      //     observed there -- 1.45% of closures here.  Starwave's activation
+      //     overshoot is ~1.8x the Target's (below), which is why the Target
+      //     shows 0 of 2,480 and Starwave shows 19 of 1,311.
+      // The stops_level clamp is ruled out as the cause: an active clamp would
+      // pin market-sl to a constant, and the >=2.0 mass is spread across
+      // [2.0,4.75+) instead.
+      //
+      // THE ACTIVATION RULE ITSELF IS SETTLED BY THE SAME DATA.  The two
+      // candidates in the ternary below predict different left edges:
+      //   (false) entry + lock_offset_price -> a razor spike at exactly 0.20
+      //           PRICE, and ZERO mass in (0,0.20).
+      //   (true)  market - pre_tighten*step -> continuous mass from 0+, spread
+      //           set by the poll overshoot, nothing special at 0.20.
+      // Measured on Starwave: only 4 of 1,311 sit within +-0.005 of 0.20 price
+      // (chance level -- neighbouring 0.01 buckets hold as many), while 79 sit
+      // strictly inside (0.005,0.195), a region the false branch forbids
+      // outright.  Dispersion is also tighter in step units than in price units
+      // (CV 0.6051 vs 0.6057 on Starwave, whose steps only span 1.49-1.56;
+      // 0.5375 vs 0.6875 on the 901018 cohort whose steps span 0.37-0.50+,
+      // where the test has real power).  So activation_uses_trailing_distance is
+      // TRUE for the target, and lock_offset_price is dead code on every modern
+      // profile (JUNE_2K, LATEST_30, STARWAVE_30, STARWAVE_20 all set the flag).
+      // Starwave activation overshoot, offsets under 0.5 step, n=289:
+      // p10 +0.058 / p50 +0.226 / p90 +0.455 steps, and 0 at exact breakeven --
+      // same strictly-positive polling signature as the Target, just slower.
+      //
+
       // That would fill the (1.0,2.0) band and is directly falsified by the
       // measurement above.
       // ---------------------------------------------------------------------
