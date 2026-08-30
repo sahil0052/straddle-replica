@@ -292,11 +292,73 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
           config.trend_rescue_volume_multiplier=2.0;
           // Target EA parity: final-regime (Jul 14-30) lot schedule measured
           // from every order the Target EA placed in that window:
-          //   L1-10 -> 0.01 (10,940 orders), L11-20 -> 0.06 (2,624 orders),
-          //   L21-30 -> 0.15 (378 orders). Zero exceptions at base volume.
-          SetLotTier(config,1,10,0.01);
-          SetLotTier(config,11,20,0.06);
-          SetLotTier(config,21,30,0.15);
+         // Target EA parity: final-regime (Jul 14-30) lot schedule measured
+         // from every order the Target EA placed in that window:
+         //   L1-10 -> 0.01 (10,940 orders), L11-20 -> 0.06 (2,624 orders),
+         //   L21-30 -> 0.15 (378 orders). Zero exceptions at base volume.
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.06);
+         SetLotTier(config,21,30,0.15);
+         return true;
+
+      case STARWAVE_30:
+         // Starwave (60542) Parity: 30-level burst execution profile (Aug 2026).
+         // 0s unpaced micro-scalping, 100ms inter-order delay, instant tick SL updates.
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         config.cycle_target_money=25.0;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N30): 0.01 (L1-10), 0.06 (L11-20), 0.15 (L21-30)
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.06);
+         SetLotTier(config,21,30,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_20:
+         // Starwave (60542) Parity: 20-level burst execution profile (Aug 2026).
+         // Compact grid, 0s unpaced micro-scalping, 100ms inter-order delay.
+         config.levels_per_side=20;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         config.cycle_target_money=15.0;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N20): 0.01 (L1-6), 0.04 (L7-13), 0.15 (L14-20)
+         SetLotTier(config,1,6,0.01);
+         SetLotTier(config,7,13,0.04);
+         SetLotTier(config,14,20,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
          return true;
 
       case CUSTOM_PROFILE:

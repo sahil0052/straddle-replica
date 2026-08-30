@@ -11,7 +11,9 @@ enum ENUM_STR_PROFILE
    LOW_RISK_30 = 3,
    LATEST_30 = 4,
    CUSTOM_PROFILE = 5,
-   JUNE_2K = 6
+   JUNE_2K = 6,
+   STARWAVE_30 = 7,
+   STARWAVE_20 = 8
   };
 
 enum ENUM_STR_STEP_MODE

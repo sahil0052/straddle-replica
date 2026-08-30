@@ -2949,11 +2949,13 @@ public:
                       ? m_profile.cycle_target_money*scale
                       : m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);
        double floating=OwnedFloatingProfit();
+       int open_pos_count=OwnedPositionCount();
        SBasketSnapshot basket=m_basket_evaluator.Evaluate(
           m_cycle_realized,
           floating,
           target,
-          (m_has_traded || OwnedPositionCount()>0)
+          m_has_traded,
+          open_pos_count
        );
        if(basket.triggered)
          {

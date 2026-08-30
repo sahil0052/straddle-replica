@@ -16,7 +16,8 @@ public:
    SBasketSnapshot Evaluate(const double realized,
                             const double floating,
                             const double target,
-                            const bool has_traded) const
+                            const bool has_traded,
+                            const int open_positions = 1) const
      {
       SBasketSnapshot snapshot={};
       snapshot.realized=realized;
@@ -25,6 +26,7 @@ public:
       snapshot.target=target;
       snapshot.triggered=(
          has_traded &&
+         open_positions > 0 &&
          target>0.0 &&
          snapshot.net>=target
       );

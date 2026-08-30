@@ -60,6 +60,9 @@ def test_profile_catalog_contains_all_observed_profiles():
         "AGGRESSIVE_30",
         "LOW_RISK_30",
         "LATEST_30",
+        "JUNE_2K",
+        "STARWAVE_30",
+        "STARWAVE_20",
     ):
         assert profile in source
     assert "config.anchor_divisor = 3000.0" in source
@@ -266,7 +269,7 @@ def test_timer_reconciles_deals_missing_from_trade_callbacks():
 def test_latest_profile_uses_observed_cancel_close_restart_lifecycle():
     profile = PROFILE_CATALOG.read_text(encoding="utf-8")
     latest_profile = profile.split("case LATEST_30:", 1)[1].split(
-        "case CUSTOM_PROFILE:", 1
+        "case STARWAVE_30:", 1
     )[0]
     engine = ENGINE.read_text(encoding="utf-8")
     types = (ROOT / "mql5" / "include" / "StraddleTypes.mqh").read_text(
@@ -352,7 +355,7 @@ def test_latest_profile_serializes_stop_moves_on_the_same_twenty_second_clock():
     profile = PROFILE_CATALOG.read_text(encoding="utf-8")
     engine = ENGINE.read_text(encoding="utf-8")
     latest_profile = profile.split("case LATEST_30:", 1)[1].split(
-        "case CUSTOM_PROFILE:", 1
+        "case STARWAVE_30:", 1
     )[0]
     stop_updater = engine.split("void UpdatePositionStops(void)", 1)[1].split(
         "void CheckCycleTargets", 1
@@ -503,7 +506,7 @@ def test_flat_restart_state_restores_without_replaying_old_cycle_levels():
 def test_latest_profile_applies_proven_m15_trend_rescue_state_machine():
     profile = PROFILE_CATALOG.read_text(encoding="utf-8")
     latest_profile = profile.split("case LATEST_30:", 1)[1].split(
-        "case CUSTOM_PROFILE:", 1
+        "case STARWAVE_30:", 1
     )[0]
     engine = ENGINE.read_text(encoding="utf-8")
     types = TYPES.read_text(encoding="utf-8")
@@ -653,7 +656,7 @@ def test_trend_rescue_requires_three_base_pending_levels() -> None:
     profile = PROFILE_CATALOG.read_text(encoding="utf-8")
     types = TYPES.read_text(encoding="utf-8")
     latest_profile = profile.split("case LATEST_30:", 1)[1].split(
-        "case CUSTOM_PROFILE:", 1
+        "case STARWAVE_30:", 1
     )[0]
     pending_gate = engine.split(
         "bool HasTrendRescueBasePending", 1
@@ -1310,3 +1313,38 @@ def test_bound_account_and_safe_rearm_guards_exist():
     assert "m_runtime.require_bound_account" in engine
     assert "ExposureAllowsRearm" in engine
     assert '"safety_rearm_blocked"' in engine
+
+
+def test_starwave_profiles_enforce_unpaced_burst_execution_and_clean_geometry():
+    profile = PROFILE_CATALOG.read_text(encoding="utf-8")
+    
+    # 1. STARWAVE_30 verification
+    sw30 = profile.split("case STARWAVE_30:", 1)[1].split("case STARWAVE_20:", 1)[0]
+    assert "config.levels_per_side=30;" in sw30
+    assert "config.anchor_divisor=3000.0;" in sw30
+    assert "config.close_interval_seconds=0;" in sw30
+    assert "config.stop_update_interval_seconds=0;" in sw30
+    assert "config.rearm_delay_seconds=0;" in sw30
+    assert "config.restart_delay_ms=2000;" in sw30
+    assert "config.deployment_fill_cooldown_seconds=0;" in sw30
+    assert "config.stop_updates_on_timer=false;" in sw30
+    assert "config.trend_rescue_enabled=false;" in sw30
+    assert "SetLotTier(config,1,10,0.01);" in sw30
+    assert "SetLotTier(config,11,20,0.06);" in sw30
+    assert "SetLotTier(config,21,30,0.15);" in sw30
+    
+    # 2. STARWAVE_20 verification
+    sw20 = profile.split("case STARWAVE_20:", 1)[1].split("case CUSTOM_PROFILE:", 1)[0]
+    assert "config.levels_per_side=20;" in sw20
+    assert "config.anchor_divisor=3000.0;" in sw20
+    assert "config.close_interval_seconds=0;" in sw20
+    assert "config.stop_update_interval_seconds=0;" in sw20
+    assert "config.rearm_delay_seconds=0;" in sw20
+    assert "config.restart_delay_ms=2000;" in sw20
+    assert "config.deployment_fill_cooldown_seconds=0;" in sw20
+    assert "config.stop_updates_on_timer=false;" in sw20
+    assert "config.trend_rescue_enabled=false;" in sw20
+    assert "SetLotTier(config,1,6,0.01);" in sw20
+    assert "SetLotTier(config,7,13,0.04);" in sw20
+    assert "SetLotTier(config,14,20,0.15);" in sw20
+
