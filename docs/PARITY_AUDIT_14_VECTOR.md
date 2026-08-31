@@ -82,7 +82,7 @@ artifact (H50 4.49%, H60 6.25%, SW30 3.73%) against **0** on the attested instru
 | V10 | Trend rescue logic | **100.00%** of the mechanism | 125 doubled orders / 8,536 Starwave legs | ACTIVE on 901018 (6 cycles, 7 events); 12 invariants, 0 exceptions; Finding V10-A tape-only, 0 fills, see §2.10 |
 | V11 | Deal ledger & async reconciliation | **100.00% of mechanism**; 1 micro-divergence flagged | 35,447 deals / 54,742 orders / 17,632 positions | money identity **exact to the cent** vs the broker footer (delta $0.00); 0 duplicate deal tickets; Finding V11-A whole-second cycle boundary 5/284 = 1.76%, see §2.11 |
 | V12 | Account & symbol suffix binding | **100.00%** on the mechanism; Finding V12-A = 1 comment + 1 behavioural default, both **fixed** | 2 broker suffixes (`XAUUSD.u` 10,863/10,863; bare `XAUUSD` 107,873) + 17,551 closed positions | `TradeSymbol=""` → `_Symbol` verbatim, no parsing; `SYMBOL_TRADE_CONTRACT_SIZE=100` **solved from the tape** (17,550/17,551 = 99.99%, 6/6 open) ⇒ `ContractScale()=1.0000` exactly; Finding V12-A = stale `cycle_target_money=25` in the shipped-defaults comment **and** in live `input CustomCycleTargetMoney` (5.66% early bank on the `CUSTOM_PROFILE` path), see §2.12 |
-| V13 | Standalone anti-drift | **100.00%** | 5,764 lines × 2 files, 234,995 bytes, `0b9ced598f06bc0c`; 98 tests | closed-form line identity `20 + 48 + 5,696 = 5,764`; `--check` OK (worktree includes ⇒ both standalones, identical hash); `--verify` OK (HEAD includes rebuild HEAD's standalone byte-for-byte, `f519eb715664a3f8`); both of Finding V12-A's fixes regenerated and re-verified; `85 + 13 = 98 passed`, see §2.13 |
+| V13 | Standalone anti-drift | **100.00%** | 5,764 lines × 2 files, 234,995 bytes, `0b9ced598f06bc0c`; 98 tests | closed-form line identity `20 + 48 + 5,696 = 5,764`; `--check` OK (worktree includes ⇒ both standalones, identical hash); `--verify` OK (HEAD includes rebuild HEAD's standalone byte-for-byte; `f519eb715664a3f8` before the commit, `0b9ced598f06bc0c` after it — see §6); both of Finding V12-A's fixes regenerated and re-verified; `85 + 13 = 98 passed`, see §2.13 |
 | V14 | Race conditions & execution robustness | **100.00% of the mechanism**; rejection branch **unfalsified** | 0 rejected orders on 65,605; 35,447 deals (25.3% share a millisecond, peak 11); 3,114 Target close gaps | fast ticks cannot accelerate paced flow — `OnTick()` returns for every state but IDLE/RUNNING (`Engine:3422-3423`) and the timer period **is** `inter_order_delay_ms` (`:3378`); head-of-line blocking answered by `m_close_skip` — one request per invocation, the stalled ticket stepped over on the **next** one, so a stall costs one pacing interval instead of firing a burst; a failed close is not read as "flat" (`:2938-2943`); async deal path idempotent by ticket, order-independent by deferral, bounded at 256 with a loud overflow; deployment ≤ 4N sends with a single-shot retry. **Neither EA's rejection path is observable, so this is unfalsified rather than confirmed**, see §2.14 |
 
 **One genuine unimplemented Target behaviour survives the audit: DIV-2** (`STR AVB` /
@@ -3350,7 +3350,7 @@ assert on *values* rather than on equality of files. The suite is green at **98 
 | --- | --- | --- |
 | Standalones byte-identical to bundler output? | **Yes** — `CHECK OK`, 234,995 chars, `0b9ced598f06bc0c`, both filenames, exit 0 | §2.13.2 |
 | All contract tests passing? | **Yes** — `98 passed in 0.48s` (85 contract + 13 profile) | §2.13.7 |
-| Does the generator reproduce the committed artifact? | **Yes** — `VERIFY OK`, 213,227 chars, `f519eb715664a3f8`, exit 0 | §2.13.2 |
+| Does the generator reproduce the committed artifact? | **Yes** — `VERIFY OK`, exit 0; measured at 213,227 chars / `f519eb715664a3f8` while the parity work was uncommitted, re-measured at 234,995 chars / `0b9ced598f06bc0c` after the commit | §2.13.2, §6 |
 | Is every line of the standalone accounted for by a rule? | **Yes** — `20 + 48 + 5,696 = 5,764`, exact | §2.13.3 |
 | Does the standalone *contain* the includes verbatim? | **Yes** — 5,686 of 5,696 body lines byte-identical; 10 differ; **0 unaccounted** | §2.13.4 |
 | Are those 10 explained? | **Yes** — every one is `#include "…"` → `// included inline`; `grep -c "// included inline"` = 10 | §2.13.4 |
@@ -5063,16 +5063,18 @@ Section 5 is the residue: the ticks that do not exist, and therefore cannot be p
 | `mql5/ProfitBricks2K_AllInOne.mq5` | `OK  234995 chars  0b9ced598f06bc0c` | same run: `CHECK OK - both standalones match mql5/include` |
 | the two standalones against each other | `cmp` **IDENTICAL**, md5 `00f0b3b8951b771dc9ba12678cb37efb` on both | `md5sum` + `cmp` |
 | digest lineage | `2d2fe9bb0d272406` → `c12978335e4803ad` → **`0b9ced598f06bc0c`** | across this audit's three edit epochs |
-| `--verify` pin | `f519eb715664a3f8` — reads **HEAD**, so it lags the working tree by the 21,768 characters of uncommitted parity work | `tools/bundle_standalone.py --verify` |
+| `--verify` pin | `VERIFY OK` — HEAD standalone and rebuild both `234995 chars  0b9ced598f06bc0c` | `tools/bundle_standalone.py --verify`, re-run after the commit |
 
 Every row above was re-measured at the close of this audit rather than carried forward; the flag is
 `--check`, not `check` (the tool rejects the bare word).
 
-The `--verify` pin is the one number in this table that does **not** match, and it is expected to not
-match: `--verify` compares against the committed tree, and the parity work in this audit is uncommitted.
-The check that matters for anti-drift — bundler output versus the two checked-in standalones — is
-`IDENTICAL` on both. Committing the working tree is what reconciles the pin; that is a repository action,
-not a parity finding.
+The `--verify` row is the one that moved after this audit was first written. While the parity work sat
+uncommitted it read `f519eb715664a3f8` and lagged the worktree by 21,768 characters, because `--verify`
+compares the generator against **git HEAD** rather than the worktree — an expected mismatch, and a
+repository state rather than a parity finding. Committing the tree at `13db686` reconciled it: HEAD's
+standalone and the rebuild from HEAD's includes now agree at `0b9ced598f06bc0c`, the same digest `--check`
+reports for the worktree. All three anti-drift checks — worktree-vs-standalones (`--check`), HEAD-vs-HEAD
+(`--verify`), and the two standalones against each other (`cmp`) — now pass on one digest.
 
 **Bottom line against the governing request.** On the profile the request is about, `STARWAVE_30`, the
 fourteen vectors resolve to identity on every mechanism the tape exercises: geometry (V1), metadata and
