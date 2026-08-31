@@ -1,0 +1,57 @@
+1:"""Per-era V4 / V5 / V7 / V8 audit of the ReportHistory-901018 tape.
+67:ERA_ORDER = ["HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30", "STARWAVE_30"]
+78:def eras_present(mapping):
+79:    return [e for e in ERA_ORDER if e in mapping] + [
+80:        e for e in mapping if e not in ERA_ORDER
+302:    per_era = collections.defaultdict(new_bucket)
+305:        era = str(cycle["assigned"]) if cycle else "before-first-deployment"
+306:        bucket = per_era[era]
+359:    return per_era
+360:def print_v5(per_era, title):
+362:    for era in eras_present(per_era):
+363:        b = per_era[era]
+366:        print(f"  {era:14s} sweeps={b['sweeps']:4d} close_orders={b['orders']:5d} "
+384:def print_v7(per_era, title):
+386:    for era in eras_present(per_era):
+387:        values = per_era[era]["realized"]
+388:        pre = per_era[era]["pre_realized"]
+391:        print(f"  {era:14s} n={len(values):4d} p05={pct(values,0.05):9.2f} "
+403:def print_v8(per_era, title):
+405:    for era in eras_present(per_era):
+406:        allv = per_era[era]["restart"]
+410:        print(f"  {era:14s} n={len(allv):4d} "
+435:    per_era = score(terminal, positions, cancels, starts)
+436:    print_v5(per_era, "TERMINAL sweeps only")
+437:    print_v7(per_era, "TERMINAL sweeps only")
+438:    print_v8(per_era, "TERMINAL sweeps only")
+488:            era = str(cycle["assigned"])
+491:            bands[era][band_of(locked)] += 1
+492:            totals[era] += 1
+494:        print("  era            " + "".join(f"{k:>13s}" for k in keys) + "       n")
+495:        for era in eras_present(totals):
+496:            print(f"  {era:14s} "
+497:                  + "".join(f"{bands[era].get(k,0):13d}" for k in keys)
+498:                  + f"{totals[era]:8d}")
+499:        for era in eras_present(totals):
+500:            if not totals[era]:
+502:            strict = bands[era].get("[1.00,1.98)", 0)
+503:            wall = bands[era].get("[1.98,2.00)", 0)
+504:            print(f"      {era:14s} strict trough {strict}/{totals[era]} = "
+505:                  f"{100.0*strict/totals[era]:5.2f}%   boundary [1.98,2.00) {wall}"
+---- print_v8 ----
+def print_v8(per_era, title):
+    print(f"=== V8 restart interval (sweep last close -> next deployment) -- {title} ===")
+    for era in eras_present(per_era):
+        allv = per_era[era]["restart"]
+        if not allv:
+            continue
+        values = [v for v in allv if v <= 600.0]
+        print(f"  {era:14s} n={len(allv):4d} "
+              f">=2.0s={sum(1 for v in allv if v >= 2.0)} "
+              f"in[2,3)={sum(1 for v in allv if 2.0 <= v < 3.0)} "
+              f"min={min(allv):8.3f}")
+        if values:
+            print(f"      <=600s subset n={len(values):4d} p05={pct(values,0.05):8.3f} "
+                  f"p50={pct(values,0.50):8.3f} p95={pct(values,0.95):8.3f}")
+    print()
+def main() -> int:

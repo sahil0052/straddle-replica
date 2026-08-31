@@ -1,0 +1,53 @@
+=== bundler landmarks ===
+39:INCLUDE_DIR = ROOT / "mql5" / "include"
+40:TARGETS = [
+46:SECTIONS = [
+57:RULE = "// " + "=" * 68
+58:INCLUDE_RE = re.compile(r'^#include\s+"[^"]+"\s*$')
+60:PLACEHOLDER = "// included inline"
+63:def body_lines(text: str) -> list[str]:
+71:def header_of(standalone_text: str) -> list[str]:
+84:def bundle(header: list[str], sources: dict[str, str]) -> str:
+97:def worktree_includes() -> dict[str, str]:
+103:def build_from_worktree() -> str:
+108:def first_divergence(want: str, got: str) -> str:
+118:def digest(text: str) -> str:
+122:def verify() -> int:
+144:def check() -> int:
+163:def write() -> int:
+175:MODES = {"--verify": verify, "--check": check, "--write": write}
+179:    mode = sys.argv[1] if len(sys.argv) > 1 else "--check"
+182:        sys.exit(2)
+183:    sys.exit(MODES[mode]())
+
+=== docstring ===
+"""Deterministic generator for the two ProfitBricks2K standalone builds.
+
+mql5/ProfitBricks2K.mq5 and mql5/ProfitBricks2K_AllInOne.mq5 are byte-identical
+mechanical concatenations of the eight modular includes.  They used to be
+maintained by hand, which drifted: before this generator existed the standalone
+copies were 33 lines behind mql5/include (12 in StraddleTypes.mqh, 21 in
+ProfileCatalog.mqh), so both shipped WITHOUT the replica_orphan_leak field and
+without the eight profile assignments that turn the Target EA's orphan leak on.
+They compiled cleanly and were silently a different EA.
+
+The transform, reverse-engineered from the last hand-mirrored file and byte-exact
+against git HEAD (see --verify):
+
+    <header block, verbatim from the existing standalone -- the only per-binary
+     part, carrying the #property block and this binary's STR_DEFAULT_* pins>
+    for each section:
+        "", ""                                 two blank lines
+        "// " + "=" * 68
+        "// SECTION: " + label
+        "// " + "=" * 68
+        ""                                     one blank line
+        <include body, verbatim, with every '#include "..."' line replaced by
+         '// included inline' so line numbers still line up with the include>
+
+Usage:
+    python tools/bundle_standalone.py --verify   # HEAD includes -> HEAD standalone
+    python tools/bundle_standalone.py --check    # worktree includes -> on-disk files
+    python tools/bundle_standalone.py --write    # worktree includes -> both files
+"""
+from __future__ import annotations

@@ -1,0 +1,24 @@
+=== 98.62 ===
+=== H-f / H-g ===
+591:Two earlier hypotheses are therefore **refuted, not merely unsupported**: **H-f** (one close per
+592:market tick) and **H-g** (the gap is a synchronous `OrderSend` round-trip). Both predict a gap
+=== negative lock ===
+64:Measuring the ratchet from close prices produces a 3.7–6.3% negative rate that is pure
+92:here so they are not re-raised: the 14 negative attested locks (§3.1), the orphan-position
+332:negative 1 (0.08%) | (0.00,1.00) 540 (41.19%) | [1.00,2.00) FORBIDDEN 25 (1.91%)
+388:(`tmp/a901_negative_lock.py` part 5):
+430:negative-lock rate out of nothing (H50 4.49%, H60 6.25%, SW30 3.73%) against **0** on the
+438:return all reproduce the Target's observable output exactly. The 14 negative attested locks
+671:repository**. The claim does not reproduce: post-break the correlation's sign is negative and
+730:classified INTERLEAVED**, all with a negative cancel→close lead and a cancel-run p95 of 1,114.96 s.
+765:sentence is the negative one: *"Never re-anchor to market; wait for price to return if currently
+1094:**(a) Re-anchoring, tested positively rather than by absence.** "Never re-anchored" is a negative
+1337:three Theil–Sen slopes of banked money against account balance are **negative** (−0.001607, −0.003258,
+1661:uses as an instrument, and they are almost certainly the same 10 INTERLEAVED / negative-lead
+1851:The directive's first question is answered in the negative, for a reason that turns out to be identity rather
+1992:The sign question is the one that matters, because `400.0` is stored unsigned and a drawdown is negative.
+=== orphan leak switch ===
+504:`replica_orphan_leak`, which is why it read as deliberate rather than as an omission.
+3503:(`:2854-2883`) is the `replica_orphan_leak=true` twin: it walks `CollectTrackedPositionTickets()`
+3787:what it does not track — which is what `replica_orphan_leak` implements. The orphan evidence is
+3806:| 6 | Same guarantee under `replica_orphan_leak=true` | `TryCloseOneTrackedPosition()` `:2854-2883`, dispatch `:2901-2902` | **VERIFIED** |

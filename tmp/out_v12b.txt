@@ -1,0 +1,33 @@
+=== unique symbols: Starwave orders ===
+Starwave_153_unclosed_positions_audit.csv
+Starwave_60542_detailed_trades.csv
+Starwave_60542_full_history.csv
+Starwave_60542_orders_history.csv
+./Starwave_60542_full_history.csv
+./Starwave_60542_orders_history.csv
+--- symbol column census ---
+Starwave_60542_orders_history.csv 10863 {'XAUUSD.u': 10863}
+Starwave_60542_full_history.csv 4796 {'': 1, 'XAUUSD.u': 4795}
+
+=== 901018 symbol census ===
+{'XAUUSD': 107873}
+
+=== StraddleTypes symbol field ===
+156:   string            symbol;
+
+=== standalone ContractScale body ===
+   double ContractScale(void) const
+     {
+      double contract_size=SymbolInfoDouble(m_runtime.symbol,SYMBOL_TRADE_CONTRACT_SIZE);
+      if(contract_size<=0.0)
+         return 1.0;
+      return contract_size/100.0;
+     }
+--- allinone ---
+   double ContractScale(void) const
+     {
+      double contract_size=SymbolInfoDouble(m_runtime.symbol,SYMBOL_TRADE_CONTRACT_SIZE);
+      if(contract_size<=0.0)
+         return 1.0;
+      return contract_size/100.0;
+     }

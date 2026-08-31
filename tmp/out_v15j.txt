@@ -1,0 +1,16 @@
+=== marker ===
+3827:<!-- V10-APPEND -->
+=== lines ===
+3856
+=== tail context ===
+The boundary, stated as precisely as V13's: **V14 certifies that no race can change *what* the EA does,<EOL>
+only *when* M-bM-^@M-^T and every "when" that matters is pinned by `CloseIntervalElapsed()` and the timer period.**<EOL>
+It does not certify behaviour on a broker rejection, because no rejection exists in 65,605 orders to<EOL>
+certify against. The two questions the directive asked are answered mechanically and affirmatively; the<EOL>
+question it did not ask M-bM-^@M-^T *is the rejection policy identical?* M-bM-^@M-^T is unanswerable from this evidence, and<EOL>
+saying so is part of the answer.<EOL>
+<EOL>
+<!-- V10-APPEND --><EOL>
+<EOL>
+<EOL>
+<EOL>

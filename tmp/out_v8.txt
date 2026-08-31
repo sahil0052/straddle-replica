@@ -1,0 +1,170 @@
+restarts=281 deployments=285 interim_bursts=306 cancels=19312
+
+=== PART 1: the model-free quantum -- floor(next_deploy)-floor(flat) ===
+  this IS the engine's comparison operand.  Its mode is T=ceil(ms/1000).
+  -- HISTORICAL_50            n= 100  configured 3000 ms => T=3
+       q=  0 s     1  #
+       q=  2 s     6  ######
+       q=  3 s    90  ############################################################  <== configured T
+       q>30 s      3  (operator gaps / market closures)
+       mode T=3 s on 90/100 = 90.00%   verdict: MATCH
+  -- HISTORICAL_60            n=  77  configured 3000 ms => T=3
+       q=  0 s     4  ####
+       q=  2 s     3  ###
+       q=  3 s    66  ############################################################  <== configured T
+       q= 13 s     1  #
+       q= 14 s     1  #
+       q= 28 s     1  #
+       q>30 s      1  (operator gaps / market closures)
+       mode T=3 s on 66/77 = 85.71%   verdict: MATCH
+  -- AGGRESSIVE_30            n=   2  configured 3000 ms => T=3
+       q>30 s      2  (operator gaps / market closures)
+  -- LOW_RISK_30              n=   1  configured 3000 ms => T=3
+       q=  2 s     1  #
+       mode T=2 s on 1/1 = 100.00%   verdict: MISMATCH
+  -- STARWAVE_30/pre-break    n=  70  configured 20000 ms => T=20
+       q=  2 s    65  ############################################################
+       q=  3 s     1  #
+       q>30 s      4  (operator gaps / market closures)
+       mode T=2 s on 65/70 = 92.86%   verdict: MISMATCH
+  -- STARWAVE_30/post-break   n=  31  configured 20000 ms => T=20
+       q= 21 s     4  ####
+       q= 22 s    26  ##########################
+       q>30 s      1  (operator gaps / market closures)
+       mode T=22 s on 26/31 = 83.87%   verdict: MISMATCH
+
+=== PART 2: the modelled interval -- real seconds, and the f-test ===
+  prediction: real = T - f + eps with f ~ U[0,1), so real lands in
+  (T-1, T+0.4) and the residual r = real-(T-1) is ~U(0,1)+eps.
+  -- HISTORICAL_50            n=  99  T=3
+       real     min=   0.207 p05=   2.154 p25=   2.492 p50=   2.716 p95=   3.191 max=  92.902
+       residual min=  -1.793 p25=   0.492 p50=   0.716 p75=   1.020 max=  90.902   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 96/99 = 96.97%
+       floor-implied T under the truncation model = 0.207 + 1 - eps  =>  T ~= 1
+  -- HISTORICAL_60            n=  76  T=3
+       real     min=   0.210 p05=   2.110 p25=   2.401 p50=   2.764 p95=   3.291 max=  27.544
+       residual min=  -1.790 p25=   0.401 p50=   0.764 p75=   1.054 max=  25.544   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 69/76 = 90.79%
+       floor-implied T under the truncation model = 0.210 + 1 - eps  =>  T ~= 1
+  -- AGGRESSIVE_30            n=   2  T=3
+       real     min=  84.580 p05=  84.580 p25=  84.580 p50=  84.580 p95= 341.357 max= 341.357
+       residual min=  82.580 p25=  82.580 p50=  82.580 p75= 339.357 max= 339.357   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 0/2 =  0.00%
+       floor-implied T under the truncation model = 84.580 + 1 - eps  =>  T ~= 86
+  -- LOW_RISK_30              n=   1  T=3
+       real     min=   1.668 p05=   1.668 p25=   1.668 p50=   1.668 p95=   1.668 max=   1.668
+       residual min=  -0.332 p25=  -0.332 p50=  -0.332 p75=  -0.332 max=  -0.332   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 0/1 =  0.00%
+       floor-implied T under the truncation model = 1.668 + 1 - eps  =>  T ~= 3
+  -- STARWAVE_30/pre-break    n=  69  T=20
+       real     min=   1.170 p05=   1.275 p25=   1.530 p50=   1.754 p95=   2.675 max=  31.984
+       residual min= -17.830 p25= -17.470 p50= -17.246 p75= -16.981 max=  12.984   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 0/69 =  0.00%
+       floor-implied T under the truncation model = 1.170 + 1 - eps  =>  T ~= 2
+  -- STARWAVE_30/post-break   n=  31  T=20
+       real     min=  20.905 p05=  21.152 p25=  21.367 p50=  21.699 p95=  22.190 max=  81.913
+       residual min=   1.905 p25=   2.367 p50=   2.699 p75=   2.914 max=  62.913   (U(0,1)+eps predicts p25/p50/p75 ~ .25/.50/.75)
+       inside (T-1,T+0.4): 0/31 =  0.00%
+       floor-implied T under the truncation model = 20.905 + 1 - eps  =>  T ~= 22
+
+=== PART 3: state-machine ordering, per cycle ===
+  CANCELING -> CLOSING -> RESTARTING -> IDLE -> DEPLOYING must appear
+  as: last cancel <= first close <= last close < next deployment.
+  era                                   n  cancel_then  cancel_over  cancel_afte  no_cancel_r  deploy_befo  close_order  cancel_afte
+  HISTORICAL_50                       100          100            0            0            0            0            0            0
+  HISTORICAL_60                        77           76            0            1            0            0            0            0
+  AGGRESSIVE_30                         2            1            0            1            0            0            0            0
+  LOW_RISK_30                           1            1            0            0            0            0            0            0
+  STARWAVE_30/pre-break                70           61            0            9            0            0            0            0
+  STARWAVE_30/post-break               31           30            0            1            0            0            0            0
+
+=== PART 4: intervals no quantum can explain (real < T-1) ===
+  HISTORICAL_50            T= 3  under-floor 1/100
+       2026-06-29 00:14:49.519000  real=  0.207  q=  0  legs= 11  deploy=2026-06-29 00:14:49.726000
+  HISTORICAL_60            T= 3  under-floor 4/77
+       2026-07-09 00:45:29.478000  real=  0.210  q=  0  legs=  5  deploy=2026-07-09 00:45:29.688000
+       2026-07-07 14:07:03.694000  real=  0.211  q=  0  legs= 26  deploy=2026-07-07 14:07:03.905000
+       2026-07-06 20:37:03.326000  real=  0.212  q=  0  legs= 31  deploy=2026-07-06 20:37:03.538000
+       2026-07-10 10:37:16.313000  real=  0.216  q=  0  legs= 19  deploy=2026-07-10 10:37:16.529000
+  AGGRESSIVE_30            T= 3  under-floor 0/2
+  LOW_RISK_30              T= 3  under-floor 1/1
+       2026-07-13 15:59:37.495000  real=  1.668  q=  2  legs= 11  deploy=2026-07-13 15:59:39.163000
+  STARWAVE_30/pre-break    T=20  under-floor 66/70
+       2026-07-22 09:43:19.988000  real=  1.170  q=  2  legs=  8  deploy=2026-07-22 09:43:21.158000
+       2026-07-17 15:07:01.984000  real=  1.200  q=  2  legs= 17  deploy=2026-07-17 15:07:03.184000
+       2026-07-17 17:29:33.978000  real=  1.275  q=  2  legs=  5  deploy=2026-07-17 17:29:35.253000
+       2026-07-23 15:33:00.888000  real=  1.275  q=  2  legs=  7  deploy=2026-07-23 15:33:02.163000
+       2026-07-16 04:41:52.844000  real=  1.297  q=  2  legs= 10  deploy=2026-07-16 04:41:54.141000
+       2026-07-15 03:40:31.941000  real=  1.339  q=  2  legs= 11  deploy=2026-07-15 03:40:33.280000
+  STARWAVE_30/post-break   T=20  under-floor 0/31
+
+=== PART 5: the clean subset -- same-era pairs, no operator gap ===
+  drops (a) pairs whose next deployment belongs to a DIFFERENT era
+  (an input change happened during the wait) and (b) real>600 s.
+  T is then read off the mode, and the implied ms window printed.
+  -- HISTORICAL_50            n=  99 (dropped 1)  configured 3000 ms => T=3
+       q histogram {0: 1, 2: 6, 3: 90, 63: 1, 93: 1}
+       mode T=3  at-mode 90/99  quote-lag bucket q=2: 6  covered 96.97%
+       => restart_delay_ms in (2000, 3000]   configured 3000  CONSISTENT
+       real p05=   2.154 p50=   2.716 p95=   3.191  band for T=3: (2, 3+eps)
+  -- HISTORICAL_60            n=  76 (dropped 1)  configured 3000 ms => T=3
+       q histogram {0: 4, 2: 3, 3: 66, 13: 1, 14: 1, 28: 1}
+       mode T=3  at-mode 66/76  quote-lag bucket q=2: 3  covered 90.79%
+       => restart_delay_ms in (2000, 3000]   configured 3000  CONSISTENT
+       real p05=   2.110 p50=   2.764 p95=   3.291  band for T=3: (2, 3+eps)
+  -- AGGRESSIVE_30            n=   1 (dropped 1)  configured 3000 ms => T=3
+       q histogram {85: 1}
+       mode T=85  at-mode 1/1  quote-lag bucket q=84: 0  covered 100.00%
+       => restart_delay_ms in (84000, 85000]   configured 3000  DIVERGENT
+       real p05=  84.580 p50=  84.580 p95=  84.580  band for T=85: (84, 85+eps)
+  -- STARWAVE_30/pre-break    n=  69 (dropped 1)  configured 20000 ms => T=20
+       q histogram {2: 65, 3: 1, 32: 3}
+       mode T=2  at-mode 65/69  quote-lag bucket q=1: 0  covered 94.20%
+       => restart_delay_ms in (1000, 2000]   configured 20000  DIVERGENT
+       real p05=   1.275 p50=   1.754 p95=   2.675  band for T=2: (1, 2+eps)
+  -- STARWAVE_30/post-break   n=  31 (dropped 0)  configured 20000 ms => T=20
+       q histogram {21: 4, 22: 26, 82: 1}
+       mode T=22  at-mode 26/31  quote-lag bucket q=21: 4  covered 96.77%
+       => restart_delay_ms in (21000, 22000]   configured 20000  DIVERGENT
+       real p05=  21.152 p50=  21.699 p95=  22.190  band for T=22: (21, 22+eps)
+
+=== PART 6: dissection of every under-floor pair, vs the MEASURED T ===
+  under-floor means real < T_meas-1: shorter than ANY draw of
+  T-f+eps can be.  hypothesis: the burst's tail legs are late/async
+  fills, so the engine saw CyclePositionCount()==0 at an EARLIER leg
+  (or at the end of the cancel run) and started the wait there.
+  -- HISTORICAL_50  T_meas=3  under-floor 1/99
+     2026-06-29 00:14:49.519000  legs= 11 real=  0.207  burst span=  2.040  deploy-last_cancel=   2.347  => in-burst flat at leg 0
+  -- HISTORICAL_60  T_meas=3  under-floor 4/76
+     2026-07-09 00:45:29.478000  legs=  5 real=  0.210  burst span=  0.862  deploy-last_cancel=14327.631  => UNEXPLAINED
+     2026-07-07 14:07:03.694000  legs= 26 real=  0.211  burst span=  5.695  deploy-last_cancel=   6.011  => in-burst flat at leg 12
+     2026-07-06 20:37:03.326000  legs= 31 real=  0.212  burst span=  7.063  deploy-last_cancel=   7.387  => in-burst flat at leg 17
+     2026-07-10 10:37:16.313000  legs= 19 real=  0.216  burst span=  4.031  deploy-last_cancel=   4.354  => in-burst flat at leg 4
+  -- STARWAVE_30/pre-break  T_meas=2  under-floor 0/69
+  -- STARWAVE_30/post-break  T_meas=22  under-floor 2/31
+     2026-07-29 21:42:59.264000  legs=  1 real= 20.905  burst span=  0.000  deploy-last_cancel= 141.368  => quote-lag branch q=T-1
+     2026-07-30 15:46:12.209000  legs=  1 real= 20.909  burst span=  0.000  deploy-last_cancel= 201.735  => quote-lag branch q=T-1
+
+=== PART 7: does the restart clock run in PARALLEL with a residual
+    cancel run?  (the replica's CYCLE_RESTARTING drains orders and
+    `break`s -- StraddleEngine.mqh:3789-3793 -- so it defers the
+    delay check until the drain finishes.)
+  -- HISTORICAL_50            no pair has a cancel after the flat instant
+  -- HISTORICAL_60            no pair has a cancel after the flat instant
+  -- STARWAVE_30/pre-break    pairs with a post-flat cancel: 9
+       still deploying inside the T band: 6/9   cancel run extending BEYOND T after the flat: 3
+       2026-07-15 14:04:08.443000  last_cancel=+  0.117s  deploy=+  1.725s  q=2
+       2026-07-20 07:35:21.359000  last_cancel=+  0.101s  deploy=+  1.855s  q=2
+       2026-07-20 10:30:58.481000  last_cancel=+  0.105s  deploy=+  1.829s  q=2
+       2026-07-21 03:19:51.706000  last_cancel=+ 29.556s  deploy=+ 31.581s  q=32
+       -- the discriminating rows (cancel run outlives T):
+          if the clock is anchored at the FLAT the engine should
+          deploy ~0.1 s after the drain; if at the DRAIN END it
+          should deploy ~2 s after it.
+          2026-07-21 03:19:51.706000  cancel_run=+  29.556s  deploy-last_cancel=  2.025s  q= 32  => drain-end anchored
+          2026-07-22 05:08:09.803000  cancel_run=+  29.342s  deploy-last_cancel=  2.212s  q= 32  => drain-end anchored
+          2026-07-22 15:46:33.234000  cancel_run=+  30.005s  deploy-last_cancel=  1.979s  q= 32  => drain-end anchored
+  -- STARWAVE_30/post-break   pairs with a post-flat cancel: 1
+       still deploying inside the T band: 1/1   cancel run extending BEYOND T after the flat: 0
+       2026-07-30 06:46:16.653000  last_cancel=+ 19.911s  deploy=+ 21.906s  q=22
+

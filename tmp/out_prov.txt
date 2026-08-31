@@ -1,0 +1,109 @@
+      config.lots[level-1]=volume;
+  }
+
+bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
+  {
+   ResetProfile(config);
+   config.profile=profile;
+
+   switch(profile)
+     {
+      case HISTORICAL_50:
+         config.levels_per_side=50;
+         config.step_mode=STR_STEP_ATR;
+         config.atr_timeframe=PERIOD_M15;
+         config.atr_period=17;
+         config.atr_multiplier=0.10422410545583288;
+         config.cycle_target_balance_pct=0.63;
+         // The build that ran this regime sent basket closes with NO comment.
+         // ReportHistory-901018, 2026.06.23 16:17 - 2026.07.02 15:18: 1,392
+         // empty-comment market orders, every one resolving to a DEAL_ENTRY_OUT
+         // deal, and not a single "STR CLOSE" anywhere in the era.
+         config.stamp_close_comment=false;
+         // ---- liquidation phase order, measured (DIV-6) ----------------------
+         // ResetProfile defaults this flag to false, which sends BeginClose()
+         // straight to CYCLE_CLOSING and flattens the basket before cancelling
+         // the surviving pendings.  The tape does the opposite in every era.
+         // 0/2809 for STARWAVE_30).  Do not copy trail_distance_steps=1.0 here
+         // from the modern profiles; it would carve a trough that isn't there.
+         SetLotTier(config,1,15,0.01);
+         SetLotTier(config,16,25,0.03);
+         SetLotTier(config,26,50,0.06);
+         return true;
+
+      case HISTORICAL_60:
+         config.levels_per_side=60;
+         config.step_mode=STR_STEP_ATR;
+         config.atr_timeframe=PERIOD_M5;
+         config.atr_period=44;
+         config.atr_multiplier=0.09188197447190301;
+         config.cycle_target_balance_pct=0.42;
+         // Same build as HISTORICAL_50, same empty close comment: 1,332
+         // empty-comment DEAL_ENTRY_OUT closes between 2026.07.02 16:28 and
+         // the 2026.07.13 12:28 changeover, zero "STR CLOSE".
+         config.stamp_close_comment=false;
+         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+         // strictly cancel-first and 1 close-first, and the close-first one is
+         // cycle 169 -- a hand flatten with a `close by` 0.232 s before it.  On
+         config.trend_rescue_move_price=20.0;
+         config.trend_rescue_drawdown_money=400.0;
+         config.trend_rescue_volume_multiplier=2.0;
+         return true;
+
+      case LATEST_30:
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+          // Target EA parity: forensic audit of ReportHistory-901018 final regime
+          // (99 grid deployments, Jul 14-30) measured anchor/step median=3000.1
+          // (range 2989-3011, all deviation explained by 0.01 price rounding).
+          config.anchor_divisor = 3000.0;
+          config.trail_distance_steps=1.0;
+          // Target EA parity: SL-lock profit distribution across 287 winners
+          // closed at SL is continuous on [0,1) steps, has a hard GAP on (1,2),
+          // and is continuous again on [2,~8]. Zero losers ever closed at SL
+          // (SL is never placed below entry). The unique trailing model that
+          // reproduces all three facts:
+          //   - activate at 2.0 favorable steps, SL = market - 2.0 steps
+          //     (first lock is exactly breakeven, never sub-entry)
+          //   - pre-tighten trail distance 2.0 steps -> SL profits in [0,1)
+          //   - tighten at 3.0 favorable steps to 1.0-step trail -> profits >= 2
+          //   - runners keep the fixed 1.0-step trail (max observed 7.96 steps,
+          //     profit = peak - 1 step; no further tightening)
+          config.lock_trigger_steps=2.0;
+          config.pre_tighten_trail_distance_steps=2.0;
+          config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+          // Target EA parity: positive final-regime cycle nets cluster at a
+          // median of $29.40 with the bulk of exits landing between $25-$33.
+          config.cycle_target_money=30.0;
+         config.cancel_before_close=true;
+         // Target EA parity: THE 20-SECOND PACING FAMILY.
+         // The Target EA's operator raised all four pacing knobs from 0 to 20 in a
+         // single change on 2026-07-24 midday. The flatten close mode proves the
+         // date: 69 consecutive burst-close sweeps (Jul 14 -> Jul 24 09:10), then 32
+         SetLotTier(config,11,20,0.06);
+         SetLotTier(config,21,30,0.15);
+         return true;
+
+      case STARWAVE_30:
+         // Starwave (60542) Parity: 30-level burst execution profile (Aug 2026).
+         // 0s unpaced micro-scalping, 100ms inter-order delay, instant tick SL updates.
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Basket target: epoch 2026-08-24 15:34 -> 2026-08-25 04:06 (20 cycles).
+         // Banked value p25/p50/p75 = 22.24/26.29/27.82; the 3-cycle censored
+         // bracket over 08-24 19:22..19:49 pins it to (26.41, 26.51].
+         config.cycle_target_money=26.5;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;

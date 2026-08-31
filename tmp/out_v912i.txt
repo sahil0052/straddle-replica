@@ -1,0 +1,18 @@
+34:def ts(text: str) -> datetime | None:
+46:def money(text: str) -> float:
+56:def load_deals() -> list[dict]:
+61:def load_positions() -> list[list[str]]:
+68:def pct(num: int, den: int) -> str:
+72:def part1_census(deals, positions, orders):
+98:def part2_money(xau):
+140:def part3_fanout(xau, positions, exits, ins):
+190:def part4_bijection(xau, orders, per_order):
+227:def part2b_positions(positions):
+246:def part3b_join(xau, positions):
+274:def load_report_section(name: str) -> list[list[str]]:
+297:def part3c_open(xau, positions):
+335:def part5_ordering(xau):
+370:def part6_capacity(xau, deployments):
+399:def part7_boundary(xau, deployments):
+428:def main() -> int:
+446 tmp/a901_v912.py

@@ -1,0 +1,72 @@
+=== standalone tail handlers ===
+5684:int OnInit()
+5744:void OnDeinit(const int reason)
+5749:void OnTick()
+5754:void OnTimer()
+5759:void OnTradeTransaction(const MqlTradeTransaction &transaction,
+
+=== 2870,2895 ===
+| `ACCOUNT_MARGIN_MODE_RETAIL_HEDGING` | `:3205-3209` | required | no — the Target account is hedged |
+
+The hedging requirement is not optional decoration: the strategy holds simultaneous long and short
+positions on one symbol by construction, so a netting account would collapse the straddle into a
+single net position and no amount of downstream code could recover the behaviour. §2.12.3's own
+margin arithmetic is the independent confirmation that the Target account was hedged — gross 0.06
+lots and hedged-net 0.02 lots both reconcile to the reported 8.19, which is only a meaningful
+statement on an account that can hold 0.04 long and 0.02 short at once.
+
+The shipped posture, read from the app's macro block and input list (`StraddleReplicaApp.mqh:1-13`,
+`:27-29`, `:34-61`):
+
+```cpp
+   #define STR_REQUIRE_DEMO_DEFAULT true          // :2
+   #define STR_REQUIRE_BOUND_DEFAULT false        // :5
+   #define STR_SAFETY_ENABLED_DEFAULT false       // :8
+   #define STR_DEFAULT_PROFILE STARWAVE_30        // :11
+   #define STR_DEFAULT_MAGIC 26011001             // :28
+```
+
+```cpp
+input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;          // :35
+input string TradeSymbol = "";                                 // :36
+input ulong MagicNumber = STR_DEFAULT_MAGIC;                   // :37
+input bool ReplicaMode = true;                                 // :38
+input int InterOrderDelayMs = 100;                             // :40
+
+=== 2925,2960 ===
+time. The engine refuses to initialise instead. The Target's own tapes carry full 60-order
+deployments (§2.2), so the limit was never binding there.
+
+#### 2.12.7 Finding V12-A — the shipped-defaults comment misstates the money target
+
+Auditing the macro block against the catalogue it claims to describe turned up one mismatch. The
+header comment at `StraddleReplicaApp.mqh:13-26` enumerates eight properties of the shipped
+`STARWAVE_30` default. Seven are exact; the eighth is stale:
+
+| Comment claim (`:20-23`) | Catalogue truth | Line | Match |
+| --- | --- | --- | --- |
+| `N=30/side` | `config.levels_per_side=30` | `:467` | yes |
+| `step=round(anchor/3000,2)` | `STR_STEP_ANCHOR_DIVISOR`, `anchor_divisor=3000.0` | `:468-469` | yes |
+| `lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30` | `SetLotTier(1,10,0.01)`, `(11,20,0.06)`, `(21,30,0.15)` | `:491-493` | yes |
+| `ratchet L=2` | `lock_trigger_steps=2.0` | `:471` | yes |
+| `Dpre=2` | `pre_tighten_trail_distance_steps=2.0` | `:472` | yes |
+| `Tt=3` | `tighten_trigger_steps=3.0` | `:473` | yes |
+| `D=1` | `trail_distance_steps=1.0` | `:470` | yes |
+| `cancel-then-close` | `cancel_before_close=true` | `:479` | yes |
+| **`cycle_target_money=25`** | **`config.cycle_target_money=26.5;`** | **`:478`** | **NO** |
+| `restart_delay_ms=2000` | `config.restart_delay_ms=2000` | `:486` | yes |
+
+The comment says **25**; the profile the binary actually loads uses **26.5**, the value §2.7
+bracketed to `(26.41, 26.51]` from the 3-cycle censored interval over 2026-08-24 19:22–19:49. The
+stale text appears at three sites — `StraddleReplicaApp.mqh:23`, `ProfitBricks2K.mq5:5585` and
+`ProfitBricks2K_AllInOne.mq5:5585` — the latter two being the bundler's copies of the first.
+
+**Behavioural impact: none.** It is a comment; `Profile = STR_DEFAULT_PROFILE` resolves to
+`STARWAVE_30` and `LoadProfile()` reads `:478`, not the prose. Nothing in the 285-cycle exit census,
+the $26.50 bracket or §2.11's money identity is affected, and the parity rating for this vector is
+unchanged.
+
+**Why it is still a finding.** This is the one comment block in the codebase that presents itself
+as the authoritative summary of the shipped defaults, immediately above the inputs an operator
+edits, and it is the block that also documents a *previous* defect of exactly this kind (the inert
+`STR_DEFAULT_PROFILE` macro). An operator reproducing the Target by hand through the `Custom*`

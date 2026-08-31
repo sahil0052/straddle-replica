@@ -1,0 +1,52 @@
+=== m_close_skip sites ===
+45:   int               m_close_skip;
+2774:      m_close_skip=0;
+2802:   // m_close_skip: a ticket whose close failed is stepped over on the NEXT
+2862:         if(owned<=m_close_skip)
+2873:            m_close_skip=0;
+2878:         m_close_skip++;
+2881:      m_close_skip=0;
+2910:         if(owned<=m_close_skip)
+2918:            m_close_skip=0;
+2923:         m_close_skip++;
+2928:      m_close_skip=0;
+2991:            m_close_skip=0;
+3003:         m_close_skip=0;
+3138:      m_close_skip=0;
+
+=== TryClose / OnTick / guard sites ===
+41:   // How many owned positions TryCloseOneOwnedPosition() steps over before it
+44:   // once; see the comment on TryCloseOneOwnedPosition for why that mattered.
+1006:         m_state=CYCLE_RESTARTING;
+1052:         m_state=CYCLE_CLOSING;
+1055:         m_state=CYCLE_CANCELING;
+1057:         m_state=CYCLE_RUNNING;
+1881:      m_state=CYCLE_DEPLOYING;
+1918:      m_state=CYCLE_IDLE;
+1931:         m_state=CYCLE_CANCELING;
+1933:         m_state=CYCLE_CLOSING;
+2044:      m_state=CYCLE_DEPLOYING;
+2092:            m_state=CYCLE_RESTARTING;
+2099:         m_state=CYCLE_RUNNING;
+2763:      if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
+2772:      m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);
+2781:   // positions by calling TryCloseOneOwnedPosition directly, and without this it
+2782:   // drained them at the OnTimer period (100 ms) instead of at
+2899:   bool TryCloseOneOwnedPosition(void)
+2936:      if(TryCloseOneOwnedPosition())
+2947:            m_state=CYCLE_CANCELING;
+2954:         m_state=CYCLE_RESTARTING;
+2960:         m_state=CYCLE_CANCELING;
+2989:            m_state=CYCLE_CLOSING;
+3001:         m_state=CYCLE_CLOSING;
+3009:         m_state=CYCLE_HALTED;
+3019:         m_state=CYCLE_RESTARTING;
+3124:      m_state=CYCLE_IDLE;
+3263:       m_state=CYCLE_IDLE;
+3404:   void OnTick(void)
+3406:       if(m_state==CYCLE_IDLE)
+3750:   void OnTimer(void)
+3798:                 // draining them at the OnTimer period turned that rejection into
+3802:                    TryCloseOneOwnedPosition();
+3814:               m_state=CYCLE_IDLE;
+3847:      if(m_state==CYCLE_RUNNING || m_state==CYCLE_DEPLOYING)

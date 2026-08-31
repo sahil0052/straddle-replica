@@ -1,7 +1,12 @@
+from dataclasses import replace
+from datetime import datetime
+
 import pytest
 
+from straddle_replica.model import CycleEngine, CycleState, Tick
 from straddle_replica.profiles import (
     ProfileName,
+    StrategyProfile,
     build_grid,
     get_profile,
     normalize_price,
@@ -99,6 +104,48 @@ def test_30_level_profiles_use_one_step_trailing_after_profit_lock():
         get_profile(ProfileName.HISTORICAL_60).trail_distance_steps
         == pytest.approx(2.0)
     )
+
+
+def test_every_built_in_profile_liquidates_cancel_first():
+    """DIV-6: the mirror must agree with mql5/include/ProfileCatalog.mqh.
+
+    ReportHistory-901018 carries 271 terminal liquidations: 259 strictly
+    cancel-first, 1 close-first, 11 interleaved -- and every exception sits
+    beside a `close by` (PositionCloseBy) order the EA has no call site for,
+    i.e. a hand flatten.  On the four eras these profiles model, EA-authored
+    cycles are 168/168 = 100.00% cancel-first.  The dataclass default stays
+    False for hygiene, so each profile opts in explicitly; model.py consumes
+    the flag in a symmetric state machine, so an inherited False silently
+    routes CLOSING -> CANCELING -> RESTARTING, the refuted order.
+    """
+    assert StrategyProfile.__dataclass_fields__["cancel_before_close"].default is False
+
+    for name in ProfileName:
+        assert get_profile(name).cancel_before_close is True, name.value
+
+
+def test_both_liquidation_orders_converge_on_restarting():
+    """The flag picks the phase order; neither order may leak a phase."""
+    profile = get_profile(ProfileName.LATEST_30)
+    assert profile.cancel_before_close is True
+
+    def deploying(active_profile):
+        engine = CycleEngine(profile=active_profile, tick_size=0.01)
+        engine.start_cycle(
+            Tick(time=datetime(2026, 7, 30, 12, 0, 0), bid=4099.99, ask=4100.01)
+        )
+        assert engine.state is CycleState.DEPLOYING
+        return engine
+
+    engine = deploying(profile)
+    assert engine.begin_close() is CycleState.CANCELING
+    assert engine.mark_orders_canceled() is CycleState.CLOSING
+    assert engine.mark_positions_flat() is CycleState.RESTARTING
+
+    engine = deploying(replace(profile, cancel_before_close=False))
+    assert engine.begin_close() is CycleState.CLOSING
+    assert engine.mark_positions_flat() is CycleState.CANCELING
+    assert engine.mark_orders_canceled() is CycleState.RESTARTING
 
 
 def test_grid_is_symmetric_and_alternates_buy_then_sell():

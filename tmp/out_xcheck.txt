@@ -1,0 +1,65 @@
+independent deployment cut: 285 bursts
+
+independently-detected bursts matching each suspected missed deployment:
+    cycle 7     anchor   4039.53 step 0.93  ->  2026-06-24 13:26:31.197000  anchor   4039.53 step 0.93 N  50 legs 100 density 1.00
+    cycle 29    anchor   4034.25 step 0.94  ->  2026-06-25 22:02:07.345000  anchor   4034.25 step 0.94 N  50 legs 100 density 1.00
+    cycle 51    anchor   4028.10 step 1.18  ->  2026-06-29 16:55:46.455000  anchor   4028.10 step 1.18 N  50 legs 100 density 1.00
+    cycle 90    anchor   4072.77 step 0.98  ->  2026-07-02 11:06:40.576000  anchor   4072.77 step 0.98 N  50 legs 100 density 1.00
+    cycle 93    anchor   4115.13 step 1.10  ->  2026-07-02 14:33:30.170000  anchor   4115.13 step 1.10 N  50 legs 100 density 1.00
+    cycle 113   anchor   4174.04 step 0.63  ->  2026-07-06 04:42:18.139000  anchor   4174.04 step 0.63 N  60 legs 119 density 0.99
+    cycle 127   anchor   4113.16 step 0.47  ->  2026-07-08 02:58:47.153000  anchor   4113.16 step 0.47 N  60 legs 119 density 0.99
+    cycle 167   anchor   4084.51 step 0.57  ->  2026-07-10 16:33:04.253000  anchor   4084.51 step 0.57 N  60 legs 115 density 0.96
+    cycle 169   anchor   4074.73 step 0.49  ->  2026-07-13 10:39:29.363000  anchor   4074.73 step 0.49 N  13 legs  24 density 0.92
+    cycle 176   anchor   4098.86 step 1.37  ->  2026-07-14 14:33:22.122000  anchor   4098.86 step 1.37 N  30 legs  60 density 1.00
+    cycle 119*  anchor   4162.37 step 0.45  ->  2026-07-07 14:07:03.905000  anchor   4162.37 step 0.45 N  60 legs 119 density 0.99
+    cycle 152*  anchor   4095.46 step 0.47  ->  2026-07-09 08:00:23.179000  anchor   4095.46 step 0.47 N  60 legs 119 density 0.99
+
+bursts on 2026-07-13 (the operator-flatten day):
+    2026-07-13 10:39:29.363000  anchor   4074.73 step 0.49 N  13 legs  24 density 0.92  end 2026-07-13 10:39:34.264000
+    2026-07-13 11:02:45.175000  anchor   4075.43 step 0.68 N  30 legs  60 density 1.00  end 2026-07-13 11:02:51.692000
+    2026-07-13 12:32:21.322000  anchor   4065.90 step 0.68 N  30 legs  60 density 1.00  end 2026-07-13 12:32:28.074000
+    2026-07-13 13:27:03.676000  anchor   4062.23 step 1.35 N  30 legs  60 density 1.00  end 2026-07-13 13:27:10.217000
+    2026-07-13 15:59:39.163000  anchor   4044.38 step 1.35 N  30 legs  60 density 1.00  end 2026-07-13 15:59:45.725000
+    2026-07-13 16:16:53.117000  anchor   4010.82 step 1.34 N  30 legs  60 density 1.00  end 2026-07-13 16:16:59.784000
+
+==============================================================================
+independent bursts vs detected cycles
+==============================================================================
+    detected cycles 275   independent bursts 285
+    bursts with no containing cycle: 0
+    cycles containing >1 burst     : 15   swallowed bursts 15
+      cycle   0 swallowed 2026-06-23 20:47:08.133000  anchor   4113.47 step 0.87 N  50 legs 100
+      cycle   7 swallowed 2026-06-24 13:39:08.352000  anchor   4049.79 step 0.95 N  50 legs 100
+      cycle  29 swallowed 2026-06-25 22:41:36.371000  anchor   4025.19 step 0.91 N  50 legs 100
+      cycle  51 swallowed 2026-06-29 17:37:25.611000  anchor   4019.06 step 1.16 N  50 legs 100
+      cycle  90 swallowed 2026-07-02 12:45:30.736000  anchor   4063.27 step 0.89 N  50 legs 100
+      cycle  93 swallowed 2026-07-02 14:36:25.132000  anchor   4132.78 step 1.15 N  50 legs 100
+      cycle 113 swallowed 2026-07-06 07:03:50.628000  anchor   4156.23 step 0.45 N  60 legs 119
+      cycle 119 swallowed 2026-07-07 15:36:21.347000  anchor   4175.84 step 0.51 N  60 legs 119
+      cycle 127 swallowed 2026-07-08 03:33:34.203000  anchor   4100.08 step 0.50 N  60 legs 118
+      cycle 152 swallowed 2026-07-09 10:21:24.211000  anchor   4115.09 step 0.50 N  60 legs 119
+      cycle 167 swallowed 2026-07-10 17:11:31.216000  anchor   4098.33 step 0.61 N  60 legs 119
+      cycle 169 swallowed 2026-07-13 11:02:45.175000  anchor   4075.43 step 0.68 N  30 legs  60
+      cycle 176 swallowed 2026-07-14 14:48:01.212000  anchor   4083.28 step 1.36 N  30 legs  60
+      cycle 257 swallowed 2026-07-29 21:26:36.232000  anchor   4083.22 step 1.36 N  30 legs  60
+      cycle 260 swallowed 2026-07-30 00:05:28.184000  anchor   4073.28 step 1.36 N  30 legs  60
+    cycles containing no burst at all: 5
+
+==============================================================================
+legs of each swallowed burst: burst order (never a candidate) vs re-arm candidate
+==============================================================================
+    cycle   0 burst 2026-06-23 20:47:08.133000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle   7 burst 2026-06-24 13:39:08.352000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle  29 burst 2026-06-25 22:41:36.371000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle  51 burst 2026-06-29 17:37:25.611000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle  90 burst 2026-07-02 12:45:30.736000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle  93 burst 2026-07-02 14:36:25.132000 legs 100  filed-as-burst 100  candidates   0  other   0  candidate cycles -
+    cycle 113 burst 2026-07-06 07:03:50.628000 legs 119  filed-as-burst 119  candidates   0  other   0  candidate cycles -
+    cycle 119 burst 2026-07-07 15:36:21.347000 legs 119  filed-as-burst 119  candidates   0  other   0  candidate cycles -
+    cycle 127 burst 2026-07-08 03:33:34.203000 legs 118  filed-as-burst 118  candidates   0  other   0  candidate cycles -
+    cycle 152 burst 2026-07-09 10:21:24.211000 legs 119  filed-as-burst 119  candidates   0  other   0  candidate cycles -
+    cycle 167 burst 2026-07-10 17:11:31.216000 legs 119  filed-as-burst 119  candidates   0  other   0  candidate cycles -
+    cycle 169 burst 2026-07-13 11:02:45.175000 legs  60  filed-as-burst  60  candidates   0  other   0  candidate cycles -
+    cycle 176 burst 2026-07-14 14:48:01.212000 legs  60  filed-as-burst  60  candidates   0  other   0  candidate cycles -
+    cycle 257 burst 2026-07-29 21:26:36.232000 legs  60  filed-as-burst  60  candidates   0  other   0  candidate cycles -
+    cycle 260 burst 2026-07-30 00:05:28.184000 legs  60  filed-as-burst  60  candidates   0  other   0  candidate cycles -

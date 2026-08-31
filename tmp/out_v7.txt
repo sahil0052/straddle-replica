@@ -1,0 +1,319 @@
+deployments=285 terminal=282 interim=306 silent=3 positions=17632 balance_points=35446 cash_events=4
+
+=== PART 0: realized instrument -- profit-only vs the EA's sum ===
+  EA: m_cycle_realized += deal_profit+deal_swap+deal_commission+deal_fee
+      (StraddleEngine.mqh:3685-3691)
+  whole tape  profit=    18203.37  commission=      0.00 (nonzero 0/17632)  swap=   -290.08 (nonzero 341/17632)
+  net total       17913.29   bias per position p50=+0.0000
+
+=== PART 1: broker running balance, and the deposits that move it ===
+  2026-06-12 12:20:49.599000       +0.00  Initial balance from CRM
+  2026-06-19 17:13:39.962000    +2000.00  Deposit from #USDT TRC20
+  2026-07-13 16:14:48.064000      -60.27  Withdraw to CRM #4417856484
+  2026-07-15 12:56:36.711000     -180.00  Withdraw to CRM #4417856489
+  balance first=0.00 last=19673.02 min=0.00 max=19720.46
+
+=== PART 2: realized at sweep completion, both instruments ===
+  era              n   profit-only p50   EA-net p50    delta p50   delta p05    worst
+  HISTORICAL_50  100           25.49         25.49         0.00       -1.89   -10.96
+  HISTORICAL_60   77           31.37         31.28         0.00       -5.54   -49.59
+  AGGRESSIVE_30    2         -814.44       -814.44         0.00        0.00     0.00
+  LOW_RISK_30      1           32.92         32.92         0.00        0.00     0.00
+  STARWAVE_30    102           31.19         30.63         0.00       -7.47   -48.62
+
+=== PART 3: pct law vs flat law ===
+  the two are only distinguishable when the balance MOVED inside the era
+  HISTORICAL_50  n=100  balance 2000.00 -> 6431.18 (x3.22)  configured pct=0.63%
+      money   p05=    4.710 p10=   11.660 p25=   19.890 p50=   25.490  IQR/p50= 0.609  [$]
+      implied p05=    0.087 p10=    0.223 p25=    0.432 p50=    0.635  IQR/p50= 0.792  [%]
+      Theil-Sen d(money)/d(balance) = -0.001607 => implied pct -0.1607%  over 4671 pairs (pct law predicts +0.6300%)
+  HISTORICAL_60  n=77  balance 6420.32 -> 8395.71 (x1.31)  configured pct=0.42%
+      money   p05= -144.490 p10=    1.020 p25=   23.060 p50=   31.280  IQR/p50= 0.903  [$]
+      implied p05=   -1.979 p10=    0.013 p25=    0.317 p50=    0.425  IQR/p50= 0.944  [%]
+      Theil-Sen d(money)/d(balance) = -0.003258 => implied pct -0.3258%  over 1918 pairs (pct law predicts +0.4200%)
+  AGGRESSIVE_30  n=2 -- too few sweeps to discriminate
+  LOW_RISK_30    n=1 -- too few sweeps to discriminate
+  STARWAVE_30    n=102  balance 11554.23 -> 19630.61 (x1.70)  configured money=$26.50
+      money   p05=  -30.260 p10=   -3.600 p25=   20.880 p50=   30.630  IQR/p50= 0.929  [$]
+      implied p05=   -0.186 p10=   -0.021 p25=    0.126 p50=    0.178  IQR/p50= 0.844  [%]
+      Theil-Sen d(money)/d(balance) = -0.001294 => implied pct -0.1294%  over 3648 pairs (pct law predicts +0.0000% (flat))
+
+=== PART 4: threshold detection -- histogram of money banked ===
+  a floor law piles the distribution up against the target from above;
+  the left edge of the pile is the threshold, the tail below it is
+  sweep slippage.  1-dollar bins.
+  -- HISTORICAL_50   configured 0.63%
+      [ 15, 16)    2  ##
+      [ 16, 17)    1  #
+      [ 17, 18)    2  ##
+      [ 18, 19)    2  ##
+      [ 19, 20)    3  ###
+      [ 20, 21)    1  #
+      [ 21, 22)    3  ###
+      [ 22, 23)    6  ######
+      [ 23, 24)    6  ######
+      [ 24, 25)    7  #######
+      [ 25, 26)    3  ###
+      [ 26, 27)    7  #######
+      [ 27, 28)    4  ####
+      [ 28, 29)    2  ##
+      [ 29, 30)    2  ##
+      [ 30, 31)    2  ##
+      [ 31, 32)    1  #
+      [ 32, 33)    1  #
+      [ 33, 34)    1  #
+      [ 34, 35)    1  #
+      [ 35, 36)    2  ##
+      [ 36, 37)    1  #
+      [ 37, 38)    1  #
+      [ 40, 41)    1  #
+      [ 41, 42)    1  #
+      [ 42, 43)    1  #
+      [ 43, 44)    1  #
+      [ 44, 45)    1  #
+      n=100  negative=5  <20=21  [20,26.5)=29  [26.5,30)=12  >=30=33
+  -- HISTORICAL_60   configured 0.42%
+      [ 15, 16)    1  #
+      [ 16, 17)    1  #
+      [ 18, 19)    2  ##
+      [ 19, 20)    1  #
+      [ 20, 21)    0  
+      [ 21, 22)    2  ##
+      [ 22, 23)    1  #
+      [ 23, 24)    6  ######
+      [ 24, 25)    0  
+      [ 25, 26)    0  
+      [ 26, 27)    5  #####
+      [ 27, 28)    4  ####
+      [ 28, 29)    3  ###
+      [ 29, 30)    1  #
+      [ 30, 31)    0  
+      [ 31, 32)    6  ######
+      [ 32, 33)    1  #
+      [ 33, 34)    0  
+      [ 34, 35)    1  #
+      [ 35, 36)    1  #
+      [ 36, 37)    0  
+      [ 41, 42)    3  ###
+      [ 42, 43)    1  #
+      [ 43, 44)    1  #
+      [ 44, 45)    2  ##
+      n=77  negative=8  <20=7  [20,26.5)=11  [26.5,30)=11  >=30=40
+  -- STARWAVE_30   configured $26.50
+      [ 16, 17)    2  ##
+      [ 18, 19)    2  ##
+      [ 19, 20)    2  ##
+      [ 20, 21)    3  ###
+      [ 21, 22)    0  
+      [ 22, 23)    2  ##
+      [ 23, 24)    2  ##
+      [ 24, 25)    5  #####
+      [ 25, 26)    1  #
+      [ 26, 27)    3  ###
+      [ 27, 28)    3  ###
+      [ 28, 29)    4  ####
+      [ 29, 30)    4  ####
+      [ 30, 31)    2  ##
+      [ 31, 32)    3  ###
+      [ 32, 33)    1  #
+      [ 33, 34)    5  #####
+      [ 34, 35)    1  #
+      [ 35, 36)    1  #
+      [ 36, 37)    0  
+      [ 37, 38)    1  #
+      [ 38, 39)    2  ##
+      [ 39, 40)    2  ##
+      [ 40, 41)    2  ##
+      [ 44, 45)    1  #
+      n=102  negative=11  <20=12  [20,26.5)=15  [26.5,30)=12  >=30=52
+      candidate $ 26.50: 64/102 at-or-above, 27 short-but-positive (p50 shortfall 5.79)
+      candidate $ 30.00: 52/102 at-or-above, 39 short-but-positive (p50 shortfall 6.00)
+
+=== PART 5: the open_positions>0 gate, proved positively ===
+  an instant inside a live cycle where the open count returns to ZERO
+  while the money already banked exceeds that cycle's target, and the
+  cycle did NOT liquidate.  Ungated, net=realized+0>=target fires
+  BeginClose there and the cycle ends.
+  era              cycles-with-proof   proof-instants   target basis
+  HISTORICAL_50               1                2   0.63% of balance
+  AGGRESSIVE_30               1                1   0.18% of balance
+  STARWAVE_30                 5                5   $26.50
+      e.g. HISTORICAL_50  cycle#  7 2026-06-24 13:17:21.425000  banked    366.58 >= target    14.16  count->0, ran on
+      e.g. HISTORICAL_50  cycle#  7 2026-06-24 13:20:56.895000  banked    367.57 >= target    14.16  count->0, ran on
+      e.g. AGGRESSIVE_30  cycle#179 2026-07-13 12:28:54.004000  banked    149.90 >= target    22.01  count->0, ran on
+      e.g. STARWAVE_30    cycle#194 2026-07-15 14:39:22.533000  banked     38.74 >= target    26.50  count->0, ran on
+      e.g. STARWAVE_30    cycle#209 2026-07-17 15:44:08.906000  banked     30.91 >= target    26.50  count->0, ran on
+      e.g. STARWAVE_30    cycle#217 2026-07-20 04:46:09.258000  banked     28.74 >= target    26.50  count->0, ran on
+      e.g. STARWAVE_30    cycle#248 2026-07-23 15:57:18.342000  banked     36.78 >= target    26.50  count->0, ran on
+      e.g. STARWAVE_30    cycle#249 2026-07-24 07:18:18.818000  banked     55.65 >= target    26.50  count->0, ran on
+
+=== PART 6: m_cycle_realized resets to 0.00 per cycle ===
+  a CUMULATIVE accumulator has two signatures: once any cycle banks
+  more than the target, every later cycle trips on its FIRST fill
+  (one-leg sweeps only), and the banked series is monotone.
+  terminal sweeps=282  cumulative net over the tape=18211.00
+  the running total first exceeds the SMALLEST configured target ($6.50, STARWAVE_20) at sweep #0
+  after that sweep: 281 terminal sweeps, of which 240 are MULTI-LEG and 25 banked a LOSS
+  cycles that took more than one fill: 283/284
+  banked series strict decreases: 142/281 (a cumulative accumulator can never decrease in a winning regime)
+  => every one of those is impossible without the per-cycle reset
+     (StraddleEngine.mqh:1865, :2027, and the ctor at :3130)
+
+=== PART 7: lower envelope by balance tercile ===
+  -- HISTORICAL_50  configured 0.63%
+      bin  n   balance p50    money: minpos    p10    p25    p50     implied%: p10    p25    p50
+        1  33      3228.49         12.07  17.53  21.56  26.10           0.514  0.635  0.906
+        2  33      4195.91          7.74   7.74  21.94  24.83           0.162  0.563  0.612
+        3  34      5397.36          4.71   6.38  15.08  24.60           0.099  0.308  0.447
+      balance x1.67 across bins;  money p25 x0.70  (pct law predicts x1.67, flat law predicts x1.00)
+      balance x1.67 across bins;  money p50 x0.94  (pct law predicts x1.67, flat law predicts x1.00)
+  -- HISTORICAL_60  configured 0.42%
+      bin  n   balance p50    money: minpos    p10    p25    p50     implied%: p10    p25    p50
+        1  25      6786.20         12.22  12.22  23.94  32.60           0.183  0.358  0.483
+        2  25      7114.98         15.35 -144.49  23.06  28.11          -2.060  0.313  0.389
+        3  27      7981.39          1.02   1.02  18.91  31.72           0.013  0.248  0.397
+      balance x1.18 across bins;  money p25 x0.79  (pct law predicts x1.18, flat law predicts x1.00)
+      balance x1.18 across bins;  money p50 x0.97  (pct law predicts x1.18, flat law predicts x1.00)
+  -- STARWAVE_30  configured $26.50
+      bin  n   balance p50    money: minpos    p10    p25    p50     implied%: p10    p25    p50
+        1  34     15859.98          2.50   2.50  20.28  32.29           0.015  0.127  0.205
+        2  34     16935.21         18.31  19.25  24.78  29.25           0.112  0.149  0.175
+        3  34     19020.82          7.68  -8.98  16.23  29.40          -0.051  0.093  0.167
+      balance x1.20 across bins;  money p25 x0.80  (pct law predicts x1.20, flat law predicts x1.00)
+      balance x1.20 across bins;  money p50 x0.91  (pct law predicts x1.20, flat law predicts x1.00)
+
+=== PART 8: gate proof over the GLOBAL open set ===
+  instants where the account held ZERO open positions: 288
+  era             proof-instants (global zero + banked>=target + ran on)
+  HISTORICAL_50        2
+  AGGRESSIVE_30        1
+  STARWAVE_30          5
+      HISTORICAL_50  cycle#  7 2026-06-24 13:17:21.425000  banked    366.58 >=    14.16
+      HISTORICAL_50  cycle#  7 2026-06-24 13:20:56.895000  banked    367.57 >=    14.16
+      AGGRESSIVE_30  cycle#179 2026-07-13 12:28:54.004000  banked    149.90 >=    22.01
+      STARWAVE_30    cycle#194 2026-07-15 14:39:22.533000  banked     38.74 >=    26.50
+      STARWAVE_30    cycle#209 2026-07-17 15:44:08.906000  banked     30.91 >=    26.50
+      STARWAVE_30    cycle#217 2026-07-20 04:46:09.258000  banked     28.74 >=    26.50
+      STARWAVE_30    cycle#248 2026-07-23 15:57:18.342000  banked     36.78 >=    26.50
+      STARWAVE_30    cycle#249 2026-07-24 07:18:18.818000  banked     55.65 >=    26.50
+
+=== PART 9: threshold from single-burst liquidations only ===
+  HISTORICAL_50  n=  80  span p95= 1.84s legs p50= 10  configured 0.63%
+      money   p05=    4.71 p10=    9.95 p25=   18.83 p50=   24.50 min=  -64.36
+      implied p05=   0.087 p10=   0.182 p25=   0.413 p50=   0.606 min=  -1.479   [%]
+  HISTORICAL_60  n=  41  span p95= 1.99s legs p50= 12  configured 0.42%
+      money   p05=   15.35 p10=   18.91 p25=   23.06 p50=   27.95 min=    1.02
+      implied p05=   0.216 p10=   0.248 p25=   0.322 p50=   0.389 min=   0.013   [%]
+  LOW_RISK_30    n=   1  span p95= 1.21s legs p50= 11  configured 0.18%
+      money   p05=   32.92 p10=   32.92 p25=   32.92 p50=   32.92 min=   32.92
+      implied p05=   0.286 p10=   0.286 p25=   0.286 p50=   0.286 min=   0.286   [%]
+  STARWAVE_30    n=  63  span p95= 1.85s legs p50=  8  configured $26.50
+      money   p05=   -7.68 p10=    8.12 p25=   24.36 p50=   30.63 min= -107.96
+      implied p05=  -0.045 p10=   0.051 p25=   0.149 p50=   0.179 min=  -0.628   [%]
+      candidate $ 26.50: 18 of 63 short-but-positive ( 28.6%)
+      candidate $ 30.00: 27 of 63 short-but-positive ( 42.9%)
+
+=== PART 10: zero-prior-realized cycles, bucketed by leg count ===
+  -- HISTORICAL_50  configured 0.63%   n=8
+      k>=7  n=  8  p25=   14.43 p50=   22.17 p75=   26.20 min=    7.74   all=[7.74, 11.66, 14.43, 17.53, 22.17, 26.2, 28.77, 70.3]
+  -- STARWAVE_30    configured $26.50   n=2
+      k>=7  n=  2  p25=   28.10 p50=   28.10 p75=   28.28 min=   28.10   all=[28.1, 28.28]
+
+=== PART 11: net marked AT the decision instant (slippage removed) ===
+  pricing identity dir*(close-open)*vol*100 vs reported profit: worst residual over 17632 positions = 220.0000
+  -- ALL terminal sweeps
+     HISTORICAL_50  n= 100 configured 0.63%   legs p50= 12
+        money   p05=   -1.35 p10=    9.13 p25=   15.26 p50=   22.11 p75=   35.61 min=  -53.80
+        implied p05=  -0.040 p25=   0.317 p50=   0.544 p75=   0.888   [%]
+     HISTORICAL_60  n=  77 configured 0.42%   legs p50= 14
+        money   p05= -119.56 p10=   10.39 p25=   21.96 p50=   30.82 p75=   50.43 min= -490.15
+        implied p05=  -1.704 p25=   0.312 p50=   0.438 p75=   0.693   [%]
+     AGGRESSIVE_30  n=   2 configured 0.18%   legs p50=  0
+        money   p05= -971.16 p10= -971.16 p25= -971.16 p50= -971.16 p75=  149.90 min= -971.16
+        implied p05=  -7.873 p25=  -7.873 p50=  -7.873 p75=   1.226   [%]
+     LOW_RISK_30    n=   1 configured 0.18%   legs p50= 10
+        money   p05=   23.88 p10=   23.88 p25=   23.88 p50=   23.88 p75=   23.88 min=   23.88
+        implied p05=   0.207 p25=   0.207 p50=   0.207 p75=   0.207   [%]
+     STARWAVE_30    n=  98 configured $26.50  legs p50=  6
+        money   p05=  -20.38 p10=    4.85 p25=   22.73 p50=   31.54 p75=   54.83 min= -153.27
+        implied p05=  -0.128 p25=   0.126 p50=   0.190 p75=   0.308   [%]
+        candidate $ 26.50: 35/98 ( 35.7%) marked BELOW the target at the instant the EA decided to close
+        candidate $ 30.00: 45/98 ( 45.9%) marked BELOW the target at the instant the EA decided to close
+  -- cancel->close handoff <=0.5 s
+     HISTORICAL_50  n=  98 configured 0.63%   legs p50= 11
+        money   p05=   -1.35 p10=    9.13 p25=   15.14 p50=   21.47 p75=   35.42 min=  -53.80
+        implied p05=  -0.040 p25=   0.311 p50=   0.533 p75=   0.870   [%]
+     HISTORICAL_60  n=  69 configured 0.42%   legs p50= 15
+        money   p05=  -11.61 p10=   16.14 p25=   24.79 p50=   31.84 p75=   44.57 min= -490.15
+        implied p05=  -0.167 p25=   0.319 p50=   0.440 p75=   0.626   [%]
+     LOW_RISK_30    n=   1 configured 0.18%   legs p50= 10
+        money   p05=   23.88 p10=   23.88 p25=   23.88 p50=   23.88 p75=   23.88 min=   23.88
+        implied p05=   0.207 p25=   0.207 p50=   0.207 p75=   0.207   [%]
+     STARWAVE_30    n=  65 configured $26.50  legs p50=  7
+        money   p05=  -20.38 p10=    2.74 p25=   22.73 p50=   29.34 p75=   42.36 min= -153.27
+        implied p05=  -0.128 p25=   0.137 p50=   0.177 p75=   0.268   [%]
+        candidate $ 26.50: 25/65 ( 38.5%) marked BELOW the target at the instant the EA decided to close
+        candidate $ 30.00: 34/65 ( 52.3%) marked BELOW the target at the instant the EA decided to close
+
+=== PART 12: two-sided decision-instant mark ===
+  pricing residual: >0.005 on 13/17632 rows  p95=0.0000 p999=0.0000 max=220.0000
+  implied ask-bid at the decision instant: n=197 p05= -0.160 p50=  0.300 p95=  0.760
+  HISTORICAL_50  n=  76 configured 0.63%   legs p50= 14
+      money   p05=   -8.87 p10=    5.99 p25=   13.54 p50=   21.02 p75=   33.34 min=  -55.18
+      implied p05=  -0.224 p25=   0.289 p50=   0.496 p75=   0.857   [%]
+  HISTORICAL_60  n=  64 configured 0.42%   legs p50= 16
+      money   p05=  -15.13 p10=   13.31 p25=   21.14 p50=   30.32 p75=   41.72 min= -496.90
+      implied p05=  -0.218 p25=   0.294 p50=   0.419 p75=   0.627   [%]
+  LOW_RISK_30    n=   1 configured 0.18%   legs p50= 10
+      money   p05=   21.52 p10=   21.52 p25=   21.52 p50=   21.52 p75=   21.52 min=   21.52
+      implied p05=   0.187 p25=   0.187 p50=   0.187 p75=   0.187   [%]
+  STARWAVE_30    n=  56 configured $26.50  legs p50=  8
+      money   p05=   -8.50 p10=    2.02 p25=   18.68 p50=   29.40 p75=   41.04 min= -175.11
+      implied p05=  -0.053 p25=   0.109 p50=   0.180 p75=   0.253   [%]
+      candidate $ 26.50: 23/56 ( 41.1%) BELOW target at the decision
+      candidate $ 30.00: 29/56 ( 51.8%) BELOW target at the decision
+
+=== PART 13: mark at the FIRST close of the cycle's entire drain ===
+  HISTORICAL_50  drain span s: n= 100 p50=    1.23 p95=     2.75 max=   222.12   bursts/cycle p50=  1
+  HISTORICAL_60  drain span s: n=  77 p50=    1.76 p95=  3263.80 max= 19771.23   bursts/cycle p50=  1
+  AGGRESSIVE_30  drain span s: n=   2 p50=    0.02 p95=   123.61 max=   123.61   bursts/cycle p50=  1
+  LOW_RISK_30    drain span s: n=   1 p50=    1.21 p95=     1.21 max=     1.21   bursts/cycle p50=  1
+  STARWAVE_30    drain span s: n= 102 p50=    1.27 p95=   240.83 max=   481.33   bursts/cycle p50=  1
+  HISTORICAL_50  n=  77 configured 0.63%   legs p50= 14
+      money   p05=   -8.87 p10=    4.88 p25=   13.40 p50=   20.97 p75=   33.34 min=  -55.18
+      implied p05=  -0.224 p25=   0.284 p50=   0.493 p75=   0.857   [%]
+  HISTORICAL_60  n=  61 configured 0.42%   legs p50= 16
+      money   p05=  -15.13 p10=   13.31 p25=   21.00 p50=   28.97 p75=   40.31 min= -496.90
+      implied p05=  -0.218 p25=   0.293 p50=   0.386 p75=   0.569   [%]
+  AGGRESSIVE_30  n=   1 configured 0.18%   legs p50=  7
+      money   p05=  175.41 p10=  175.41 p25=  175.41 p50=  175.41 p75=  175.41 min=  175.41
+      implied p05=   1.435 p25=   1.435 p50=   1.435 p75=   1.435   [%]
+  LOW_RISK_30    n=   1 configured 0.18%   legs p50= 10
+      money   p05=   21.52 p10=   21.52 p25=   21.52 p50=   21.52 p75=   21.52 min=   21.52
+      implied p05=   0.187 p25=   0.187 p50=   0.187 p75=   0.187   [%]
+  STARWAVE_30    n=  61 configured $26.50  legs p50=  8
+      money   p05=   -8.50 p10=    2.02 p25=   21.36 p50=   28.57 p75=   39.71 min= -175.11
+      implied p05=  -0.053 p25=   0.123 p50=   0.175 p75=   0.246   [%]
+      candidate $ 26.50: 25/61 ( 41.0%) BELOW target at the decision
+      candidate $ 30.00: 33/61 ( 54.1%) BELOW target at the decision
+
+=== PART 14: shortfall vs cancel-run latency ===
+  -- HISTORICAL_50  configured 0.63%
+      c 3-6s  n=   4 p25=   26.25 p50=   28.76 p75=   28.76
+      d >=6s  n=  72 p25=   19.13 p50=   25.94 p75=   33.69
+      Theil-Sen d(net)/d(latency) =    -3.141 $/s over 2164 pairs   (bias predicts a NEGATIVE slope, a real violation predicts ~0)
+  -- HISTORICAL_60  configured 0.42%
+      c 3-6s  n=   6 p25= -315.46 p50= -102.05 p75=   17.88
+      d >=6s  n=  55 p25=   26.60 p50=   30.10 p75=   45.15
+      Theil-Sen d(net)/d(latency) =    -0.512 $/s over 1491 pairs   (bias predicts a NEGATIVE slope, a real violation predicts ~0)
+  -- AGGRESSIVE_30  configured 0.18%
+      c 3-6s  n=   1 p25=  146.71 p50=  146.71 p75=  146.71
+      Theil-Sen d(net)/d(latency) =      +nan $/s over 0 pairs   (bias predicts a NEGATIVE slope, a real violation predicts ~0)
+  -- LOW_RISK_30    configured 0.18%
+      c 3-6s  n=   1 p25=   29.41 p50=   29.41 p75=   29.41
+      Theil-Sen d(net)/d(latency) =      +nan $/s over 0 pairs   (bias predicts a NEGATIVE slope, a real violation predicts ~0)
+  -- STARWAVE_30    configured $26.50
+      b 1-3s  n=   2 p25=   15.52 p50=   15.52 p75= 2027.42  below $26.50: 1/2 ( 50.0%)
+      c 3-6s  n=  59 p25=   23.24 p50=   30.91 p75=   41.44  below $26.50: 17/59 ( 28.8%)
+      Theil-Sen d(net)/d(latency) =    -2.660 $/s over 1055 pairs   (bias predicts a NEGATIVE slope, a real violation predicts ~0)
+

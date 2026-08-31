@@ -1,0 +1,84 @@
+84:def load_orders():
+85-    return list(csv.DictReader(Path("tmp/r901018_orders.csv").open(encoding="utf-8")))
+86-
+87-
+88-def load_deals():
+89-    return list(csv.DictReader(Path("tmp/r901018_deals.csv").open(encoding="utf-8")))
+90-def load_positions():
+91-    """The Positions table repeats 'Time' and 'Price', so read it positionally."""
+92-    rows = []
+93-    with Path("tmp/r901018_positions.csv").open(encoding="utf-8") as handle:
+94-        reader = csv.reader(handle)
+95-        next(reader)
+96-        for row in reader:
+97-            if len(row) < 13 or not norm(row[1]):
+98-                continue
+99-            opened = stamp(row[0])
+100-            closed = stamp(row[8])
+101-            if opened is None or closed is None:
+102-                continue
+103-            rows.append({
+104-                "opened": opened,
+105-                "ticket": int(norm(row[1])),
+106-                "is_buy": norm(row[3]) == "buy",
+127:def build_deployments(orders):
+128-    """Same clustering as a901_eras.py: lattice pendings, 2 s gap, >=10 legs."""
+129-    rows = []
+130-    for row in orders:
+131-        parsed = parse_level(row["Comment"])
+132-        when = stamp(row["Open Time"])
+133-        if parsed is None or when is None:
+134-            continue
+135-        rows.append({
+136-            "when": when,
+137-            "is_buy": parsed[0],
+138-            "level": parsed[1],
+139-            "price": float(norm(row["Price"])),
+140-            "volume": parse_volume(row["Volume"]),
+141-            "ticket": norm(row["Order"]),
+142-            "state": norm(row["State"]).split()[0].lower() if norm(row["State"]) else "",
+143-            "resolved": stamp(row["Time"]),
+144-        })
+145-    rows.sort(key=lambda item: (item["when"], item["ticket"]))
+146-
+147-    clusters = []
+148-    current = []
+149-    for row in rows:
+150-        if current and (row["when"] - current[-1]["when"]).total_seconds() * 1000.0 > BURST_GAP_MS:
+151-            clusters.append(current)
+152-            current = []
+153-        current.append(row)
+154-    if current:
+155-        clusters.append(current)
+156-
+157-    # -----------------------------------------------------------------------
+158-    # DEPLOYMENT PREDICATE.  The first version of this function demanded that a
+159-    # burst contain BOTH B1 and S1, because it recovered the geometry from that
+160-    # one pair.  On the 901018 tape that threw away real deployments wholesale:
+161-    # the HISTORICAL_60 window holds 75 near-complete lattices (7x120, 60x119,
+162-    # 7x118, 1x115 legs) and only 7 survived -- 43 were missing B1 and 40 were
+163-    # missing S1, because level 1 is the closest pending to the anchor and is
+164-    # routinely FILLED during the deployment burst itself, so it never reaches
+165-    # the canceled/working population the burst is reconstructed from.
+166-    #
+167-    # Replaced by two intrinsic tests plus a k-agnostic geometry recovery:
+168-    #
+169-    #   1. >= MIN_LEGS legs, as before.
+170-    #   2. DENSITY: the burst must cover >= 80% of the (side,level) slots its
+171-    #      own span implies -- slots / (2 * max_level) >= 0.80.  This needs no
+172-    #      prior N, and it is what separates a lattice deployment from a re-arm
+173-    #      trickle: 120 legs spanning 60 levels scores 1.00, while 12 re-arms
+174-    #      scattered over the same 60 levels score 0.10.  A deployment aborted
+175-    #      part-way (30 legs to level 15) still scores 1.00 and is still a
+176-    #      deployment -- it fixes an anchor and a step and it starts a cycle.
+177-    #   3. GEOMETRY from ANY concordant (Bk,Sk) pair, not just k=1:
+178-    #           anchor = (bk + sk) / 2        (exact for every k)
+179-    #           step   = (bk - sk) / (2k)     (error divided by k, so take max k)
+180-    #      Density >= 0.80 guarantees a concordant pair exists: each side holds
+181-    #      at most max_level slots, so slots >= 1.6*max_level forces both sides
+182-    #      above 0.6*max_level and at least 0.2*max_level levels overlap.
+183-    # -----------------------------------------------------------------------
+184-    records = []
+185-    for cluster in clusters:
+186-        if len(cluster) < MIN_LEGS:
+187-            continue

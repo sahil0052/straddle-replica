@@ -1,0 +1,18 @@
+8:## 0. Evidence base
+57:## 1. Executive parity rating
+85:## 2. Per-vector proof
+87:### 2.1 V1 — Anchor & lattice step geometry — 100.00%
+132:### 2.2 V2 — Deployment cadence & interleave physics — 75.44% raw, 100% of mechanism
+222:### 2.3 V3 — Order metadata & broker protocol invariants — 100.00%
+264:### 2.4 V4 — Two-stage trailing ratchet inversion — 100.00% on both tapes
+430:### 2.5 V5 — Basket liquidation & LIFO close ordering — 33.95% as configured, 95.57% with DIV-6 applied
+726:### 2.6 V6 — Re-arm semantics & per-level memory state — 100.00%
+1200:### 2.7 V7 — Basket money exit evaluator — 100.00% on the predicate, the gate and the reset
+1212:#### 2.7.1 The predicate is literal, and both of its terms use one money definition
+1245:#### 2.7.2 The money exit is the *only* exit, so every sweep on the tape is a V7 observation
+1256:#### 2.7.3 The `open_positions>0` gate, proved positively over the *global* open set
+1288:#### 2.7.4 The per-cycle reset to $0.00, proved by contradiction
+1310:#### 2.7.5 The target law is era-scoped, and the tape reads *flat money* in every populated era
+1360:#### 2.7.6 Eight independent threshold instruments, and what they agree on
+1405:#### 2.7.7 The value under test belongs to a different profile, fitted on a different account
+1447:#### 2.7.8 Instruments that failed, and how they failed

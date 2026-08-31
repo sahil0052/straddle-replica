@@ -1,0 +1,26 @@
+=== TradeSymbol / InpSymbol declarations ===
+mql5/include/StraddleReplicaApp.mqh:36:input string TradeSymbol = "";
+mql5/include/StraddleReplicaApp.mqh:116:   runtime.symbol=TradeSymbol;
+mql5/ProfitBricks2K.mq5:5598:input string TradeSymbol = "";
+mql5/ProfitBricks2K.mq5:5678:   runtime.symbol=TradeSymbol;
+mql5/ProfitBricks2K_AllInOne.mq5:5598:input string TradeSymbol = "";
+mql5/ProfitBricks2K_AllInOne.mq5:5678:   runtime.symbol=TradeSymbol;
+
+=== ContractScale ===
+mql5/include/StraddleEngine.mqh:1244:      double scale=ContractScale();
+mql5/include/StraddleEngine.mqh:1521:   double ContractScale(void) const
+mql5/include/StraddleEngine.mqh:3445:       double scale=ContractScale();
+mql5/ProfitBricks2K.mq5:2944:      double scale=ContractScale();
+mql5/ProfitBricks2K.mq5:3221:   double ContractScale(void) const
+mql5/ProfitBricks2K.mq5:5145:       double scale=ContractScale();
+mql5/ProfitBricks2K_AllInOne.mq5:2944:      double scale=ContractScale();
+mql5/ProfitBricks2K_AllInOne.mq5:3221:   double ContractScale(void) const
+mql5/ProfitBricks2K_AllInOne.mq5:5145:       double scale=ContractScale();
+
+=== _Symbol fallback ===
+mql5/include/StraddleEngine.mqh:3169:         m_runtime.symbol=_Symbol;
+mql5/ProfitBricks2K.mq5:4869:         m_runtime.symbol=_Symbol;
+mql5/ProfitBricks2K_AllInOne.mq5:4869:         m_runtime.symbol=_Symbol;
+mql5/StraddleObserver.mq5:739:   if(_Symbol != MonitoredSymbol)
+mql5/StraddleObserver.mq5:744:         _Symbol
+mql5/StraddleTargetProbe.mq5:509:   if(_Symbol!=MonitoredSymbol)

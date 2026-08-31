@@ -1,0 +1,7 @@
+8:## 0. Evidence base
+41:8.780809, Sharpe 0.059847, Open Positions 7, Working Orders 56.
+57:## 1. Executive parity rating
+85:## 2. Per-vector proof
+1960:### 2.10 V10 — Trend rescue logic
+2282:<!-- V10-APPEND -->
+2311 docs/PARITY_AUDIT_14_VECTOR.md

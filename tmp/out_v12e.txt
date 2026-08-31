@@ -1,0 +1,40 @@
+=== ProfileCatalog STARWAVE_30 money target ===
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Basket target: epoch 2026-08-24 15:34 -> 2026-08-25 04:06 (20 cycles).
+         // Banked value p25/p50/p75 = 22.24/26.29/27.82; the 3-cycle censored
+         // bracket over 08-24 19:22..19:49 pins it to (26.41, 26.51].
+         config.cycle_target_money=26.5;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N30): 0.01 (L1-10), 0.06 (L11-20), 0.15 (L21-30)
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.06);
+         SetLotTier(config,21,30,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_20:
+         // Starwave (60542) Parity: 20-level burst execution profile (Aug 2026).
+         // Compact grid, 0s unpaced micro-scalping, 100ms inter-order delay.
+
+=== grep cycle_target_money=25 comments ===
+mql5/include/StraddleReplicaApp.mqh:23://                               cycle_target_money=25, restart_delay_ms=2000)
+mql5/ProfitBricks2K.mq5:5585://                               cycle_target_money=25, restart_delay_ms=2000)
+mql5/ProfitBricks2K_AllInOne.mq5:5585://                               cycle_target_money=25, restart_delay_ms=2000)

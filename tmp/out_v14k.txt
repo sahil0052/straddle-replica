@@ -1,0 +1,32 @@
+=== size/marker ===
+3117 docs/PARITY_AUDIT_14_VECTOR.md
+3088:<!-- V10-APPEND -->
+=== residual stale strings ===
+84:| V12 | Account & symbol suffix binding | **100.00%**; 1 documentation-only divergence | 2 broker suffixes (`XAUUSD.u` 10,863/10,863; bare `XAUUSD` 107,873) + 17,551 closed positions | `TradeSymbol=""` → `_Symbol` verbatim, no parsing; `SYMBOL_TRADE_CONTRACT_SIZE=100` **solved from the tape** (17,550/17,551 = 99.99%, 6/6 open) ⇒ `ContractScale()=1.0000` exactly; Finding V12-A stale `cycle_target_money=25` comment, see §2.12 |
+2954:`ProfitBricks2K.mq5:5585` and `ProfitBricks2K_AllInOne.mq5:5585`.
+3050:the same offsets. Pre-fix, the stale comment had sat in both at `:5585` and the stale default in both
+3078:Finding V12-A is **not** documentation-only, which is how this section first classified it. Part (i),
+=== exec rows ===
+
+| # | vector | parity | population | status |
+|---|---|---|---|---|
+| V1 | Anchor & lattice step geometry | **100.00%** | 25,447 legs / 285 deployments | identity proven |
+| V2 | Deployment cadence & interleave | **75.44% raw → 100% of mechanism** | 215/285 raw | divergence found, **fixed** (DIV-5) |
+| V3 | Order metadata & broker protocol | **100.00%** | 54,742 orders | identity proven |
+| V4 | Two-stage trailing ratchet | **100.00%** | 13,872 + 1,311 attested | identity proven on **both** tapes |
+| V5 | Basket liquidation & LIFO ordering | **LIFO 100.00%**, cancel 96.10% | 3,718 closes / 282 sweeps | identity proven; cancel gap explained |
+| V6 | Re-arm semantics & memory state | **100.00%** | 11,352 true re-arms / 2,490 repeat slots | identity proven |
+| V7 | Basket money exit evaluator | **100.00%** on the predicate, the gate and the reset | 282 sweeps / 17,632 positions | identity proven; threshold bounded to $28–31, see §2.7.7 |
+| V8 | Cycle restart floor & state machine | **100.00% of mechanism**; 2 profile constants flagged | 281 restarts / 275 clean pairs | ordering clean 281/281; floor is integer-second in **both** EAs — an identifiability limit, see §2.8 |
+| V9 | Lot sizing & tier schedules | **100.00%** | 25,447 legs / 12 ladders | identity proven; array lookup, no arithmetic to diverge, see §2.9 |
+| V10 | Trend rescue logic | **100.00%** of the mechanism | 125 doubled orders / 8,536 Starwave legs | ACTIVE on 901018 (6 cycles, 7 events); 12 invariants, 0 exceptions; Finding V10-A tape-only, 0 fills, see §2.10 |
+| V11 | Deal ledger & async reconciliation | **100.00% of mechanism**; 1 micro-divergence flagged | 35,447 deals / 54,742 orders / 17,632 positions | money identity **exact to the cent** vs the broker footer (delta $0.00); 0 duplicate deal tickets; Finding V11-A whole-second cycle boundary 5/284 = 1.76%, see §2.11 |
+| V12 | Account & symbol suffix binding | **100.00%**; 1 documentation-only divergence | 2 broker suffixes (`XAUUSD.u` 10,863/10,863; bare `XAUUSD` 107,873) + 17,551 closed positions | `TradeSymbol=""` → `_Symbol` verbatim, no parsing; `SYMBOL_TRADE_CONTRACT_SIZE=100` **solved from the tape** (17,550/17,551 = 99.99%, 6/6 open) ⇒ `ContractScale()=1.0000` exactly; Finding V12-A stale `cycle_target_money=25` comment, see §2.12 |
+| V13 | Standalone anti-drift | **100.00%** | 5,758 lines × 2 files, `c12978335e4803ad`; 97 tests | `--check` OK (worktree includes ⇒ both standalones, 234,538 chars, identical hash); `--verify` OK (HEAD includes rebuild HEAD's standalone byte-for-byte, `f519eb715664a3f8`); Finding V12-A's comment fix regenerated and re-verified; `84 + 13 = 97 passed`, see §2.13 |
+| V14 | Race conditions & robustness | **unfalsified** | 0 rejected orders on 65,605 | path unexercised by evidence |
+
+**One genuine unimplemented Target behaviour survives the audit: DIV-2** (`STR AVB` /
+`STR AVS`, n=28, `HISTORICAL_50` only). Diff in §4.
+
+Three things previously suspected as divergences are **not** divergences and are recorded
+here so they are not re-raised: the 14 negative attested locks (§3.1), the orphan-position

@@ -1,0 +1,48 @@
+70:def pct(values, q):
+78:def eras_present(mapping):
+79:    return [e for e in ERA_ORDER if e in mapping] + [
+84:def load_orders():
+88:def load_deals():
+90:def load_positions():
+119:def is_sl_exit(row) -> bool:
+127:def build_deployments(orders):
+220:def build_sweeps(orders):
+249:def cancel_times(orders):
+262:def classify_sweeps(sweeps, deployments):
+290:def new_bucket():
+300:def score(labelled, positions, cancels, starts):
+360:def print_v5(per_era, title):
+384:def print_v7(per_era, title):
+403:def print_v8(per_era, title):
+418:def main() -> int:
+127:def build_deployments(orders):
+128-    """Same clustering as a901_eras.py: lattice pendings, 2 s gap, >=10 legs."""
+129-    rows = []
+130-    for row in orders:
+131-        parsed = parse_level(row["Comment"])
+132-        when = stamp(row["Open Time"])
+133-        if parsed is None or when is None:
+134-            continue
+135-        rows.append({
+136-            "when": when,
+137-            "is_buy": parsed[0],
+138-            "level": parsed[1],
+139-            "price": float(norm(row["Price"])),
+140-            "volume": parse_volume(row["Volume"]),
+141-            "ticket": norm(row["Order"]),
+142-            "state": norm(row["State"]).split()[0].lower() if norm(row["State"]) else "",
+143-            "resolved": stamp(row["Time"]),
+144-        })
+145-    rows.sort(key=lambda item: (item["when"], item["ticket"]))
+146-
+147-    clusters = []
+148-    current = []
+149-    for row in rows:
+150-        if current and (row["when"] - current[-1]["when"]).total_seconds() * 1000.0 > BURST_GAP_MS:
+151-            clusters.append(current)
+152-            current = []
+153-        current.append(row)
+154-    if current:
+155-        clusters.append(current)
+156-
+157-    # -----------------------------------------------------------------------

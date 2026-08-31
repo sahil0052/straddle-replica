@@ -1,0 +1,46 @@
+=== 2886,2930 ===
+   #define STR_DEFAULT_PROFILE STARWAVE_30        // :11
+   #define STR_DEFAULT_MAGIC 26011001             // :28
+```
+
+```cpp
+input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;          // :35
+input string TradeSymbol = "";                                 // :36
+input ulong MagicNumber = STR_DEFAULT_MAGIC;                   // :37
+input bool ReplicaMode = true;                                 // :38
+input int InterOrderDelayMs = 100;                             // :40
+input bool RequireDemoAccount = STR_REQUIRE_DEMO_DEFAULT;      // :52
+input bool RequireBoundAccount = STR_REQUIRE_BOUND_DEFAULT;    // :53
+input ulong ExpectedAccountLogin = 0;                          // :54
+input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;         // :57
+```
+
+Three of these deserve comment against the standing specification's "do NOT implement artificial
+safety throttles" clause. `SafetyEnabled=false` is what makes the money target the **only** exit,
+as §2.7 requires — the equity-loss, gross-lot, spread and daily-loss ceilings at `:58-61`
+(`MaxEquityLossPercent=20.0`, `MaxGrossLots=2.20`, `MaxSpreadPoints=1000.0`, `DailyLossLimit=0.0`)
+are all read into `SRuntimeConfig` at `OnInit()` but never consulted while `SafetyEnabled` is false.
+`RequireBoundAccount=false` with `ExpectedAccountLogin=0` means no account pinning, matching a
+Target that ran on two different accounts (60542 and 901018) from one code base.
+`RequireDemoAccount=true` is the one guard the shipped build *does* keep armed, and it is a
+deployment guard rather than a behavioural one: it gates whether the EA runs at all, and cannot
+alter a single order once it does. Turning it off is a deliberate operator act, not a parity
+change.
+
+The magic number is measured, not chosen. `26011001` is the value carried by **all 10,844
+EA-authored rows** of `Starwave_60542_orders_history.csv`; the remaining 19 rows carry magic 0 and
+are the manual operator closes identified in §0. The in-source comment at `:13-26` also records a
+real defect this indirection fixed — before the macros existed, the input initialisers hard-coded
+`LATEST_30` / `901018` and `STR_DEFAULT_PROFILE` was **inert**, so every binary silently defaulted
+to `LATEST_30` regardless of what it defined. That is a genuine historical divergence, already
+resolved, and it is the reason this vector reads the macro block rather than trusting the enum.
+
+One further symbol-dependent refusal sits outside the five: `ACCOUNT_LIMIT_ORDERS` against
+`m_profile.levels_per_side*2` at `:3224-3232`. For a 30-per-side profile that is 60 pending orders,
+and a broker or account capping pendings below 60 would truncate the lattice silently at deployment
+time. The engine refuses to initialise instead. The Target's own tapes carry full 60-order
+deployments (§2.2), so the limit was never binding there.
+
+#### 2.12.7 Finding V12-A — the shipped-defaults comment misstates the money target
+
+Auditing the macro block against the catalogue it claims to describe turned up one mismatch. The

@@ -1,0 +1,16 @@
+=== --write ===
+wrote mql5\ProfitBricks2K.mq5  234538 bytes  5758 lines  c12978335e4803ad
+wrote mql5\ProfitBricks2K_AllInOne.mq5  234538 bytes  5758 lines  c12978335e4803ad
+exit=0
+
+=== --check ===
+OK      mql5\ProfitBricks2K.mq5  234538 chars  c12978335e4803ad
+OK      mql5\ProfitBricks2K_AllInOne.mq5  234538 chars  c12978335e4803ad
+CHECK OK - both standalones match mql5/include
+exit=0
+
+=== --verify (HEAD round-trip) ===
+HEAD standalone :  213227 chars  f519eb715664a3f8
+rebuilt         :  213227 chars  f519eb715664a3f8
+VERIFY OK - bundler reproduces HEAD byte-for-byte
+exit=0

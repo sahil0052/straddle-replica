@@ -1,0 +1,166 @@
+===== 395-445 =====
+  395	      return count;
+  396	     }
+  397	
+  398	   int TrackedPositionCount(void) const
+  399	     {
+  400	      ulong tickets[];
+  401	      return CollectTrackedPositionTickets(tickets);
+  402	     }
+  403	
+  404	   double TrackedFloatingProfit(void) const
+  405	     {
+  406	      ulong tickets[];
+  407	      int count=CollectTrackedPositionTickets(tickets);
+  408	      double total=0.0;
+  409	      for(int index=0;index<count;index++)
+  410	        {
+  411	         if(!PositionSelectByTicket(tickets[index]))
+  412	            continue;
+  413	         total+=(
+  414	            PositionGetDouble(POSITION_PROFIT)+
+  415	            PositionGetDouble(POSITION_SWAP)
+  416	         );
+  417	        }
+  418	      return total;
+  419	     }
+  420	
+  421	   // Cycle-scoped accounting.  Identical to the Owned* pair when the leak is
+  422	   // off; restricted to the tracked set when it is on, which is what makes the
+  423	   // basket, the sweep and the restart drain all measure exactly what the
+  424	   // Target's level table measures.
+  425	   int CyclePositionCount(void) const
+  426	     {
+  427	      if(!OrphanLeakActive())
+  428	         return OwnedPositionCount();
+  429	      return TrackedPositionCount();
+  430	     }
+  431	
+  432	   double CycleFloatingProfit(void) const
+  433	     {
+  434	      if(!OrphanLeakActive())
+  435	         return OwnedFloatingProfit();
+  436	      return TrackedFloatingProfit();
+  437	     }
+  438	
+  439	   // Called immediately before the level table is wiped for a new cycle.  Any
+  440	   // ticket the table still points at would otherwise be silently released and
+  441	   // re-adopted by the next reconcile, which the tape rules out: all 153 of the
+  442	   // Target's orphans stayed untracked to the end of the window, none of them
+  443	   // ever received an [sl] order and none were swept by any of the 146 later
+  444	   // baskets.  In the normal path StartCycle()'s guard has already established
+  445	   // that nothing is tracked, so this is a no-op; it exists to make the
+===== 770-800 =====
+  770	        {
+  771	         if(OrderGetTicket(index)>0 && IsOwnedOrderSelected())
+  772	            count++;
+  773	        }
+  774	      return count;
+  775	     }
+  776	
+  777	   int OwnedPositionCount(void) const
+  778	     {
+  779	      int count=0;
+  780	      for(int index=0;index<PositionsTotal();index++)
+  781	        {
+  782	         if(PositionGetTicket(index)>0 && IsOwnedPositionSelected())
+  783	            count++;
+  784	        }
+  785	      return count;
+  786	     }
+  787	
+  788	   bool FindReference(bool &is_buy,int &level,double &price) const
+  789	     {
+  790	      for(int index=0;index<OrdersTotal();index++)
+  791	        {
+  792	         if(OrderGetTicket(index)==0 || !IsOwnedOrderSelected())
+  793	            continue;
+  794	         int level_index=-1;
+  795	         if(ParseLevelComment(OrderGetString(ORDER_COMMENT),is_buy,level_index))
+  796	           {
+  797	            level=level_index+1;
+  798	            price=OrderGetDouble(ORDER_PRICE_OPEN);
+  799	            return true;
+  800	           }
+===== 3420-3500 =====
+ 3420	         return;
+ 3421	        }
+ 3422	       if(m_state!=CYCLE_RUNNING)
+ 3423	          return;
+ 3424	       ReconcileLevels();
+ 3425	       if(!m_profile.stop_updates_on_timer)
+ 3426	          UpdatePositionStops();
+ 3427	
+ 3428	       CheckCycleTargets();
+ 3429	      }
+ 3430	
+ 3431	    void CheckCycleTargets(void)
+ 3432	      {
+ 3433	       if(m_state!=CYCLE_RUNNING && m_state!=CYCLE_DEPLOYING)
+ 3434	          return;
+ 3435	       if(!m_has_traded && CyclePositionCount()==0)
+ 3436	          return;
+ 3437	
+ 3438	       string safety_reason="";
+ 3439	       if(SafetyTriggered(safety_reason))
+ 3440	         {
+ 3441	          BeginClose(safety_reason,true);
+ 3442	          return;
+ 3443	         }
+ 3444	
+ 3445	       double scale=ContractScale();
+ 3446	       double target=(m_profile.cycle_target_money>0.0
+ 3447	                      ? m_profile.cycle_target_money*scale
+ 3448	                      : m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);
+ 3449	       // Target EA parity: the basket sums ONLY the positions the level table
+ 3450	       // still points at.  Orphans contribute neither profit nor a position to
+ 3451	       // the trigger, which is why several Target sweeps fired on a tracked net
+ 3452	       // near the target while the raw book net was far away from it.
+ 3453	       double floating=CycleFloatingProfit();
+ 3454	       int open_pos_count=CyclePositionCount();
+ 3455	       SBasketSnapshot basket=m_basket_evaluator.Evaluate(
+ 3456	          m_cycle_realized,
+ 3457	          floating,
+ 3458	          target,
+ 3459	          m_has_traded,
+ 3460	          open_pos_count
+ 3461	       );
+ 3462	       if(basket.triggered)
+ 3463	         {
+ 3464	          LogLifecycleEvent("basket_trigger","","threshold_reached");
+ 3465	          BeginClose("basket_target",false);
+ 3466	          return;
+ 3467	         }
+ 3468	
+ 3469	       // ------------------------------------------------------------------
+ 3470	       // The $30 basket target above is the Target EA's ONLY money exit.
+ 3471	       //
+ 3472	       // Two further exit rules previously lived here -- a 20-point
+ 3473	       // "grid_recenter" and a "rescue_breakeven" liquidation.  Both were
+ 3474	       // written from the mission brief's hypotheses and never measured.
+ 3475	       // Both are now refuted against the 901018 dataset (100 final-regime
+ 3476	       // cycles delimited by their own flatten sweeps).  See
+ 3477	       // tools/forensics/q3p_replicarules.py for the scoring harness; it
+ 3478	       // reports, for every candidate rule, the first tick at which the rule
+ 3479	       // would have fired versus the tick at which the Target EA actually
+ 3480	       // closed:
+ 3481	       //
+ 3482	       //   grid_recenter   (dist>=20 || (realized>=50 && net>=-20 && dist>=15))
+ 3483	       //       would fire on 49/100 cycles, 27 of them >5 min early, at a
+ 3484	       //       median net of -$19.36 where the Target EA went on to bank
+ 3485	       //       +$36.00.  Aggregate profit destroyed: $5,738.88.  Both clauses
+ 3486	       //       are equally culpable (27 and 26 of 100).  The distance gate
+ 3487	       //       does not even separate the exit groups: cycles that exited on
+ 3488	       //       the money target were >=20 pts from the anchor 18/72 of the
+ 3489	       //       time, versus 1/6 for the below-zero exits.
+ 3490	       //
+ 3491	       //   rescue_breakeven (realized>=200 && net>=-10)
+ 3492	       //       would fire on 14/100 cycles, 9 of them >5 min early, at a
+ 3493	       //       median net of +$10.16 where the Target EA banked +$42.62.
+ 3494	       //       Aggregate profit destroyed: $623.52.  Decisively, the marked
+ 3495	       //       total at exit has ZERO cycles in [-25,0) under two independent
+ 3496	       //       segmentations -- a "close at breakeven" rule would pile up
+ 3497	       //       exactly there.
+ 3498	       //
+ 3499	       // A flat threshold on realized_since_cycle_start + floating is the
+ 3500	       // whole rule.  FOUR independent estimators agree on its value:

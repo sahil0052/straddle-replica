@@ -1,0 +1,8 @@
+=== hash pins in tests ===
+docs/PARITY_AUDIT_14_VECTOR.md:85:| V13 | Standalone anti-drift | **100.00%** | 5,754 lines × 2 files, `2d2fe9bb0d272406` | hash-verified |
+docs/PARITY_AUDIT_14_VECTOR.md:1192:`2d2fe9bb0d272406`**, and `tests/test_mql5_contract.py` is **84 passed**. No behavioural line changed —
+
+=== pytest ===
+........................................................................ [ 74%]
+.........................                                                [100%]
+97 passed in 0.52s

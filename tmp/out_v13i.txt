@@ -1,0 +1,58 @@
+=== PART 1 -- line accounting ===
+header_of() keeps            20 lines
+first RULE at file line      23
+  StraddleTypes.mqh          body   214 lines
+  ProfileCatalog.mqh         body   751 lines
+  StopScheduler.mqh          body   193 lines
+  BasketEvaluator.mqh        body    37 lines
+  CycleDealLedger.mqh        body    63 lines
+  TradeGateway.mqh           body   380 lines
+  StraddleEngine.mqh         body  3856 lines
+  StraddleReplicaApp.mqh     body   196 lines
+body subtotal              5690
+framing (8 x 6)              48
+predicted total            5758
+actual  total              5759
+LINE ACCOUNTING          MISMATCH
+
+=== PART 2 -- byte identity and hash ===
+ProfitBricks2K.mq5        234538 bytes
+ProfitBricks2K_AllInOne   234538 bytes
+same bytes               True
+sha256[:16]              c12978335e4803ad
+full sha256              c12978335e4803ad02e89fff5e95dae738ad085b05ec7d4cf925fa0b62e02087
+rebuild == on-disk       True
+
+=== PART 3 -- is it actually standalone? ===
+unresolved local #include "..."  0
+system #include <...> (legal)     0
+'// included inline' count         10
+local #include lines in includes  10
+every include neutralised        True
+
+=== PART 4 -- per-section offset law ===
+  StraddleTypes.mqh                                label :24    body starts :27  law: N -> 26+N
+  ProfileCatalog.mqh                               label :244   body starts :247  law: N -> 246+N
+  StopScheduler.mqh                                label :1001  body starts :1004  law: N -> 1003+N
+  BasketEvaluator.mqh                              label :1200  body starts :1203  law: N -> 1202+N
+  CycleDealLedger.mqh                              label :1243  body starts :1246  law: N -> 1245+N
+  TradeGateway.mqh                                 label :1312  body starts :1315  law: N -> 1314+N
+  StraddleEngine.mqh                               label :1698  body starts :1701  law: N -> 1700+N
+  StraddleReplicaApp.mqh (Event Handlers & Inputs) label :5560  body starts :5563  law: N -> 5562+N
+
+  StraddleEngine.mqh:3169 -> :4869  OK    m_runtime.symbol=_Symbol;
+  StraddleEngine.mqh:1521 -> :3221  OK    double ContractScale(void) const
+  StraddleReplicaApp.mqh:36 -> :5598  FAIL  // included inline
+  StraddleReplicaApp.mqh:24 -> :5586  OK    //                               cycle_target_money=26.5, restar
+  ProfileCatalog.mqh:478 -> :724  OK    config.cycle_target_money=26.5;
+
+=== PART 5 -- bodies appear verbatim, in bundle order ===
+  StraddleTypes.mqh          verbatim YES at char 1338
+  ProfileCatalog.mqh         verbatim YES at char 9754
+  StopScheduler.mqh          verbatim YES at char 51651
+  BasketEvaluator.mqh        verbatim YES at char 62144
+  CycleDealLedger.mqh        verbatim YES at char 63192
+  TradeGateway.mqh           verbatim YES at char 65214
+  StraddleEngine.mqh         verbatim YES at char 78395
+  StraddleReplicaApp.mqh     verbatim YES at char 226269
+bundle order preserved   True (monotone cursor, ends at 234537 of 234538)

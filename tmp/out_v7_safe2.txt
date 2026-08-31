@@ -1,0 +1,14 @@
+mql5/include/StraddleTypes.mqh:164:   bool              safety_enabled;
+mql5/include/StraddleTypes.mqh:165:   double            max_equity_loss_pct;
+mql5/include/StraddleTypes.mqh:166:   double            max_gross_lots;
+mql5/include/StraddleTypes.mqh:167:   double            max_spread_points;
+mql5/include/StraddleTypes.mqh:168:   double            daily_loss_limit;
+mql5/include/StraddleReplicaApp.mqh:57:input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+mql5/include/StraddleReplicaApp.mqh:59:input double MaxGrossLots = 2.20;
+mql5/include/StraddleReplicaApp.mqh:60:input double MaxSpreadPoints = 1000.0;
+mql5/include/StraddleReplicaApp.mqh:61:input double DailyLossLimit = 0.0;
+mql5/include/StraddleReplicaApp.mqh:124:   runtime.safety_enabled=SafetyEnabled;
+mql5/include/StraddleReplicaApp.mqh:125:   runtime.max_equity_loss_pct=MaxEquityLossPercent;
+mql5/include/StraddleReplicaApp.mqh:126:   runtime.max_gross_lots=MaxGrossLots;
+mql5/include/StraddleReplicaApp.mqh:127:   runtime.max_spread_points=MaxSpreadPoints;
+mql5/include/StraddleReplicaApp.mqh:128:   runtime.daily_loss_limit=DailyLossLimit;

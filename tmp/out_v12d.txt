@@ -1,0 +1,96 @@
+=== app inputs (runtime block) ===
+#ifndef STR_REQUIRE_DEMO_DEFAULT
+   #define STR_REQUIRE_DEMO_DEFAULT true
+#endif
+#ifndef STR_REQUIRE_BOUND_DEFAULT
+   #define STR_REQUIRE_BOUND_DEFAULT false
+#endif
+#ifndef STR_SAFETY_ENABLED_DEFAULT
+   #define STR_SAFETY_ENABLED_DEFAULT false
+#endif
+#ifndef STR_DEFAULT_PROFILE
+   #define STR_DEFAULT_PROFILE STARWAVE_30
+#endif
+// Magic and profile are both macro-driven so a single-purpose binary can pin
+// them with a #define ahead of this include (see ProfitBricks2K.mq5, which
+// pins JUNE_2K).  Before this indirection the input initialisers hard-coded
+// LATEST_30 / 901018 and the STR_DEFAULT_PROFILE macro was inert: every
+// binary silently defaulted to LATEST_30 no matter what it defined.
+//
+// The shipped defaults reproduce the Starwave / Target account:
+//   Profile     = STARWAVE_30  (N=30/side, step=round(anchor/3000,2),
+//                               lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30,
+//                               ratchet L=2 Dpre=2 Tt=3 D=1, cancel-then-close,
+//                               cycle_target_money=25, restart_delay_ms=2000)
+//   MagicNumber = 26011001     measured on all 10,844 EA-authored rows of
+//                              Starwave_60542_orders_history.csv; the other 19
+//                              rows are magic 0 manual operator closes.
+#ifndef STR_DEFAULT_MAGIC
+   #define STR_DEFAULT_MAGIC 26011001
+#endif
+
+#include "StraddleTypes.mqh"
+#include "StraddleEngine.mqh"
+
+input group "Replica"
+input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;
+input string TradeSymbol = "";
+input ulong MagicNumber = STR_DEFAULT_MAGIC;
+input bool ReplicaMode = true;
+input datetime ReplicaStartTime = 0;
+input int InterOrderDelayMs = 100;
+input int DeviationPoints = 100;
+input bool TelemetryEnabled = true;
+
+input group "Live Twin"
+input ENUM_STR_RUNTIME_MODE RuntimeMode = STR_RUNTIME_NORMAL;
+input string ShadowCommandFile = "StraddleShadow\\command.csv";
+input string ShadowAckFile = "StraddleShadow\\ack.csv";
+input int ShadowCommandMaxAgeMs = 2000;
+input bool AllowShadowAdoptExistingCycle = false;
+
+input group "Account Safety"
+input bool RequireDemoAccount = STR_REQUIRE_DEMO_DEFAULT;
+input bool RequireBoundAccount = STR_REQUIRE_BOUND_DEFAULT;
+input ulong ExpectedAccountLogin = 0;
+
+input group "Optional Safety (disabled in replica baseline)"
+input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+input double MaxEquityLossPercent = 20.0;
+input double MaxGrossLots = 2.20;
+input double MaxSpreadPoints = 1000.0;
+
+=== runtime assignment block ===
+input bool CustomReplicaOrphanLeak = true;
+
+CStraddleEngine g_engine;
+
+int OnInit()
+  {
+   SRuntimeConfig runtime={};
+   runtime.runtime_mode=RuntimeMode;
+   runtime.symbol=TradeSymbol;
+   runtime.magic=MagicNumber;
+   runtime.replica_mode=ReplicaMode;
+   runtime.start_time=ReplicaStartTime;
+   runtime.inter_order_delay_ms=InterOrderDelayMs;
+   runtime.require_demo_account=RequireDemoAccount;
+   runtime.require_bound_account=RequireBoundAccount;
+   runtime.expected_account_login=ExpectedAccountLogin;
+   runtime.safety_enabled=SafetyEnabled;
+   runtime.max_equity_loss_pct=MaxEquityLossPercent;
+   runtime.max_gross_lots=MaxGrossLots;
+   runtime.max_spread_points=MaxSpreadPoints;
+   runtime.daily_loss_limit=DailyLossLimit;
+   runtime.telemetry_enabled=TelemetryEnabled;
+   runtime.deviation_points=DeviationPoints;
+   runtime.shadow_command_file=ShadowCommandFile;
+   runtime.shadow_ack_file=ShadowAckFile;
+   runtime.shadow_command_max_age_ms=ShadowCommandMaxAgeMs;
+   runtime.allow_shadow_adopt_existing_cycle=
+      AllowShadowAdoptExistingCycle;
+
+   SCustomProfileConfig custom={};
+   custom.levels_per_side=CustomLevelsPerSide;
+   custom.step_mode=CustomStepMode;
+   custom.step_value=CustomStepValue;

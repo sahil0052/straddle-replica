@@ -1,0 +1,106 @@
+===== 1855-1905 =====
+ 1855	      if(OwnedOrderCount()>0 || CyclePositionCount()>0 || m_state!=CYCLE_IDLE)
+ 1856	         return false;
+ 1857	      OrphanRemainingTrackedPositions();
+ 1858	      ResetLevelState();
+ 1859	      m_anchor=NormalizePrice(anchor);
+ 1860	      m_step=NormalizePrice(step);
+ 1861	      if(m_anchor<=0.0 || m_step<=0.0)
+ 1862	         return false;
+ 1863	      InitializeLevelTargets();
+ 1864	      m_cycle_start_balance=AccountInfoDouble(ACCOUNT_BALANCE);
+ 1865	      m_cycle_realized=0.0;
+ 1866	      m_cycle_exit_deal_count=0;
+ 1867	      m_cycle_started_at=TimeCurrent();
+ 1868	      m_cycle_started_utc=TimeGMT();
+ 1869	       m_cycle_started_msc=(long)m_cycle_started_at*1000;
+ 1870	       m_cycle_started_ms=GetTickCount64();
+ 1871	       m_event_sequence=0;
+ 1872	       ResetProcessedDeals();
+ 1873	       m_last_history_reconcile_ms=0;
+ 1874	       m_history_reconcile_seeded=false;
+ 1875	       GlobalVariableSet(GlobalKey("event_seq"),0.0);
+ 1876	      m_last_stop_update_at=0;
+ 1877	      m_last_entry_fill_at=0;
+ 1878	      m_deploy_index=0;
+ 1879	      m_has_traded=false;
+ 1880	      m_shadow_reset_active=false;
+ 1881	      m_state=CYCLE_DEPLOYING;
+ 1882	      PersistCycle();
+ 1883	      LogEvent("cycle_start","",0,0.0,m_anchor,"");
+ 1884	      return true;
+ 1885	     }
+ 1886	
+ 1887	   bool AdoptExistingShadowCycle(void)
+ 1888	     {
+ 1889	      if(m_runtime.runtime_mode!=STR_RUNTIME_SHADOW ||
+ 1890	         !m_runtime.allow_shadow_adopt_existing_cycle ||
+ 1891	         (ENUM_ACCOUNT_TRADE_MODE)AccountInfoInteger(ACCOUNT_TRADE_MODE)!=
+ 1892	            ACCOUNT_TRADE_MODE_DEMO ||
+ 1893	         m_runtime.expected_account_login==0 ||
+ 1894	         OwnedOrderCount()+OwnedPositionCount()==0)
+ 1895	         return false;
+ 1896	      m_cycle_id=StringFormat(
+ 1897	         "local-adopt-%I64u-%I64d",
+ 1898	         (ulong)AccountInfoInteger(ACCOUNT_LOGIN),
+ 1899	         (long)TimeGMT()
+ 1900	      );
+ 1901	      if(!RestoreCycle())
+ 1902	        {
+ 1903	         m_cycle_id="";
+ 1904	         return false;
+ 1905	        }
+===== 2015-2035 =====
+ 2015	         return false;
+ 2016	      MqlTick tick={};
+ 2017	      if(!SymbolInfoTick(m_runtime.symbol,tick) || tick.bid<=0.0 || tick.ask<=0.0)
+ 2018	         return false;
+ 2019	      OrphanRemainingTrackedPositions();
+ 2020	      ResetLevelState();
+ 2021	      m_anchor=NormalizePrice((tick.bid+tick.ask)/2.0);
+ 2022	      m_step=CalculateStep(m_anchor);
+ 2023	      if(m_step<=0.0)
+ 2024	         return false;
+ 2025	      InitializeLevelTargets();
+ 2026	      m_cycle_start_balance=AccountInfoDouble(ACCOUNT_BALANCE);
+ 2027	      m_cycle_realized=0.0;
+ 2028	      m_cycle_exit_deal_count=0;
+ 2029	      m_cycle_started_at=TimeCurrent();
+ 2030	      m_cycle_started_utc=TimeGMT();
+ 2031	      m_cycle_started_msc=(long)m_cycle_started_at*1000;
+ 2032	      m_cycle_started_ms=GetTickCount64();
+ 2033	       m_cycle_id=CycleIdFromUtc("local",m_cycle_started_utc);
+ 2034	       m_event_sequence=0;
+ 2035	       ResetProcessedDeals();
+===== 3115-3145 =====
+ 3115	         if(m_profile.max_stop_updates_per_pass>0 &&
+ 3116	            update_count>=m_profile.max_stop_updates_per_pass)
+ 3117	            return;
+ 3118	        }
+ 3119	     }
+ 3120	
+ 3121	public:
+ 3122	                     CStraddleEngine(void)
+ 3123	     {
+ 3124	      m_state=CYCLE_IDLE;
+ 3125	      m_anchor=0.0;
+ 3126	      m_step=0.0;
+ 3127	      m_tick_size=0.0;
+ 3128	      m_point=0.0;
+ 3129	      m_cycle_start_balance=0.0;
+ 3130	      m_cycle_realized=0.0;
+ 3131	      m_cycle_exit_deal_count=0;
+ 3132	      m_cycle_started_at=0;
+ 3133	      m_cycle_started_utc=0;
+ 3134	      m_cycle_started_msc=0;
+ 3135	      m_cycle_started_ms=0;
+ 3136	      m_restart_started_at=0;
+ 3137	      m_last_close_at=0;
+ 3138	      m_close_skip=0;
+ 3139	      m_last_entry_fill_at=0;
+ 3140	      m_last_stop_update_at=0;
+ 3141	      m_deploy_index=0;
+ 3142	      m_has_traded=false;
+ 3143	      m_halted=false;
+ 3144	      m_atr_handle=INVALID_HANDLE;
+ 3145	      m_cycle_id="";

@@ -1,0 +1,14 @@
+=== markers ===
+3374:<!-- V10-APPEND -->
+=== doc lines ===
+3403 docs/PARITY_AUDIT_14_VECTOR.md
+=== 2.13 subsection headings ===
+3088:### 2.13 Vector 13 — Standalone anti-drift verification
+3098:#### 2.13.1 The generator, and the defect that motivated it
+3115:#### 2.13.2 Three modes, three different invariants
+3142:#### 2.13.3 The closed-form line identity
+3158:#### 2.13.4 Verbatim body comparison — 5,686 identical, 10 substituted, 0 unaccounted
+3185:#### 2.13.5 The offset law, derived from the file and validated on 17 citations
+3248:#### 2.13.6 One binary, two filenames, one deliberate header divergence
+3306:#### 2.13.7 Hash lineage, and the tests that pin it
+3347:#### 2.13.8 V13 verdict

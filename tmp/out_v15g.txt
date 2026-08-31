@@ -1,0 +1,35 @@
+=== 98.62 windows ===
+98.62 %); §3.10 measurement-instrument defects found and fixed (H60 V7 p50 255.71 → 31.37/31.28; V8 [2,3) 2/7 → 49/77; LIFO 62.73 % → 96.04 % → 1.0000 operator-free; 59.81 % → 0.00 %; the refute
+98.62 %, zero false positives); 588 close bursts vs 285 deployments; `dir*(close−sl)/step` is invalid; the 2.0 gate boundary is densely populated by legitimate writes; **never re-derive the ratchet from 
+98.62 %, zero false positives); 588 close bursts vs 285 deployments; `dir*(close−sl)/step` is invalid; the 2.0 gate boundary is densely populated; **never re-derive the ratchet from close prices**.\n- **
+98.62 ===\
+98.62 ===\n2\t=== H-f / H-g ===\n3\t591:Two earlier hypotheses are therefore **refuted, not merely unsupported**: **H-f** (one close per\n4\t592:market tick) and **H-g** (the gap is a synchronous `OrderSen
+98.62 ===\n=== H-f / H-g ===\n591:Two earlier hypotheses are therefore **refuted, not merely unsupported**: **H-f** (one close per\n592:market tick) and **H-g** (the gap is a synchronous `OrderSend` round-
+98.62 windows ===\
+98.62% SL-slippage correction, the 14 negative attested locks, and the refuted cadence hypotheses H-f and H-g. I'll search for those specific references and DIV-5 context lines to make sure the register st
+98.62% SL-slippage figure from the transcript and pull the specific resolution numbers from the referenced lines so I can confirm §3.1 accurately summarizes the findings.
+98.62% SL-slippage figure from transcript
+98.62% at or worse than the stop; only 13.57% exactly at it) as a data-quality supersession, with no code change.\n12. **Report Finding 2 as a measurement-instrument defect I found and fixed,** with the be
+98.62% at or worse than the stop; only 13.57% exactly at it) as a data-quality supersession, with no code change.\n13. **Report Finding 2 as a measurement-instrument defect I found and fixed,** with the be
+
+=== slippage windows ===
+slippage
+slippage (`vSweep − vPre`: p05 −18.96, p50 +1.40, p95 +42.98, min −409.80) and must stay emergent. Five anomalous Starwave sweeps: 08-26 02:38:57 (4.45/15.04); 08
+slippage (close price == stop price on all 1,311, so the measurement is exact). Final SL offset from entry, in lattice steps: **[0,1) 540 | [1,2) 25 | ≥2 745 | <0 1**
+slippage (favourable +) price  p05 ' + L.q(slip, .05).toFixed(3) +\n  '  p50 ' + L.q(slip, .5).toFixed(3) + '  p95 ' + L.q(slip, .95).toFixed(3) +\n  '  min ' + Math.mi
+slippage (favourable +) price  p05 0.000  p50 0.000  p95 0.000  min 0.00  max 0.00\n    worse than the stop 0   better 0   at the stop 1311
+slippage (legitimate) or as part of the stop-loss exit classifier (which would be wrong), then I can deliver the final verdict on the repo's correctness.
+slippage **+0.00 / +0.01**, so there was nothing to give back. **Do not write \
+slippage + SL-driven closes)\n//       bracket intersection over the epoch's clean cycles  (the real estimator:\n//       any constant T must satisfy lo < T <= hi for e
+slippage / execution** | Same entries but consistently worse fills, plus high commission and swap lines, points to broker conditions rather than code. |\n\n## The singl
+slippage `close_price − sl_recorded_price` is **0.00 on all 1,311.** All negative sweep value therefore comes from basket market closes, never from stops.\n- **The tw
+slippage `close_price − sl_recorded_price` is **0.00 on all 1311** SL closures, so `sl_recorded_price` is an exact, uncontaminated measurement of where the ratchet ha
+slippage `close_price − sl_recorded_price` is **0.00 on all 1311** SL closures. All negative sweep value therefore comes from *basket market closes*, never from stops
+slippage `close_price − sl_recorded_price` is **0.00 on all 1311** SL closures. So `sl_recorded_price` is an exact, uncontaminated measurement of where the ratchet ha
+slippage `close_price − sl_recorded_price` is **0.00 on all 1311**. All negative sweep value therefore comes from *basket market closes*, never from stops.\n   - **Th
+slippage `vSweep − vPre`: p05 −18.96, p25 −0.90, p50 +1.40, p75 +10.12, p95 +42.98, min **−409.80**, max +95.72.\n\n   **Carried forward — per-day sweep value
+slippage `vSweep − vPre`: p05 −18.96, p25 −0.90, p50 +1.40, p75 +10.12, p95 +42.98, min **−409.80**, max +95.72; blind window `tDec − tLastEvent` p50 9.0 s, p
+slippage `vSweep − vPre`: p05 −18.96, p25 −0.90, p50 +1.40, p75 +10.12, p95 +42.98, min **−409.80**, max +95.72\n   - **NEW — CENSORED-INTERVAL fitting is the
+slippage accumulates—grouping cycles where all closes fall within the sweep and none are stop-losses. For k=1 through 6 and k≥7, I'll print the count and median ban
+slippage across 6 positions on what appears to be a $5 target on a tiny 0.06-lot book.\n\nThe real fix is to measure the basket value at the last quiet moment before th
+slippage across all 1,311 cases — the close_price matches sl_recorded_price to the cent every time, which is a broker guarantee. This means all the negative sweep val

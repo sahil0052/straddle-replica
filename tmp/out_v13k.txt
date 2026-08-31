@@ -1,0 +1,75 @@
+=== App :67-140 (Custom inputs + plumbing) ===
+input group "Custom Profile"
+// Defaults below are the measured Starwave/Target values, so CUSTOM_PROFILE is
+// a Starwave clone out of the box and only the three tier lots (and N, and the
+// basket target) need touching to reproduce any of the seven lot ladders the
+// operator ran across 119 deployments in Aug 2026:
+//   N30 0.01/0.05/0.20   N30 0.01/0.06/0.15   N30 0.01/0.04/0.12
+//   N30 0.01/0.03/0.10   N20 0.01/0.03/0.10   N20 0.01/0.04/0.15
+//   N20 0.01/0.06/0.15
+// Tier boundaries are floor(N/3)+1 and floor(2N/3)+1 -- verified 71/71 on the
+// N=30 deployments and 45/45 on the N=20 ones, zero exceptions.
+input int CustomLevelsPerSide = 30;
+input ENUM_STR_STEP_MODE CustomStepMode = STR_STEP_ANCHOR_DIVISOR;
+input double CustomStepValue = 3000.0;
+input ENUM_TIMEFRAMES CustomATRTimeframe = PERIOD_M15;
+input int CustomATRPeriod = 17;
+input int CustomTier1End = 10;
+input double CustomLot1 = 0.01;
+input int CustomTier2End = 20;
+input double CustomLot2 = 0.06;
+input double CustomLot3 = 0.15;
+input double CustomLockTriggerSteps = 2.0;
+input double CustomLockOffsetPrice = 0.2;
+input bool CustomActivationUsesTrailingDistance = true;
+input double CustomPreTightenTrailDistanceSteps = 2.0;
+input double CustomTightenTriggerSteps = 3.0;
+input double CustomTrailDistanceSteps = 1.0;
+input double CustomCycleTargetPercent = 0.18;
+input double CustomCycleTargetMoney = 25.0;
+input bool CustomCancelBeforeClose = true;
+input int CustomDeploymentFillCooldownSeconds = 0;
+input int CustomCloseIntervalSeconds = 0;
+input int CustomRestartDelayMs = 2000;
+input int CustomRearmDelaySeconds = 0;
+input bool CustomStopUpdatesOnTimer = false;
+input int CustomStopUpdateIntervalSeconds = 0;
+input int CustomMaxStopUpdatesPerPass = 0;
+input bool CustomStopScanNewestFirst = true;
+// Target EA parity, default ON to match the Starwave binary: the level table
+// holds ONE position ticket per (side,level), so a re-fill overwrites the
+// pointer and the displaced position is never tracked again -- not trailed, not
+// counted in the basket, never swept.  Measured: 153 of 2,468 fills (6.20%)
+// were still open at the end of the window, 0/153 ever received an [sl] order,
+// 0/146 sweeps left the book flat, and 137/137 same-level overlapping pairs
+// have the EARLIER position never closed.  Turn this OFF for a hygienic run
+// that closes everything it opens -- that is a DEVIATION from the Target.
+input bool CustomReplicaOrphanLeak = true;
+
+CStraddleEngine g_engine;
+
+int OnInit()
+  {
+   SRuntimeConfig runtime={};
+   runtime.runtime_mode=RuntimeMode;
+   runtime.symbol=TradeSymbol;
+   runtime.magic=MagicNumber;
+   runtime.replica_mode=ReplicaMode;
+   runtime.start_time=ReplicaStartTime;
+   runtime.inter_order_delay_ms=InterOrderDelayMs;
+   runtime.require_demo_account=RequireDemoAccount;
+   runtime.require_bound_account=RequireBoundAccount;
+   runtime.expected_account_login=ExpectedAccountLogin;
+   runtime.safety_enabled=SafetyEnabled;
+   runtime.max_equity_loss_pct=MaxEquityLossPercent;
+   runtime.max_gross_lots=MaxGrossLots;
+   runtime.max_spread_points=MaxSpreadPoints;
+   runtime.daily_loss_limit=DailyLossLimit;
+   runtime.telemetry_enabled=TelemetryEnabled;
+   runtime.deviation_points=DeviationPoints;
+   runtime.shadow_command_file=ShadowCommandFile;
+   runtime.shadow_ack_file=ShadowAckFile;
+   runtime.shadow_command_max_age_ms=ShadowCommandMaxAgeMs;
+   runtime.allow_shadow_adopt_existing_cycle=
+      AllowShadowAdoptExistingCycle;
+

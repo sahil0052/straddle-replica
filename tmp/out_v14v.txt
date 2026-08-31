@@ -1,0 +1,33 @@
+=== markers ===
+3827:<!-- V10-APPEND -->
+=== doc lines ===
+3856 docs/PARITY_AUDIT_14_VECTOR.md
+=== 2.14 headings ===
+3374:### 2.14 Vector 14 — Race conditions & execution robustness
+3390:#### 2.14.1 Fast ticks cannot accelerate order flow — the timer is the clock
+3436:#### 2.14.2 The head-of-line question, answered by `m_close_skip`
+3511:#### 2.14.3 A rejected close must not be read as "flat"
+3601:#### 2.14.4 The async deal path: idempotent, order-independent, bounded
+3692:#### 2.14.5 The deployment-side race: one retry, then abandonment
+3753:#### 2.14.6 What the tape can and cannot falsify
+3797:#### 2.14.7 V14 verdict
+=== all section headings ===
+8:## 0. Evidence base
+15:### 0.1 The single most important structural fact
+55:### 0.2 Instrument hierarchy (this decided several verdicts)
+69:## 1. Executive parity rating
+97:## 2. Per-vector proof
+99:### 2.1 V1 — Anchor & lattice step geometry — 100.00%
+144:### 2.2 V2 — Deployment cadence & interleave physics — 75.44% raw, 100% of mechanism
+234:### 2.3 V3 — Order metadata & broker protocol invariants — 100.00%
+276:### 2.4 V4 — Two-stage trailing ratchet inversion — 100.00% on both tapes
+442:### 2.5 V5 — Basket liquidation & LIFO close ordering — 33.95% as configured, 95.57% with DIV-6 applied
+738:### 2.6 V6 — Re-arm semantics & per-level memory state — 100.00%
+1213:### 2.7 V7 — Basket money exit evaluator — 100.00% on the predicate, the gate and the reset
+1524:### 2.8 V8 — Cycle restart floor & state machine
+1876:### 2.9 V9 — Lot sizing & tier schedules
+1973:### 2.10 V10 — Trend rescue logic
+2295:### 2.11 V11 — Deal ledger and async trade reconciliation
+2637:### 2.12 V12 — Account and symbol suffix auto-binding
+3088:### 2.13 Vector 13 — Standalone anti-drift verification
+3374:### 2.14 Vector 14 — Race conditions & execution robustness

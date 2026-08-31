@@ -1,0 +1,12 @@
+deal rows total: 35447
+Type   : [('buy', 17728), ('sell', 17714), ('balance', 4), ('', 1)]
+Direct : [('in', 17804), ('out', 17614), ('out by', 24), ('', 5)]
+Symbol : [('XAUUSD', 35442), ('', 5)]
+Commission  nonzero=     0  sum=0.00
+Fee         nonzero=     0  sum=0.00
+Swap        nonzero=   342  sum=-580.16
+Profit      nonzero= 17558  sum=39,926.20
+last 3 rows:
+    2026.07.30 17:23:09.075 3091005 sell out 0.86 [sl 4094.24]
+    2026.07.30 17:23:32.740 3091012 buy in 0.00 STR B4
+        19963.10 

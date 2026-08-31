@@ -14,13 +14,22 @@ void ResetProfile(SProfileConfig &config)
    config.atr_multiplier=0.0;
    config.lock_trigger_steps=2.0;
    config.lock_offset_price=0.2;
-   config.activation_uses_trailing_distance=false;
+   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+   // now sets this true and every one of them is backed by tape (see the
+   // evidence blocks in HISTORICAL_50 and HISTORICAL_60), so the default is
+   // true as well -- a profile added later without the line inherits the law
+   // that the target's binary actually runs instead of the one it does not.
+   // lock_offset_price survives only because SCustomProfileConfig exposes it as
+   // an operator input; with this default it is unreachable on every built-in
+   // path, which is exactly what StopScheduler's comment block predicts.
+   config.activation_uses_trailing_distance=true;
    config.pre_tighten_trail_distance_steps=2.0;
    config.tighten_trigger_steps=3.0;
    config.trail_distance_steps=2.0;
    config.cycle_target_balance_pct=0.18;
    config.cycle_target_money=0.0;
    config.cancel_before_close=false;
+   config.stamp_close_comment=true;
    config.deployment_fill_cooldown_seconds=0;
    config.close_interval_seconds=0;
    config.restart_delay_ms=3000;
@@ -60,6 +69,66 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.atr_period=17;
          config.atr_multiplier=0.10422410545583288;
          config.cycle_target_balance_pct=0.63;
+         // The build that ran this regime sent basket closes with NO comment.
+         // ReportHistory-901018, 2026.06.23 16:17 - 2026.07.02 15:18: 1,392
+         // empty-comment market orders, every one resolving to a DEAL_ENTRY_OUT
+         // deal, and not a single "STR CLOSE" anywhere in the era.
+         config.stamp_close_comment=false;
+         // ---- liquidation phase order, measured (DIV-6) ----------------------
+         // ResetProfile defaults this flag to false, which sends BeginClose()
+         // straight to CYCLE_CLOSING and flattens the basket before cancelling
+         // the surviving pendings.  The tape does the opposite in every era.
+         // tmp/a901_cancel_order.py attributes each cancelled grid pending to a
+         // cycle by its end_time, splits that cycle's basket closes into
+         // liquidation groups at a 60 s gap, takes the terminal group, and
+         // classifies the phase order three ways (mutually exclusive):
+         //
+         //   era               cycles  CANCEL_FIRST  CLOSE_FIRST  INTERLEAVED
+         //   HISTORICAL_50         95            95            0            0
+         //   HISTORICAL_60         72            71            1            0
+         //   AGGRESSIVE_30          2             1            0            1
+         //   LOW_RISK_30            1             1            0            0
+         //   STARWAVE_30          101            91            0           10
+         //
+         // 259 of 271 cycles are strictly cancel-first and exactly ONE is
+         // close-first -- and that one (cycle 169) is a manual operator flatten,
+         // identified by a `close by` order 0.232 s earlier.  PositionCloseBy has
+         // no call site in this EA, so those 12 orders date hand actions
+         // independently of anything being measured here.  Excluding the two
+         // operator sweeps, the four eras that inherited false are 168/168 =
+         // 100.00% cancel-first.  Cross-boundary attribution was checked rather
+         // than assumed: 106 of 19,312 cancels (0.55%) end in a later cycle than
+         // their placement, which cannot manufacture a 168-cycle result.
+         config.cancel_before_close=true;
+         // ---- activation law, measured (DIV-4) -------------------------------
+         // ResetProfile defaults this flag to false, which routes activation
+         // down StopScheduler's "entry+direction*lock_offset_price" branch and
+         // writes the FIRST stop at exactly entry +/- 0.20 price.  Because
+         // every later write must be strictly better (the monotonic returns at
+         // the end of Calculate), that branch makes a hard prediction:
+         // dir*(sl-open) can never be less than 0.20, and 0.20 must be a razor
+         // atom.  ReportHistory-901018 falsifies both for this era:
+         //
+         //   n=4094 positions carrying an S/L, scored with their own cycle step
+         //   dir*(sl-open) strictly inside (0,0.20):  351  (8.57%)  <- forbidden
+         //   minimum dir*(sl-open):                  +0.01
+         //   at 0.19 / 0.20 / 0.21:                   22 / 18 / 17  <- no atom
+         //   dir*(sl-open) < 0:                         0
+         //
+         // 0.20 carries less mass than 0.19 does; the busiest single cent in the
+         // era holds 26.  HISTORICAL_60 repeats it at n=7952: 1,068 inside
+         // (0,0.20), min +0.01, 47/57/55 across 0.19/0.20/0.21.  So the target's
+         // binary activates at the trailing distance, not at a fixed offset.
+         config.activation_uses_trailing_distance=true;
+         // Deliberately NOT setting trail_distance_steps: this era inherits
+         // ResetProfile's 2.0, which equals pre_tighten_trail_distance_steps,
+         // so the tighten ternary picks the same distance on both sides of
+         // tighten_trigger_steps and the two-stage ratchet collapses into a
+         // single-stage 2.0-step trail.  That is what the tape shows -- the
+         // locked-distance histogram has NO structural trough (band [1,2)
+         // holds 951/4094 = 23.23%, and 23.04% for HISTORICAL_60, against
+         // 0/2809 for STARWAVE_30).  Do not copy trail_distance_steps=1.0 here
+         // from the modern profiles; it would carve a trough that isn't there.
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,25,0.03);
          SetLotTier(config,26,50,0.06);
@@ -72,6 +141,30 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.atr_period=44;
          config.atr_multiplier=0.09188197447190301;
          config.cycle_target_balance_pct=0.42;
+         // Same build as HISTORICAL_50, same empty close comment: 1,332
+         // empty-comment DEAL_ENTRY_OUT closes between 2026.07.02 16:28 and
+         // the 2026.07.13 12:28 changeover, zero "STR CLOSE".
+         config.stamp_close_comment=false;
+         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+         // strictly cancel-first and 1 close-first, and the close-first one is
+         // cycle 169 -- a hand flatten with a `close by` 0.232 s before it.  On
+         // the operator-free complement this era is 71/71.  The same probe also
+         // shows the handoff is quantised: over 256 operator-free CANCEL_FIRST
+         // sweeps the lead from last cancel to first close has min 97 ms and
+         // 243/256 = 94.92% inside [95,135) ms -- one OnTimer period, which is
+         // what CancelOneOrder() assigning CYCLE_CLOSING and RETURNING predicts.
+         config.cancel_before_close=true;
+         // DIV-4, same measurement as HISTORICAL_50 and the larger of the two
+         // cohorts: n=7952 positions with an S/L, 1,068 (13.43%) carry
+         // dir*(sl-open) strictly inside (0,0.20) -- unreachable if activation
+         // wrote entry+lock_offset_price -- minimum +0.01, zero negative, and
+         // 0.20 is unremarkable against its neighbours (0.19:47  0.20:57
+         // 0.21:55) where the era's busiest single cent holds 78.
+         config.activation_uses_trailing_distance=true;
+         // As in HISTORICAL_50: trail_distance_steps is left at ResetProfile's
+         // 2.0 on purpose so the ratchet stays single-stage.  Measured band
+         // [1,2) occupancy 1832/7952 = 23.04%, neighbour-density ratio 0.920 --
+         // a smooth distribution with no tighten step in it.
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,45,0.02);
          SetLotTier(config,46,60,0.05);
@@ -82,6 +175,38 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;
          config.anchor_divisor = 6000.0;
          config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, not by direct measurement.  This regime ran for
+         // ~90 minutes on 2026.07.13 (2 deployments, 29 positions with an S/L),
+         // which is far too little to falsify an activation law on its own: 2
+         // raws inside (0,0.20), 1 at 0.20.  But the activation branch is a
+         // single code path in a single binary, and the two eras that bracket
+         // this one -- HISTORICAL_60 before it, STARWAVE_30 after -- both
+         // demand the trailing-distance branch on 7,952 and 2,809 positions
+         // respectively.  Nothing supports the binary switching its activation
+         // rule for 90 minutes and switching back, so it inherits the law.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6, by the same probe and by the same parsimony argument.  This
+         // era authored exactly ONE terminal liquidation of its own (cycle 170)
+         // and it is cancel-first; its other sweep (cycle 171) is a hand flatten
+         // with a `close by` 0.109 s before it, scrambled ticket order and 2 ms
+         // gaps.  n=1 proves nothing alone, but the flag is a single field read
+         // by a single binary and the eras on both sides of this one are 95/95
+         // and 71/71 cancel-first, so it inherits the order.
+         config.cancel_before_close=true;
+         // Resolved, no longer open: 9 of this era's 28 attested S/L positions
+         // score dir*(sl-open) < 0, worst -10.559 steps (-7.18 in PRICE), which
+         // NEITHER activation branch can produce -- substituting a market-
+         // anchored write into its own gate gives locked = favorable - D >= 0
+         // for EVERY market price, so a negative is outside the range of the
+         // function, not an unlikely draw from it.  These nine are OPERATOR-
+         // authored, not an attribution error: the broker-attested [sl X] price
+         // equals the position field to the cent in all 28 rows (so nothing was
+         // stale), re-measuring from the burst lattice clears 0 of 9, solving
+         // each shared-price group for the market it implies passes the gate for
+         // only 0/3, 0/2 and 5-of-9 members (a real broadcast passes for all),
+         // the violating prices are 16x more whole-dollar and 6.6x more
+         // round-10c than the era's population, and two of them sit 0.109 s and
+         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
          SetLotTier(config,1,10,0.08);
          SetLotTier(config,11,20,0.41);
          SetLotTier(config,21,30,0.82);
@@ -92,6 +217,17 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;
          config.anchor_divisor = 3000.0;
          config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+         // positions with an S/L, minimum dir*(sl-open) = +0.20 exactly with a
+         // single position there.  At n=29 on a one-cent price grid that is not
+         // evidence for the fixed-offset branch, and this era's ratchet DOES
+         // show the two-stage trough the modern profiles show (band [1,2)
+         // occupancy 0/29), so it is the same build family as STARWAVE_30.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+         // no operator marker anywhere near it), and it is the same build family
+         // as STARWAVE_30, which carries the flag explicitly.
+         config.cancel_before_close=true;
          SetLotTier(config,1,10,0.01);
          SetLotTier(config,11,20,0.02);
          SetLotTier(config,21,30,0.05);

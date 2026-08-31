@@ -1,0 +1,66 @@
+"""Map the section structure of the dumped MT5 report CSV.
+
+The dump is 107,932 rows because an MT5 "ReportHistory" workbook carries several
+stacked tables (Positions / Orders / Deals) plus a long trailing block of chart
+series data.  This prints every candidate section header and the first rows of
+each so the real tables can be sliced by index.
+"""
+from __future__ import annotations
+
+import csv
+import sys
+from pathlib import Path
+
+SECTION_WORDS = {
+    "positions",
+    "orders",
+    "deals",
+    "results",
+    "summary",
+    "balance",
+    "working orders",
+    "closed transactions",
+    "open positions",
+}
+
+
+def main() -> int:
+    path = Path(sys.argv[1] if len(sys.argv) > 1 else "tmp/report_901018.csv")
+    rows = list(csv.reader(path.open(encoding="utf-8")))
+    print(f"rows={len(rows)}")
+    widths = {}
+    for row in rows:
+        widths[len(row)] = widths.get(len(row), 0) + 1
+    print("width histogram:", dict(sorted(widths.items())))
+    print()
+    print("--- candidate section headers (first non-empty cell matches) ---")
+    for index, row in enumerate(rows):
+        cells = [c.strip() for c in row if c.strip()]
+        if not cells:
+            continue
+--- report_slice ---
+"""Slice the dumped MT5 report into its three tables and print their shapes.
+
+Section index (from tmp/report_map.py):
+    5      'Positions'      header 6      data 7      .. 17638
+    17639  'Orders'         header 17640  data 17641  .. 72382
+    72383  'Deals'          header 72384  data 72385  .. 107831
+    107832 'Open Positions' 107841 'Working Orders' 107919 'Results'
+Boundaries are re-derived here rather than hard-coded so a different export
+still slices correctly.
+"""
+from __future__ import annotations
+
+import csv
+import sys
+from pathlib import Path
+
+SECTIONS = ["Positions", "Orders", "Deals", "Open Positions", "Working Orders", "Results"]
+
+
+def main() -> int:
+    source = Path(sys.argv[1] if len(sys.argv) > 1 else "tmp/report_901018.csv")
+    rows = list(csv.reader(source.open(encoding="utf-8")))
+    marks: dict[str, int] = {}
+    for index, row in enumerate(rows):
+        cells = [c.strip() for c in row if c.strip()]

@@ -1,0 +1,183 @@
+ 220	def build_sweeps(orders):
+ 221	    """Close-family market orders, burst-grouped.  Marker is build-dependent."""
+ 222	    closes = []
+ 223	    for row in orders:
+ 224	        comment = norm(row["Comment"])
+ 225	        when = stamp(row["Open Time"])
+ 226	        if when is None or norm(row["Type"]) not in ("buy", "sell"):
+ 227	            continue
+ 228	        if comment == "":
+ 229	            marker = "<empty>"
+ 230	        elif comment == "STR CLOSE":
+ 231	            marker = "STR CLOSE"
+ 232	        else:
+ 233	            continue
+ 234	        closes.append({"when": when, "marker": marker, "ticket": norm(row["Order"])})
+ 235	    closes.sort(key=lambda item: (item["when"], item["ticket"]))
+ 236	
+ 237	    sweeps = []
+ 238	    current = []
+ 239	    for row in closes:
+ 240	        if current and (row["when"] - current[-1]["when"]).total_seconds() > CLOSE_BURST_GAP_S:
+ 241	            sweeps.append(current)
+ 242	            current = []
+ 243	        current.append(row)
+ 244	    if current:
+ 245	        sweeps.append(current)
+ 246	    return sweeps
+ 247	
+ 248	
+ 249	def cancel_times(orders):
+ 250	    """(cancel time) for every lattice pending the terminal reports as canceled."""
+ 251	    out = []
+ 252	    for row in orders:
+ 253	        if "cancel" not in norm(row["State"]).lower():
+ 254	            continue
+ 255	        if parse_level(row["Comment"]) is None:
+ 256	            continue
+ 257	        when = stamp(row["Time"])
+ 258	        if when is not None:
+ 259	            out.append(when)
+ 260	    out.sort()
+ 261	    return out
+ 262	def classify_sweeps(sweeps, deployments):
+ 263	    """Correction (B): the TERMINAL sweep of a cycle is its LAST close burst
+ 264	    before the next deployment starts.  Everything else that cycle fired is
+ 265	    interim -- a partial or aborted close, which is what the orphan leak
+ 266	    predicts and what D8 has to account for."""
+ 267	    starts = [record["when"] for record in deployments]
+ 268	    grouped = collections.defaultdict(list)
+ 269	    for sweep in sweeps:
+ 270	        first = sweep[0]["when"]
+ 271	        index = -1
+ 272	        for i, when in enumerate(starts):
+ 273	            if when <= first:
+ 274	                index = i
+ 275	            else:
+ 276	                break
+ 277	        grouped[index].append(sweep)
+ 278	
+ 279	    terminal, interim = [], []
+ 280	    for index, bursts in grouped.items():
+ 281	        bursts.sort(key=lambda burst: burst[0]["when"])
+ 282	        cycle = deployments[index] if index >= 0 else None
+ 283	        for burst in bursts[:-1]:
+ 284	            interim.append((burst, cycle))
+ 285	        terminal.append((bursts[-1], cycle))
+ 286	    terminal.sort(key=lambda item: item[0][0]["when"])
+ 287	    interim.sort(key=lambda item: item[0][0]["when"])
+ 288	    silent = [i for i in range(len(deployments)) if i not in grouped]
+ 289	    return terminal, interim, silent
+ 290	def new_bucket():
+ 291	    return {
+ 292	        "sweeps": 0, "orders": 0, "one_leg": 0, "cancel_ok": 0,
+ 293	        "lifo_pairs": 0, "lifo_ok": 0, "lifo_tied": 0,
+ 294	        "lifo_sweeps": 0, "lifo_clean": 0,
+ 295	        "gaps": [], "matched": 0, "sl_inside": 0,
+ 296	        "realized": [], "pre_realized": [], "restart": [], "legs": [],
+ 297	    }
+ 298	
+ 299	
+ 300	def score(labelled, positions, cancels, starts):
+ 301	    """Accumulate V5/V7/V8 over a list of (burst, cycle) pairs."""
+ 302	    per_era = collections.defaultdict(new_bucket)
+ 303	    for sweep, cycle in labelled:
+ 304	        first, last = sweep[0]["when"], sweep[-1]["when"]
+ 305	        era = str(cycle["assigned"]) if cycle else "before-first-deployment"
+ 306	        bucket = per_era[era]
+ 307	        bucket["sweeps"] += 1
+ 308	        bucket["orders"] += len(sweep)
+ 309	        bucket["legs"].append(len(sweep))
+ 310	        if len(sweep) == 1:
+ 311	            bucket["one_leg"] += 1
+ 312	
+ 313	        # cancel_before_close: a lattice pending cancelled in the 10 s window
+ 314	        # that ends at this sweep's first close.
+ 315	        window_lo = first.timestamp() - 10.0
+ 316	        if any(window_lo <= when.timestamp() <= first.timestamp() for when in cancels):
+ 317	            bucket["cancel_ok"] += 1
+ 318	
+ 319	        for a, b in zip(sweep, sweep[1:]):
+ 320	            bucket["gaps"].append((b["when"] - a["when"]).total_seconds() * 1000.0)
+ 321	
+ 322	        # LIFO over the positions that closed inside the burst window, with stop
+ 323	        # exits removed by the corrected discriminator.
+ 324	        closed_here = []
+ 325	        for row in positions:
+ 326	            if row["closed"] < first:
+ 327	                continue
+ 328	            if row["closed"] > last:
+ 329	                break
+ 330	            if is_sl_exit(row):
+ 331	                bucket["sl_inside"] += 1
+ 332	                continue
+ 333	            closed_here.append(row)
+ 334	        bucket["matched"] += len(closed_here)
+ 335	        order = sorted(closed_here, key=lambda item: (item["closed"], -item["ticket"]))
+ 336	        pairs = list(zip(order, order[1:]))
+ 337	        tied = sum(1 for a, b in pairs if a["closed"] == b["closed"])
+ 338	        good = sum(1 for a, b in pairs
+ 339	                   if a["closed"] != b["closed"] and b["ticket"] < a["ticket"])
+ 340	        bucket["lifo_pairs"] += len(pairs) - tied
+ 341	        bucket["lifo_ok"] += good
+ 342	        bucket["lifo_tied"] += tied
+ 343	        if len(pairs) - tied > 0:
+ 344	            bucket["lifo_sweeps"] += 1
+ 345	            if good == len(pairs) - tied:
+ 346	                bucket["lifo_clean"] += 1
+ 347	
+ 348	        if cycle is not None:
+ 349	            bucket["realized"].append(sum(
+ 350	                row["profit"] for row in positions
+ 351	                if cycle["when"] <= row["closed"] <= last))
+ 352	            bucket["pre_realized"].append(sum(
+ 353	                row["profit"] for row in positions
+ 354	                if cycle["when"] <= row["closed"] < first))
+ 355	
+ 356	        nxt = next((when for when in starts if when > last), None)
+ 357	        if nxt is not None:
+ 358	            bucket["restart"].append((nxt - last).total_seconds())
+ 359	    return per_era
+ 360	def print_v5(per_era, title):
+ 361	    print(f"=== V5 basket liquidation -- {title} ===")
+ 362	    for era in eras_present(per_era):
+ 363	        b = per_era[era]
+ 364	        cancel_pct = 100.0 * b["cancel_ok"] / b["sweeps"] if b["sweeps"] else 0.0
+ 365	        lifo_pct = 100.0 * b["lifo_ok"] / b["lifo_pairs"] if b["lifo_pairs"] else 0.0
+ 366	        print(f"  {era:14s} sweeps={b['sweeps']:4d} close_orders={b['orders']:5d} "
+ 367	              f"singletons={b['one_leg']:4d} matched_positions={b['matched']:5d} "
+ 368	              f"sl_inside={b['sl_inside']:5d}")
+ 369	        print(f"      cancel_before_close={b['cancel_ok']}/{b['sweeps']} "
+ 370	              f"({cancel_pct:6.2f}%)   "
+ 371	              f"LIFO pairs={b['lifo_ok']}/{b['lifo_pairs']} ({lifo_pct:6.2f}%) "
+ 372	              f"tied={b['lifo_tied']}  clean={b['lifo_clean']}/{b['lifo_sweeps']}")
+ 373	        if b["gaps"]:
+ 374	            print(f"      inter-close ms  p05={pct(b['gaps'],0.05):7.1f} "
+ 375	                  f"p50={pct(b['gaps'],0.50):7.1f} p95={pct(b['gaps'],0.95):7.1f} "
+ 376	                  f"min={min(b['gaps']):7.1f} n={len(b['gaps'])}")
+ 377	        if b["legs"]:
+ 378	            print(f"      legs per sweep  p05={pct(b['legs'],0.05):4.0f} "
+ 379	                  f"p50={pct(b['legs'],0.50):4.0f} p95={pct(b['legs'],0.95):4.0f} "
+ 380	                  f"max={max(b['legs']):4d}")
+ 381	    print()
+ 382	
+ 383	
+ 384	def print_v7(per_era, title):
+ 385	    print(f"=== V7 cycle realized at sweep completion -- {title} ===")
+ 386	    for era in eras_present(per_era):
+ 387	        values = per_era[era]["realized"]
+ 388	        pre = per_era[era]["pre_realized"]
+ 389	        if not values:
+ 390	            continue
+ 391	        print(f"  {era:14s} n={len(values):4d} p05={pct(values,0.05):9.2f} "
+ 392	              f"p25={pct(values,0.25):9.2f} p50={pct(values,0.50):9.2f} "
+ 393	              f"p75={pct(values,0.75):9.2f} p95={pct(values,0.95):9.2f} "
+ 394	              f"min={min(values):9.2f} max={max(values):9.2f}")
+ 395	        print(f"      negative={sum(1 for v in values if v < 0.0)}  "
+ 396	              f">=25={sum(1 for v in values if v >= 25.0)} "
+ 397	              f">=20={sum(1 for v in values if v >= 20.0)} "
+ 398	              f">=10={sum(1 for v in values if v >= 10.0)}   "
+ 399	              f"pre-sweep realized p50={pct(pre,0.50):9.2f}")
+ 400	    print()
+ 401	
+ 402	

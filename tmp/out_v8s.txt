@@ -1,0 +1,34 @@
+=== enum ===
+38:   CYCLE_IDLE = 0,
+39:   CYCLE_DEPLOYING = 1,
+40:   CYCLE_RUNNING = 2,
+41:   CYCLE_CLOSING = 3,
+42:   CYCLE_CANCELING = 4,
+43:   CYCLE_RESTARTING = 5,
+
+=== state assignments in engine ===
+1006:         m_state=CYCLE_RESTARTING;
+1052:         m_state=CYCLE_CLOSING;
+1055:         m_state=CYCLE_CANCELING;
+1057:         m_state=CYCLE_RUNNING;
+1881:      m_state=CYCLE_DEPLOYING;
+1918:      m_state=CYCLE_IDLE;
+1931:         m_state=CYCLE_CANCELING;
+1933:         m_state=CYCLE_CLOSING;
+2044:      m_state=CYCLE_DEPLOYING;
+2092:            m_state=CYCLE_RESTARTING;
+2099:         m_state=CYCLE_RUNNING;
+2763:      if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
+2772:      m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);
+2947:            m_state=CYCLE_CANCELING;
+2954:         m_state=CYCLE_RESTARTING;
+2960:         m_state=CYCLE_CANCELING;
+2989:            m_state=CYCLE_CLOSING;
+3001:         m_state=CYCLE_CLOSING;
+3009:         m_state=CYCLE_HALTED;
+3019:         m_state=CYCLE_RESTARTING;
+3124:      m_state=CYCLE_IDLE;
+3263:       m_state=CYCLE_IDLE;
+3406:       if(m_state==CYCLE_IDLE)
+3814:               m_state=CYCLE_IDLE;
+3847:      if(m_state==CYCLE_RUNNING || m_state==CYCLE_DEPLOYING)

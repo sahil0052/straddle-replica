@@ -1,0 +1,25 @@
+=== DIV- mentions in doc ===
+74:| V2 | Deployment cadence & interleave | **75.44% raw → 100% of mechanism** | 215/285 raw | divergence found, **fixed** (DIV-5) |
+88:**One genuine unimplemented Target behaviour survives the audit: DIV-2** (`STR AVB` /
+181:interleave in all 285 bursts. This is **DIV-5**.
+386:(DIV-4). Single-stage gives `locked = F − 2.0` for all `F >= 2.0`, i.e. `[0, ∞)` continuous with
+442:### 2.5 V5 — Basket liquidation & LIFO close ordering — 33.95% as configured, 95.57% with DIV-6 applied
+449:| `cancel_before_close=true` strictly? | **DIVERGENT (DIV-6)** — the Target is cancel-first in *every* era; the replica inherits `false` on four of twelve profiles | 271 cycles with ≥1 close |
+497:#### 2.5.2 DIV-6 — `cancel_before_close` is wrong on four profiles
+534:§4.2, registered as DIV-6 in §3.11. No engine change: `BeginClose()` already implements both
+638:eligible, never the order they are retired in**, which is why DIV-6 and the orphan-leak switch
+727:DIV-6's four lines applied, **259 of 271 = 95.57%** are strictly cancel-first as configured, and the
+734:four eras DIV-6 repairs, EA-authored cycles are **168 of 168 = 100.00%** cancel-first.
+1713:and they implement exactly these two semantics on the two paths DIV-6 distinguishes.** `CloseOnePosition()`
+1740:`STARWAVE_30` rows (9 pre-break + 1 post-break), and DIV-6's census (`ProfileCatalog.mqh:88-101`) puts exactly
+1747:at least one DIV-6 non-cancel-first cycle has no post-flat cancel at all. Cross-tabulating those four `flat`
+1748:timestamps against the per-cycle DIV-6 classification would upgrade this from best-fitting mechanism to proof;
+2559:0.02+0.12+0.30 = 28 rows coincides numerically with DIV-2's `STR AVB`/`STR AVS` count (n=28)
+3212:| `ProfileCatalog.mqh:17` | `:263` | `// DIV-4: measured law, not a neutral default. …` |
+3230:target in its catalogue site, its `CUSTOM_PROFILE` site and its evaluator site; the DIV-4 activation
+3458:| `:2901-2902` | `if(OrphanLeakActive()) return TryCloseOneTrackedPosition();` | leak-mode dispatch (DIV-6) |
+3502:The same logic exists twice, because DIV-6 gave the engine two sweeps. `TryCloseOneTrackedPosition()`
+3576:`PositionsTotal()`), so the 153 orphans DIV-6 documents cannot pin the engine in `CYCLE_RESTARTING`
+3599:cursor are pinned together because DIV-6 changed the direction and could have dropped the cursor.
+3695:the Target did on its 5 skipped interior levels — was answered as skip-and-advance, and DIV-5 implemented
+3783:the book flat: DIV-6's orphan census — **153 orphans, 148 of which survived at least one complete sweep,

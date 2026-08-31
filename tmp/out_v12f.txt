@@ -1,0 +1,32 @@
+=== doc marker + length ===
+2665 docs/PARITY_AUDIT_14_VECTOR.md
+2636:<!-- V10-APPEND -->
+
+=== executive V12 row ===
+83:| V11 | Deal ledger & async reconciliation | **100.00% of mechanism**; 1 micro-divergence flagged | 35,447 deals / 54,742 orders / 17,632 positions | money identity **exact to the cent** vs the broker footer (delta $0.00); 0 duplicate deal tickets; Finding V11-A whole-second cycle boundary 5/284 = 1.76%, see §2.11 |
+84:| V12 | Account & symbol suffix binding | **100.00%** | 2 symbols (`XAUUSD`, `XAUUSD.u`) | identity proven |
+
+=== app: TradeSymbol input + assignment ===
+36:input string TradeSymbol = "";
+116:   runtime.symbol=TradeSymbol;
+
+=== engine: _Symbol fallback ===
+3168:      if(m_runtime.symbol=="")
+3169:         m_runtime.symbol=_Symbol;
+
+=== engine: ContractScale defn + call sites ===
+1244:      double scale=ContractScale();
+1521:   double ContractScale(void) const
+3445:       double scale=ContractScale();
+--- standalone ---
+2944:      double scale=ContractScale();
+3221:   double ContractScale(void) const
+5145:       double scale=ContractScale();
+
+=== standalone: TradeSymbol / _Symbol ===
+mql5/ProfitBricks2K.mq5:4869:         m_runtime.symbol=_Symbol;
+mql5/ProfitBricks2K.mq5:5598:input string TradeSymbol = "";
+mql5/ProfitBricks2K.mq5:5678:   runtime.symbol=TradeSymbol;
+mql5/ProfitBricks2K_AllInOne.mq5:4869:         m_runtime.symbol=_Symbol;
+mql5/ProfitBricks2K_AllInOne.mq5:5598:input string TradeSymbol = "";
+mql5/ProfitBricks2K_AllInOne.mq5:5678:   runtime.symbol=TradeSymbol;

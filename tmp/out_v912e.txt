@@ -1,0 +1,21 @@
+=== deals header + 2 rows ===
+Time,Deal,Symbol,Type,Direction,Volume,Price,Order,Commission,Fee,Swap,Profit,Balance,Comment,
+2026.06.12 12:20:49.599,2327976,,balance,,,,,0,0,0,0.00,0.00,Initial balance from CRM,
+2026.06.19 17:13:39.962,2338845,,balance,,,,,0,0,0,2000.00,2000.00,Deposit from #USDT TRC20,
+
+=== positions header ===
+Time,Position,Symbol,Type,Volume,Price,S / L,T / P,Time,Price,Commission,Swap,Profit,,
+2026.06.23 16:17:39.674,20175420,XAUUSD,sell,0.01,4135.80,4135.53,,2026.06.23 16:18:34.403,4135.53,0.00,0.00,0.27,,
+
+=== orders header ===
+Open Time,Order,Symbol,Type,Volume,Price,S / L,T / P,Time,State,,Comment,,,
+2026.06.23 16:17:27.956,20175419,XAUUSD,buy stop,0.01 / 0.01,4138.04,,,2026.06.23 16:19:09.167,filled,,STR B1,,,
+
+=== a901_eras exports ===
+48:def norm(value: str | None) -> str:
+52:def stamp(text: str) -> datetime | None:
+59:def parse_level(comment: str):
+66:def parse_volume(text: str) -> float:
+71:def load_orders() -> list[dict]:
+72:    return list(csv.DictReader(Path("tmp/r901018_orders.csv").open(encoding="utf-8")))
+75:def main() -> int:

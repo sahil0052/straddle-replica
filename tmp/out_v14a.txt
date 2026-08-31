@@ -1,0 +1,61 @@
+=== helper defs ===
+1797:LEAK_PROFILES = (
+1807:NO_LEAK_PROFILES = ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30")
+1810:def profile_case_bodies(text: str) -> dict[str, str]:
+1826:def function_body(text: str, signature: str) -> str:
+
+=== profile_case_bodies body ===
+def profile_case_bodies(text: str) -> dict[str, str]:
+    """Split LoadProfileConfig's switch into {profile name: case body}."""
+    switch = text.split("bool LoadProfileConfig(", 1)[1]
+    labels = [name for name in LEAK_PROFILES + NO_LEAK_PROFILES] + ["CUSTOM_PROFILE"]
+    positions = sorted(
+        (switch.index(f"case {name}:"), name)
+        for name in labels
+        if f"case {name}:" in switch
+    )
+    bodies = {}
+    for index, (start, name) in enumerate(positions):
+        end = positions[index + 1][0] if index + 1 < len(positions) else len(switch)
+        bodies[name] = switch[start:end]
+    return bodies
+
+
+def function_body(text: str, signature: str) -> str:
+    """The braced body that follows `signature`, found by brace counting.
+
+    Splitting on a fixed indented "\\n  }" is not safe in these sources: the
+    modular includes use 3-space class members with 5-space bodies while the
+    standalone concatenation preserves that, and several bodies contain nested
+    blocks at the same indentation.  Counting braces is indentation-agnostic.
+    """
+    assert signature in text, f"missing signature: {signature}"
+    cursor = text.index(signature) + len(signature)
+    start = text.index("{", cursor)
+    depth = 0
+    for index in range(start, len(text)):
+        if text[index] == "{":
+            depth += 1
+
+=== LEAK_PROFILES block ===
+LEAK_PROFILES = (
+    "JUNE_2K",
+    "LATEST_30",
+    "STARWAVE_30",
+    "STARWAVE_20",
+    "STARWAVE_30_HIGH",
+    "STARWAVE_30_MID",
+    "STARWAVE_20_WIDE",
+    "STARWAVE_20_LIGHT",
+)
+NO_LEAK_PROFILES = ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30")
+
+
+def profile_case_bodies(text: str) -> dict[str, str]:
+    """Split LoadProfileConfig's switch into {profile name: case body}."""
+    switch = text.split("bool LoadProfileConfig(", 1)[1]
+    labels = [name for name in LEAK_PROFILES + NO_LEAK_PROFILES] + ["CUSTOM_PROFILE"]
+    positions = sorted(
+        (switch.index(f"case {name}:"), name)
+        for name in labels
+        if f"case {name}:" in switch

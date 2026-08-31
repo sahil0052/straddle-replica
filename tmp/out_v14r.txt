@@ -1,0 +1,43 @@
+=== deal-race helpers ===
+68:   int               m_pending_deal_count;
+1647:   bool DealMetadataReady(const ulong deal_ticket) const
+3151:        m_pending_deal_count=0;
+3414:          if(m_pending_deal_count>0)
+3539:   int PendingDealIndex(const ulong deal_ticket) const
+3541:      for(int index=0;index<m_pending_deal_count;index++)
+3547:   void RemovePendingDealAt(const int remove_index)
+3549:      if(remove_index<0 || remove_index>=m_pending_deal_count)
+3551:      for(int index=remove_index;index<m_pending_deal_count-1;index++)
+3553:      m_pending_deal_count--;
+3554:      m_pending_deal_tickets[m_pending_deal_count]=0;
+3557:   void QueuePendingDeal(const ulong deal_ticket)
+3563:      if(m_pending_deal_count>=STR_PENDING_DEAL_CAPACITY)
+3571:      m_pending_deal_tickets[m_pending_deal_count]=deal_ticket;
+3572:      m_pending_deal_count++;
+3731:   void ProcessPendingDeals(void)
+3734:      while(index<m_pending_deal_count)
+3764:             if(m_pending_deal_count>0)
+
+=== deploy pacing ===
+46:   datetime          m_last_entry_fill_at;
+943:      m_last_entry_fill_at=(
+1094:          (double)m_last_entry_fill_at
+1391:      FileWrite(handle,"runtime_inter_order_delay_ms",
+1392:                m_runtime.inter_order_delay_ms);
+1444:      FileWrite(handle,"profile_deployment_fill_cooldown_seconds",
+1445:                m_profile.deployment_fill_cooldown_seconds);
+1877:      m_last_entry_fill_at=0;
+2041:      m_last_entry_fill_at=0;
+2059:   void DeployOne(void)
+2068:      // out one inter_order_delay_ms after the last first-pass leg (110/113/111/
+2105:      if(m_profile.deployment_fill_cooldown_seconds>0 &&
+2106:         m_last_entry_fill_at>0 &&
+2107:         TimeCurrent()-m_last_entry_fill_at<m_profile.deployment_fill_cooldown_seconds)
+2176:      //     inter_order_delay_ms tick (110/113/111/111/117/116 ms), not the ~12 s
+2661:      if(m_profile.deployment_fill_cooldown_seconds>0 &&
+2662:         m_last_entry_fill_at>0 &&
+2663:         TimeCurrent()-m_last_entry_fill_at<
+2664:            m_profile.deployment_fill_cooldown_seconds)
+3139:      m_last_entry_fill_at=0;
+3378:      int timer_ms=MathMax(20,m_runtime.inter_order_delay_ms);
+3658:         m_last_entry_fill_at=(datetime)(deal_time_msc/1000);

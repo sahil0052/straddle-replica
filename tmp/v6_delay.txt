@@ -1,0 +1,6 @@
+   bool RearmDelayElapsed(const SLevelState &level_state) const
+     {
+      return(level_state.rearm_after_msc<=0 ||
+             !(CurrentServerMs()<level_state.rearm_after_msc));
+     }
+

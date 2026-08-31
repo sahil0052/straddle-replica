@@ -1,0 +1,50 @@
+=== per-file counts ===
+........................................................................ [ 85%]
+............                                                             [100%]
+84 passed in 0.48s
+.............                                                            [100%]
+13 passed in 0.05s
+
+=== :1185-1198 ===
+at `StraddleEngine.mqh:2296-2310` previously cited "1,797 mid-cycle re-arms … 99.4%" — a Starwave-tape
+number superseded by the 901018 result — and now records the measured accounting, the per-slot memory
+result, the 0.93% re-anchoring refutation and the ~35-step observation. Before editing I grepped
+`tests/` and `mql5/` for the comment's substrings (nothing asserts on them) and confirmed no test pins
+the standalone hash (`tools/bundle_standalone.py:119` computes it; nothing asserts it). Both standalones
+were regenerated and the contract suite re-run: `mql5/ProfitBricks2K.mq5` and
+`mql5/ProfitBricks2K_AllInOne.mq5` are byte-identical at **234,219 bytes / 5,754 lines /
+`2d2fe9bb0d272406`**, and `tests/test_mql5_contract.py` is **84 passed**. No behavioural line changed —
+this vector required no code fix, because the structural argument of §2.6.1 was already satisfied.
+
+**V6 verdict.** Both halves of the directive's question are **identical**, with no divergence to fix.
+Of 12,443 grid pendings that are not deployment-burst legs, 1,091 belong to ten deployment bursts the
+forensic cycle segmenter merged into an open cycle, and **all 11,352 true re-arms return to their
+level's exact original lattice price — 11,058 to the cycle's recorded burst slot and 294 to the same
+
+=== marker + doc len ===
+3036 docs/PARITY_AUDIT_14_VECTOR.md
+3007:<!-- V10-APPEND -->
+
+=== app :18-32 after edit ===
+//
+// This modular build's un-overridden defaults reproduce the Starwave / Target
+// account (a standalone that pins the macros above ships different ones):
+//   Profile     = STARWAVE_30  (N=30/side, step=round(anchor/3000,2),
+//                               lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30,
+//                               ratchet L=2 Dpre=2 Tt=3 D=1, cancel-then-close,
+//                               cycle_target_money=26.5, restart_delay_ms=2000)
+//                              The money target is authoritative in
+//                              ProfileCatalog.mqh (case STARWAVE_30); this
+//                              summary previously said 25, which no profile uses.
+//   MagicNumber = 26011001     measured on all 10,844 EA-authored rows of
+//                              Starwave_60542_orders_history.csv; the other 19
+//                              rows are magic 0 manual operator closes.
+#ifndef STR_DEFAULT_MAGIC
+   #define STR_DEFAULT_MAGIC 26011001
+
+=== standalone copy ===
+mql5/ProfitBricks2K.mq5:5586://                               cycle_target_money=26.5, restart_delay_ms=2000)
+mql5/ProfitBricks2K_AllInOne.mq5:5586://                               cycle_target_money=26.5, restart_delay_ms=2000)
+mql5/ProfitBricks2K.mq5:0
+mql5/ProfitBricks2K_AllInOne.mq5:0
+mql5/include/StraddleReplicaApp.mqh:0

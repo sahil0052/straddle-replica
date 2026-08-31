@@ -1,0 +1,47 @@
+=== bundler --check (pre-fix) ===
+OK      mql5\ProfitBricks2K.mq5  234219 chars  2d2fe9bb0d272406
+OK      mql5\ProfitBricks2K_AllInOne.mq5  234219 chars  2d2fe9bb0d272406
+CHECK OK - both standalones match mql5/include
+exit=0
+
+=== standalone header (first 40 lines of ProfitBricks2K.mq5) ===
+//+------------------------------------------------------------------+
+//|                                              ProfitBricks2K.mq5 |
+//|                                  Copyright 2026, Antigravity Team |
+//|                                https://github.com/sahil0052      |
+//+------------------------------------------------------------------+
+#property copyright "Copyright 2026, Antigravity StraddleReplica Team"
+#property link      "https://github.com/sahil0052/straddle-replica"
+#property version   "1.00"
+#property description "ProfitBricks 2K - Standalone All-In-One EA (June 2026 $2k Scalper)"
+#property description "Calibrated for $2k-$5k capital: 0.01 (L1-15), 0.03 (L16-25), 0.06 (L26-30), 0s instant trailing stops."
+
+#define STR_REQUIRE_DEMO_DEFAULT false
+#define STR_REQUIRE_BOUND_DEFAULT false
+#define STR_SAFETY_ENABLED_DEFAULT false
+#define STR_DEFAULT_PROFILE JUNE_2K
+// This standalone is the June-2026 $2k artifact, so it pins both the profile
+// and the magic of that regime (account 901018).  The shared modular build
+// defaults to STARWAVE_30 / 26011001 instead -- see StraddleReplicaApp.mqh.
+#define STR_DEFAULT_MAGIC 901018
+
+
+
+// ====================================================================
+// SECTION: StraddleTypes.mqh
+// ====================================================================
+
+#ifndef STRADDLE_REPLICA_TYPES_MQH
+#define STRADDLE_REPLICA_TYPES_MQH
+
+#define STR_MAX_LEVELS 60
+
+enum ENUM_STR_PROFILE
+  {
+   HISTORICAL_50 = 0,
+   HISTORICAL_60 = 1,
+   AGGRESSIVE_30 = 2,
+   LOW_RISK_30 = 3,
+   LATEST_30 = 4,
+   CUSTOM_PROFILE = 5,
+   JUNE_2K = 6,

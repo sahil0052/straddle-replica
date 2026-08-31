@@ -123,15 +123,27 @@ public:
       // (CV 0.6051 vs 0.6057 on Starwave, whose steps only span 1.49-1.56;
       // 0.5375 vs 0.6875 on the 901018 cohort whose steps span 0.37-0.50+,
       // where the test has real power).  So activation_uses_trailing_distance is
-      // TRUE for the target, and lock_offset_price is dead code on every modern
-      // profile (JUNE_2K, LATEST_30, STARWAVE_30, STARWAVE_20 all set the flag).
+      // TRUE for the target, and lock_offset_price is now dead code on EVERY
+      // built-in profile: the ReportHistory-901018 tape settles the two eras
+      // that used to inherit the false branch (DIV-4).  Scored with each cycle's
+      // own step over all positions carrying an S/L, dir*(sl-open) lands
+      // strictly inside (0,0.20) -- a region the false branch cannot reach,
+      // since it writes 0.20 first and only ever improves -- for 351 of
+      // HISTORICAL_50's 4,094 and 1,068 of HISTORICAL_60's 7,952, both with a
+      // minimum of +0.01 and no atom at 0.20 (0.19/0.20/0.21 = 22/18/17 and
+      // 47/57/55).  ProfileCatalog's ResetProfile therefore defaults the flag to
+      // true, and the false branch below survives only as a CUSTOM_PROFILE
+      // operator escape hatch.
       // Starwave activation overshoot, offsets under 0.5 step, n=289:
       // p10 +0.058 / p50 +0.226 / p90 +0.455 steps, and 0 at exact breakeven --
       // same strictly-positive polling signature as the Target, just slower.
       //
-
-      // That would fill the (1.0,2.0) band and is directly falsified by the
-      // measurement above.
+      // A single-stage 1.0-step trail is ruled out for the modern profiles by
+      // the same locked-distance histogram: it would fill the (1.0,2.0) band,
+      // and STARWAVE_30 puts 0 of 2,809 positions in [1.00,1.98).  The two ATR
+      // profiles are the opposite case -- they inherit pre_tighten == trail ==
+      // 2.0, which collapses the ternary into a single-stage 2.0-step trail, and
+      // their bands are correspondingly smooth (23.23% and 23.04% in [1,2)).
       // ---------------------------------------------------------------------
 
       // Gate: no stop exists until price has moved favorably by

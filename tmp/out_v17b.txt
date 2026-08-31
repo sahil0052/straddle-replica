@@ -1,0 +1,23 @@
+=== lines ===
+5117
+=== marker count ===
+1
+=== all top-level headings ===
+8:## 0. Evidence base
+69:## 1. Executive parity rating
+97:## 2. Per-vector proof
+3829:## 3. Findings register
+4480:## 4. Exact diffs
+4918:## 5. Open items
+5057:## 6. Verification state at the close of this audit
+=== sec5/6 headings ===
+4493:### 4.1 DIV-2 — `STR AVB` / `STR AVS` averaging legs — RECONSTRUCTION
+4652:### 4.2 DIV-6 — liquidation phase order — APPLIED
+4703:### 4.3 V8-A — `LATEST_30` restart delay — PROPOSED, **NOT APPLIED** (and refuted)
+4745:### 4.4 V8-B — `JUNE_2K` restart delay — PROPOSED AND **ARGUED AGAINST**
+4803:### 4.5 Finding V12-A — the `CUSTOM_PROFILE` basket target — **APPLIED**, three diffs
+4863:### 4.6 What licenses **no** diff
+4943:### 5.1 Needs new evidence — the two questions the tape structurally cannot answer
+4968:### 5.2 Needs analysis — questions the existing tape could decide
+5016:### 5.3 Instruments and housekeeping
+5043:### 5.4 The boundary

@@ -1,0 +1,50 @@
+=== test names 380..480 ===
+409: def test_flatten_sweep_walks_the_position_list_newest_first():
+450: def test_alignment_hold_blocks_any_cycle_start_until_release():
+469: def test_flat_detection_bypasses_position_close_interval():
+
+=== 425..470 body ===
+425:     17,632 positions and 100.0% of the 1,097 post-break ones) and finds median
+426:     rho(close order, level) = -0.086 over 219 pre-break sweeps and -0.400 over 29
+427:     post-break, with outer-first sweeps outnumbering inner-first 13 to 2 in the
+428:     post-break regime.  There is no ascending rule to match; if anything the sign
+429:     points the other way.  This test pins the direction that IS measured.
+430:     """
+431:     engine = ENGINE.read_text(encoding="utf-8")
+432: 
+433:     body = engine.split("bool TryCloseOneOwnedPosition(void)", 1)[1].split(
+434:         "void CloseOnePosition(void)", 1
+435:     )[0]
+436:     assert "for(int index=PositionsTotal()-1;index>=0;index--)" in body, (
+437:         "the flatten sweep must walk the position list DESCENDING (newest first / "
+438:         "LIFO); the Target's inversion rate is 0.983 post-break with 0 of 29 "
+439:         "sweeps in open order -- see tools/forensics/sweep_lifo.py"
+440:     )
+441:     assert "for(int index=0;index<PositionsTotal();index++)" not in body, (
+442:         "an ascending walk makes the sweep FIFO, which the Target does not do"
+443:     )
+444:     # The anti-stall cursor must survive the direction, otherwise a quote-rejected
+445:     # ticket blocks the basket instead of costing one pacing interval.
+446:     assert "if(owned<=m_close_skip)" in body
+447:     assert "m_close_skip++" in body
+448: 
+449: 
+450: def test_alignment_hold_blocks_any_cycle_start_until_release():
+451:     engine = ENGINE.read_text(encoding="utf-8")
+452: 
+453:     assert "string AlignmentHoldFileName(void) const" in engine
+454:     assert "bool AlignmentHoldActive(void) const" in engine
+455:     assert 'LogLifecycleEvent("alignment_hold"' in engine
+456:     assert 'LogLifecycleEvent("alignment_release"' in engine
+457:     idle_handler = engine.split("void OnTick(void)", 1)[1].split(
+458:         "void OnTimer(void)",
+459:         1,
+460:     )[0]
+461:     restart_handler = engine.split("case CYCLE_RESTARTING:", 1)[1].split(
+462:         "case CYCLE_HALTED:",
+463:         1,
+464:     )[0]
+465:     assert "AlignmentHoldActive()" in idle_handler
+466:     assert "AlignmentHoldActive()" in restart_handler
+467: 
+468: 

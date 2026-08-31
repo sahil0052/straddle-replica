@@ -1,0 +1,36 @@
+=== exact line numbers ===
+1191:   string EventSide(const string level_key,const string comment) const
+1564:          if(IsHistoricalProfile() && !level_state.recovery_done)
+1542:   bool IsHistoricalProfile(void) const
+1575:             string recovery_comment=(level_state.is_buy ? "STR ORB" : "STR ORS");
+1548:   bool PlaceLevel(SLevelState &level_state)
+2894:   string CloseComment(void) const
+75:   bool              stamp_close_comment;
+2156:def test_basket_close_comment_is_per_profile_and_empty_for_the_atr_builds():
+2195:def test_both_close_sites_route_through_the_profile_close_comment():
+
+=== IsHistoricalProfile body ===
+1542:   bool IsHistoricalProfile(void) const
+1543-     {
+1544-      return(m_profile.profile==HISTORICAL_50 ||
+1545-             m_profile.profile==HISTORICAL_60);
+1546-     }
+1547-
+1548-   bool PlaceLevel(SLevelState &level_state)
+
+=== crossed-price entry of PlaceLevel ===
+1550-      if(level_state.duplicate_identity)
+1551-         return false;
+1552-      // Target EA parity: an OPEN POSITION on this level does not block a fresh
+1553-      // pending at the same price.  That is the mechanism by which the Target
+1554-      // re-fills a level and orphans the position it was previously pointing at
+1555-      // (see replica_orphan_leak).  A live PENDING still blocks, on both paths.
+1556-      if(level_state.has_pending ||
+1557-         (!OrphanLeakActive() && level_state.has_position))
+1558-         return true;
+1559-      if(!PendingPriceIsValid(level_state.is_buy,level_state.target_price))
+1560-        {
+1561-         string level_comment=StringFormat("STR %s%d",
+1562-                                           (level_state.is_buy ? "B" : "S"),
+1563-                                           level_state.level);
+1564:          if(IsHistoricalProfile() && !level_state.recovery_done)

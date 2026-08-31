@@ -1,0 +1,74 @@
+=== tests mentioning standalone/bundle ===
+1652:def test_standalone_sources_mirror_the_starwave_profile_catalog():
+1663:    for standalone in ("ProfitBricks2K.mq5", "ProfitBricks2K_AllInOne.mq5"):
+1664:        text = (ROOT / "mql5" / standalone).read_text(encoding="utf-8")
+1667:        assert mirrored == normalized, f"{standalone} profile table drifted from the catalog"
+1694:        "ProfitBricks2K_AllInOne.mq5": (
+1695:            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+1748:    Asserted on the modular engine and on both standalone builds, since the
+1750:    (tools/bundle_standalone.py) and a stale generation would go unnoticed here
+1756:        "ProfitBricks2K_AllInOne.mq5": (
+1757:            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+1822:    standalone concatenation preserves that, and several bodies contain nested
+1922:    and on both generated standalones.
+1927:        "ProfitBricks2K_AllInOne.mq5": (
+1928:            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+2011:# mql5/ProfitBricks2K.mq5 and mql5/ProfitBricks2K_AllInOne.mq5 are mechanical
+2014:# 21 in ProfileCatalog.mqh) -- which means both standalones were shipping WITHOUT
+2020:# tools/bundle_standalone.py is now the only writer, and this test is the thing
+2025:def test_standalone_builds_are_current_generated_copies_of_the_includes():
+2026:    from tools import bundle_standalone
+2028:    expected = bundle_standalone.build_from_worktree()
+2029:    for target in bundle_standalone.TARGETS:
+2033:            f"`python tools/bundle_standalone.py --write`.\n"
+2034:            f"{bundle_standalone.first_divergence(expected, actual)}"
+2038:    # in the header block the bundler copies verbatim -- so as generated from the
+2040:    # bundler needs a per-target header, not a hand edit.
+2041:    assert len({target.read_bytes() for target in bundle_standalone.TARGETS}) == 1
+2044:    # inlining (an unresolved one would make the "standalone" build fail to
+2046:    for filename, label in bundle_standalone.SECTIONS:
+2049:    assert expected.count(bundle_standalone.PLACEHOLDER) >= len(
+2050:        bundle_standalone.SECTIONS
+2056:    header = "\n".join(bundle_standalone.header_of(expected))
+2062:def test_standalone_generator_round_trips_the_committed_tree():
+2066:    overwrite, so a bundler bug plus a matching bad file would agree with each
+2067:    other.  --verify closes that loop by rebuilding HEAD's committed standalone
+2072:    from tools import bundle_standalone
+2077:            cwd=bundle_standalone.ROOT,
+2085:        for name, _ in bundle_standalone.SECTIONS
+2087:    rebuilt = bundle_standalone.bundle(bundle_standalone.header_of(head), sources)
+2088:    assert rebuilt == head, bundle_standalone.first_divergence(head, rebuilt)
+2140:        ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5",
+2164:        "ProfitBricks2K_AllInOne.mq5": (
+2165:            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+2187:    CUSTOM_PROFILE.  Asserted on the modular catalog and both standalone builds,
+
+=== test fn names (all) ===
+84
+9
+
+=== include line counts ===
+    37 mql5/include/BasketEvaluator.mqh
+    63 mql5/include/CycleDealLedger.mqh
+   751 mql5/include/ProfileCatalog.mqh
+   193 mql5/include/StopScheduler.mqh
+  3856 mql5/include/StraddleEngine.mqh
+   196 mql5/include/StraddleReplicaApp.mqh
+   214 mql5/include/StraddleTypes.mqh
+   380 mql5/include/TradeGateway.mqh
+  5690 total
+
+=== standalone line count + placeholders + section rules ===
+  5758 mql5/ProfitBricks2K.mq5
+  5758 mql5/ProfitBricks2K_AllInOne.mq5
+ 11516 total
+10
+8
+24:// SECTION: StraddleTypes.mqh
+244:// SECTION: ProfileCatalog.mqh
+1001:// SECTION: StopScheduler.mqh
+1200:// SECTION: BasketEvaluator.mqh
+1243:// SECTION: CycleDealLedger.mqh
+1312:// SECTION: TradeGateway.mqh
+1698:// SECTION: StraddleEngine.mqh
+5560:// SECTION: StraddleReplicaApp.mqh (Event Handlers & Inputs)

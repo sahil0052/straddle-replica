@@ -1,0 +1,46 @@
+   in - closed - open(7)        : 165   (predicted by extra_in=0)
+
+------------------------------------------------------------------------
+PART 3b  IN-deal order ticket -> position ticket join
+     MT5 hedging: POSITION_IDENTIFIER == opening order ticket
+------------------------------------------------------------------------
+IN deals 17804   matched a closed position 17632   unmatched 172
+position tickets never seen as an IN order: 0
+unmatched IN span 2026-06-24 07:33:40.496000 -> 2026-07-30 17:23:32.740000
+unmatched IN by day (top 8): [('2026-06-24', 33), ('2026-07-09', 22), ('2026-07-29', 22), ('2026-06-30', 14), ('2026-06-29', 10), ('2026-07-28', 10), ('2026-07-13', 9), ('2026-07-15', 9)]
+unmatched IN comments (top 6): [('STR B17', 5), ('STR B16', 5), ('STR B14', 5), ('STR B5', 5), ('STR S20', 5), ('STR S18', 5)]
+last 6 unmatched IN deals:
+   2026.07.30 17:12:45.043 deal=3090824 order=20961468 vol=0.01 'STR S2'
+   2026.07.30 17:13:04.927 deal=3090839 order=20961470 vol=0.01 'STR S3'
+   2026.07.30 17:16:56.920 deal=3090902 order=20961473 vol=0.01 'STR B5'
+   2026.07.30 17:18:39.453 deal=3090939 order=20961475 vol=0.01 'STR B6'
+   2026.07.30 17:20:36.197 deal=3090966 order=20961477 vol=0.01 'STR B7'
+   2026.07.30 17:23:32.740 deal=3091012 order=20961723 vol=0.01 'STR B4'
+
+------------------------------------------------------------------------
+PART 3c  volume conservation and the 'Open Positions' section
+------------------------------------------------------------------------
+volume in=297.76  out=283.57  residual=14.19
+unmatched IN volume            : 14.19   (n=172)
+'Open Positions' section rows  : 6
+   of which matched an unmatched IN deal: 6
+   open: 2026.07.30 17:12:45.043 pos=20961468 sell  vol=0.01 price=4085.57 sl=
+   open: 2026.07.30 17:13:04.927 pos=20961470 sell  vol=0.01 price=4083.55 sl=
+   open: 2026.07.30 17:16:56.920 pos=20961473 buy   vol=0.01 price=4094.39 sl=
+   open: 2026.07.30 17:18:39.453 pos=20961475 buy   vol=0.01 price=4095.71 sl=
+   open: 2026.07.30 17:20:36.197 pos=20961477 buy   vol=0.01 price=4097.08 sl=
+   open: 2026.07.30 17:23:32.740 pos=20961723 buy   vol=0.01 price=4093.25 sl=
+still unexplained IN deals     : 166
+sample unexplained IN deals with their order row:
+   deal=2343390 2026.06.24 07:33:40.496 vol=0.05 'STR AVS' | order state='filled' vol='0.05 / 0.05' placed=2026.06.24 07:33:40.496
+   deal=2343468 2026.06.24 08:11:05.771 vol=0.03 'STR B23' | order state='filled' vol='0.03 / 0.03' placed=2026.06.24 04:55:06.850
+   deal=2343478 2026.06.24 08:12:48.018 vol=0.03 'STR B24' | order state='filled' vol='0.03 / 0.03' placed=2026.06.24 04:55:07.062
+   deal=2343521 2026.06.24 08:41:11.961 vol=0.03 'STR B21' | order state='filled' vol='0.03 / 0.03' placed=2026.06.24 08:16:24.116
+   deal=2343526 2026.06.24 08:43:10.260 vol=0.03 'STR B22' | order state='filled' vol='0.03 / 0.03' placed=2026.06.24 08:16:09.277
+   deal=2343531 2026.06.24 08:49:17.732 vol=0.03 'STR B20' | order state='filled' vol='0.03 / 0.03' placed=2026.06.24 08:48:10.908
+
+========================================================================
+PART 4  order <-> deal bijection integrity
+========================================================================
+orders in order section         : 54742
+deal.Order not in order section : 0  []

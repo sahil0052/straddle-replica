@@ -1,0 +1,136 @@
+===== 3500-3560 =====
+ 3500	       // whole rule.  FOUR independent estimators agree on its value:
+ 3501	       // exact burst-flatten total 29.31, whole-sweep total 29.36,
+ 3502	       // decision-instant marked total 30.46, and -- the only one that needs
+ 3503	       // no price mark at all -- the median money actually BANKED at the exit
+ 3504	       // across 99 cycles, 29.32.  That last one is the load-bearing figure:
+ 3505	       // a flatten closes the whole basket, so realised-at-exit IS the total
+ 3506	       // the EA saw, with no bid/ask model and no stale-mark exposure.
+ 3507	       // A size-scaled threshold (net >= k * $/pt, or k * open_positions) is
+ 3508	       // refuted outright: 0/100 cycles fire at the decision and 97/100 fire
+ 3509	       // prematurely.
+ 3510	       //
+ 3511	       // The exit VALUES scatter widely (only 29/99 inside [25,35], tails to
+ 3512	       // +632 and -108) and that scatter is NOT a missing rule.  The basket
+ 3513	       // carries 20-170 $/pt of gross exposure, so the decision variable
+ 3514	       // moves in jumps of $3-30 per tick and cannot land on 30.  Dividing
+ 3515	       // each overshoot by its own gross sensitivity gives the price move
+ 3516	       // needed to explain it: median 0.83 pt, and 46 of 47 inside the
+ 3517	       // 6.79 pt dispersion measured inside the flatten sweeps themselves.
+ 3518	       // Undershoots need 0.91 pt.  Same magnitude, opposite sign, one
+ 3519	       // mechanism -- price moving faster than a basket can be valued.  A
+ 3520	       // hold rule would give a one-sided right tail; a second exit rule a
+ 3521	       // one-sided left tail.  The symmetry is what rules both out.
+ 3522	       //
+ 3523	       // An earlier note here claimed 5-13 cycles held above $30 without
+ 3524	       // closing.  RETRACTED.  That came from a mark-walk whose error, at the
+ 3525	       // Target's own flatten instant where the true value is known to be 30,
+ 3526	       // is median 25.23 with p10 -35.59 / p90 +47.70 -- a p90 of $102.30 per
+ 3527	       // reading, i.e. 3.4x the threshold it was being used to test.  Every
+ 3528	       // "gated" cycle resolves as ordinary tick noise (194 -> 1.20 pt,
+ 3529	       // 187 -> 1.62, 250 -> 2.41, 253 -> 4.44, 252 -> 6.41).
+ 3530	       //
+ 3531	       // Do not reintroduce a distance, drawdown or breakeven exit without
+ 3532	       // first re-running q3o/q3p and showing a median lead near zero.  And
+ 3533	       // do not re-open the threshold question with a mark-based script: use
+ 3534	       // tools/forensics/basket_resolution.py, which is mark-free, and check
+ 3535	       // any new estimator against value@t0 before believing it.
+ 3536	       // ------------------------------------------------------------------
+ 3537	      }
+ 3538	
+ 3539	   int PendingDealIndex(const ulong deal_ticket) const
+ 3540	     {
+ 3541	      for(int index=0;index<m_pending_deal_count;index++)
+ 3542	         if(m_pending_deal_tickets[index]==deal_ticket)
+ 3543	            return index;
+ 3544	      return -1;
+ 3545	     }
+ 3546	
+ 3547	   void RemovePendingDealAt(const int remove_index)
+ 3548	     {
+ 3549	      if(remove_index<0 || remove_index>=m_pending_deal_count)
+ 3550	         return;
+ 3551	      for(int index=remove_index;index<m_pending_deal_count-1;index++)
+ 3552	         m_pending_deal_tickets[index]=m_pending_deal_tickets[index+1];
+ 3553	      m_pending_deal_count--;
+ 3554	      m_pending_deal_tickets[m_pending_deal_count]=0;
+ 3555	     }
+ 3556	
+ 3557	   void QueuePendingDeal(const ulong deal_ticket)
+ 3558	     {
+ 3559	      if(deal_ticket==0 ||
+ 3560	         DealAlreadyProcessed(deal_ticket) ||
+===== 3660-3700 =====
+ 3660	                        deal_volume,deal_price,0.0,0.0,
+ 3661	                        level_comment,0,0,
+ 3662	                        deal_commission,deal_swap,deal_profit,
+ 3663	                        deal_ticket,
+ 3664	                        order_ticket,
+ 3665	                        position_id);
+ 3666	        }
+ 3667	      if(entry==DEAL_ENTRY_OUT ||
+ 3668	         entry==DEAL_ENTRY_OUT_BY ||
+ 3669	         entry==DEAL_ENTRY_INOUT)
+ 3670	        {
+ 3671	         double recalculated_realized=0.0;
+ 3672	         int recalculated_count=0;
+ 3673	         if(m_deal_ledger.TryRecalculate(
+ 3674	               m_cycle_started_msc,
+ 3675	               recalculated_realized,
+ 3676	               recalculated_count
+ 3677	            ) &&
+ 3678	            recalculated_count>m_cycle_exit_deal_count)
+ 3679	           {
+ 3680	            m_cycle_realized=recalculated_realized;
+ 3681	            m_cycle_exit_deal_count=recalculated_count;
+ 3682	           }
+ 3683	         else
+ 3684	           {
+ 3685	            m_cycle_realized=(
+ 3686	               m_cycle_realized+
+ 3687	               deal_profit+
+ 3688	               deal_swap+
+ 3689	               deal_commission+
+ 3690	               deal_fee
+ 3691	            );
+ 3692	            m_cycle_exit_deal_count++;
+ 3693	           }
+ 3694	         string exit_comment=HistoryDealGetString(deal_ticket,DEAL_COMMENT);
+ 3695	         ENUM_DEAL_REASON exit_reason=
+ 3696	            (ENUM_DEAL_REASON)HistoryDealGetInteger(
+ 3697	               deal_ticket,
+ 3698	               DEAL_REASON
+ 3699	            );
+ 3700	         bool is_stop=(exit_reason==DEAL_REASON_SL ||
+===== 3760-3790 =====
+ 3760	                UpdateAlignmentHoldTelemetry(true);
+ 3761	                break;
+ 3762	               }
+ 3763	             UpdateAlignmentHoldTelemetry(false);
+ 3764	             if(m_pending_deal_count>0)
+ 3765	                break;
+ 3766	            if(m_runtime.runtime_mode==STR_RUNTIME_NORMAL && StartCycle())
+ 3767	               DeployOne();
+ 3768	            break;
+ 3769	         case CYCLE_DEPLOYING:
+ 3770	            DeployOne();
+ 3771	            CheckCycleTargets();
+ 3772	            break;
+ 3773	          case CYCLE_RUNNING:
+ 3774	             ReconcileLevels();
+ 3775	             if(m_profile.stop_updates_on_timer)
+ 3776	                UpdatePositionStops();
+ 3777	             ProcessTrendRescue();
+ 3778	             if(m_trend_rescue_side==0)
+ 3779	                RearmOneMissingLevel();
+ 3780	             CheckCycleTargets();
+ 3781	             break;
+ 3782	         case CYCLE_CLOSING:
+ 3783	            CloseOnePosition();
+ 3784	            break;
+ 3785	         case CYCLE_CANCELING:
+ 3786	            CancelOneOrder();
+ 3787	             break;
+ 3788	          case CYCLE_RESTARTING:
+ 3789	             if(OwnedOrderCount()>0)
+ 3790	               {

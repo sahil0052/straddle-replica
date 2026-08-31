@@ -1,0 +1,80 @@
+         // Resolved, no longer open: 9 of this era's 28 attested S/L positions
+         // score dir*(sl-open) < 0, worst -10.559 steps (-7.18 in PRICE), which
+         // NEITHER activation branch can produce -- substituting a market-
+         // anchored write into its own gate gives locked = favorable - D >= 0
+         // for EVERY market price, so a negative is outside the range of the
+         // function, not an unlikely draw from it.  These nine are OPERATOR-
+         // authored, not an attribution error: the broker-attested [sl X] price
+         // equals the position field to the cent in all 28 rows (so nothing was
+         // stale), re-measuring from the burst lattice clears 0 of 9, solving
+         // each shared-price group for the market it implies passes the gate for
+         // only 0/3, 0/2 and 5-of-9 members (a real broadcast passes for all),
+         // the violating prices are 16x more whole-dollar and 6.6x more
+         // round-10c than the era's population, and two of them sit 0.109 s and
+         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
+         SetLotTier(config,1,10,0.08);
+         SetLotTier(config,11,20,0.41);
+         SetLotTier(config,21,30,0.82);
+         return true;
+
+      case LOW_RISK_30:
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor = 3000.0;
+         config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+         // positions with an S/L, minimum dir*(sl-open) = +0.20 exactly with a
+         // single position there.  At n=29 on a one-cent price grid that is not
+         // evidence for the fixed-offset branch, and this era's ratchet DOES
+         // show the two-stage trough the modern profiles show (band [1,2)
+         // occupancy 0/29), so it is the same build family as STARWAVE_30.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+         // no operator marker anywhere near it), and it is the same build family
+         // as STARWAVE_30, which carries the flag explicitly.
+         config.cancel_before_close=true;
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.02);
+         SetLotTier(config,21,30,0.05);
+         return true;
+
+      case JUNE_2K:
+         // Target EA parity: initial $2,000 growth regime (June 23 - July 02, 2026).
+         // Turned $2,000 into $4,059 in 3.5 days with 2,313 micro-trades (85% win rate).
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         config.cycle_target_money=30.0;
+         config.cancel_before_close=true;
+         // Unpaced high-frequency micro-scalping (burst execution).
+         //
+         // restart_delay_ms is 1000 here and deliberately NOT the 2000 carried by
+         // the six STARWAVE profiles.  Both numbers are measured; they belong to
+         // different epochs of the same EA:
+         //
+         //   pre-2026-07-24 (this regime)   restart floor 1.17 s, 64/68 under 4.5 s
+         //   Starwave 2026-08-21..08-29     floor(next_deploy)-floor(flat) = 2 s on
+         //                                  96 cycles and 3 s on 6, 102/148 = 68.9%
+         //
+         // The engine waits (restart_delay_ms+999)/1000 WHOLE seconds against a
+         // whole-second TimeCurrent(), so 1000 yields a 1 s floor (observed 1.17 s
+         // once tick lag is added) and 2000 yields a 2 s floor.  Raising this to
+         // 2000 would contradict the pre-break floor, so do not "align" it with
+         // the Starwave profiles.
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=1000;
+         config.deployment_fill_cooldown_seconds=0;
+         // Target EA parity: single-pointer level table, so a re-fill orphans the
+         // displaced position permanently (see SLevelState/replica_orphan_leak).
+         // This is a property of the BINARY, not of the pacing epoch, so every
+         // profile that reconstructs the real EA carries it.
+         config.replica_orphan_leak=true;

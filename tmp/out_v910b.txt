@@ -1,0 +1,35 @@
+311 tmp/a901_v910.py
+61:def base_lot(era, level):
+68:def regime(era, when):
+74:def lattice_rows(orders):
+97:def assign_cycles(rows, deployments):
+114:def bucket(ratio):
+124:def part1(rows, deployments):
+164:def group_events(outside, gap_s=600.0):
+186:def part2(outside, deployments):
+217:def part3(rows, events, deployments):
+259:def part4():
+294:def main() -> int:
+302:    part3b(rows, _x2, deployments)
+304:    part5(outside)
+---
+
+
+def main() -> int:
+    orders = load_orders()
+    deployments = build_deployments(orders)
+    rows = assign_cycles(lattice_rows(orders), deployments)
+    inside, outside = part1(rows, deployments)
+    print()
+    _x2, events = part2(outside, deployments)
+    part3(rows, events, deployments)
+    part3b(rows, _x2, deployments)
+    part4()
+    part5(outside)
+    print()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

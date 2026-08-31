@@ -1,0 +1,27 @@
+=== m_deal_ledger decl ===
+mql5/include/CycleDealLedger.mqh:4:class CCycleDealLedger
+mql5/include/CycleDealLedger.mqh:17:   bool TryRecalculate(const long cycle_started_msc,
+mql5/include/CycleDealLedger.mqh:57:      if(!TryRecalculate(cycle_started_msc,total,exit_deal_count))
+mql5/include/StraddleEngine.mqh:7:#include "CycleDealLedger.mqh"
+mql5/include/StraddleEngine.mqh:22:   CCycleDealLedger  m_deal_ledger;
+mql5/include/StraddleEngine.mqh:927:      if(m_deal_ledger.TryRecalculate(
+mql5/include/StraddleEngine.mqh:3215:      m_deal_ledger.Configure(m_runtime.magic,m_runtime.symbol);
+mql5/include/StraddleEngine.mqh:3673:         if(m_deal_ledger.TryRecalculate(
+mql5/ProfitBricks2K.mq5:1243:// SECTION: CycleDealLedger.mqh
+mql5/ProfitBricks2K.mq5:1249:class CCycleDealLedger
+mql5/ProfitBricks2K.mq5:1262:   bool TryRecalculate(const long cycle_started_msc,
+mql5/ProfitBricks2K.mq5:1302:      if(!TryRecalculate(cycle_started_msc,total,exit_deal_count))
+mql5/ProfitBricks2K.mq5:1722:   CCycleDealLedger  m_deal_ledger;
+mql5/ProfitBricks2K.mq5:2627:      if(m_deal_ledger.TryRecalculate(
+mql5/ProfitBricks2K.mq5:4915:      m_deal_ledger.Configure(m_runtime.magic,m_runtime.symbol);
+mql5/ProfitBricks2K.mq5:5373:         if(m_deal_ledger.TryRecalculate(
+
+=== files ===
+BasketEvaluator.mqh
+CycleDealLedger.mqh
+ProfileCatalog.mqh
+StopScheduler.mqh
+StraddleEngine.mqh
+StraddleReplicaApp.mqh
+StraddleTypes.mqh
+TradeGateway.mqh

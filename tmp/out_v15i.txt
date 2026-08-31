@@ -1,0 +1,16 @@
+=== AGG negative-lock comment start ===
+     1	         // rule for 90 minutes and switching back, so it inherits the law.
+     2	         config.activation_uses_trailing_distance=true;
+     3	         // DIV-6, by the same probe and by the same parsimony argument.  This
+     4	         // era authored exactly ONE terminal liquidation of its own (cycle 170)
+     5	         // and it is cancel-first; its other sweep (cycle 171) is a hand flatten
+     6	         // with a `close by` 0.109 s before it, scrambled ticket order and 2 ms
+     7	         // gaps.  n=1 proves nothing alone, but the flag is a single field read
+     8	         // by a single binary and the eras on both sides of this one are 95/95
+     9	         // and 71/71 cancel-first, so it inherits the order.
+    10	         config.cancel_before_close=true;
+    11	         // Resolved, no longer open: 9 of this era's 28 attested S/L positions
+    12	         // score dir*(sl-open) < 0, worst -10.559 steps (-7.18 in PRICE), which
+    13	         // NEITHER activation branch can produce -- substituting a market-
+    14	         // anchored write into its own gate gives locked = favorable - D >= 0
+    15	         // for EVERY market price, so a negative is outside the range of the

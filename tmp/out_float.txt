@@ -1,0 +1,77 @@
+   int TrackedPositionCount(void) const
+     {
+      ulong tickets[];
+      return CollectTrackedPositionTickets(tickets);
+     }
+
+   double TrackedFloatingProfit(void) const
+     {
+      ulong tickets[];
+      int count=CollectTrackedPositionTickets(tickets);
+      double total=0.0;
+      for(int index=0;index<count;index++)
+        {
+         if(!PositionSelectByTicket(tickets[index]))
+            continue;
+         total+=(
+            PositionGetDouble(POSITION_PROFIT)+
+            PositionGetDouble(POSITION_SWAP)
+         );
+        }
+      return total;
+     }
+
+   // Cycle-scoped accounting.  Identical to the Owned* pair when the leak is
+   // off; restricted to the tracked set when it is on, which is what makes the
+   // basket, the sweep and the restart drain all measure exactly what the
+   // Target's level table measures.
+   int CyclePositionCount(void) const
+     {
+      if(!OrphanLeakActive())
+         return OwnedPositionCount();
+      return TrackedPositionCount();
+     }
+
+   double CycleFloatingProfit(void) const
+     {
+      if(!OrphanLeakActive())
+         return OwnedFloatingProfit();
+      return TrackedFloatingProfit();
+     }
+
+   // Called immediately before the level table is wiped for a new cycle.  Any
+   // ticket the table still points at would otherwise be silently released and
+        {
+         if(OrderGetTicket(index)>0 && IsOwnedOrderSelected())
+            count++;
+        }
+      return count;
+     }
+
+   int OwnedPositionCount(void) const
+     {
+      int count=0;
+      for(int index=0;index<PositionsTotal();index++)
+        {
+         if(PositionGetTicket(index)>0 && IsOwnedPositionSelected())
+            count++;
+        }
+      return count;
+     }
+
+   bool FindReference(bool &is_buy,int &level,double &price) const
+     {
+      for(int index=0;index<OrdersTotal();index++)
+        {
+         if(OrderGetTicket(index)==0 || !IsOwnedOrderSelected())
+            continue;
+         int level_index=-1;
+         if(ParseLevelComment(OrderGetString(ORDER_COMMENT),is_buy,level_index))
+           {
+            level=level_index+1;
+            price=OrderGetDouble(ORDER_PRICE_OPEN);
+            return true;
+           }
+mql5/include/StraddleEngine.mqh:414:            PositionGetDouble(POSITION_PROFIT)+
+mql5/include/StraddleEngine.mqh:415:            PositionGetDouble(POSITION_SWAP)
+mql5/include/StraddleEngine.mqh:2379:            total+=PositionGetDouble(POSITION_PROFIT)+PositionGetDouble(POSITION_SWAP);

@@ -1,0 +1,212 @@
+==============================================================================
+PART 1 -- re-arm census (grid pendings that are not deployment-burst orders)
+==============================================================================
+    grid pendings 37047   burst 24604   re-arms 12443
+    era             cycles   re-arms  per cycle
+    HISTORICAL_50       96      3347      34.86
+    HISTORICAL_60       74      6899      93.23
+    AGGRESSIVE_30        2        29      14.50
+    LOW_RISK_30          1        18      18.00
+    STARWAVE_30        102      2150      21.08
+
+==============================================================================
+PART 2 -- does every re-arm return to the burst lattice price?
+==============================================================================
+    era             scored   exact   exact%  <=1/2 tick   moved
+    HISTORICAL_50     3343    2817    84.27           0     526
+    HISTORICAL_60     6626    6114    92.27           0     512
+    AGGRESSIVE_30       29      29   100.00           0       0
+    LOW_RISK_30         18      18   100.00           0       0
+    STARWAVE_30       2150    2080    96.74           0      70
+    ALL              12166   11058    90.89           0    1108
+    re-arms with no burst slot for their (side,level): 277
+    first 10 moved re-arms:
+      cycle   7 B1   #20178637 price   4040.46 lattice   4066.24 delta -25.78
+      cycle   7 S1   #20178638 price   4038.60 lattice   4063.60 delta -25.00
+      cycle   7 B2   #20178639 price   4041.39 lattice   4067.56 delta -26.17
+      cycle   7 S2   #20178640 price   4037.67 lattice   4062.28 delta -24.61
+      cycle   7 B3   #20178641 price   4042.32 lattice   4068.88 delta -26.56
+      cycle   7 S3   #20178642 price   4036.74 lattice   4060.96 delta -24.22
+      cycle   7 B4   #20178643 price   4043.25 lattice   4070.20 delta -26.95
+      cycle   7 S4   #20178644 price   4035.81 lattice   4059.64 delta -23.83
+      cycle   7 B5   #20178645 price   4044.18 lattice   4071.52 delta -27.34
+      cycle   7 S5   #20178646 price   4034.88 lattice   4058.32 delta -23.44
+
+==============================================================================
+PART 3 -- per-level memory: repeated re-arms of one slot inside one cycle
+==============================================================================
+    slots re-armed at least twice: 2586
+    total re-arms in those slots : 10344
+    deepest repeat count         : 21
+    slots whose repeats disagree by more than half a tick: 286
+    max intra-slot price spread  : 38.4100
+
+==============================================================================
+PART 4 -- re-anchoring hypothesis: is a re-arm placed at market +/- level*step?
+==============================================================================
+    re-arms with a quote proxy within 120 s: 12120
+    |price - market|/step == level (+/-0.25): 113 = 0.93%
+    signed distance from market in steps: min -10.14  p05 -2.00  p50 -0.01  p95 +26.65  max +90.88
+    re-arms sitting MORE than 5 steps away from market: 1486 = 12.26%
+
+==============================================================================
+PART 5 -- does a re-arm carry the slot's burst volume?
+==============================================================================
+    matches burst volume 12020 = 98.80%   differs 146   no slot 277
+      cycle 171 S11  #20266436 vol 0.4 burst 0.41
+      cycle 171 S12  #20266437 vol 0.4 burst 0.41
+      cycle 171 S13  #20266438 vol 0.4 burst 0.41
+      cycle 171 S14  #20266439 vol 0.4 burst 0.41
+      cycle 171 S15  #20266440 vol 0.4 burst 0.41
+      cycle 171 S17  #20266441 vol 0.4 burst 0.41
+      cycle 171 S18  #20266442 vol 0.4 burst 0.41
+      cycle 171 S19  #20266443 vol 0.4 burst 0.41
+
+==============================================================================
+PART 6 -- what state was the slot in when it re-armed?
+==============================================================================
+    era                after_basket    after_closeby       after_stop      no_fill_yet
+    HISTORICAL_50                51                0             2918              378
+    HISTORICAL_60               117                4             6411              367
+    AGGRESSIVE_30                 0                0               17               12
+    LOW_RISK_30                   0                0               18                0
+    STARWAVE_30                   6                0             1909              235
+
+    era                 n       p05       p50       p95   (seconds from prior exit to re-arm)
+    HISTORICAL_50    2969       5.0     160.7    3237.1
+    HISTORICAL_60    6532       7.3     126.1    2601.7
+    AGGRESSIVE_30      17      55.3     314.4     882.3
+    LOW_RISK_30        18      10.3     141.0     974.0
+    STARWAVE_30      1915      11.5     294.9    8697.5
+
+==============================================================================
+PART 7 -- does memory ever survive a restart (stale previous-cycle lattice)?
+==============================================================================
+    moved re-arms that match the PREVIOUS cycle's lattice price: 0 of 1108
+
+==============================================================================
+PART 8 -- are the moved re-arms isolated relocations or whole redeployments?
+==============================================================================
+    moved re-arms 1108 in 67 time clusters
+      clusters with >=8 distinct (side,level) keys : 14  covering 979 orders
+      clusters with  <8 distinct keys              : 53  covering 129 orders
+
+     cycle  keys  orders   span s  own anchor  own step  cycle anchor  cycle step
+       113   120     120     68.6     4174.04      0.63       4176.75        0.43
+       127   120     120     15.1     4113.16      0.47       4124.76        0.46
+       167   115     115     12.6     4084.51      0.57       4105.02        0.51
+         7   100     100     10.7     4039.53      0.93       4064.92        1.32
+        29   100     100     10.0     4034.25      0.94       4034.84        1.46
+        51   100     100      9.9     4028.10      1.18       4035.42        0.96
+        90   100     100     10.1     4072.77      0.98       4065.18        1.05
+        93    99      99     10.2     4115.13      1.10       4119.67        1.10
+       176    60      60      6.7     4098.86      1.37       4082.61        1.36
+       169    24      24      4.9     4074.73      0.49       4112.18        0.57
+       127    12      14    128.3     4113.16      0.47       4124.76        0.46
+       127    10      10     43.5     4113.16      0.47       4124.76        0.46
+       127     9       9    122.9     4113.16      0.47       4124.76        0.46
+       127     8       8     36.1     4113.16      0.47       4124.76        0.46
+
+    isolated moves (a genuine relocation would live here):
+      cycle   7 B6   #20178760 2026-06-24 13:34:18.004000 price   4045.11 lattice   4072.84 delta -27.73
+      cycle  29 S5   #20187254 2026-06-25 22:21:51.313000 price   4029.55 lattice   4027.54 delta +2.01
+      cycle  51 S5   #20197737 2026-06-29 17:15:17.348000 price   4022.20 lattice   4030.62 delta -8.42
+      cycle  51 S4   #20197738 2026-06-29 17:15:30.387000 price   4023.38 lattice   4031.58 delta -8.20
+      cycle  51 S3   #20197740 2026-06-29 17:15:43.247000 price   4024.56 lattice   4032.54 delta -7.98
+      cycle  51 S2   #20197741 2026-06-29 17:15:45.787000 price   4025.74 lattice   4033.50 delta -7.76
+      cycle  51 S1   #20197744 2026-06-29 17:18:34.836000 price   4026.92 lattice   4034.46 delta -7.54
+      cycle  51 S7   #20197806 2026-06-29 17:25:59.624000 price   4019.84 lattice   4028.70 delta -8.86
+      cycle  51 S6   #20197812 2026-06-29 17:28:59.298000 price   4021.02 lattice   4029.66 delta -8.64
+      cycle  51 S5   #20197814 2026-06-29 17:29:12 price   4022.20 lattice   4030.62 delta -8.42
+      cycle  51 S4   #20197825 2026-06-29 17:29:53.004000 price   4023.38 lattice   4031.58 delta -8.20
+      cycle  51 S3   #20197826 2026-06-29 17:30:33.413000 price   4024.56 lattice   4032.54 delta -7.98
+      cycle  51 S2   #20197830 2026-06-29 17:32:19.870000 price   4025.74 lattice   4033.50 delta -7.76
+      cycle  90 S1   #20214115 2026-07-02 11:12:55.979000 price   4071.79 lattice   4064.13 delta +7.66
+      cycle  90 S1   #20214118 2026-07-02 11:17:50.303000 price   4071.79 lattice   4064.13 delta +7.66
+      cycle  90 S6   #20214162 2026-07-02 11:39:57.665000 price   4066.89 lattice   4058.88 delta +8.01
+      cycle  90 S5   #20214170 2026-07-02 11:41:23.909000 price   4067.87 lattice   4059.93 delta +7.94
+      cycle  90 S4   #20214171 2026-07-02 11:41:47.731000 price   4068.85 lattice   4060.98 delta +7.87
+      cycle  90 S3   #20214173 2026-07-02 11:42:25.160000 price   4069.83 lattice   4062.03 delta +7.80
+      cycle  90 S2   #20214175 2026-07-02 11:42:46.630000 price   4070.81 lattice   4063.08 delta +7.73
+
+    exact-price rate excluding missed redeployments: 11058/11187 = 98.85%
+
+==============================================================================
+PART 9 -- re-arms whose (side,level) has no slot in their cycle's burst
+==============================================================================
+    total 277   level beyond the burst's levels_per_side 125   inside the burst range 152
+    top cycles: 119 (95, HISTORICAL_60, N=30), 152 (71, HISTORICAL_60, N=30), 114 (12, HISTORICAL_60, N=60), 149 (9, HISTORICAL_60, N=60), 115 (8, HISTORICAL_60, N=60), 137 (8, HISTORICAL_60, N=60), 157 (8, HISTORICAL_60, N=60), 122 (6, HISTORICAL_60, N=60)
+    of those, inside a missed-redeployment cluster: 0
+
+==============================================================================
+PART 10 -- final accounting: is every non-exact order a missed deployment?
+==============================================================================
+     cycle era             orders  keys    step     anchor  cyc step  cyc anch  mkt@start    |d|  resid p95  in tick
+         7 HISTORICAL_50      101   100    0.93    4039.53      1.32   4064.92    4040.22   0.69      0.000  101/101 
+        29 HISTORICAL_50      101   100    0.94    4034.25      1.46   4034.84    4033.98   0.27      0.000  101/101 
+        51 HISTORICAL_50      111   100    1.18    4028.10      0.96   4035.42    4028.03   0.07      0.000  111/111 
+        88 HISTORICAL_50        3     1   no fit
+        90 HISTORICAL_50      114   100    0.98    4072.77      1.05   4065.18    4073.12   0.35      0.000  114/114 
+        93 HISTORICAL_50      100   100    1.10    4115.13      1.10   4119.67    4113.43   1.70      0.000  100/100 
+       106 HISTORICAL_60        3     1   no fit
+       108 HISTORICAL_60        1     1   no fit
+       109 HISTORICAL_60        1     1   no fit
+       110 HISTORICAL_60        2     1   no fit
+       113 HISTORICAL_60      156   120    0.63    4174.04      0.43   4176.75    4174.27   0.23      0.000  156/156 
+       114 HISTORICAL_60       12     1   no fit
+       115 HISTORICAL_60        8     1   no fit
+       116 HISTORICAL_60        2     1   no fit
+       119 HISTORICAL_60       99    81    0.45    4162.37      0.45   4162.37    4162.21   0.16      0.000   99/99  
+       120 HISTORICAL_60        2     1   no fit
+       122 HISTORICAL_60        6     1   no fit
+       127 HISTORICAL_60      199   120    0.47    4113.16      0.46   4124.76    4113.03   0.13      0.000  199/199 
+       128 HISTORICAL_60        2     1   no fit
+       130 HISTORICAL_60        1     1   no fit
+       131 HISTORICAL_60        6     1   no fit
+       135 HISTORICAL_60        3     1   no fit
+       136 HISTORICAL_60        1     1   no fit
+       137 HISTORICAL_60        8     1   no fit
+       146 HISTORICAL_60        3     1   no fit
+       149 HISTORICAL_60        9     1   no fit
+       152 HISTORICAL_60       85    68    0.47    4095.46      0.47   4095.46    4097.89   2.43      0.000   85/85  
+       155 HISTORICAL_60        2     1   no fit
+       157 HISTORICAL_60        8     1   no fit
+       158 HISTORICAL_60        2     1   no fit
+       159 HISTORICAL_60        2     1   no fit
+       160 HISTORICAL_60        6     1   no fit
+       161 HISTORICAL_60        4     1   no fit
+       162 HISTORICAL_60        1     1   no fit
+       163 HISTORICAL_60        5     1   no fit
+       165 HISTORICAL_60        3     1   no fit
+       167 HISTORICAL_60      115   115    0.57    4084.51      0.51   4105.02    4085.87   1.36      0.000  115/115 
+       169 HISTORICAL_60       28    25    0.49    4074.73      0.57   4112.18    4111.60  36.87     37.530   24/28  
+       176 STARWAVE_30         70    60    1.37    4098.86      1.36   4082.61    4097.44   1.42      0.000   70/70  
+
+    unexplained orders 1385   of which on a fresh lattice 1275 = 92.06%
+    cycles carrying a missed deployment: 10 -> [7, 29, 51, 90, 93, 113, 127, 167, 169, 176]
+    (segmenter defect measured in tmp/a901_xcheck.py: 275 detected cycles vs 285 independent bursts)
+
+==============================================================================
+PART 11 -- residual: does it sit on the cycle's OWN lattice, extended?
+==============================================================================
+    orders not on a fresh lattice: 294
+      on the cycle's own extended lattice : 294 = 100.00%
+      on neither                          : 0
+      |delta| p50 0.000  p95 0.000  max 0.000
+
+==============================================================================
+FINAL TALLY -- every grid pending that is not a detected deployment order
+==============================================================================
+    candidate re-arms                    12443
+      orders belonging to a missed deployment (part 10)  -1091
+      true re-arms                                       11352
+        exact return to the burst slot                   11058 = 97.41%
+        exact return to a slot the segmenter trimmed     294 = 2.59%
+        exact-price returns, total                       11352 = 100.00%
+        neither -- a genuine relocation would live here   0
+
+    per-level memory, re-scored on the true re-arm population:
+      slots re-armed at least twice: 2490   re-arms in them 9810
+      deepest repeat count         : 19
+      slots whose repeats disagree by more than half a tick: 0
+      max intra-slot price spread  : 0.0000

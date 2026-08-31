@@ -1,0 +1,23 @@
+
+
+# <<APPEND>>
+
+
+def main() -> int:
+    orders = load_orders()
+    deployments = build_deployments(orders)
+    rows = assign_cycles(lattice_rows(orders), deployments)
+    inside, outside = part1(rows, deployments)
+    print()
+    _x2, events = part2(outside, deployments)
+    part3(rows, events, deployments)
+    part3b(rows, _x2, deployments)
+    part4()
+    part5(outside)
+    print()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

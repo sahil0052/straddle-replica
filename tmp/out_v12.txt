@@ -1,0 +1,28 @@
+========================================================================
+PART 1  symbol strings on both tapes
+========================================================================
+  Starwave_60542_orders_history.csv          n= 10863  {'XAUUSD.u': 10863}
+  Starwave_60542_full_history.csv            n=  4796  {'': 1, 'XAUUSD.u': 4795}
+  tmp/report_901018.csv                      n=107932  {'XAUUSD': 107873}
+
+========================================================================
+PART 2  solve contract_size on every closed position that moved
+========================================================================
+  rows solved      : 17,551
+  rows skipped     : 81  (zero move or zero profit)
+  contract_size census (top 8): [('100', 17548), ('99.97', 1), ('99.55', 1), ('18.15', 1)]
+  contract_size == 100 +/- 0.5 : 17,550/17,551  (99.99%)
+  => ContractScale() = contract_size/100.0 = 1.0000 on this broker
+
+========================================================================
+PART 3  the terminal 'Open Positions' block, independently
+========================================================================
+  STR S2   sell 0.01 @   4085.57 ->   4094.43  profit=  -8.86  contract_size= 100.0000  OK
+  STR S3   sell 0.01 @   4083.55 ->   4094.43  profit= -10.88  contract_size= 100.0000  OK
+  STR B5   buy  0.01 @   4094.39 ->   4094.15  profit=  -0.24  contract_size= 100.0000  OK
+  STR B6   buy  0.01 @   4095.71 ->   4094.15  profit=  -1.56  contract_size= 100.0000  OK
+  STR B7   buy  0.01 @   4097.08 ->   4094.15  profit=  -2.93  contract_size= 100.0000  OK
+  STR B4   buy  0.01 @   4093.25 ->   4094.15  profit=   0.90  contract_size= 100.0000  OK
+  contract_size == 100: 6/6
+  reported Margin 8.19 implies leverage 1:2,999 on gross 0.06 lots or 1:1,000 on hedged-net 0.02 lots
+  gross notional/1000 = 8.1883   net notional/1000 = 8.1883

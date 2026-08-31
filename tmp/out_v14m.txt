@@ -1,0 +1,66 @@
+standalone ProfitBricks2K.mq5: 5764 lines
+identical to ProfitBricks2K_AllInOne.mq5: True
+labels found: 8
+
+=== PART 1  verbatim body comparison ===
+section                    lines      body span         law  diffs
+StraddleTypes.mqh            214      27..240     +26         0
+      framing before label: 4   (label at :24)
+ProfileCatalog.mqh           751     247..997     +246        1
+      :  250 standalone: '// included inline'
+             include   : '#include "StraddleTypes.mqh"'
+      framing before label: 4   (label at :244)
+StopScheduler.mqh            193    1004..1196    +1003       1
+      : 1007 standalone: '// included inline'
+             include   : '#include "StraddleTypes.mqh"'
+      framing before label: 4   (label at :1001)
+BasketEvaluator.mqh           37    1203..1239    +1202       0
+      framing before label: 4   (label at :1200)
+CycleDealLedger.mqh           63    1246..1308    +1245       0
+      framing before label: 4   (label at :1243)
+TradeGateway.mqh             380    1315..1694    +1314       0
+      framing before label: 4   (label at :1312)
+StraddleEngine.mqh          3856    1701..5556    +1700       6
+      : 1704 standalone: '// included inline'
+             include   : '#include "StraddleTypes.mqh"'
+      : 1705 standalone: '// included inline'
+             include   : '#include "ProfileCatalog.mqh"'
+      : 1706 standalone: '// included inline'
+             include   : '#include "TradeGateway.mqh"'
+      : 1707 standalone: '// included inline'
+             include   : '#include "CycleDealLedger.mqh"'
+      : 1708 standalone: '// included inline'
+             include   : '#include "BasketEvaluator.mqh"'
+      : 1709 standalone: '// included inline'
+             include   : '#include "StopScheduler.mqh"'
+      framing before label: 4   (label at :1698)
+StraddleReplicaApp.mqh       202    5563..5764    +5562       2
+      : 5597 standalone: '// included inline'
+             include   : '#include "StraddleTypes.mqh"'
+      : 5598 standalone: '// included inline'
+             include   : '#include "StraddleEngine.mqh"'
+      framing before label: 4   (label at :5560)
+
+bodies 5696   header+framing 68   last body ends :5764  file ends :5764
+identity: 20 + 48 + 5696 = 5764   -> True
+
+=== PART 2  cited constructs through the derived law ===
+StraddleTypes         :156   -> :182   OK  'string            symbol;'
+ProfileCatalog        :17    -> :263   OK  '// DIV-4: measured law, not a neutral default.  Every profile in this catalog'
+ProfileCatalog        :30    -> :276   OK  'config.cycle_target_money=0.0;'
+ProfileCatalog        :478   -> :724   OK  'config.cycle_target_money=26.5;'
+ProfileCatalog        :730   -> :976   OK  'config.cycle_target_money=custom.cycle_target_money;'
+StopScheduler         :126   -> :1129  OK  '// TRUE for the target, and lock_offset_price is now dead code on EVERY'
+StopScheduler         :162   -> :1165  OK  ': entry+direction*profile.lock_offset_price'
+CycleDealLedger       :17    -> :1262  OK  'bool TryRecalculate(const long cycle_started_msc,'
+StraddleEngine        :1244  -> :2944  OK  'double scale=ContractScale();'
+StraddleEngine        :3169  -> :4869  OK  'm_runtime.symbol=_Symbol;'
+StraddleEngine        :3446  -> :5146  OK  'double target=(m_profile.cycle_target_money>0.0'
+StraddleEngine        :3448  -> :5148  OK  ': m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);'
+StraddleEngine        :3826  -> :5526  OK  'void OnTradeTransaction(const MqlTradeTransaction &transaction,'
+StraddleReplicaApp    :24    -> :5586  OK  '//                               cycle_target_money=26.5, restart_delay_ms=2000)'
+StraddleReplicaApp    :100   -> :5662  OK  'input double CustomCycleTargetMoney = 26.5;'
+StraddleReplicaApp    :126   -> :5688  OK  'runtime.symbol=TradeSymbol;'
+StraddleReplicaApp    :165   -> :5727  OK  'custom.cycle_target_money=CustomCycleTargetMoney;'
+
+mismatched citations: 0

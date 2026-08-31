@@ -1,0 +1,25 @@
+=== stop_updates_on_timer in catalog ===
+mql5/include/ProfileCatalog.mqh:40:   config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:266:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:401:          config.stop_updates_on_timer=true;
+mql5/include/ProfileCatalog.mqh:483:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:517:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:551:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:587:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:621:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:658:         config.stop_updates_on_timer=false;
+mql5/include/ProfileCatalog.mqh:739:   config.stop_updates_on_timer=custom.stop_updates_on_timer;
+mql5/include/StraddleTypes.mqh:83:   bool              stop_updates_on_timer;
+mql5/include/StraddleTypes.mqh:149:   bool              stop_updates_on_timer;
+mql5/include/StraddleEngine.mqh:1458:      FileWrite(handle,"profile_stop_updates_on_timer",
+mql5/include/StraddleEngine.mqh:1459:                (int)m_profile.stop_updates_on_timer);
+mql5/include/StraddleEngine.mqh:3425:       if(!m_profile.stop_updates_on_timer)
+mql5/include/StraddleEngine.mqh:3775:             if(m_profile.stop_updates_on_timer)
+
+=== STR_PENDING_DEAL_CAPACITY ===
+mql5/include/StraddleEngine.mqh:11:#define STR_PENDING_DEAL_CAPACITY 256
+mql5/include/StraddleEngine.mqh:67:   ulong             m_pending_deal_tickets[STR_PENDING_DEAL_CAPACITY];
+mql5/include/StraddleEngine.mqh:3563:      if(m_pending_deal_count>=STR_PENDING_DEAL_CAPACITY)
+
+=== DealAlreadyProcessed ===
+637:   bool DealAlreadyProcessed(const ulong deal_ticket) const

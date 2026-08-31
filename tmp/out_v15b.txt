@@ -1,0 +1,65 @@
+=== Engine 1185-1205 (EventSide) ===
+      TimeToStruct(TimeTradeServer(),server_time);
+      return StringFormat("%04d.%02d.%02d %02d:%02d:%02d",
+                          server_time.year,server_time.mon,server_time.day,
+                          server_time.hour,server_time.min,server_time.sec);
+     }
+
+   string EventSide(const string level_key,const string comment) const
+     {
+      string side_key=(level_key!="" ? level_key : comment);
+      if(StringFind(side_key,"STR B")==0 ||
+         side_key=="STR ORB" ||
+         side_key=="STR AVB")
+         return "buy";
+      if(StringFind(side_key,"STR S")==0 ||
+         side_key=="STR ORS" ||
+         side_key=="STR AVS")
+         return "sell";
+      return "";
+     }
+
+   void WriteTelemetry(const string kind,
+
+=== Engine 1560,1600 (PlaceLevel gate) ===
+        {
+         string level_comment=StringFormat("STR %s%d",
+                                           (level_state.is_buy ? "B" : "S"),
+                                           level_state.level);
+          if(IsHistoricalProfile() && !level_state.recovery_done)
+            {
+             if(!ExposureAllowsRearm(level_state.volume))
+               {
+                LogLifecycleEvent(
+                   "safety_rearm_blocked",
+                   level_comment,
+                   "max_gross_lots"
+                );
+                return false;
+               }
+             string recovery_comment=(level_state.is_buy ? "STR ORB" : "STR ORS");
+             if(!m_gateway.OpenMarket(level_state.is_buy,
+                                      level_state.volume,
+                                      recovery_comment))
+                return false;
+             level_state.rearm_requested=false;
+             level_state.rearm_after_msc=0;
+             LogEvent("recovery",level_comment,m_gateway.LastDeal(),
+                      level_state.volume,level_state.target_price,recovery_comment);
+           }
+         else if(!level_state.recovery_done)
+            LogEvent("deferred",level_comment,0,level_state.volume,
+                     level_state.target_price,"crossed");
+         level_state.recovery_done=true;
+         return true;
+        }
+      string comment=StringFormat("STR %s%d",(level_state.is_buy ? "B" : "S"),level_state.level);
+      if(!m_gateway.PlaceStop(level_state.is_buy,
+                              level_state.volume,
+                              level_state.target_price,
+                              comment))
+         return false;
+       level_state.has_pending=true;
+       level_state.order_ticket=m_gateway.LastOrder();
+       level_state.rearm_requested=false;
+       level_state.rearm_after_msc=0;

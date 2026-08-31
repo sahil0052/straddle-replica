@@ -1,0 +1,51 @@
+              f"  {gaps[0] if gaps else float('nan'):7.3f}"
+              f"  {gaps[-1] if gaps else float('nan'):7.3f}"
+              f"  {len(other):10d}  {pct(pgaps,0.50) if pgaps else float('nan'):13.3f}")
+        if len(same) != len(ev):
+            print(f"       NOTE cancels={len(same)} != replacements={len(ev)}"
+                  f"   levels cancelled={sorted(set(levels))}"
+                  f"   replaced={sorted({r['level'] for r in ev})}")
+def part4():
+    print("\n=== PART 4: the Starwave 60542 tape -- the directive's question 2 ===")
+    print("  'Is trend rescue disabled for Starwave profiles, matching the total")
+    print("   absence of doubled orders in the Starwave dataset?'")
+    if not STARWAVE_CSV.exists():
+        print(f"  {STARWAVE_CSV} not found -- skipped")
+        return
+    per_level = collections.defaultdict(collections.Counter)
+    total = 0
+    with STARWAVE_CSV.open(newline="", encoding="utf-8-sig") as handle:
+        for row in csv.DictReader(handle):
+            parsed = parse_level(row["comment"])
+            if parsed is None:
+                continue
+            volume = float(row["volume_initial"])
+            per_level[parsed[1]][volume] += 1
+            total += 1
+    modal = {lvl: c.most_common(1)[0][0] for lvl, c in per_level.items()}
+    off = sum(n for lvl, c in per_level.items()
+              for v, n in c.items() if abs(v - modal[lvl]) > 1e-9)
+    doubled = sum(n for lvl, c in per_level.items()
+                  for v, n in c.items() if abs(v - 2.0 * modal[lvl]) <= 1e-9)
+    print(f"  lattice orders={total}  levels={min(per_level)}-{max(per_level)}")
+    tiers = collections.defaultdict(list)
+    for lvl in sorted(modal):
+        tiers[modal[lvl]].append(lvl)
+    for vol in sorted(tiers):
+        band = tiers[vol]
+        print(f"       {vol:.2f}  levels {min(band)}-{max(band)}"
+              f"  ({len(band)} levels, {sum(per_level[l].total() for l in band)} orders)")
+    print(f"  orders off their level's modal volume: {off}")
+    print(f"  orders at exactly 2x their level's modal volume: {doubled}"
+          "   <== the 'absence of doubled orders' claim")
+    print("\n  the modal ladder above matches NO single catalogue profile and"
+          f"\n  {off}/{total} orders sit off their level's mode, so the tape is"
+          "\n  multi-epoch and the modal test is weak.  the assumption-free"
+          "\n  version: the six Starwave ladders only ever use the tier values"
+          "\n  {0.01,0.03,0.04,0.05,0.06,0.15,0.20}, so a 2x replacement must"
+          "\n  show up as 0.02/0.08/0.10/0.12/0.30/0.40 -- none of which is a"
+          "\n  Starwave tier -- or as 0.06 (=2x0.03), the one collision.")
+    tier_set = (0.01, 0.03, 0.04, 0.05, 0.06, 0.15, 0.20)
+    allvol = collections.Counter()
+ticket,time_setup,time_setup_msc,time_done,time_done_msc,time_expiration,type,type_time,type_filling,state,magic,position_id,position_by_id,reason,volume_initial,volume_current,price_open,sl,tp,price_current,price_stoplimit,symbol,comment,external_id
+9525735,1787317368,1787317368515,1787317391,1787317391986,0,4,0,2,4,26011001,9525735,0,3,0.01,0.0,4592.61,0.0,0.0,4592.67,0.0,XAUUSD.u,STR B1,

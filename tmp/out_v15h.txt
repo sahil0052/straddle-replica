@@ -1,0 +1,56 @@
+=== ProfileCatalog 198-235 ===
+         // NEITHER activation branch can produce -- substituting a market-
+         // anchored write into its own gate gives locked = favorable - D >= 0
+         // for EVERY market price, so a negative is outside the range of the
+         // function, not an unlikely draw from it.  These nine are OPERATOR-
+         // authored, not an attribution error: the broker-attested [sl X] price
+         // equals the position field to the cent in all 28 rows (so nothing was
+         // stale), re-measuring from the burst lattice clears 0 of 9, solving
+         // each shared-price group for the market it implies passes the gate for
+         // only 0/3, 0/2 and 5-of-9 members (a real broadcast passes for all),
+         // the violating prices are 16x more whole-dollar and 6.6x more
+         // round-10c than the era's population, and two of them sit 0.109 s and
+         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
+         SetLotTier(config,1,10,0.08);
+         SetLotTier(config,11,20,0.41);
+         SetLotTier(config,21,30,0.82);
+         return true;
+
+      case LOW_RISK_30:
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor = 3000.0;
+         config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+         // positions with an S/L, minimum dir*(sl-open) = +0.20 exactly with a
+         // single position there.  At n=29 on a one-cent price grid that is not
+         // evidence for the fixed-offset branch, and this era's ratchet DOES
+         // show the two-stage trough the modern profiles show (band [1,2)
+         // occupancy 0/29), so it is the same build family as STARWAVE_30.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+         // no operator marker anywhere near it), and it is the same build family
+         // as STARWAVE_30, which carries the flag explicitly.
+         config.cancel_before_close=true;
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.02);
+         SetLotTier(config,21,30,0.05);
+         return true;
+
+
+=== doc 176-190 (DIV-5) ===
+| `STARWAVE_30` | 101 | 0 | **2** |
+
+Every single inversion is *the same event*: the level-1 pending is not dispatched first,
+it is dispatched **last**, after `S60`. The transition observed at the burst tail is
+`S60→S1` ×37, `S60→B1` ×31, `S1→B1` ×3 — never anything else. Levels 2..N are in perfect
+interleave in all 285 bursts. This is **DIV-5**.
+
+**Mechanism, proven quantitatively.** A `BUY STOP` must sit at or above
+`ask + stops_level*point`; a `SELL STOP` at or below `bid − stops_level*point`. Level 1 is
+the only level whose distance from the anchor is a single step, so it is the only level
+that can fail that test. With `anchor = mid` and `ask = mid + spread/2` the condition for
+level 1 to be placeable on the first pass is
+
+```
+step  >=  spread/2 + stops_level*point

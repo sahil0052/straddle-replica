@@ -1,0 +1,50 @@
+=== 2960,3008 ===
+`STR_DEFAULT_PROFILE` macro). An operator reproducing the Target by hand through the `Custom*`
+inputs would set 25.0 and diverge by 6% on every basket exit. §4 carries the comment-only diff.
+
+#### 2.12.8 Standalone parity on this vector
+
+Both single-file builds carry the whole binding chain at identical offsets, which is a V13
+anti-drift datum obtained for free while auditing V12:
+
+| Construct | Modular | `ProfitBricks2K.mq5` | `ProfitBricks2K_AllInOne.mq5` |
+| --- | --- | --- | --- |
+| `input string TradeSymbol = "";` | `App:36` | `:5598` | `:5598` |
+| `runtime.symbol=TradeSymbol;` | `App:116` | `:5678` | `:5678` |
+| `m_runtime.symbol=_Symbol;` | `Engine:3169` | `:4869` | `:4869` |
+| `ContractScale()` definition | `Engine:1521-1527` | `:3221` | `:3221` |
+| telemetry consumer | `Engine:1244` | `:2944` | `:2944` |
+| live-evaluator consumer | `Engine:3445` | `:5145` | `:5145` |
+
+The `ContractScale()` bodies were compared directly (`tmp/out_v12b.txt`) and are byte-identical to
+the modular one, including the `contract_size<=0.0 → 1.0` guard. Every offset above is the same in
+both standalones, i.e. the two files agree with each other line-for-line on this vector as well as
+with the modular source. The stale comment of Finding V12-A is likewise present in both at the same
+line (`:5585`), which is the expected signature of a faithful bundler propagating a source defect
+rather than introducing one.
+
+#### 2.12.9 V12 verdict
+
+| Directive question | Verdict | Evidence |
+| --- | --- | --- |
+| `TradeSymbol=""` → `_Symbol`? | **Yes**, unconditionally, at init | `App:36` → `App:116` → `Engine:3168-3169` |
+| Works for any suffix? | **Yes** — `_Symbol` is taken verbatim; no parsing or normalisation anywhere | `StraddleTypes.mqh:156`; census `XAUUSD.u` 10,863/10,863 vs bare `XAUUSD` 107,873 |
+| Does the resolved string reach every consumer? | **Yes**, 8 consumers audited, incl. V11's ledger filter | `:3210-3252` |
+| Silent fallback on bad metadata? | **No** — hard refusal | `:3236-3240`; `:3210-3214`; `:3224-3232` |
+| `ContractScale() = 1.0` consistent? | **Yes, and now identified rather than assumed** | 17,550/17,551 closed (99.99%) + 6/6 open ⇒ contract size 100 ⇒ scale exactly 1.0000 |
+| Residue explained? | **Yes** — 3 one-cent roundings + 1 multi-tranche close; 81 skips = 72 zero-move + 9 zero-profit | `tmp/out_v12c.txt` |
+| Account binding refusals correct? | **Yes**, 5 checks; hedging requirement corroborated by the margin arithmetic | `:3170-3209`; §2.12.3 |
+| Standalones in step? | **Yes**, byte-identical bodies, identical offsets in both | `tmp/out_v12b.txt`, §2.12.8 |
+
+**Rating: 100.00%, with one documentation-only divergence (Finding V12-A).** The auto-binding is
+correct for any suffix because it never inspects the suffix, and this is attested across *two*
+different broker decorations from one unmodified source. The `ContractScale()=1.0` claim that this
+audit had been carrying as an assertion is now a measurement: `SYMBOL_TRADE_CONTRACT_SIZE = 100` is
+solved from the tape on 17,550 of 17,551 closed positions and independently on all 6 rows of the
+terminal's open block, with every one of the four non-exact rows and all 81 skips attributed. The
+multiplier is therefore provably inert on this dataset, so no money figure elsewhere in this audit
+depends on it. Finding V12-A — the shipped-defaults comment saying `cycle_target_money=25` where
+the catalogue uses `26.5` — has zero behavioural effect and is corrected by the comment-only diff
+in §4.5.
+
+<!-- V10-APPEND -->

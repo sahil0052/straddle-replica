@@ -1,0 +1,32 @@
+=== V14-relevant contract tests ===
+98:def test_engine_requires_hedging_and_uses_millisecond_timer():
+268:def test_timer_reconciles_deals_missing_from_trade_callbacks():
+469:def test_flat_detection_bypasses_position_close_interval():
+752:def test_rejected_deployment_level_is_deferred_to_one_tail_retry_then_abandoned():
+828:def test_deployment_retry_pass_never_repends_a_level_that_already_placed():
+899:def test_deploy_deferred_mark_survives_reconcile_and_dies_at_cycle_boundaries():
+1554:def test_starwave_profiles_enforce_unpaced_burst_execution_and_clean_geometry():
+
+=== close/skip assertions ===
+102:    assert "EventSetMillisecondTimer" in source
+321:    # 6c340b5 hoisted the gate into CloseIntervalElapsed() and made both callers
+325:    assert "bool CloseIntervalElapsed(void) const" in engine
+330:    assert engine.count("CloseIntervalElapsed()") >= 2, (
+334:    assert "if(CyclePositionCount()>0 && !CloseIntervalElapsed())" in engine
+338:    assert "if(CloseIntervalElapsed())" in restart_drain
+339:    assert "TryCloseOneOwnedPosition()" in restart_drain
+433:    body = engine.split("bool TryCloseOneOwnedPosition(void)", 1)[1].split(
+446:    assert "if(owned<=m_close_skip)" in body
+447:    assert "m_close_skip++" in body
+854:    assert "!DeployDeferred(m_deploy_index-sweep_slots)" in deploy
+861:    helper = function_body(engine, "bool DeployDeferred(const int slot) const")
+882:    assert "!DeployDeferred(m_deploy_index-sweep_slots))" in deploy
+936:    assert "TryCloseOneOwnedPosition()" in restarting
+938:        "TryCloseOneOwnedPosition()"
+1108:        "EventSetMillisecondTimer"
+1773:        assert "if(!EventSetMillisecondTimer(timer_ms))" in text, name
+2023:        assert "return TryCloseOneTrackedPosition();" in text, name
+2024:        assert "bool TryCloseOneTrackedPosition(void)" in text, name
+2198:    TryCloseOneTrackedPosition is the leak-mode sweep and TryCloseOneOwnedPosition
+2214:            "bool TryCloseOneTrackedPosition(void)",
+2215:            "bool TryCloseOneOwnedPosition(void)",

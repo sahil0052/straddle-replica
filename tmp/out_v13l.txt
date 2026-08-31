@@ -1,0 +1,151 @@
+=== App :140-196 (custom struct fill + init) ===
+
+   SCustomProfileConfig custom={};
+   custom.levels_per_side=CustomLevelsPerSide;
+   custom.step_mode=CustomStepMode;
+   custom.step_value=CustomStepValue;
+   custom.atr_timeframe=CustomATRTimeframe;
+   custom.atr_period=CustomATRPeriod;
+   custom.tier1_end=CustomTier1End;
+   custom.lot1=CustomLot1;
+   custom.tier2_end=CustomTier2End;
+   custom.lot2=CustomLot2;
+   custom.lot3=CustomLot3;
+   custom.lock_trigger_steps=CustomLockTriggerSteps;
+   custom.lock_offset_price=CustomLockOffsetPrice;
+   custom.activation_uses_trailing_distance=CustomActivationUsesTrailingDistance;
+   custom.pre_tighten_trail_distance_steps=CustomPreTightenTrailDistanceSteps;
+   custom.tighten_trigger_steps=CustomTightenTriggerSteps;
+   custom.trail_distance_steps=CustomTrailDistanceSteps;
+   custom.cycle_target_balance_pct=CustomCycleTargetPercent;
+   custom.cycle_target_money=CustomCycleTargetMoney;
+   custom.cancel_before_close=CustomCancelBeforeClose;
+   custom.deployment_fill_cooldown_seconds=CustomDeploymentFillCooldownSeconds;
+   custom.close_interval_seconds=CustomCloseIntervalSeconds;
+   custom.restart_delay_ms=CustomRestartDelayMs;
+   custom.rearm_delay_seconds=CustomRearmDelaySeconds;
+   custom.stop_updates_on_timer=CustomStopUpdatesOnTimer;
+   custom.stop_update_interval_seconds=CustomStopUpdateIntervalSeconds;
+   custom.max_stop_updates_per_pass=CustomMaxStopUpdatesPerPass;
+   custom.stop_scan_newest_first=CustomStopScanNewestFirst;
+   custom.replica_orphan_leak=CustomReplicaOrphanLeak;
+
+   if(!g_engine.Initialize(runtime,Profile,custom))
+      return INIT_FAILED;
+   return INIT_SUCCEEDED;
+  }
+
+void OnDeinit(const int reason)
+  {
+   g_engine.Shutdown();
+  }
+
+void OnTick()
+  {
+   g_engine.OnTick();
+  }
+
+void OnTimer()
+  {
+   g_engine.OnTimer();
+  }
+
+void OnTradeTransaction(const MqlTradeTransaction &transaction,
+                        const MqlTradeRequest &request,
+                        const MqlTradeResult &result)
+  {
+   g_engine.OnTradeTransaction(transaction,request,result);
+  }
+
+=== Catalog STARWAVE_30 :464-500 ===
+      case STARWAVE_30:
+         // Starwave (60542) Parity: 30-level burst execution profile (Aug 2026).
+         // 0s unpaced micro-scalping, 100ms inter-order delay, instant tick SL updates.
+         config.levels_per_side=30;
+         config.step_mode=STR_STEP_ANCHOR_DIVISOR;
+         config.anchor_divisor=3000.0;
+         config.trail_distance_steps=1.0;
+         config.lock_trigger_steps=2.0;
+         config.pre_tighten_trail_distance_steps=2.0;
+         config.tighten_trigger_steps=3.0;
+         config.activation_uses_trailing_distance=true;
+         // Basket target: epoch 2026-08-24 15:34 -> 2026-08-25 04:06 (20 cycles).
+         // Banked value p25/p50/p75 = 22.24/26.29/27.82; the 3-cycle censored
+         // bracket over 08-24 19:22..19:49 pins it to (26.41, 26.51].
+         config.cycle_target_money=26.5;
+         config.cancel_before_close=true;
+         // 0s burst execution (unpaced)
+         config.close_interval_seconds=0;
+         config.stop_update_interval_seconds=0;
+         config.stop_updates_on_timer=false;
+         config.max_stop_updates_per_pass=0;
+         config.rearm_delay_seconds=0;
+         config.restart_delay_ms=2000;
+         config.deployment_fill_cooldown_seconds=0;
+         config.replica_orphan_leak=true;
+         config.stop_scan_newest_first=true;
+         // Lot schedule (N30): 0.01 (L1-10), 0.06 (L11-20), 0.15 (L21-30)
+         SetLotTier(config,1,10,0.01);
+         SetLotTier(config,11,20,0.06);
+         SetLotTier(config,21,30,0.15);
+         // Trend rescue disabled
+         config.trend_rescue_enabled=false;
+         return true;
+
+      case STARWAVE_20:
+         // Starwave (60542) Parity: 20-level burst execution profile (Aug 2026).
+         // Compact grid, 0s unpaced micro-scalping, 100ms inter-order delay.
+
+=== Catalog CUSTOM :700,751 ===
+      return false;
+   if(custom.deployment_fill_cooldown_seconds<0 ||
+      custom.close_interval_seconds<0 ||
+      custom.restart_delay_ms<0 ||
+      custom.rearm_delay_seconds<0 ||
+      custom.stop_update_interval_seconds<0 ||
+      custom.max_stop_updates_per_pass<0)
+      return false;
+
+   ResetProfile(config);
+   config.profile=CUSTOM_PROFILE;
+   config.levels_per_side=custom.levels_per_side;
+   config.step_mode=custom.step_mode;
+   if(custom.step_mode==STR_STEP_FIXED)
+      config.fixed_step=custom.step_value;
+   else if(custom.step_mode==STR_STEP_ANCHOR_DIVISOR)
+      config.anchor_divisor=custom.step_value;
+   else
+     {
+      config.atr_timeframe=custom.atr_timeframe;
+      config.atr_period=custom.atr_period;
+      config.atr_multiplier=custom.step_value;
+     }
+   config.lock_trigger_steps=custom.lock_trigger_steps;
+   config.lock_offset_price=custom.lock_offset_price;
+   config.activation_uses_trailing_distance=custom.activation_uses_trailing_distance;
+   config.pre_tighten_trail_distance_steps=custom.pre_tighten_trail_distance_steps;
+   config.tighten_trigger_steps=custom.tighten_trigger_steps;
+   config.trail_distance_steps=custom.trail_distance_steps;
+   config.cycle_target_balance_pct=custom.cycle_target_balance_pct;
+   config.cycle_target_money=custom.cycle_target_money;
+   config.cancel_before_close=custom.cancel_before_close;
+   config.deployment_fill_cooldown_seconds=custom.deployment_fill_cooldown_seconds;
+   config.close_interval_seconds=custom.close_interval_seconds;
+   config.restart_delay_ms=custom.restart_delay_ms;
+   config.rearm_delay_seconds=custom.rearm_delay_seconds;
+   config.stop_update_interval_seconds=custom.stop_update_interval_seconds;
+   config.max_stop_updates_per_pass=custom.max_stop_updates_per_pass;
+   config.stop_scan_newest_first=custom.stop_scan_newest_first;
+   config.stop_updates_on_timer=custom.stop_updates_on_timer;
+   // CUSTOM_PROFILE is the only escape hatch from Target-parity orphan
+   // tracking: every built-in reconstruction of the real EA hard-codes
+   // replica_orphan_leak=true, so an operator who wants the sweep to flatten
+   // EVERYTHING carrying the magic must run CUSTOM_PROFILE with this false.
+   config.replica_orphan_leak=custom.replica_orphan_leak;
+   SetLotTier(config,1,custom.tier1_end,custom.lot1);
+   SetLotTier(config,custom.tier1_end+1,custom.tier2_end,custom.lot2);
+   SetLotTier(config,custom.tier2_end+1,custom.levels_per_side,custom.lot3);
+   return true;
+  }
+
+#endif

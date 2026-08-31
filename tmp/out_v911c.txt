@@ -1,0 +1,6 @@
+1983 docs/PARITY_AUDIT_14_VECTOR.md
+69:| V9 | Lot sizing & tier schedules | **100.00%** | 25,447 legs / 12 ladders | identity proven; array lookup, no arithmetic to diverge, see §2.9 |
+70:| V10 | Trend rescue logic | **100.00%** (inactive on both tapes) | 25,447 legs | identity by absence |
+71:| V11 | Deal ledger & async reconciliation | **100.00%** | 2,308 EA orders ↔ deals | identity proven |
+1863:### 2.9 V9 — Lot sizing & tier schedules
+1960:<!-- V8-APPEND -->

@@ -1,0 +1,92 @@
+=== StraddleTypes.mqh:62-82 ===
+   double            tighten_trigger_steps;
+   double            trail_distance_steps;
+   double            cycle_target_balance_pct;
+   double            cycle_target_money;
+   bool              cancel_before_close;
+   // Basket-close comment literal is a BUILD fingerprint, not a different
+   // action.  On the ReportHistory-901018 tape the June/early-July build sent
+   // basket closes with NO comment (2,724 of them inside the HISTORICAL_50 and
+   // HISTORICAL_60 eras, zero carrying "STR CLOSE") while the anchor-divisor
+   // build stamped "STR CLOSE" on all 1,010 of its closes (AGGRESSIVE_30 9,
+   // LOW_RISK_30 11, STARWAVE_30 990).  Every order in both families produced a
+   // DEAL_ENTRY_OUT deal and both run the same ~105 ms machine cadence, so the
+   // two are one mechanism under two builds.  See parity audit DIV-3.
+   bool              stamp_close_comment;
+   int               deployment_fill_cooldown_seconds;
+   int               close_interval_seconds;
+   int               restart_delay_ms;
+   int               rearm_delay_seconds;
+   int               stop_update_interval_seconds;
+   int               max_stop_updates_per_pass;
+   bool              stop_scan_newest_first;
+=== StraddleEngine.mqh:2884,2900 ===
+
+   // Basket-close comment.  The Target ran two builds over the 901018 window and
+   // they stamp the sweep differently: inside HISTORICAL_50 and HISTORICAL_60 all
+   // 2,724 basket closes carry an EMPTY comment and not one carries "STR CLOSE",
+   // while every one of the 1,010 "STR CLOSE" closes falls inside the
+   // anchor-divisor eras (AGGRESSIVE_30 9, LOW_RISK_30 11, STARWAVE_30 990).  The
+   // two families are the same mechanism, not different actions: all 3,742 orders
+   // resolve to DEAL_ENTRY_OUT deals (2732/2732 and 1010/1010), both run the same
+   // ~105 ms machine cadence, and their windows partition the tape cleanly at the
+   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+   string CloseComment(void) const
+     {
+      return(m_profile.stamp_close_comment ? "STR CLOSE" : "");
+     }
+
+   bool TryCloseOneOwnedPosition(void)
+     {
+=== test 2150,2200 ===
+        for name, _ in bundle_standalone.SECTIONS
+    }
+    rebuilt = bundle_standalone.bundle(bundle_standalone.header_of(head), sources)
+    assert rebuilt == head, bundle_standalone.first_divergence(head, rebuilt)
+
+
+def test_basket_close_comment_is_per_profile_and_empty_for_the_atr_builds():
+    """DIV-3: the sweep comment is a build fingerprint, so it must be per-profile.
+
+    ReportHistory-901018 spans two Target builds and they stamp the basket sweep
+    differently.  Inside the two ATR eras every basket close carries an EMPTY
+    comment -- 1,392 in HISTORICAL_50 (2026.06.23 16:17 - 2026.07.02 15:18) and
+    1,332 in HISTORICAL_60 (to the 2026.07.13 12:28 changeover) -- and not one
+    carries "STR CLOSE".  Every one of the 1,010 "STR CLOSE" closes falls in the
+    anchor-divisor eras instead (AGGRESSIVE_30 9, LOW_RISK_30 11, STARWAVE_30
+    990).  The two families are one mechanism: 2732/2732 and 1010/1010 of the
+    orders resolve to DEAL_ENTRY_OUT deals, and both run the same ~105 ms machine
+    cadence as the pending lattice (p50 105 ms and 111 ms against 103 ms).
+    """
+    types = TYPES.read_text(encoding="utf-8")
+    assert types.count("bool              stamp_close_comment;") == 1
+
+    catalog = PROFILE_CATALOG.read_text(encoding="utf-8")
+    reset = function_body(catalog, "void ResetProfile(SProfileConfig &config)")
+    assert "config.stamp_close_comment=true;" in reset
+
+    bodies = profile_case_bodies(catalog)
+    empty_comment = {
+        name
+        for name, body in bodies.items()
+        if "config.stamp_close_comment=false;" in body
+    }
+    assert empty_comment == {"HISTORICAL_50", "HISTORICAL_60"}, sorted(empty_comment)
+    for name in LEAK_PROFILES + ("AGGRESSIVE_30", "LOW_RISK_30", "CUSTOM_PROFILE"):
+        assert "stamp_close_comment" not in bodies[name], name
+
+    # LoadCustomProfile has no operator input for this: it calls ResetProfile
+    # first, so CUSTOM_PROFILE inherits the live "STR CLOSE" behaviour.
+    custom = function_body(
+        catalog, "bool LoadCustomProfile(const SCustomProfileConfig &custom,SProfileConfig &config)"
+    )
+    assert "ResetProfile(config);" in custom
+    assert "stamp_close_comment" not in custom
+
+
+def test_both_close_sites_route_through_the_profile_close_comment():
+    """Neither sweep path may hard-code the literal.
+
+    TryCloseOneTrackedPosition is the leak-mode sweep and TryCloseOneOwnedPosition
+    the book-wide one; a literal left in either would silently stamp "STR CLOSE"
+    on a HISTORICAL_50/HISTORICAL_60 run and diverge from the tape.

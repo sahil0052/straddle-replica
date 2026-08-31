@@ -1,0 +1,23 @@
+
+def is_sl_exit(row) -> bool:
+    """Filled AT OR WORSE than the recorded stop.  Correction (A) in the header:
+    exact close==sl catches only 13.4% of this tape's stop exits, this catches
+    98.62% of them with no false positives."""
+    if row["sl"] == 0.0:
+        return False
+    direction = 1.0 if row["is_buy"] else -1.0
+    return direction * (row["close_price"] - row["sl"]) <= 1e-9
+def build_deployments(orders):
+    """Same clustering as a901_eras.py: lattice pendings, 2 s gap, >=10 legs."""
+    rows = []
+    for row in orders:
+        parsed = parse_level(row["Comment"])
+        when = stamp(row["Open Time"])
+        if parsed is None or when is None:
+            continue
+        rows.append({
+            "when": when,
+            "is_buy": parsed[0],
+            "level": parsed[1],
+            "price": float(norm(row["Price"])),
+            "volume": parse_volume(row["Volume"]),

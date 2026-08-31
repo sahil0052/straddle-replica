@@ -1,0 +1,41 @@
+2726:   bool SafetyTriggered(string &reason) const
+2727-     {
+2728-      if(!m_runtime.safety_enabled)
+2729-         return false;
+2730-      double equity=AccountInfoDouble(ACCOUNT_EQUITY);
+2731-      if(m_runtime.max_equity_loss_pct>0.0 && m_cycle_start_balance>0.0)
+2732-        {
+2733-         double loss_pct=100.0*(m_cycle_start_balance-equity)/m_cycle_start_balance;
+2734-         if(loss_pct>=m_runtime.max_equity_loss_pct)
+2735-           {
+2736-            reason="equity_loss";
+2737-            return true;
+2738-           }
+2739-        }
+2740-      if(m_runtime.max_gross_lots>0.0 && OwnedGrossLots()>m_runtime.max_gross_lots)
+2741-        {
+2742-         reason="gross_lots";
+2743-         return true;
+2744-        }
+2745-      MqlTick tick={};
+2746-      if(m_runtime.max_spread_points>0.0 &&
+2747-         SymbolInfoTick(m_runtime.symbol,tick) &&
+2748-         (tick.ask-tick.bid)/m_point>m_runtime.max_spread_points)
+2749-        {
+2750-         reason="spread";
+2751-         return true;
+2752-        }
+2753-      if(m_runtime.daily_loss_limit>0.0 && TodayOwnedProfit()<=-m_runtime.daily_loss_limit)
+2754-        {
+2755-         reason="daily_loss";
+2756-         return true;
+2757-        }
+2758-      return false;
+2759-     }
+2760-
+2761-   void BeginClose(const string reason,const bool halt_after)
+2762-     {
+2763-      if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
+2764-         return;
+2765-      m_halted=halt_after;
+2766-      // Kept in lockstep with m_halted so the terminal "halted" event can name the

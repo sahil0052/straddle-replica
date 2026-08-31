@@ -1,0 +1,95 @@
+cycle 169  start 2026-07-10 18:16:00.163000  end 2026-07-13 11:02:45.175000  anchor 4112.18  step 0.57  levels_per_side 60
+
+orders attributed to cycle 169: 344
+  by type: sell stop 128, buy 113, buy stop 80, sell 19, close by 4
+
+grid pendings 208  price range 4068.36 .. 4146.38
+  first 14 and last 14 in time order:
+    2026-07-10 18:16:00.163000  buy stop  B2   #20262069 price   4113.32 vol 0.01 state filled    comment 'STR B2'
+    2026-07-10 18:16:00.267000  sell stop S2   #20262070 price   4111.04 vol 0.01 state filled    comment 'STR S2'
+    2026-07-10 18:16:00.370000  buy stop  B3   #20262071 price   4113.89 vol 0.01 state filled    comment 'STR B3'
+    2026-07-10 18:16:00.474000  sell stop S3   #20262072 price   4110.47 vol 0.01 state filled    comment 'STR S3'
+    2026-07-10 18:16:00.576000  buy stop  B4   #20262073 price   4114.46 vol 0.01 state filled    comment 'STR B4'
+    2026-07-10 18:16:00.681000  sell stop S4   #20262074 price   4109.90 vol 0.01 state filled    comment 'STR S4'
+    2026-07-10 18:16:00.785000  buy stop  B5   #20262075 price   4115.03 vol 0.01 state filled    comment 'STR B5'
+    2026-07-10 18:16:00.887000  sell stop S5   #20262076 price   4109.33 vol 0.01 state filled    comment 'STR S5'
+    2026-07-10 18:16:00.989000  buy stop  B6   #20262077 price   4115.60 vol 0.01 state filled    comment 'STR B6'
+    2026-07-10 18:16:01.093000  sell stop S6   #20262078 price   4108.76 vol 0.01 state filled    comment 'STR S6'
+    2026-07-10 18:16:01.195000  buy stop  B7   #20262079 price   4116.17 vol 0.01 state filled    comment 'STR B7'
+    2026-07-10 18:16:01.296000  sell stop S7   #20262080 price   4108.19 vol 0.01 state filled    comment 'STR S7'
+    2026-07-10 18:16:01.399000  buy stop  B8   #20262081 price   4116.74 vol 0.01 state filled    comment 'STR B8'
+    2026-07-10 18:16:01.501000  sell stop S8   #20262082 price   4107.62 vol 0.01 state filled    comment 'STR S8'
+    2026-07-13 10:39:32.495000  buy stop  B7   #20265409 price   4078.16 vol 0.01 state canceled  comment 'STR B7'
+    2026-07-13 10:39:32.624000  sell stop S7   #20265411 price   4071.30 vol 0.01 state canceled  comment 'STR S7'
+    2026-07-13 10:39:32.859000  buy stop  B8   #20265414 price   4078.65 vol 0.01 state canceled  comment 'STR B8'
+    2026-07-13 10:39:32.981000  sell stop S8   #20265416 price   4070.81 vol 0.01 state canceled  comment 'STR S8'
+    2026-07-13 10:39:33.119000  buy stop  B9   #20265418 price   4079.14 vol 0.01 state canceled  comment 'STR B9'
+    2026-07-13 10:39:33.256000  sell stop S9   #20265421 price   4070.32 vol 0.01 state canceled  comment 'STR S9'
+    2026-07-13 10:39:33.392000  buy stop  B10  #20265422 price   4079.63 vol 0.01 state canceled  comment 'STR B10'
+    2026-07-13 10:39:33.520000  sell stop S10  #20265424 price   4069.83 vol 0.01 state canceled  comment 'STR S10'
+    2026-07-13 10:39:33.657000  buy stop  B11  #20265425 price   4080.12 vol 0.01 state canceled  comment 'STR B11'
+    2026-07-13 10:39:33.766000  sell stop S11  #20265426 price   4069.34 vol 0.01 state canceled  comment 'STR S11'
+    2026-07-13 10:39:33.878000  buy stop  B12  #20265427 price   4080.61 vol 0.01 state canceled  comment 'STR B12'
+    2026-07-13 10:39:34.016000  sell stop S12  #20265428 price   4068.85 vol 0.01 state canceled  comment 'STR S12'
+    2026-07-13 10:39:34.141000  buy stop  B13  #20265429 price   4081.10 vol 0.01 state canceled  comment 'STR B13'
+    2026-07-13 10:39:34.264000  sell stop S13  #20265430 price   4068.36 vol 0.01 state canceled  comment 'STR S13'
+
+  price histogram (5-point buckets):
+      4065 ..   4070     4  ####
+      4070 ..   4075     8  ########
+      4075 ..   4080    13  #############
+      4080 ..   4085    12  ############
+      4085 ..   4090     9  #########
+      4090 ..   4095     8  ########
+      4095 ..   4100    11  ###########
+      4100 ..   4105    41  #########################################
+      4105 ..   4110    24  ########################
+      4110 ..   4115    21  #####################
+      4115 ..   4120    10  ##########
+      4120 ..   4125     9  #########
+      4125 ..   4130     9  #########
+      4130 ..   4135     9  #########
+      4135 ..   4140     8  ########
+      4140 ..   4145     9  #########
+      4145 ..   4150     3  ###
+
+deals 2026-07-13 10:25..10:55: 0
+
+nearest deal BEFORE 2026-07-13 10:39:29: 2026-07-13 05:29:54.075000 price 4062.28  gap 18574.9 s
+nearest deal AFTER  2026-07-13 10:39:29: 2026-07-13 11:02:56.403000 price 4074.73  gap 1407.4 s
+
+`close by` orders in the whole report: 12
+    2026-07-02 15:23:27.587000  cycle 95 #20216229 close by  price   4114.76 comment '#20216116 by #20216117'
+    2026-07-02 15:23:27.695000  cycle 95 #20216230 close by  price   4113.51 comment '#20216118 by #20216119'
+    2026-07-03 08:14:31.731000  cycle 108 #20221609 close by  price   4173.13 comment '#20221196 by #20221274'
+    2026-07-08 14:03:48.402000  cycle 138 #20247035 close by  price   4046.73 comment '#20246699 by #20246706'
+    2026-07-10 17:11:11.463000  cycle 167 #20261824 close by  price   4085.87 comment '#20261614 by #20261572'
+    2026-07-13 05:29:51.420000  cycle 169 #20263599 close by  price   4120.18 comment '#20262375 by #20262093'
+    2026-07-13 05:29:51.693000  cycle 169 #20263600 close by  price   4119.04 comment '#20262399 by #20262431'
+    2026-07-13 05:29:52.520000  cycle 169 #20263601 close by  price   4120.90 comment '#20262142 by #20262095'
+    2026-07-13 05:29:52.772000  cycle 169 #20263602 close by  price   4119.59 comment '#20262372 by #20262091'
+    2026-07-13 13:21:21.971000  cycle 171 #20266620 close by  price   4058.22 comment '#20266095 by #20266436'
+    2026-07-13 13:21:22.077000  cycle 171 #20266621 close by  price   4058.22 comment '#20266097 by #20266436'
+    2026-07-13 13:21:22.186000  cycle 171 #20266622 close by  price   4058.22 comment '#20266435 by #20266436'
+
+gaps >= 60 s between consecutive cycle-169 grid pendings: 35
+    2026-07-10 18:16:12.401000 -> 2026-07-10 18:17:28.838000   1.3 min
+    2026-07-10 18:17:28.838000 -> 2026-07-10 18:24:13.824000   6.7 min
+    2026-07-10 18:25:13.550000 -> 2026-07-10 18:33:26.744000   8.2 min
+    2026-07-10 18:33:26.744000 -> 2026-07-10 18:36:17.430000   2.8 min
+    2026-07-10 18:37:02.796000 -> 2026-07-10 18:40:42.759000   3.7 min
+    2026-07-10 18:40:42.759000 -> 2026-07-10 19:06:42.517000   26.0 min
+    2026-07-10 19:06:42.517000 -> 2026-07-10 19:08:55.036000   2.2 min
+    2026-07-10 19:08:59.121000 -> 2026-07-10 19:16:03.224000   7.1 min
+    2026-07-10 19:16:44.145000 -> 2026-07-10 19:21:11.645000   4.5 min
+    2026-07-10 19:21:11.645000 -> 2026-07-10 19:28:08.494000   6.9 min
+    2026-07-10 19:28:08.494000 -> 2026-07-10 19:30:04.435000   1.9 min
+    2026-07-10 19:30:04.435000 -> 2026-07-10 19:43:28.296000   13.4 min
+    2026-07-10 19:43:52.059000 -> 2026-07-10 20:04:31.161000   20.7 min
+    2026-07-10 20:04:31.161000 -> 2026-07-10 20:08:50.682000   4.3 min
+    2026-07-10 20:10:20.556000 -> 2026-07-10 20:21:52.673000   11.5 min
+    2026-07-10 20:21:52.673000 -> 2026-07-10 20:25:20.115000   3.5 min
+    2026-07-10 20:25:20.321000 -> 2026-07-10 20:32:24.877000   7.1 min
+    2026-07-10 20:32:26.342000 -> 2026-07-10 20:55:09.658000   22.7 min
+    2026-07-10 20:55:09.658000 -> 2026-07-10 21:07:09.367000   12.0 min
+    2026-07-10 21:07:36.609000 -> 2026-07-10 21:13:55.905000   6.3 min

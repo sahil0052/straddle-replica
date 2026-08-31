@@ -90,6 +90,15 @@ struct SProfileConfig
    double            cycle_target_balance_pct;
    double            cycle_target_money;
    bool              cancel_before_close;
+   // Basket-close comment literal is a BUILD fingerprint, not a different
+   // action.  On the ReportHistory-901018 tape the June/early-July build sent
+   // basket closes with NO comment (2,724 of them inside the HISTORICAL_50 and
+   // HISTORICAL_60 eras, zero carrying "STR CLOSE") while the anchor-divisor
+   // build stamped "STR CLOSE" on all 1,010 of its closes (AGGRESSIVE_30 9,
+   // LOW_RISK_30 11, STARWAVE_30 990).  Every order in both families produced a
+   // DEAL_ENTRY_OUT deal and both run the same ~105 ms machine cadence, so the
+   // two are one mechanism under two builds.  See parity audit DIV-3.
+   bool              stamp_close_comment;
    int               deployment_fill_cooldown_seconds;
    int               close_interval_seconds;
    int               restart_delay_ms;
@@ -108,6 +117,23 @@ struct SProfileConfig
    // closed, 0/146 sweeps left the book flat (residue ratchets 6 -> 148), and
    // 0/153 orphans ever received an [sl] order despite 1-9 days of XAUUSD
    // movement.  See ProfitBricks parity audit D6/D7.
+   //
+   // CROSS-VALIDATED against the 901018 tape with ONE instrument and one overlap
+   // rule (tmp/a901_orphan.py, tmp/asw_orphan.py), which is what makes this a
+   // BUILD switch rather than a measurement artifact.  Re-arm pendings dispatched
+   // over a level that STILL HELD a position: 901018 0 of 11,549 (HISTORICAL_50
+   // 0/2,847, HISTORICAL_60 0/6,422, AGGRESSIVE_30 0/29, LOW_RISK_30 0/18, and
+   // even its own STARWAVE_30 era 0/2,233) versus Starwave 118 of 1,075 -- all
+   // 118 ORDER_REASON_EXPERT on magic 26011001, so the operator is excluded.  Of
+   // those 118, 85 were canceled at the sweep and 33 filled while the old
+   // position was still open.  Same-slot OVERLAPPING re-fills: 0 of 10,475 vs 27
+   // of 952.  The residue reproduces D6/D7 exactly at 153/2,468, and 142 of the
+   // 153 outlived a later deployment (max 147 boundaries), so they are not merely
+   // the final open basket.  Starwave's first deal is 2026-08-21, after the
+   // 901018 tape ends 2026-07-30: the leak is the NEWER behaviour, hence true on
+   // the profiles that model the August build and false on the four 901018-only
+   // eras.  Both counts are LOWER bounds -- the probes group by (cycle,side,level)
+   // and so ignore orphans displaced by a re-arm that fills in a later cycle.
    bool              replica_orphan_leak;
    bool              trend_rescue_enabled;
    ENUM_TIMEFRAMES   trend_rescue_timeframe;
@@ -199,6 +225,10 @@ struct SLevelState
    int               active_position_count;
    bool              duplicate_identity;
    bool              recovery_done;
+   // Set when the interleaved first pass of the deployment burst failed to arm
+   // this level, cleared when the single retry pass appended at the tail of the
+   // same burst either arms it or abandons it.  See DeployOne().
+   bool              deploy_deferred;
    ulong             order_ticket;
    ulong             position_ticket;
    bool              rearm_requested;
@@ -230,13 +260,22 @@ void ResetProfile(SProfileConfig &config)
    config.atr_multiplier=0.0;
    config.lock_trigger_steps=2.0;
    config.lock_offset_price=0.2;
-   config.activation_uses_trailing_distance=false;
+   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+   // now sets this true and every one of them is backed by tape (see the
+   // evidence blocks in HISTORICAL_50 and HISTORICAL_60), so the default is
+   // true as well -- a profile added later without the line inherits the law
+   // that the target's binary actually runs instead of the one it does not.
+   // lock_offset_price survives only because SCustomProfileConfig exposes it as
+   // an operator input; with this default it is unreachable on every built-in
+   // path, which is exactly what StopScheduler's comment block predicts.
+   config.activation_uses_trailing_distance=true;
    config.pre_tighten_trail_distance_steps=2.0;
    config.tighten_trigger_steps=3.0;
    config.trail_distance_steps=2.0;
    config.cycle_target_balance_pct=0.18;
    config.cycle_target_money=0.0;
    config.cancel_before_close=false;
+   config.stamp_close_comment=true;
    config.deployment_fill_cooldown_seconds=0;
    config.close_interval_seconds=0;
    config.restart_delay_ms=3000;
@@ -276,6 +315,66 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.atr_period=17;
          config.atr_multiplier=0.10422410545583288;
          config.cycle_target_balance_pct=0.63;
+         // The build that ran this regime sent basket closes with NO comment.
+         // ReportHistory-901018, 2026.06.23 16:17 - 2026.07.02 15:18: 1,392
+         // empty-comment market orders, every one resolving to a DEAL_ENTRY_OUT
+         // deal, and not a single "STR CLOSE" anywhere in the era.
+         config.stamp_close_comment=false;
+         // ---- liquidation phase order, measured (DIV-6) ----------------------
+         // ResetProfile defaults this flag to false, which sends BeginClose()
+         // straight to CYCLE_CLOSING and flattens the basket before cancelling
+         // the surviving pendings.  The tape does the opposite in every era.
+         // tmp/a901_cancel_order.py attributes each cancelled grid pending to a
+         // cycle by its end_time, splits that cycle's basket closes into
+         // liquidation groups at a 60 s gap, takes the terminal group, and
+         // classifies the phase order three ways (mutually exclusive):
+         //
+         //   era               cycles  CANCEL_FIRST  CLOSE_FIRST  INTERLEAVED
+         //   HISTORICAL_50         95            95            0            0
+         //   HISTORICAL_60         72            71            1            0
+         //   AGGRESSIVE_30          2             1            0            1
+         //   LOW_RISK_30            1             1            0            0
+         //   STARWAVE_30          101            91            0           10
+         //
+         // 259 of 271 cycles are strictly cancel-first and exactly ONE is
+         // close-first -- and that one (cycle 169) is a manual operator flatten,
+         // identified by a `close by` order 0.232 s earlier.  PositionCloseBy has
+         // no call site in this EA, so those 12 orders date hand actions
+         // independently of anything being measured here.  Excluding the two
+         // operator sweeps, the four eras that inherited false are 168/168 =
+         // 100.00% cancel-first.  Cross-boundary attribution was checked rather
+         // than assumed: 106 of 19,312 cancels (0.55%) end in a later cycle than
+         // their placement, which cannot manufacture a 168-cycle result.
+         config.cancel_before_close=true;
+         // ---- activation law, measured (DIV-4) -------------------------------
+         // ResetProfile defaults this flag to false, which routes activation
+         // down StopScheduler's "entry+direction*lock_offset_price" branch and
+         // writes the FIRST stop at exactly entry +/- 0.20 price.  Because
+         // every later write must be strictly better (the monotonic returns at
+         // the end of Calculate), that branch makes a hard prediction:
+         // dir*(sl-open) can never be less than 0.20, and 0.20 must be a razor
+         // atom.  ReportHistory-901018 falsifies both for this era:
+         //
+         //   n=4094 positions carrying an S/L, scored with their own cycle step
+         //   dir*(sl-open) strictly inside (0,0.20):  351  (8.57%)  <- forbidden
+         //   minimum dir*(sl-open):                  +0.01
+         //   at 0.19 / 0.20 / 0.21:                   22 / 18 / 17  <- no atom
+         //   dir*(sl-open) < 0:                         0
+         //
+         // 0.20 carries less mass than 0.19 does; the busiest single cent in the
+         // era holds 26.  HISTORICAL_60 repeats it at n=7952: 1,068 inside
+         // (0,0.20), min +0.01, 47/57/55 across 0.19/0.20/0.21.  So the target's
+         // binary activates at the trailing distance, not at a fixed offset.
+         config.activation_uses_trailing_distance=true;
+         // Deliberately NOT setting trail_distance_steps: this era inherits
+         // ResetProfile's 2.0, which equals pre_tighten_trail_distance_steps,
+         // so the tighten ternary picks the same distance on both sides of
+         // tighten_trigger_steps and the two-stage ratchet collapses into a
+         // single-stage 2.0-step trail.  That is what the tape shows -- the
+         // locked-distance histogram has NO structural trough (band [1,2)
+         // holds 951/4094 = 23.23%, and 23.04% for HISTORICAL_60, against
+         // 0/2809 for STARWAVE_30).  Do not copy trail_distance_steps=1.0 here
+         // from the modern profiles; it would carve a trough that isn't there.
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,25,0.03);
          SetLotTier(config,26,50,0.06);
@@ -288,6 +387,30 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.atr_period=44;
          config.atr_multiplier=0.09188197447190301;
          config.cycle_target_balance_pct=0.42;
+         // Same build as HISTORICAL_50, same empty close comment: 1,332
+         // empty-comment DEAL_ENTRY_OUT closes between 2026.07.02 16:28 and
+         // the 2026.07.13 12:28 changeover, zero "STR CLOSE".
+         config.stamp_close_comment=false;
+         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+         // strictly cancel-first and 1 close-first, and the close-first one is
+         // cycle 169 -- a hand flatten with a `close by` 0.232 s before it.  On
+         // the operator-free complement this era is 71/71.  The same probe also
+         // shows the handoff is quantised: over 256 operator-free CANCEL_FIRST
+         // sweeps the lead from last cancel to first close has min 97 ms and
+         // 243/256 = 94.92% inside [95,135) ms -- one OnTimer period, which is
+         // what CancelOneOrder() assigning CYCLE_CLOSING and RETURNING predicts.
+         config.cancel_before_close=true;
+         // DIV-4, same measurement as HISTORICAL_50 and the larger of the two
+         // cohorts: n=7952 positions with an S/L, 1,068 (13.43%) carry
+         // dir*(sl-open) strictly inside (0,0.20) -- unreachable if activation
+         // wrote entry+lock_offset_price -- minimum +0.01, zero negative, and
+         // 0.20 is unremarkable against its neighbours (0.19:47  0.20:57
+         // 0.21:55) where the era's busiest single cent holds 78.
+         config.activation_uses_trailing_distance=true;
+         // As in HISTORICAL_50: trail_distance_steps is left at ResetProfile's
+         // 2.0 on purpose so the ratchet stays single-stage.  Measured band
+         // [1,2) occupancy 1832/7952 = 23.04%, neighbour-density ratio 0.920 --
+         // a smooth distribution with no tighten step in it.
          SetLotTier(config,1,15,0.01);
          SetLotTier(config,16,45,0.02);
          SetLotTier(config,46,60,0.05);
@@ -298,6 +421,38 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;
          config.anchor_divisor = 6000.0;
          config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, not by direct measurement.  This regime ran for
+         // ~90 minutes on 2026.07.13 (2 deployments, 29 positions with an S/L),
+         // which is far too little to falsify an activation law on its own: 2
+         // raws inside (0,0.20), 1 at 0.20.  But the activation branch is a
+         // single code path in a single binary, and the two eras that bracket
+         // this one -- HISTORICAL_60 before it, STARWAVE_30 after -- both
+         // demand the trailing-distance branch on 7,952 and 2,809 positions
+         // respectively.  Nothing supports the binary switching its activation
+         // rule for 90 minutes and switching back, so it inherits the law.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6, by the same probe and by the same parsimony argument.  This
+         // era authored exactly ONE terminal liquidation of its own (cycle 170)
+         // and it is cancel-first; its other sweep (cycle 171) is a hand flatten
+         // with a `close by` 0.109 s before it, scrambled ticket order and 2 ms
+         // gaps.  n=1 proves nothing alone, but the flag is a single field read
+         // by a single binary and the eras on both sides of this one are 95/95
+         // and 71/71 cancel-first, so it inherits the order.
+         config.cancel_before_close=true;
+         // Resolved, no longer open: 9 of this era's 28 attested S/L positions
+         // score dir*(sl-open) < 0, worst -10.559 steps (-7.18 in PRICE), which
+         // NEITHER activation branch can produce -- substituting a market-
+         // anchored write into its own gate gives locked = favorable - D >= 0
+         // for EVERY market price, so a negative is outside the range of the
+         // function, not an unlikely draw from it.  These nine are OPERATOR-
+         // authored, not an attribution error: the broker-attested [sl X] price
+         // equals the position field to the cent in all 28 rows (so nothing was
+         // stale), re-measuring from the burst lattice clears 0 of 9, solving
+         // each shared-price group for the market it implies passes the gate for
+         // only 0/3, 0/2 and 5-of-9 members (a real broadcast passes for all),
+         // the violating prices are 16x more whole-dollar and 6.6x more
+         // round-10c than the era's population, and two of them sit 0.109 s and
+         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
          SetLotTier(config,1,10,0.08);
          SetLotTier(config,11,20,0.41);
          SetLotTier(config,21,30,0.82);
@@ -308,6 +463,17 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.step_mode=STR_STEP_ANCHOR_DIVISOR;
          config.anchor_divisor = 3000.0;
          config.trail_distance_steps=1.0;
+         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+         // positions with an S/L, minimum dir*(sl-open) = +0.20 exactly with a
+         // single position there.  At n=29 on a one-cent price grid that is not
+         // evidence for the fixed-offset branch, and this era's ratchet DOES
+         // show the two-stage trough the modern profiles show (band [1,2)
+         // occupancy 0/29), so it is the same build family as STARWAVE_30.
+         config.activation_uses_trailing_distance=true;
+         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+         // no operator marker anywhere near it), and it is the same build family
+         // as STARWAVE_30, which carries the flag explicitly.
+         config.cancel_before_close=true;
          SetLotTier(config,1,10,0.01);
          SetLotTier(config,11,20,0.02);
          SetLotTier(config,21,30,0.05);
@@ -960,15 +1126,27 @@ public:
       // (CV 0.6051 vs 0.6057 on Starwave, whose steps only span 1.49-1.56;
       // 0.5375 vs 0.6875 on the 901018 cohort whose steps span 0.37-0.50+,
       // where the test has real power).  So activation_uses_trailing_distance is
-      // TRUE for the target, and lock_offset_price is dead code on every modern
-      // profile (JUNE_2K, LATEST_30, STARWAVE_30, STARWAVE_20 all set the flag).
+      // TRUE for the target, and lock_offset_price is now dead code on EVERY
+      // built-in profile: the ReportHistory-901018 tape settles the two eras
+      // that used to inherit the false branch (DIV-4).  Scored with each cycle's
+      // own step over all positions carrying an S/L, dir*(sl-open) lands
+      // strictly inside (0,0.20) -- a region the false branch cannot reach,
+      // since it writes 0.20 first and only ever improves -- for 351 of
+      // HISTORICAL_50's 4,094 and 1,068 of HISTORICAL_60's 7,952, both with a
+      // minimum of +0.01 and no atom at 0.20 (0.19/0.20/0.21 = 22/18/17 and
+      // 47/57/55).  ProfileCatalog's ResetProfile therefore defaults the flag to
+      // true, and the false branch below survives only as a CUSTOM_PROFILE
+      // operator escape hatch.
       // Starwave activation overshoot, offsets under 0.5 step, n=289:
       // p10 +0.058 / p50 +0.226 / p90 +0.455 steps, and 0 at exact breakeven --
       // same strictly-positive polling signature as the Target, just slower.
       //
-
-      // That would fill the (1.0,2.0) band and is directly falsified by the
-      // measurement above.
+      // A single-stage 1.0-step trail is ruled out for the modern profiles by
+      // the same locked-distance histogram: it would fill the (1.0,2.0) band,
+      // and STARWAVE_30 puts 0 of 2,809 positions in [1.00,1.98).  The two ATR
+      // profiles are the opposite case -- they inherit pre_tighten == trail ==
+      // 2.0, which collapses the ternary into a single-stage 2.0-step trail, and
+      // their bands are correspondingly smooth (23.23% and 23.04% in [1,2)).
       // ---------------------------------------------------------------------
 
       // Gate: no stop exists until price has moved favorably by
@@ -1749,6 +1927,7 @@ private:
          m_buy_levels[index].active_position_count=0;
          m_buy_levels[index].duplicate_identity=false;
          m_buy_levels[index].recovery_done=false;
+         m_buy_levels[index].deploy_deferred=false;
           m_buy_levels[index].order_ticket=0;
           m_buy_levels[index].position_ticket=0;
             m_buy_levels[index].rearm_requested=false;
@@ -1766,6 +1945,7 @@ private:
          m_sell_levels[index].active_position_count=0;
          m_sell_levels[index].duplicate_identity=false;
          m_sell_levels[index].recovery_done=false;
+         m_sell_levels[index].deploy_deferred=false;
           m_sell_levels[index].order_ticket=0;
           m_sell_levels[index].position_ticket=0;
             m_sell_levels[index].rearm_requested=false;
@@ -3567,20 +3747,48 @@ private:
       return true;
      }
 
+   bool DeployDeferred(const int slot) const
+     {
+      int level_index=slot/2;
+      if(level_index<0 || level_index>=m_profile.levels_per_side)
+         return false;
+      return(slot%2==0 ? m_buy_levels[level_index].deploy_deferred
+                       : m_sell_levels[level_index].deploy_deferred);
+     }
+
    void DeployOne(void)
      {
-      if(m_deploy_index>=m_profile.levels_per_side*2)
+      int sweep_slots=m_profile.levels_per_side*2;
+      int retry_slots=sweep_slots*2;
+      // Slots [0,sweep_slots) are the interleaved first pass; slots
+      // [sweep_slots,retry_slots) are the SINGLE retry pass appended at the tail
+      // of the same burst.  Fast-forward over every retry slot whose level was
+      // armed on the first pass INSIDE THIS SAME TICK, so that only a genuinely
+      // deferred level costs a timer tick: on the 901018 tape the retry leg goes
+      // out one inter_order_delay_ms after the last first-pass leg (110/113/111/
+      // 111/117/116 ms on the first six HISTORICAL_60 bursts), not one tick per
+      // skipped slot, which would put it ~12 s after S60.  A clean burst
+      // therefore completes on exactly the tick it always did.
+      while(m_deploy_index>=sweep_slots &&
+            m_deploy_index<retry_slots &&
+            !DeployDeferred(m_deploy_index-sweep_slots))
+         m_deploy_index++;
+      if(m_deploy_index>=retry_slots)
         {
          if(OwnedOrderCount()==0 && CyclePositionCount()==0)
            {
-            // Degenerate case OUTSIDE the target's measured envelope: every one
-            // of the 2N attempts was rejected, so the sweep armed nothing.
-            // Staying in CYCLE_RUNNING would idle forever -- CheckCycleTargets()
-            // returns early while !m_has_traded with nothing open, and
-            // RearmOneMissingLevel() only fires for levels whose position closed
-            // on stop-loss.  Re-anchor after the flat delay instead.  The worst
-            // real Starwave deployment still armed 39 of 50 levels, so this
-            // branch cannot fire on any measured cycle.
+            // Degenerate case OUTSIDE the target's measured envelope: all 2N
+            // first-pass attempts AND all 2N tail retries were rejected, so the
+            // sweep armed nothing.  Staying in CYCLE_RUNNING would idle forever
+            // on the flag-gated profiles -- CheckCycleTargets() returns early
+            // while !m_has_traded with nothing open, and with
+            // replica_orphan_leak=false RearmEligible() additionally needs
+            // rearm_requested, which only a stop-loss exit or a post-restart
+            // restore ever sets, so no level would ever come back.  Re-anchor
+            // after the flat delay instead.  The worst real deployment on either
+            // tape still armed 39 of 50 levels (Starwave 2026-08-21) and the
+            // worst on the 901018 tape lost only level 1 (HISTORICAL_60, 118 of
+            // 120 legs), so this branch cannot fire on any measured cycle.
             m_state=CYCLE_RESTARTING;
             m_restart_started_at=TimeCurrent();
             PersistCycle();
@@ -3598,31 +3806,107 @@ private:
          m_last_entry_fill_at>0 &&
          TimeCurrent()-m_last_entry_fill_at<m_profile.deployment_fill_cooldown_seconds)
          return;
-      int level_index=m_deploy_index/2;
-      bool is_buy=(m_deploy_index%2==0);
+      bool retry_pass=(m_deploy_index>=sweep_slots);
+      int slot=(retry_pass ? m_deploy_index-sweep_slots : m_deploy_index);
+      int level_index=slot/2;
+      bool is_buy=(slot%2==0);
+      // Clear the mark BEFORE the retry attempt, so a second failure abandons the
+      // level for the rest of the cycle instead of queueing a third attempt.
+      if(retry_pass)
+        {
+         if(is_buy)
+            m_buy_levels[level_index].deploy_deferred=false;
+         else
+            m_sell_levels[level_index].deploy_deferred=false;
+        }
       bool placed=(is_buy ? PlaceLevel(m_buy_levels[level_index])
                           : PlaceLevel(m_sell_levels[level_index]));
-      if(placed)
-        {
-         m_deploy_index++;
-         return;
-        }
       string level_comment=StringFormat(
          "STR %s%d",
          (is_buy ? "B" : "S"),
          level_index+1
       );
-      string reject_reason=StringFormat("retcode_%u",m_gateway.LastRetcode());
-      // TARGET EA PARITY -- A REJECTED LEVEL IS SKIPPED, NEVER RETRIED, AND
-      // NEVER ABORTS THE SWEEP.
+      if(placed)
+        {
+         if(retry_pass)
+            LogLifecycleEvent("deployment_level_retried",level_comment,"tail_retry");
+         m_deploy_index++;
+         return;
+        }
+      if(!retry_pass)
+        {
+         if(is_buy)
+            m_buy_levels[level_index].deploy_deferred=true;
+         else
+            m_sell_levels[level_index].deploy_deferred=true;
+        }
+      string reject_reason=StringFormat(
+         "retcode_%u%s",
+         m_gateway.LastRetcode(),
+         (retry_pass ? "_retry_abandoned" : "_deferred")
+      );
+      // TARGET EA PARITY -- A REJECTED LEVEL IS DEFERRED TO ONE RETRY PASS AT
+      // THE TAIL OF THE SAME BURST, THEN ABANDONED.  IT NEVER ABORTS THE SWEEP
+      // AND IT NEVER RETRIES MORE THAN ONCE.
       //
       // This branch previously dropped the whole cycle into CYCLE_CANCELING on
       // TRADE_RETCODE_INVALID_PRICE (cancel everything, re-anchor) and, on any
       // other retcode, fell through WITHOUT advancing m_deploy_index -- retrying
       // the same level on every subsequent tick, forever.  The target does
-      // neither.  It attempts the level, fails, and advances anyway, spending
-      // one timer tick on the failure and leaving that (side,level) slot empty
-      // for the entire cycle.
+      // neither.  It attempts the level, fails, advances immediately, and comes
+      // back for it exactly once after the last first-pass leg has gone out.
+      //
+      // The retry is invisible in the order table and can only be read off
+      // DISPATCH ORDER: the 901018 tape carries 54,742 orders whose state is only
+      // ever filled (35,430) or canceled (19,312) -- ZERO rejected -- so a level
+      // the broker refuses leaves no row at all.  It shows up as a gap in the
+      // lattice plus a late re-dispatch of that same (side,level).
+      //
+      // Measured over the 285 deployment bursts recovered from that tape,
+      // 70 dispatch a level-1 leg AFTER the highest level of the burst:
+      // HISTORICAL_60 68 of 78, HISTORICAL_50 2 of 101, and 0 of 103 on
+      // STARWAVE_30.  The adjacent-rank inversion census is S60 -> S1 x37,
+      // S60 -> B1 x31, S1 -> B1 x3 (71 inversions over 68 bursts; three carry
+      // two).  Three facts pin it to the EA's own dispatch rather than to the
+      // reader or to a folded-in re-arm:
+      //   * timestamps and tickets are strictly monotone across every swap --
+      //     0 swaps share a millisecond, 0 have non-monotone tickets, and the
+      //     tickets run consecutively (20216347/48/49/50);
+      //   * the gap from the last first-pass leg to the retry leg is ONE
+      //     inter_order_delay_ms tick (110/113/111/111/117/116 ms), not the ~12 s
+      //     a fresh burst or a re-arm sweep would cost;
+      //   * the retry lands on the EXACT original lattice price, not a re-anchored
+      //     one.  Burst 2026-07-02 21:52:35 has B60=4148.27 and S60=4093.07, so
+      //     anchor=4120.67 and step=55.20/120=0.46; its tail leg is B1 at
+      //     4121.13 = anchor + 1*step to the cent.
+      //
+      // The first-pass rejection is the broker minimum stop distance that
+      // PendingPriceIsValid() already models.  Score all 285 bursts on step
+      // alone: 0 of 66 bursts below step 0.60 are clean, versus 202 of 208
+      // (97.12%) at or above 0.70.  Within HISTORICAL_60 the 10 clean bursts run
+      // step 0.70..0.78 and the deferred ones 0.37..0.64 with ZERO overlap, and
+      // AGGRESSIVE_30 is clean at 0.68 -- so the threshold is step in
+      // (0.64, 0.68], i.e. stops_level ~ 0.50..0.55 plus half the spread.  Level
+      // 1 sits one step from the anchor and fails; level 2 at twice the step
+      // clears.  That is exactly the missing-legs census: ['B1'] x34, ['S1'] x27,
+      // [] x5, ['S1','S2'] x1, ['S1','S15'..'S18'] x1 -- level 2 or higher is
+      // missing in only 2 of 68.
+      //
+      // The retry is ONE pass, and a level whose retry also fails is abandoned
+      // for the rest of the cycle.  7 of the 78 HISTORICAL_60 bursts and 2 of the
+      // 103 STARWAVE_30 bursts carry NO level-1 leg at all, and the three
+      // incomplete Starwave lattices below are the same outcome at scale -- so
+      // there is no second retry, no loop, and no re-anchor.  Why the retry
+      // usually succeeds on 901018 and did not on Starwave: a 60-level burst takes
+      // ~12 s, price drifts, and the minimum-distance test that failed at t=0
+      // passes by the time the tail is reached; on Starwave 2026-08-21 the
+      // rejection was still live one tick later.
+      //
+      // HISTORICAL_50's 2 deferrals are the same architecture with a different
+      // trigger: steps 0.94 and 0.99, far above the distance threshold, B1
+      // dispatched in slot #0 and FILLED, S1 deferred to the last slot, and
+      // nothing missing from the lattice -- a transient REQUOTE/PRICE_CHANGED that
+      // the tail retry then placed successfully.
       //
       // Measured on all three of the 119 Starwave deployments that came out
       // incomplete (2.5%); there is not one abort-and-re-anchor event in the
@@ -3646,12 +3930,16 @@ private:
       //   2026-08-27 08:23  only S1 rejected -- the nearest level, i.e. a
       //       stops_level/freeze-level rejection -- and the other 59 were placed.
       //
-      // And the gaps are never back-filled: in all three cycles the skipped
-      // slots stayed empty while OTHER levels re-armed normally (08-21 saw 11
-      // distinct levels re-arm, e.g. B2 six times, B1 five times).  That is
-      // already our behaviour -- ScheduleLevelRearm() only sets rearm_requested
-      // when a level's position closes on stop-loss, and RearmOneMissingLevel()
-      // is gated on that flag, so a deployment-skipped level stays dormant.
+      // And once the single retry has been spent the gaps are never back-filled:
+      // in all three cycles the abandoned slots stayed empty while OTHER levels
+      // re-armed normally (08-21 saw 11 distinct levels re-arm, e.g. B2 six times,
+      // B1 five times).  The ordinary re-arm path cannot reach them either --
+      // RearmOneMissingLevel() runs only in CYCLE_RUNNING, and on a profile with
+      // replica_orphan_leak=false RearmEligible() additionally requires
+      // rearm_requested, which ScheduleLevelRearm() sets only when a level's
+      // position closes on stop-loss.  So the burst-local retry above is the only
+      // second chance a deployment-rejected level ever gets, which is why it lives
+      // in DeployOne() and not in the re-arm scheduler.
       LogLifecycleEvent("deployment_level_rejected",level_comment,reject_reason);
       LogEvent(
          "deployment_skip",
@@ -3706,9 +3994,16 @@ private:
                  : m_profile.lots[index]
              );
               // Target EA parity: re-arms ALWAYS return to the original anchor
-              // lattice price. Measured against 1,797 mid-cycle re-arms in the
-              // final regime, 99.4% land exactly (<0.1 step) on the price of the
-              // same (side,level) slot from the cycle's deployment burst; sell
+              // lattice price. Measured on ReportHistory-901018: of 12,443 grid
+              // pendings that are not deployment-burst orders, 1,091 belong to
+              // 10 deployment bursts the cycle segmenter merged into an open
+              // cycle, and ALL 11,352 true re-arms land on the exact price of
+              // the same (side,level) slot -- 11,058 on the cycle's burst slot
+              // and 294 on the same lattice past a truncated slot table.
+              // Residual zero: not one relocation in the tape. Repeated re-arms
+              // of one slot agree to the cent (2,490 slots, up to 19 repeats,
+              // max intra-slot spread 0.0000), and only 0.93% sit at
+              // market +/- level*step, so re-anchoring is refuted outright; sell
               // stops were observed re-armed up to 35 steps away from market on
               // the original lattice. The Target EA never re-anchors pendings to
               // market. If the lattice price is currently invalid (market has
@@ -4272,11 +4567,11 @@ private:
          double volume=PositionGetDouble(POSITION_VOLUME);
          double price=PositionGetDouble(POSITION_PRICE_CURRENT);
          string comment=PositionGetString(POSITION_COMMENT);
-         if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
+         if(m_gateway.ClosePosition(ticket,CloseComment()))
            {
             m_last_close_at=TimeCurrent();
             m_close_skip=0;
-            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
+            LogEvent("close",comment,ticket,volume,price,CloseComment());
             return true;
            }
          m_last_close_at=TimeCurrent();
@@ -4285,6 +4580,20 @@ private:
         }
       m_close_skip=0;
       return false;
+     }
+
+   // Basket-close comment.  The Target ran two builds over the 901018 window and
+   // they stamp the sweep differently: inside HISTORICAL_50 and HISTORICAL_60 all
+   // 2,724 basket closes carry an EMPTY comment and not one carries "STR CLOSE",
+   // while every one of the 1,010 "STR CLOSE" closes falls inside the
+   // anchor-divisor eras (AGGRESSIVE_30 9, LOW_RISK_30 11, STARWAVE_30 990).  The
+   // two families are the same mechanism, not different actions: all 3,742 orders
+   // resolve to DEAL_ENTRY_OUT deals (2732/2732 and 1010/1010), both run the same
+   // ~105 ms machine cadence, and their windows partition the tape cleanly at the
+   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+   string CloseComment(void) const
+     {
+      return(m_profile.stamp_close_comment ? "STR CLOSE" : "");
      }
 
    bool TryCloseOneOwnedPosition(void)
@@ -4303,11 +4612,11 @@ private:
          double volume=PositionGetDouble(POSITION_VOLUME);
          double price=PositionGetDouble(POSITION_PRICE_CURRENT);
          string comment=PositionGetString(POSITION_COMMENT);
-         if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
+         if(m_gateway.ClosePosition(ticket,CloseComment()))
            {
             m_last_close_at=TimeCurrent();
             m_close_skip=0;
-            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
+            LogEvent("close",comment,ticket,volume,price,CloseComment());
             return true;
            }
          m_last_close_at=TimeCurrent();
@@ -5269,11 +5578,15 @@ public:
 // LATEST_30 / 901018 and the STR_DEFAULT_PROFILE macro was inert: every
 // binary silently defaulted to LATEST_30 no matter what it defined.
 //
-// The shipped defaults reproduce the Starwave / Target account:
+// This modular build's un-overridden defaults reproduce the Starwave / Target
+// account (a standalone that pins the macros above ships different ones):
 //   Profile     = STARWAVE_30  (N=30/side, step=round(anchor/3000,2),
 //                               lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30,
 //                               ratchet L=2 Dpre=2 Tt=3 D=1, cancel-then-close,
-//                               cycle_target_money=25, restart_delay_ms=2000)
+//                               cycle_target_money=26.5, restart_delay_ms=2000)
+//                              The money target is authoritative in
+//                              ProfileCatalog.mqh (case STARWAVE_30); this
+//                              summary previously said 25, which no profile uses.
 //   MagicNumber = 26011001     measured on all 10,844 EA-authored rows of
 //                              Starwave_60542_orders_history.csv; the other 19
 //                              rows are magic 0 manual operator closes.
@@ -5340,7 +5653,13 @@ input double CustomPreTightenTrailDistanceSteps = 2.0;
 input double CustomTightenTriggerSteps = 3.0;
 input double CustomTrailDistanceSteps = 1.0;
 input double CustomCycleTargetPercent = 0.18;
-input double CustomCycleTargetMoney = 25.0;
+// 26.5, not the 25.0 this default carried until the basket target was solved:
+// ProfileCatalog.mqh (case STARWAVE_30) brackets the measured value to
+// (26.41, 26.51] from the 3-cycle censored run over 2026-08-24 19:22..19:49,
+// which EXCLUDES 25.0.  Since cycle_target_money is the EA's only exit, a 25.0
+// default made CUSTOM_PROFILE bank 5.66% early on every basket -- the one value
+// in this block that was a placeholder rather than a measurement.
+input double CustomCycleTargetMoney = 26.5;
 input bool CustomCancelBeforeClose = true;
 input int CustomDeploymentFillCooldownSeconds = 0;
 input int CustomCloseIntervalSeconds = 0;

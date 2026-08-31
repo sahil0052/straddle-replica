@@ -16,11 +16,15 @@
 // LATEST_30 / 901018 and the STR_DEFAULT_PROFILE macro was inert: every
 // binary silently defaulted to LATEST_30 no matter what it defined.
 //
-// The shipped defaults reproduce the Starwave / Target account:
+// This modular build's un-overridden defaults reproduce the Starwave / Target
+// account (a standalone that pins the macros above ships different ones):
 //   Profile     = STARWAVE_30  (N=30/side, step=round(anchor/3000,2),
 //                               lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30,
 //                               ratchet L=2 Dpre=2 Tt=3 D=1, cancel-then-close,
-//                               cycle_target_money=25, restart_delay_ms=2000)
+//                               cycle_target_money=26.5, restart_delay_ms=2000)
+//                              The money target is authoritative in
+//                              ProfileCatalog.mqh (case STARWAVE_30); this
+//                              summary previously said 25, which no profile uses.
 //   MagicNumber = 26011001     measured on all 10,844 EA-authored rows of
 //                              Starwave_60542_orders_history.csv; the other 19
 //                              rows are magic 0 manual operator closes.
@@ -87,7 +91,13 @@ input double CustomPreTightenTrailDistanceSteps = 2.0;
 input double CustomTightenTriggerSteps = 3.0;
 input double CustomTrailDistanceSteps = 1.0;
 input double CustomCycleTargetPercent = 0.18;
-input double CustomCycleTargetMoney = 25.0;
+// 26.5, not the 25.0 this default carried until the basket target was solved:
+// ProfileCatalog.mqh (case STARWAVE_30) brackets the measured value to
+// (26.41, 26.51] from the 3-cycle censored run over 2026-08-24 19:22..19:49,
+// which EXCLUDES 25.0.  Since cycle_target_money is the EA's only exit, a 25.0
+// default made CUSTOM_PROFILE bank 5.66% early on every basket -- the one value
+// in this block that was a placeholder rather than a measurement.
+input double CustomCycleTargetMoney = 26.5;
 input bool CustomCancelBeforeClose = true;
 input int CustomDeploymentFillCooldownSeconds = 0;
 input int CustomCloseIntervalSeconds = 0;

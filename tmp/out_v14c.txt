@@ -1,0 +1,14 @@
+=== engine cycle_target_money ===
+1246:         m_profile.cycle_target_money>0.0
+1247:         ? m_profile.cycle_target_money*scale
+1440:      FileWrite(handle,"profile_cycle_target_money",
+1441:                DoubleToString(m_profile.cycle_target_money,10));
+3446:       double target=(m_profile.cycle_target_money>0.0
+3447:                      ? m_profile.cycle_target_money*scale
+
+=== app default line ===
+100:input double CustomCycleTargetMoney = 26.5;
+165:   custom.cycle_target_money=CustomCycleTargetMoney;
+
+=== standalone (stale?) ===
+5656:input double CustomCycleTargetMoney = 25.0;

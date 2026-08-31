@@ -1,0 +1,72 @@
+=== DIV- in mql5 ===
+mql5/include/ProfileCatalog.mqh:17:   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+mql5/include/ProfileCatalog.mqh:77:         // ---- liquidation phase order, measured (DIV-6) ----------------------
+mql5/include/ProfileCatalog.mqh:103:         // ---- activation law, measured (DIV-4) -------------------------------
+mql5/include/ProfileCatalog.mqh:148:         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+mql5/include/ProfileCatalog.mqh:157:         // DIV-4, same measurement as HISTORICAL_50 and the larger of the two
+mql5/include/ProfileCatalog.mqh:178:         // DIV-4 by parsimony, not by direct measurement.  This regime ran for
+mql5/include/ProfileCatalog.mqh:188:         // DIV-6, by the same probe and by the same parsimony argument.  This
+mql5/include/ProfileCatalog.mqh:209:         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
+mql5/include/ProfileCatalog.mqh:220:         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+mql5/include/ProfileCatalog.mqh:227:         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+mql5/include/StopScheduler.mqh:128:      // that used to inherit the false branch (DIV-4).  Scored with each cycle's
+mql5/include/StraddleEngine.mqh:2893:   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+mql5/include/StraddleTypes.mqh:74:   // two are one mechanism under two builds.  See parity audit DIV-3.
+mql5/ProfitBricks2K.mq5:100:   // two are one mechanism under two builds.  See parity audit DIV-3.
+mql5/ProfitBricks2K.mq5:263:   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+mql5/ProfitBricks2K.mq5:323:         // ---- liquidation phase order, measured (DIV-6) ----------------------
+mql5/ProfitBricks2K.mq5:349:         // ---- activation law, measured (DIV-4) -------------------------------
+mql5/ProfitBricks2K.mq5:394:         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+mql5/ProfitBricks2K.mq5:403:         // DIV-4, same measurement as HISTORICAL_50 and the larger of the two
+mql5/ProfitBricks2K.mq5:424:         // DIV-4 by parsimony, not by direct measurement.  This regime ran for
+mql5/ProfitBricks2K.mq5:434:         // DIV-6, by the same probe and by the same parsimony argument.  This
+mql5/ProfitBricks2K.mq5:455:         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
+mql5/ProfitBricks2K.mq5:466:         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+mql5/ProfitBricks2K.mq5:473:         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+mql5/ProfitBricks2K.mq5:1131:      // that used to inherit the false branch (DIV-4).  Scored with each cycle's
+mql5/ProfitBricks2K.mq5:4593:   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+mql5/ProfitBricks2K_AllInOne.mq5:100:   // two are one mechanism under two builds.  See parity audit DIV-3.
+mql5/ProfitBricks2K_AllInOne.mq5:263:   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+mql5/ProfitBricks2K_AllInOne.mq5:323:         // ---- liquidation phase order, measured (DIV-6) ----------------------
+mql5/ProfitBricks2K_AllInOne.mq5:349:         // ---- activation law, measured (DIV-4) -------------------------------
+mql5/ProfitBricks2K_AllInOne.mq5:394:         // DIV-6, the largest single-era cohort: 72 terminal liquidations, 71
+mql5/ProfitBricks2K_AllInOne.mq5:403:         // DIV-4, same measurement as HISTORICAL_50 and the larger of the two
+mql5/ProfitBricks2K_AllInOne.mq5:424:         // DIV-4 by parsimony, not by direct measurement.  This regime ran for
+mql5/ProfitBricks2K_AllInOne.mq5:434:         // DIV-6, by the same probe and by the same parsimony argument.  This
+mql5/ProfitBricks2K_AllInOne.mq5:455:         // 30 s from a `close by`.  See parity audit DIV-6 / section 3.1.
+mql5/ProfitBricks2K_AllInOne.mq5:466:         // DIV-4 by parsimony, as AGGRESSIVE_30 above: one deployment, 29
+mql5/ProfitBricks2K_AllInOne.mq5:473:         // DIV-6: this era's single terminal liquidation is cancel-first (1/1,
+mql5/ProfitBricks2K_AllInOne.mq5:1131:      // that used to inherit the false branch (DIV-4).  Scored with each cycle's
+mql5/ProfitBricks2K_AllInOne.mq5:4593:   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+=== DIV- in tests ===
+tests/test_mql5_contract.py:755:    DIV-5.  The 901018 tape carries ZERO rejected orders in 54,742 -- state is
+tests/test_mql5_contract.py:2157:    """DIV-3: the sweep comment is a build fingerprint, so it must be per-profile.
+tests/test_mql5_contract.py:2236:    """DIV-4: the first stop is market -/+ pre_tighten*step, never entry +/- 0.20.
+tests/test_mql5_contract.py:2348:    DIV-4 kills the false branch on every built-in profile, but the operator
+tests/test_mql5_contract.py:2373:# DIV-6: liquidation phase order.
+tests/test_mql5_contract.py:2384:# The order is now universal across every built-in profile, so the DIV-6 set is
+tests/test_mql5_contract.py:2391:    """DIV-6: all twelve cases set cancel_before_close, on all three carriers.
+tests/test_mql5_contract.py:2443:    neighbours by the same parsimony argument DIV-4 uses.  A future reader who
+tests/test_mql5_contract.py:2450:        assert "liquidation phase order, measured (DIV-6)" in h50, name
+tests/test_mql5_contract.py:2460:        assert "DIV-6, the largest single-era cohort" in h60, name
+tests/test_mql5_contract.py:2470:        assert "DIV-6, by the same probe and by the same parsimony argument" in aggressive, name
+tests/test_mql5_contract.py:2476:        assert "DIV-6: this era's single terminal liquidation is cancel-first" in low_risk, name
+tests/test_mql5_contract.py:2479:        # DIV-4 and DIV-6 sit next to each other in all four bodies; neither
+tests/test_mql5_contract.py:2482:            assert "DIV-4" in bodies[profile], (name, profile)
+tests/test_mql5_contract.py:2483:            assert "DIV-6" in bodies[profile], (name, profile)
+tests/test_mql5_contract.py:2487:    """No engine change was needed for DIV-6, and this is why.
+tests/test_profiles.py:110:    """DIV-6: the mirror must agree with mql5/include/ProfileCatalog.mqh.
+Binary file tests/__pycache__/test_mql5_contract.cpython-314-pytest-8.1.1.pyc matches
+Binary file tests/__pycache__/test_profiles.cpython-314-pytest-8.1.1.pyc matches
+=== DIV- in straddle_replica + tools ===
+straddle_replica/profiles.py:42:    # DIV-4: the measured activation law, not a neutral default.  The false
+straddle_replica/profiles.py:139:        # DIV-4, measured on 4,094 S/L positions (see the dataclass default).
+straddle_replica/profiles.py:145:        # DIV-6, measured on ReportHistory-901018's 271 terminal liquidations:
+straddle_replica/profiles.py:162:        # DIV-4, measured on 7,952 S/L positions; single-stage trail as above
+straddle_replica/profiles.py:165:        # DIV-6, largest cohort: 72 liquidations, 71 cancel-first, and the one
+straddle_replica/profiles.py:177:        # DIV-4 by parsimony: 2 deployments over ~90 minutes on 2026.07.13, 29
+straddle_replica/profiles.py:181:        # DIV-6 by parsimony: this era authored exactly one liquidation of its own
+straddle_replica/profiles.py:193:        # DIV-4 by parsimony, as AGGRESSIVE_30; this era's band [1,2) is 0/29,
+straddle_replica/profiles.py:196:        # DIV-6: its single liquidation is cancel-first (1/1, no operator marker).
+=== DIV- in other docs ===
+docs/PARITY_AUDIT_14_VECTOR.md

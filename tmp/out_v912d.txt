@@ -1,0 +1,52 @@
+=== defines 1-20 ===
+#ifndef STRADDLE_REPLICA_ENGINE_MQH
+#define STRADDLE_REPLICA_ENGINE_MQH
+
+#include "StraddleTypes.mqh"
+#include "ProfileCatalog.mqh"
+#include "TradeGateway.mqh"
+#include "CycleDealLedger.mqh"
+#include "BasketEvaluator.mqh"
+#include "StopScheduler.mqh"
+
+#define STR_PENDING_DEAL_CAPACITY 256
+#define STR_DEAL_METADATA_SETTLE_MS 5000
+#define STR_HISTORY_RECONCILE_INTERVAL_MS 1000
+#define STR_HISTORY_RECONCILE_LOOKBACK_MS 900000
+
+class CStraddleEngine
+  {
+private:
+   SRuntimeConfig    m_runtime;
+   SProfileConfig    m_profile;
+
+=== m_cycle_exit_deal_count / seeded / ResetProcessedDeals sites ===
+34:   int               m_cycle_exit_deal_count;
+69:   ulong             m_last_history_reconcile_ms;
+70:   bool              m_history_reconcile_seeded;
+630:   void ResetProcessedDeals(void)
+680:   void LoadProcessedDealsFromTelemetry(void)
+914:      LoadProcessedDealsFromTelemetry();
+935:         m_cycle_exit_deal_count=recalculated_count;
+940:         m_cycle_exit_deal_count=persisted_realized_count;
+1002:         m_cycle_exit_deal_count>0
+1073:         (double)m_cycle_exit_deal_count
+1866:      m_cycle_exit_deal_count=0;
+1872:       ResetProcessedDeals();
+1873:       m_last_history_reconcile_ms=0;
+1874:       m_history_reconcile_seeded=false;
+2028:      m_cycle_exit_deal_count=0;
+2035:       ResetProcessedDeals();
+2036:       m_last_history_reconcile_ms=0;
+2037:       m_history_reconcile_seeded=false;
+3131:      m_cycle_exit_deal_count=0;
+3153:         m_last_history_reconcile_ms=0;
+3154:         m_history_reconcile_seeded=false;
+3584:      if(m_last_history_reconcile_ms>0 &&
+3585:         now_ms-m_last_history_reconcile_ms<
+3588:      m_last_history_reconcile_ms=now_ms;
+3590:      if(m_history_reconcile_seeded)
+3603:      m_history_reconcile_seeded=true;
+3678:            recalculated_count>m_cycle_exit_deal_count)
+3681:            m_cycle_exit_deal_count=recalculated_count;
+3692:            m_cycle_exit_deal_count++;

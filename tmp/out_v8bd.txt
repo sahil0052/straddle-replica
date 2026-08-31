@@ -1,0 +1,83 @@
+    #      Density >= 0.80 guarantees a concordant pair exists: each side holds
+    #      at most max_level slots, so slots >= 1.6*max_level forces both sides
+    #      above 0.6*max_level and at least 0.2*max_level levels overlap.
+    # -----------------------------------------------------------------------
+    records = []
+    for cluster in clusters:
+        if len(cluster) < MIN_LEGS:
+            continue
+        top = max(r["level"] for r in cluster)
+        slots = {(r["is_buy"], r["level"]) for r in cluster}
+        if top <= 0 or len(slots) < 0.80 * 2 * top:
+            continue
+        buys = {r["level"]: r["price"] for r in cluster if r["is_buy"]}
+        sells = {r["level"]: r["price"] for r in cluster if not r["is_buy"]}
+        shared = sorted(set(buys) & set(sells))
+        if not shared:
+            continue
+        k = shared[-1]
+        anchors = [(buys[j] + sells[j]) / 2.0 for j in shared]
+        records.append({
+            "when": cluster[0]["when"],
+            "end": cluster[-1]["when"],
+            "legs": len(cluster),
+            "n": top,
+            "anchor": (buys[k] + sells[k]) / 2.0,
+            "step": (buys[k] - sells[k]) / (2.0 * k),
+            "pair_k": k,
+            "anchor_spread": max(anchors) - min(anchors),
+            "density": len(slots) / (2.0 * top),
+            "tiers": tuple(sorted({r["volume"] for r in cluster})),
+            "cluster": cluster,
+        })
+    last_full = None
+    for record in records:
+        name = SIGNATURE.get((record["n"], record["tiers"]), (None, None))[0]
+        if name is not None:
+            last_full = name
+        record["assigned"] = last_full
+        record["inherited"] = name is None
+    return records
+def build_sweeps(orders):
+    """Close-family market orders, burst-grouped.  Marker is build-dependent."""
+    closes = []
+    for row in orders:
+        comment = norm(row["Comment"])
+        when = stamp(row["Open Time"])
+        if when is None or norm(row["Type"]) not in ("buy", "sell"):
+            continue
+        if comment == "":
+            marker = "<empty>"
+        elif comment == "STR CLOSE":
+            marker = "STR CLOSE"
+        else:
+            continue
+        closes.append({"when": when, "marker": marker, "ticket": norm(row["Order"])})
+    closes.sort(key=lambda item: (item["when"], item["ticket"]))
+
+    sweeps = []
+    current = []
+    for row in closes:
+        if current and (row["when"] - current[-1]["when"]).total_seconds() > CLOSE_BURST_GAP_S:
+            sweeps.append(current)
+            current = []
+        current.append(row)
+    if current:
+        sweeps.append(current)
+    return sweeps
+
+
+def cancel_times(orders):
+    """(cancel time) for every lattice pending the terminal reports as canceled."""
+    out = []
+    for row in orders:
+        if "cancel" not in norm(row["State"]).lower():
+            continue
+        if parse_level(row["Comment"]) is None:
+            continue
+        when = stamp(row["Time"])
+        if when is not None:
+            out.append(when)
+    out.sort()
+    return out
+def classify_sweeps(sweeps, deployments):

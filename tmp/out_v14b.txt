@@ -1,0 +1,29 @@
+=== imports ===
+1:from pathlib import Path
+
+=== lines 1913-1925 ===
+def test_app_exposes_the_orphan_leak_input_and_wires_it():
+    source = app_source()
+    assert "input bool CustomReplicaOrphanLeak = true;" in source
+    assert "custom.replica_orphan_leak=CustomReplicaOrphanLeak;" in source
+    # Default ON matches the Starwave binary; the comment records why, and that
+    # turning it off is a deliberate DEVIATION rather than a bug fix.
+    assert "DEVIATION from the Target" in source
+
+
+def test_engine_reproduces_the_target_orphan_leak():
+    """The eight engine mechanisms that make a displaced position vanish.
+
+    Dropping the re-arm gate alone is INERT: ReconcileLevels() rebuilds
+
+=== STARWAVE_30 money line ===
+30:   config.cycle_target_money=0.0;
+247:         config.cycle_target_money=30.0;
+315:          config.cycle_target_money=30.0;
+478:         config.cycle_target_money=26.5;
+512:         config.cycle_target_money=6.5;
+546:         config.cycle_target_money=26.5;
+582:         config.cycle_target_money=12.0;
+616:         config.cycle_target_money=28.5;
+653:         config.cycle_target_money=17.8;
+730:   config.cycle_target_money=custom.cycle_target_money;

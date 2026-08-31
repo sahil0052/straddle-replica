@@ -1,0 +1,26 @@
+=== doc length + markers ===
+3036 docs/PARITY_AUDIT_14_VECTOR.md
+3007:<!-- V10-APPEND -->
+
+=== 2.12 headings ===
+2636:### 2.12 V12 — Account and symbol suffix auto-binding
+2638:#### 2.12.0 The two questions, restated
+2652:#### 2.12.1 The binding chain, end to end
+2692:#### 2.12.2 The suffix question, measured on both tapes
+2722:#### 2.12.3 `ContractScale()` is identified from the tape, not assumed
+2789:#### 2.12.4 The 0.01% accounted for — all four non-exact rows, and all 81 skips
+2830:#### 2.12.5 Why the multiplier is load-bearing, and what it is actually for
+2858:#### 2.12.6 Account binding, and the five refusals
+2927:#### 2.12.7 Finding V12-A — the shipped-defaults comment misstates the money target
+2962:#### 2.12.8 Standalone parity on this vector
+2983:#### 2.12.9 V12 verdict
+
+=== duplicate check ===
+1
+1
+
+=== exec rows V11-V14 ===
+83:| V11 | Deal ledger & async reconciliation | **100.00% of mechanism**; 1 micro-divergence flagged | 35,447 deals / 54,742 orders / 17,632 positions | money identity **exact to the cent** vs the broker footer (delta $0.00); 0 duplicate deal tickets; Finding V11-A whole-second cycle boundary 5/284 = 1.76%, see §2.11 |
+84:| V12 | Account & symbol suffix binding | **100.00%**; 1 documentation-only divergence | 2 broker suffixes (`XAUUSD.u` 10,863/10,863; bare `XAUUSD` 107,873) + 17,551 closed positions | `TradeSymbol=""` → `_Symbol` verbatim, no parsing; `SYMBOL_TRADE_CONTRACT_SIZE=100` **solved from the tape** (17,550/17,551 = 99.99%, 6/6 open) ⇒ `ContractScale()=1.0000` exactly; Finding V12-A stale `cycle_target_money=25` comment, see §2.12 |
+85:| V13 | Standalone anti-drift | **100.00%** | 5,754 lines × 2 files, `2d2fe9bb0d272406` | hash-verified |
+86:| V14 | Race conditions & robustness | **unfalsified** | 0 rejected orders on 65,605 | path unexercised by evidence |

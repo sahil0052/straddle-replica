@@ -1,0 +1,83 @@
+=== App: current offsets of every construct cited in the audit ===
+1:#ifndef STR_REQUIRE_DEMO_DEFAULT
+2:   #define STR_REQUIRE_DEMO_DEFAULT true
+4:#ifndef STR_REQUIRE_BOUND_DEFAULT
+5:   #define STR_REQUIRE_BOUND_DEFAULT false
+7:#ifndef STR_SAFETY_ENABLED_DEFAULT
+8:   #define STR_SAFETY_ENABLED_DEFAULT false
+10:#ifndef STR_DEFAULT_PROFILE
+11:   #define STR_DEFAULT_PROFILE STARWAVE_30
+19:// This modular build's un-overridden defaults reproduce the Starwave / Target
+31:#ifndef STR_DEFAULT_MAGIC
+32:   #define STR_DEFAULT_MAGIC 26011001
+35:#include "StraddleTypes.mqh"
+36:#include "StraddleEngine.mqh"
+38:input group "Replica"
+39:input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;
+40:input string TradeSymbol = "";
+41:input ulong MagicNumber = STR_DEFAULT_MAGIC;
+42:input bool ReplicaMode = true;
+43:input datetime ReplicaStartTime = 0;
+44:input int InterOrderDelayMs = 100;
+45:input int DeviationPoints = 100;
+46:input bool TelemetryEnabled = true;
+48:input group "Live Twin"
+49:input ENUM_STR_RUNTIME_MODE RuntimeMode = STR_RUNTIME_NORMAL;
+50:input string ShadowCommandFile = "StraddleShadow\\command.csv";
+51:input string ShadowAckFile = "StraddleShadow\\ack.csv";
+52:input int ShadowCommandMaxAgeMs = 2000;
+53:input bool AllowShadowAdoptExistingCycle = false;
+55:input group "Account Safety"
+56:input bool RequireDemoAccount = STR_REQUIRE_DEMO_DEFAULT;
+57:input bool RequireBoundAccount = STR_REQUIRE_BOUND_DEFAULT;
+58:input ulong ExpectedAccountLogin = 0;
+60:input group "Optional Safety (disabled in replica baseline)"
+61:input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+62:input double MaxEquityLossPercent = 20.0;
+63:input double MaxGrossLots = 2.20;
+64:input double MaxSpreadPoints = 1000.0;
+65:input double DailyLossLimit = 0.0;
+67:input group "Custom Profile"
+77:input int CustomLevelsPerSide = 30;
+78:input ENUM_STR_STEP_MODE CustomStepMode = STR_STEP_ANCHOR_DIVISOR;
+79:input double CustomStepValue = 3000.0;
+80:input ENUM_TIMEFRAMES CustomATRTimeframe = PERIOD_M15;
+81:input int CustomATRPeriod = 17;
+82:input int CustomTier1End = 10;
+83:input double CustomLot1 = 0.01;
+84:input int CustomTier2End = 20;
+85:input double CustomLot2 = 0.06;
+86:input double CustomLot3 = 0.15;
+87:input double CustomLockTriggerSteps = 2.0;
+88:input double CustomLockOffsetPrice = 0.2;
+89:input bool CustomActivationUsesTrailingDistance = true;
+90:input double CustomPreTightenTrailDistanceSteps = 2.0;
+91:input double CustomTightenTriggerSteps = 3.0;
+92:input double CustomTrailDistanceSteps = 1.0;
+93:input double CustomCycleTargetPercent = 0.18;
+94:input double CustomCycleTargetMoney = 25.0;
+95:input bool CustomCancelBeforeClose = true;
+96:input int CustomDeploymentFillCooldownSeconds = 0;
+97:input int CustomCloseIntervalSeconds = 0;
+98:input int CustomRestartDelayMs = 2000;
+99:input int CustomRearmDelaySeconds = 0;
+100:input bool CustomStopUpdatesOnTimer = false;
+101:input int CustomStopUpdateIntervalSeconds = 0;
+102:input int CustomMaxStopUpdatesPerPass = 0;
+103:input bool CustomStopScanNewestFirst = true;
+112:input bool CustomReplicaOrphanLeak = true;
+120:   runtime.symbol=TradeSymbol;
+
+=== every StraddleReplicaApp citation in the audit ===
+1262:(`StraddleReplicaApp.mqh:8`), `input bool SafetyEnabled` (`:57`), and all four entry points re-define it
+2317:`StraddleReplicaApp.mqh:187-191`; standalone `ProfitBricks2K.mq5:5526` and `:5749-5753`).
+2658:input string TradeSymbol = "";            // StraddleReplicaApp.mqh:36
+2659:   runtime.symbol=TradeSymbol;            // StraddleReplicaApp.mqh:116
+2879:The shipped posture, read from the app's macro block and input list (`StraddleReplicaApp.mqh:1-13`,
+2931:header comment at `StraddleReplicaApp.mqh:13-26` enumerates eight properties of the shipped
+2949:stale text appears at three sites — `StraddleReplicaApp.mqh:23`, `ProfitBricks2K.mq5:5585` and
+
+=== bare App:NN style citations ===
+2970:| `input string TradeSymbol = "";` | `App:36` | `:5598` | `:5598` |
+2971:| `runtime.symbol=TradeSymbol;` | `App:116` | `:5678` | `:5678` |
+2988:| `TradeSymbol=""` → `_Symbol`? | **Yes**, unconditionally, at init | `App:36` → `App:116` → `Engine:3168-3169` |

@@ -35,8 +35,17 @@ def test_main_ea_exposes_required_inputs_and_event_handlers():
         # The five defaults below used to carry pre-Starwave placeholder values
         # (false / false / 0.0 / false / 3000).  They are now the measured
         # Starwave/Target settings, so CUSTOM_PROFILE is a Starwave clone out of
-        # the box and only the tier lots, N and the basket target need touching
-        # to reproduce any of the seven observed lot ladders.
+        # the box and only the tier lots and N need touching to reproduce any of
+        # the seven observed lot ladders.
+        #
+        # CustomCycleTargetMoney was the sixth and last placeholder: it shipped
+        # 25.0 while ProfileCatalog.mqh (case STARWAVE_30) brackets the measured
+        # basket target to (26.41, 26.51] from the 3-cycle censored run over
+        # 2026-08-24 19:22..19:49 -- a bracket that EXCLUDES 25.0.  Because
+        # cycle_target_money is the EA's only exit, the placeholder banked every
+        # CUSTOM_PROFILE basket 5.66% early.  This assertion and STARWAVE_30's
+        # catalogue value are tied together by
+        # test_custom_basket_target_default_matches_the_starwave_catalogue.
         "input bool CustomActivationUsesTrailingDistance = true",
         "input bool CustomStopUpdatesOnTimer = false",
         "input int CustomRearmDelaySeconds = 0",
@@ -45,7 +54,7 @@ def test_main_ea_exposes_required_inputs_and_event_handlers():
         "input bool CustomStopScanNewestFirst = true",
         "input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT",
         "input double CustomLockOffsetPrice = 0.2",
-        "input double CustomCycleTargetMoney = 25.0",
+        "input double CustomCycleTargetMoney = 26.5",
         "input bool CustomCancelBeforeClose = true",
         "input int CustomDeploymentFillCooldownSeconds = 0",
         "input int CustomCloseIntervalSeconds = 0",
@@ -740,40 +749,172 @@ def test_deployment_pauses_after_entry_fill_and_restores_the_cooldown():
     assert 'GlobalKey("last_entry_fill_at")' in clear
 
 
-def test_rejected_deployment_level_is_skipped_not_retried_or_aborted():
-    """Target-EA parity: a rejected level is skipped and the sweep continues.
+def test_rejected_deployment_level_is_deferred_to_one_tail_retry_then_abandoned():
+    """Target-EA parity: ONE retry at the tail of the same burst, then abandon.
 
-    Three of the 119 Starwave deployments came out incomplete and not one of
-    them aborted or re-anchored: 2026-08-21 18:03 placed B1..B25 with S15..S25
-    rejected (per-op cadence doubling to ~209 ms proves each failure still
-    consumed a timer tick) and traded that partial lattice for 2.5 days;
-    2026-08-24 06:12 skipped scattered levels on both sides; 2026-08-27 08:23
-    skipped only S1.  So the engine must advance past a rejection instead of
-    dropping into CYCLE_CANCELING or retrying the same level forever.
+    DIV-5.  The 901018 tape carries ZERO rejected orders in 54,742 -- state is
+    only ever filled (35,430) or canceled (19,312) -- so a refused level leaves
+    no row behind and the retry can only be read off DISPATCH ORDER.  It is
+    plainly visible there: 70 of the 285 recovered deployment bursts dispatch a
+    level-1 leg AFTER the highest level of the burst (HISTORICAL_60 68 of 78,
+    HISTORICAL_50 2 of 101, STARWAVE_30 0 of 103), and every one of
+    HISTORICAL_60's 71 adjacent-rank inversions is S60 -> S1 (x37), S60 -> B1
+    (x31) or S1 -> B1 (x3).
+
+    Three facts pin that to the EA's own dispatch rather than to the reader or
+    to a re-arm folded into the burst:
+      * timestamps and tickets are strictly monotone across every swap -- 0
+        swaps share a millisecond, 0 have non-monotone tickets, and the tickets
+        run consecutively (20216347/48/49/50);
+      * the gap from the last first-pass leg to the retry leg is ONE
+        inter_order_delay_ms tick (110/113/111/111/117/116 ms on the first six
+        HISTORICAL_60 bursts), not the ~12 s a fresh burst would cost;
+      * the retry lands on the EXACT original lattice price.  Burst 2026-07-02
+        21:52:35 has B60=4148.27 and S60=4093.07, so anchor=4120.67 and
+        step=55.20/120=0.46, and its tail leg is B1 at 4121.13 = anchor+step.
+
+    The first-pass refusal is the broker minimum stop distance, which is why
+    level 1 -- one step from the anchor -- is the level affected: 0 of 66 bursts
+    below step 0.60 are clean against 202 of 208 (97.12%) at or above 0.70, and
+    within HISTORICAL_60 the clean bursts run 0.70..0.78 and the deferred ones
+    0.37..0.64 with zero overlap.
+
+    Retry ONCE: 7 of 78 HISTORICAL_60 bursts and 2 of 103 STARWAVE_30 bursts end
+    with no level-1 leg at all, so the second attempt may also fail and the level
+    is then abandoned for the cycle.  And it must never abort -- the three
+    incomplete Starwave lattices (2026-08-21 with S15..S25 missing, 08-24
+    scattered, 08-27 only S1) each traded on as-is for days.
     """
     engine = ENGINE.read_text(encoding="utf-8")
-    deploy = engine.split("void DeployOne(void)", 1)[1].split(
-        "void RearmOneMissingLevel", 1
-    )[0]
+    deploy = function_body(engine, "void DeployOne(void)")
 
-    # The abort-and-re-anchor path is gone.
-    assert (
-        "m_gateway.LastRetcode()==TRADE_RETCODE_INVALID_PRICE" not in deploy
-    )
+    # The abort-and-re-anchor path is still gone.
+    assert "m_gateway.LastRetcode()==TRADE_RETCODE_INVALID_PRICE" not in deploy
     assert "m_state=CYCLE_CANCELING" not in deploy
     assert '"deployment_abort"' not in deploy
 
-    # The skip path is present and advances the sweep.
+    # A second slot space, appended at the tail of the SAME burst.
+    assert "int sweep_slots=m_profile.levels_per_side*2;" in deploy
+    assert "int retry_slots=sweep_slots*2;" in deploy
+    assert "if(m_deploy_index>=retry_slots)" in deploy
+    assert "bool retry_pass=(m_deploy_index>=sweep_slots);" in deploy
+    assert (
+        "int slot=(retry_pass ? m_deploy_index-sweep_slots : m_deploy_index);"
+        in deploy
+    )
+
+    # A failure defers and advances; it never stalls on the same level.
     assert '"deployment_level_rejected"' in deploy
     assert '"deployment_skip"' in deploy
-    assert deploy.count("m_deploy_index++;") == 2
+    assert '"deployment_level_retried"' in deploy
+    assert '"_deferred"' in deploy
+    assert '"_retry_abandoned"' in deploy
     assert deploy.index('"deployment_skip"') < deploy.rindex("m_deploy_index++;")
     assert "PersistCycle();" in deploy
+
+    # Exactly one retry: the mark is cleared BEFORE the second attempt, so a
+    # second failure abandons the level instead of queueing a third pass.
+    assert deploy.count("deploy_deferred=false;") == 2
+    assert deploy.index("deploy_deferred=false;") < deploy.index(
+        "bool placed=(is_buy ? PlaceLevel("
+    )
 
     # Degenerate guard: a sweep that armed nothing re-anchors instead of idling.
     assert '"deployment_empty"' in deploy
     assert "m_state=CYCLE_RESTARTING;" in deploy
     assert "m_restart_started_at=TimeCurrent();" in deploy
+
+
+def test_deployment_retry_pass_never_repends_a_level_that_already_placed():
+    """The retry is driven by an explicit mark, not by "is this slot empty?".
+
+    Deciding the retry from level live-state would misfire on exactly the
+    profiles that matter.  Level 1 is the closest pending to the anchor and
+    routinely FILLS during the 12 s burst itself; ReconcileLevels() then clears
+    has_pending and sets has_position, and on a replica_orphan_leak profile
+    PlaceLevel()'s guard (!OrphanLeakActive() && level_state.has_position) does
+    not fire -- so an emptiness test would arm a SECOND pending at the tail of
+    every burst and destroy STARWAVE_30's measured 103/103 clean interleave.
+    The mark is therefore set ONLY on a genuine first-pass placement failure.
+    """
+    engine = ENGINE.read_text(encoding="utf-8")
+    deploy = function_body(engine, "void DeployOne(void)")
+
+    # Set on failure, and only on the first pass.
+    assert deploy.count("deploy_deferred=true;") == 2
+    guard = deploy.index("if(!retry_pass)")
+    reason = deploy.index("string reject_reason=StringFormat(")
+    for mark in (
+        "m_buy_levels[level_index].deploy_deferred=true;",
+        "m_sell_levels[level_index].deploy_deferred=true;",
+    ):
+        assert guard < deploy.index(mark) < reason
+
+    # The mark, not level live-state, decides whether a retry slot is attempted.
+    assert "!DeployDeferred(m_deploy_index-sweep_slots)" in deploy
+    code = "\n".join(
+        line for line in deploy.splitlines() if not line.lstrip().startswith("//")
+    )
+    assert "has_pending" not in code
+    assert "has_position" not in code
+
+    helper = function_body(engine, "bool DeployDeferred(const int slot) const")
+    assert "m_buy_levels[level_index].deploy_deferred" in helper
+    assert "m_sell_levels[level_index].deploy_deferred" in helper
+    assert "if(level_index<0 || level_index>=m_profile.levels_per_side)" in helper
+
+
+def test_clean_deployment_burst_completes_on_the_tick_it_always_did():
+    """The 2N retry slots are consumed in-tick when nothing was deferred.
+
+    One timer tick per skipped retry slot would put the tail leg ~12 s after S60
+    on a 60-level burst.  The tape says one tick: the S60 -> tail-leg gap is
+    110..117 ms, and STARWAVE_30's 103 clean bursts show no extra dispatch at
+    all.  So the fast-forward has to run inside the same call, ahead of both the
+    completion guard and the fill cooldown's early return.
+    """
+    engine = ENGINE.read_text(encoding="utf-8")
+    deploy = function_body(engine, "void DeployOne(void)")
+
+    loop = "while(m_deploy_index>=sweep_slots &&"
+    assert loop in deploy
+    assert "m_deploy_index<retry_slots &&" in deploy
+    assert "!DeployDeferred(m_deploy_index-sweep_slots))" in deploy
+    assert deploy.index(loop) < deploy.index("if(m_deploy_index>=retry_slots)")
+    assert deploy.index(loop) < deploy.index(
+        "if(m_profile.deployment_fill_cooldown_seconds>0 &&"
+    )
+
+    # The old completion test against the first-pass width alone is gone.
+    assert "m_deploy_index>=m_profile.levels_per_side*2" not in deploy
+
+    # Widening the cursor's range is only safe because nothing outside
+    # DeployOne() compares or advances it -- every other site resets it to 0.
+    others = engine.replace(deploy, "")
+    assert "m_deploy_index++" not in others
+    assert "m_deploy_index>" not in others
+    assert "m_deploy_index<" not in others
+
+
+def test_deploy_deferred_mark_survives_reconcile_and_dies_at_cycle_boundaries():
+    """Per-cycle state that must outlive the in-burst reconcile passes.
+
+    ReconcileLevels() runs repeatedly DURING the burst and rewrites has_pending /
+    has_position as level 1 fills; the mark has to survive that or the tail retry
+    could never fire at all.  ClearLiveFlags() therefore must not touch it, and
+    ResetLevelState() -- the cycle boundary -- must clear it on both sides.
+    """
+    engine = ENGINE.read_text(encoding="utf-8")
+    reset = function_body(engine, "void ResetLevelState(void)")
+    assert reset.count("deploy_deferred=false;") == 2
+
+    live = function_body(engine, "void ClearLiveFlags(void)")
+    assert "deploy_deferred" not in live
+
+    types = TYPES.read_text(encoding="utf-8")
+    assert "bool              deploy_deferred;" in function_body(
+        types, "struct SLevelState"
+    )
 
 
 def test_restart_state_cleans_residual_exposure_before_becoming_idle():
@@ -1726,6 +1867,15 @@ def test_types_declare_the_orphan_leak_flag_on_both_profile_structs():
     assert "0/146 sweeps left the book flat" in profile_struct
     assert "not closed by the sweep" in profile_struct
 
+    # And the cross-validation that makes it a BUILD switch instead of a
+    # measurement artifact: one instrument, one overlap rule, run on both tapes.
+    # 901018 gates re-arm on !has_position in every era it ran, including its own
+    # STARWAVE_30 era; the August Starwave build does not.
+    assert "0 of 11,549" in profile_struct
+    assert "118 of 1,075" in profile_struct
+    assert "0/2,233" in profile_struct
+    assert "ORDER_REASON_EXPERT" in profile_struct
+
     # The leak IS the single-pointer level table, so the level struct must keep
     # one ticket, not a list.
     level_struct = types.split("struct SLevelState", 1)[1].split("};", 1)[0]
@@ -1767,6 +1917,62 @@ def test_app_exposes_the_orphan_leak_input_and_wires_it():
     # Default ON matches the Starwave binary; the comment records why, and that
     # turning it off is a deliberate DEVIATION rather than a bug fix.
     assert "DEVIATION from the Target" in source
+
+
+def value_after(text: str, prefix: str) -> str:
+    """The literal between `prefix` and the next `;`.
+
+    Used to compare a declared default against the catalogue value it is
+    supposed to mirror, rather than asserting one spelling of one number in two
+    places and hoping both get edited together.
+    """
+    assert prefix in text, f"missing prefix: {prefix}"
+    return text.split(prefix, 1)[1].split(";", 1)[0].strip()
+
+
+def test_custom_basket_target_default_matches_the_starwave_catalogue():
+    """CustomCycleTargetMoney must equal STARWAVE_30's measured basket target.
+
+    cycle_target_money is the EA's ONLY exit (CheckCycleTargets), and the Custom
+    block is documented as "the measured Starwave/Target values, so
+    CUSTOM_PROFILE is a Starwave clone out of the box".  It nevertheless shipped
+    25.0 while the catalogue brackets the measured target to (26.41, 26.51] from
+    the 3-cycle censored run over 2026-08-24 19:22..19:49 -- an interval that
+    EXCLUDES 25.0, i.e. a 5.66% early bank on every single basket.  It was the
+    last surviving placeholder in that block.  This test ties the input default
+    to the catalogue value so the two can never drift apart again.
+    """
+    app = app_source()
+    catalog = PROFILE_CATALOG.read_text(encoding="utf-8")
+
+    app_default = float(value_after(app, "input double CustomCycleTargetMoney = "))
+    starwave = float(
+        value_after(
+            profile_case_bodies(catalog)["STARWAVE_30"], "config.cycle_target_money="
+        )
+    )
+    assert app_default == starwave, (app_default, starwave)
+
+    # The measured bracket itself, half-open on the low side.
+    assert 26.41 < app_default <= 26.51, app_default
+    assert app_default != 25.0, "the pre-Starwave placeholder is back"
+
+    # The plumbing that makes the default reach the evaluator at all:
+    # input -> SCustomProfileConfig -> SProfileConfig -> CheckCycleTargets.
+    assert "custom.cycle_target_money=CustomCycleTargetMoney;" in app
+    custom_body = catalog.split("bool LoadCustomProfile(", 1)[1]
+    assert "config.cycle_target_money=custom.cycle_target_money;" in custom_body
+    assert "m_profile.cycle_target_money>0.0" in ENGINE.read_text(encoding="utf-8")
+
+    # Provenance sits next to the default so it cannot be "tidied" back to a
+    # round number by someone who reads 26.5 as an oddity.
+    assert "(26.41, 26.51]" in app
+
+    # Anti-drift: both generated standalones must carry the corrected default.
+    for name in ("ProfitBricks2K.mq5", "ProfitBricks2K_AllInOne.mq5"):
+        text = (ROOT / "mql5" / name).read_text(encoding="utf-8")
+        assert "input double CustomCycleTargetMoney = 26.5;" in text, name
+        assert "input double CustomCycleTargetMoney = 25.0;" not in text, name
 
 
 def test_engine_reproduces_the_target_orphan_leak():
@@ -1945,4 +2151,377 @@ def test_standalone_generator_round_trips_the_committed_tree():
     }
     rebuilt = bundle_standalone.bundle(bundle_standalone.header_of(head), sources)
     assert rebuilt == head, bundle_standalone.first_divergence(head, rebuilt)
+
+
+def test_basket_close_comment_is_per_profile_and_empty_for_the_atr_builds():
+    """DIV-3: the sweep comment is a build fingerprint, so it must be per-profile.
+
+    ReportHistory-901018 spans two Target builds and they stamp the basket sweep
+    differently.  Inside the two ATR eras every basket close carries an EMPTY
+    comment -- 1,392 in HISTORICAL_50 (2026.06.23 16:17 - 2026.07.02 15:18) and
+    1,332 in HISTORICAL_60 (to the 2026.07.13 12:28 changeover) -- and not one
+    carries "STR CLOSE".  Every one of the 1,010 "STR CLOSE" closes falls in the
+    anchor-divisor eras instead (AGGRESSIVE_30 9, LOW_RISK_30 11, STARWAVE_30
+    990).  The two families are one mechanism: 2732/2732 and 1010/1010 of the
+    orders resolve to DEAL_ENTRY_OUT deals, and both run the same ~105 ms machine
+    cadence as the pending lattice (p50 105 ms and 111 ms against 103 ms).
+    """
+    types = TYPES.read_text(encoding="utf-8")
+    assert types.count("bool              stamp_close_comment;") == 1
+
+    catalog = PROFILE_CATALOG.read_text(encoding="utf-8")
+    reset = function_body(catalog, "void ResetProfile(SProfileConfig &config)")
+    assert "config.stamp_close_comment=true;" in reset
+
+    bodies = profile_case_bodies(catalog)
+    empty_comment = {
+        name
+        for name, body in bodies.items()
+        if "config.stamp_close_comment=false;" in body
+    }
+    assert empty_comment == {"HISTORICAL_50", "HISTORICAL_60"}, sorted(empty_comment)
+    for name in LEAK_PROFILES + ("AGGRESSIVE_30", "LOW_RISK_30", "CUSTOM_PROFILE"):
+        assert "stamp_close_comment" not in bodies[name], name
+
+    # LoadCustomProfile has no operator input for this: it calls ResetProfile
+    # first, so CUSTOM_PROFILE inherits the live "STR CLOSE" behaviour.
+    custom = function_body(
+        catalog, "bool LoadCustomProfile(const SCustomProfileConfig &custom,SProfileConfig &config)"
+    )
+    assert "ResetProfile(config);" in custom
+    assert "stamp_close_comment" not in custom
+
+
+def test_both_close_sites_route_through_the_profile_close_comment():
+    """Neither sweep path may hard-code the literal.
+
+    TryCloseOneTrackedPosition is the leak-mode sweep and TryCloseOneOwnedPosition
+    the book-wide one; a literal left in either would silently stamp "STR CLOSE"
+    on a HISTORICAL_50/HISTORICAL_60 run and diverge from the tape.
+    """
+    for path in (
+        ENGINE,
+        ROOT / "mql5" / "ProfitBricks2K.mq5",
+        ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5",
+    ):
+        text = path.read_text(encoding="utf-8")
+        assert 'ClosePosition(ticket,"STR CLOSE")' not in text, path.name
+        assert text.count("ClosePosition(ticket,CloseComment())") == 2, path.name
+        helper = function_body(text, "string CloseComment(void) const")
+        assert 'return(m_profile.stamp_close_comment ? "STR CLOSE" : "");' in helper
+
+        for signature in (
+            "bool TryCloseOneTrackedPosition(void)",
+            "bool TryCloseOneOwnedPosition(void)",
+        ):
+            body = function_body(text, signature)
+            assert "ClosePosition(ticket,CloseComment())" in body, (path.name, signature)
+            assert '"STR CLOSE"' not in body, (path.name, signature)
+
+
+def div4_carriers() -> dict[str, str]:
+    """The three files that must agree on the activation law."""
+    return {
+        "ProfileCatalog.mqh": PROFILE_CATALOG.read_text(encoding="utf-8"),
+        "ProfitBricks2K.mq5": (ROOT / "mql5" / "ProfitBricks2K.mq5").read_text(
+            encoding="utf-8"
+        ),
+        "ProfitBricks2K_AllInOne.mq5": (
+            ROOT / "mql5" / "ProfitBricks2K_AllInOne.mq5"
+        ).read_text(encoding="utf-8"),
+    }
+
+
+def test_activation_law_is_the_trailing_distance_on_every_built_in_profile():
+    """DIV-4: the first stop is market -/+ pre_tighten*step, never entry +/- 0.20.
+
+    StopScheduler.Calculate activates once favorable_steps >= lock_trigger_steps
+    and then picks between two mutually exclusive laws.  The false branch writes
+    entry + dir*lock_offset_price = entry +/- 0.20 FIRST, and the monotonic
+    returns at the end of Calculate only ever improve a stop, so under it
+    dir*(sl-open) can never be smaller than 0.20 and 0.20 must be a razor atom.
+    ReportHistory-901018 falsifies both claims in the two eras that used to
+    inherit the false branch, scored with each cycle's own step over every
+    position carrying an S/L: 351 of HISTORICAL_50's 4,094 (8.57%) and 1,068 of
+    HISTORICAL_60's 7,952 (13.43%) land strictly inside (0,0.20), both with a
+    minimum of +0.01, zero negatives, and no atom at 0.20 (0.19/0.20/0.21 =
+    22/18/17 and 47/57/55, against busiest single cents of 26 and 78).
+
+    So the flag is true on all twelve built-in profiles AND on ResetProfile's
+    default, which leaves lock_offset_price reachable only through
+    CUSTOM_PROFILE.  Asserted on the modular catalog and both standalone builds,
+    since a stale generation would otherwise keep shipping the falsified branch.
+    """
+    built_in = LEAK_PROFILES + NO_LEAK_PROFILES
+    assert len(built_in) == 12, built_in
+
+    for name, text in div4_carriers().items():
+        assert "config.activation_uses_trailing_distance=false;" not in text, name
+
+        reset = function_body(text, "void ResetProfile(SProfileConfig &config)")
+        assert "config.activation_uses_trailing_distance=true;" in reset, name
+
+        bodies = profile_case_bodies(text)
+        for profile in built_in:
+            assert (
+                "config.activation_uses_trailing_distance=true;" in bodies[profile]
+            ), (name, profile)
+            # lock_offset_price is dead on every built-in path: no case body
+            # touches it, so only ResetProfile's 0.2 and LoadCustomProfile's
+            # operator copy remain.  (CUSTOM_PROFILE is the last case, so its
+            # slice absorbs LoadCustomProfile -- excluded from this loop.)
+            assert "lock_offset_price=" not in bodies[profile], (name, profile)
+
+        custom = function_body(
+            text,
+            "bool LoadCustomProfile(const SCustomProfileConfig "
+            "&custom,SProfileConfig &config)",
+        )
+        assert (
+            "config.activation_uses_trailing_distance="
+            "custom.activation_uses_trailing_distance" in custom
+        ), name
+        assert "config.lock_offset_price=custom.lock_offset_price;" in custom, name
+
+
+def test_atr_profiles_keep_the_single_stage_trail_collapse():
+    """HISTORICAL_50/HISTORICAL_60 must NOT gain trail_distance_steps=1.0.
+
+    Those two set no trail distance at all, so they inherit ResetProfile's 2.0,
+    which equals pre_tighten_trail_distance_steps.  Calculate's tighten ternary
+    then picks the same distance on both sides of tighten_trigger_steps and the
+    two-stage ratchet collapses into a single-stage 2.0-step trail.  That is what
+    the tape shows: the locked distance dir*(sl-open)/step fills the band [1,2)
+    smoothly -- 951/4094 = 23.23% and 1832/7952 = 23.04%, neighbour-density
+    ratios 0.883 and 0.920 -- where STARWAVE_30 puts 0 of 2,809 in [1.00,1.98)
+    (its eight apparent members all sit at locked 1.985-2.000, one cent of
+    step-inference error under the Stage-2 boundary).  Copying the modern
+    profiles' 1.0 into these two would carve a trough that is not in the data,
+    so the omission is load-bearing and pinned here with its own evidence.
+    """
+    for name, text in div4_carriers().items():
+        reset = function_body(text, "void ResetProfile(SProfileConfig &config)")
+        assert "config.pre_tighten_trail_distance_steps=2.0;" in reset, name
+        assert "config.trail_distance_steps=2.0;" in reset, name
+
+        bodies = profile_case_bodies(text)
+        for profile in ("HISTORICAL_50", "HISTORICAL_60"):
+            body = bodies[profile]
+            assert "config.trail_distance_steps=" not in body, (name, profile)
+            assert "config.pre_tighten_trail_distance_steps=" not in body, (
+                name,
+                profile,
+            )
+            assert "config.tighten_trigger_steps=" not in body, (name, profile)
+        for profile in LEAK_PROFILES + ("AGGRESSIVE_30", "LOW_RISK_30"):
+            assert "config.trail_distance_steps=1.0;" in bodies[profile], (
+                name,
+                profile,
+            )
+
+        # The measurement, and the instruction not to "fix" it, stay in source.
+        assert "23.23%" in bodies["HISTORICAL_50"], name
+        assert "Do not copy trail_distance_steps=1.0 here" in bodies["HISTORICAL_50"], (
+            name
+        )
+        assert "23.04%, neighbour-density ratio 0.920" in bodies["HISTORICAL_60"], name
+        assert "351  (8.57%)" in bodies["HISTORICAL_50"], name
+        assert "1,068 (13.43%)" in bodies["HISTORICAL_60"], name
+        # AGGRESSIVE_30/LOW_RISK_30 carry the flag by parsimony (n=29 each).  The
+        # nine impossible negatives in AGGRESSIVE_30 used to be recorded as an
+        # open anomaly ("flagged not legislated", suspected step/anchor
+        # attribution error).  They are now RESOLVED as operator-authored writes
+        # on five independent discriminants, so the comment must state the
+        # resolution -- and must NOT re-suggest an attribution error, which would
+        # invite someone to "fix" the step inference that is in fact correct.
+        assert "by parsimony, not by direct measurement" in bodies["AGGRESSIVE_30"], name
+        assert "Resolved, no longer open" in bodies["AGGRESSIVE_30"], name
+        assert "OPERATOR-" in bodies["AGGRESSIVE_30"], name
+        assert "not an attribution error" in bodies["AGGRESSIVE_30"], name
+        assert "flagged not legislated" not in bodies["AGGRESSIVE_30"], name
+        assert "by parsimony, as AGGRESSIVE_30 above" in bodies["LOW_RISK_30"], name
+
+
+def test_stop_scheduler_keeps_the_fixed_offset_branch_as_an_operator_escape_hatch():
+    """The falsified branch stays reachable through CUSTOM_PROFILE only.
+
+    DIV-4 kills the false branch on every built-in profile, but the operator
+    input still exists, so Calculate must keep both arms of the ternary and the
+    app must keep defaulting the input to the measured law.
+    """
+    scheduler = (ROOT / "mql5" / "include" / "StopScheduler.mqh").read_text(
+        encoding="utf-8"
+    )
+    for text in (scheduler,) + tuple(
+        body
+        for name, body in div4_carriers().items()
+        if name != "ProfileCatalog.mqh"
+    ):
+        assert "profile.activation_uses_trailing_distance" in text
+        assert "profile.pre_tighten_trail_distance_steps*step" in text
+        assert "entry+direction*profile.lock_offset_price" in text
+
+    app = app_source()
+    assert "input bool CustomActivationUsesTrailingDistance = true;" in app
+    assert (
+        "custom.activation_uses_trailing_distance=CustomActivationUsesTrailingDistance;"
+        in app
+    )
+
+
+# ---------------------------------------------------------------------------
+# DIV-6: liquidation phase order.
+#
+# BeginClose picks the order with one ternary: cancel_before_close true routes
+# CANCELING -> CLOSING -> RESTARTING, false routes CLOSING -> CANCELING ->
+# RESTARTING.  Four legacy profiles inherited ResetProfile's false, which is
+# refuted by ReportHistory-901018: over its 271 terminal liquidations 259 are
+# strictly cancel-first and exactly one is close-first, and that one is a hand
+# flatten.  These tests pin the repaired setting together with its measurement,
+# because the field is one boolean per case and a silent revert is invisible.
+# ---------------------------------------------------------------------------
+
+# The order is now universal across every built-in profile, so the DIV-6 set is
+# the whole catalog rather than a partition like LEAK_PROFILES.  Named separately
+# so that adding a profile without the field fails here rather than at runtime.
+CANCEL_FIRST_PROFILES = LEAK_PROFILES + NO_LEAK_PROFILES
+
+
+def test_every_built_in_profile_liquidates_cancel_first():
+    """DIV-6: all twelve cases set cancel_before_close, on all three carriers.
+
+    Measured on ReportHistory-901018 by ordering each cycle's terminal cancels
+    and closes on (time, order id) and reading which class comes first:
+
+        era              liquidations  cancel-first  close-first  interleaved
+        HISTORICAL_50              95            95            0            0
+        HISTORICAL_60              72            71            1            0
+        AGGRESSIVE_30               2             1            0            1
+        LOW_RISK_30                 1             1            0            0
+        STARWAVE_30               101            91            0           10
+
+    The single close-first cycle (169) and the single interleaved one (171) are
+    hand flattens, identified independently of any timing by the 12 `close by`
+    (PositionCloseBy) orders -- an API with no call site in this EA.  On the
+    operator-free complement the four eras that inherited false are 168/168.
+    """
+    for name, text in div4_carriers().items():
+        reset = function_body(text, "void ResetProfile(SProfileConfig &config)")
+        assert "config.cancel_before_close=false;" in reset, name
+
+        bodies = profile_case_bodies(text)
+        assert len(CANCEL_FIRST_PROFILES) == 12, CANCEL_FIRST_PROFILES
+        for profile in CANCEL_FIRST_PROFILES:
+            assert profile in bodies, (name, profile)
+            assert "config.cancel_before_close=true;" in bodies[profile], (
+                name,
+                profile,
+            )
+            # Nothing may set it back to false on a built-in path.  (CUSTOM_PROFILE
+            # is the last case, so its slice absorbs LoadCustomProfile and is
+            # excluded from this loop -- that body legitimately copies the input.)
+            assert "config.cancel_before_close=false;" not in bodies[profile], (
+                name,
+                profile,
+            )
+
+        custom = function_body(
+            text,
+            "bool LoadCustomProfile(const SCustomProfileConfig "
+            "&custom,SProfileConfig &config)",
+        )
+        assert "config.cancel_before_close=custom.cancel_before_close;" in custom, name
+
+
+def test_div6_repaired_profiles_carry_their_measurement_in_source():
+    """The four repaired cases must keep the census that forced the change.
+
+    Each of the four is a different strength of evidence and the comments say so
+    rather than all claiming the same thing: HISTORICAL_50 is 95/95 direct,
+    HISTORICAL_60 is 71/71 direct plus the handoff quantisation, and
+    AGGRESSIVE_30 / LOW_RISK_30 are n=1 apiece and inherit the order from their
+    neighbours by the same parsimony argument DIV-4 uses.  A future reader who
+    only sees `=true;` has no way to tell a measurement from a guess.
+    """
+    for name, text in div4_carriers().items():
+        bodies = profile_case_bodies(text)
+
+        h50 = bodies["HISTORICAL_50"]
+        assert "liquidation phase order, measured (DIV-6)" in h50, name
+        assert "259 of 271 cycles are strictly cancel-first" in h50, name
+        assert "close by" in h50, name
+        assert "PositionCloseBy has" in h50, name
+        assert "168/168 =" in h50, name
+        # The cross-boundary attribution check, which is what stops the census
+        # being explained away as cancels bleeding into the next cycle.
+        assert "106 of 19,312 cancels (0.55%)" in h50, name
+
+        h60 = bodies["HISTORICAL_60"]
+        assert "DIV-6, the largest single-era cohort" in h60, name
+        assert "72 terminal liquidations, 71" in h60, name
+        assert "strictly cancel-first and 1 close-first" in h60, name
+        assert "this era is 71/71" in h60, name
+        # The handoff is one OnTimer period because CancelOneOrder assigns
+        # CYCLE_CLOSING and RETURNS instead of closing in the same tick.
+        assert "min 97 ms" in h60, name
+        assert "243/256 = 94.92% inside [95,135) ms" in h60, name
+
+        aggressive = bodies["AGGRESSIVE_30"]
+        assert "DIV-6, by the same probe and by the same parsimony argument" in aggressive, name
+        assert "cycle 170" in aggressive, name
+        assert "cycle 171" in aggressive, name
+        assert "95/95" in aggressive and "71/71" in aggressive, name
+
+        low_risk = bodies["LOW_RISK_30"]
+        assert "DIV-6: this era's single terminal liquidation is cancel-first" in low_risk, name
+        assert "1/1" in low_risk, name
+
+        # DIV-4 and DIV-6 sit next to each other in all four bodies; neither
+        # rewrite may swallow the other's comment.
+        for profile in ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30"):
+            assert "DIV-4" in bodies[profile], (name, profile)
+            assert "DIV-6" in bodies[profile], (name, profile)
+
+
+def test_engine_implements_both_liquidation_orders_and_converges_on_restart():
+    """No engine change was needed for DIV-6, and this is why.
+
+    BeginClose already branches on the flag, and each phase handler already hands
+    off to the other phase when the flag says so, so the two orders are
+    symmetric and both terminate in CYCLE_RESTARTING:
+
+        true   BeginClose -> CANCELING -> (drained) -> CLOSING -> RESTARTING
+        false  BeginClose -> CLOSING   -> (flat)    -> CANCELING -> RESTARTING
+
+    Two properties are pinned beyond the branch itself.  CancelOneOrder assigns
+    CYCLE_CLOSING and RETURNS rather than closing in the same tick, which is what
+    makes the measured cancel->close handoff exactly one OnTimer period (min
+    97 ms, 243/256 in [95,135) ms).  And a HALT deliberately ignores the flag:
+    BeginClose(halt_after=true) goes straight to CYCLE_CLOSING and the CANCELING
+    phase runs afterwards, so an aborted cycle still leaves no live pendings.
+    """
+    engine = ENGINE.read_text(encoding="utf-8")
+    for text in (engine, *(t for n, t in div4_carriers().items() if n != "ProfileCatalog.mqh")):
+        begin = function_body(text, "void BeginClose(const string reason,const bool halt_after)")
+        assert "ENUM_CYCLE_STATE replica_close_state=" in begin
+        assert "(m_profile.cancel_before_close ? CYCLE_CANCELING : CYCLE_CLOSING)" in begin
+        assert "m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);" in begin
+
+        close_phase = function_body(text, "void CloseOnePosition(void)")
+        assert "if(!m_halted && m_profile.cancel_before_close)" in close_phase
+        assert "m_state=CYCLE_RESTARTING;" in close_phase
+        assert "m_state=CYCLE_CANCELING;" in close_phase
+
+        cancel_phase = function_body(text, "void CancelOneOrder(void)")
+        assert "m_profile.cancel_before_close &&" in cancel_phase
+        assert "CyclePositionCount()>0" in cancel_phase
+        assert "m_state=CYCLE_CLOSING;" in cancel_phase
+        # The handoff returns instead of falling through into a close.
+        assert "PersistCycle();\n         return;" in cancel_phase
+        assert "m_state=CYCLE_RESTARTING;" in cancel_phase
+        assert "m_state=CYCLE_HALTED;" in cancel_phase
+
+        # Which order is live is published, so a tape can be attributed later.
+        assert 'FileWrite(handle,"profile_cancel_before_close"' in text
+        assert "(int)m_profile.cancel_before_close);" in text
 

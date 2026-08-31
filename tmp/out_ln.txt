@@ -1,0 +1,22 @@
+29:   config.cycle_target_balance_pct=0.18;
+30:   config.cycle_target_money=0.0;
+65:      case HISTORICAL_50:
+71:         config.cycle_target_balance_pct=0.63;
+137:      case HISTORICAL_60:
+143:         config.cycle_target_balance_pct=0.42;
+247:         config.cycle_target_money=30.0;
+290:      case LATEST_30:
+314:          // median of $29.40 with the bulk of exits landing between $25-$33.
+315:          config.cycle_target_money=30.0;
+464:      case STARWAVE_30:
+477:         // bracket over 08-24 19:22..19:49 pins it to (26.41, 26.51].
+478:         config.cycle_target_money=26.5;
+512:         config.cycle_target_money=6.5;
+532:      case STARWAVE_30_HIGH:
+546:         config.cycle_target_money=26.5;
+567:      case STARWAVE_30_MID:
+582:         config.cycle_target_money=12.0;
+616:         config.cycle_target_money=28.5;
+653:         config.cycle_target_money=17.8;
+729:   config.cycle_target_balance_pct=custom.cycle_target_balance_pct;
+730:   config.cycle_target_money=custom.cycle_target_money;

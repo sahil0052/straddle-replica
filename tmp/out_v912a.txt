@@ -1,0 +1,80 @@
+mql5/include/StraddleEngine.mqh:14:#define STR_HISTORY_RECONCILE_LOOKBACK_MS 900000
+mql5/include/StraddleEngine.mqh:33:   double            m_cycle_realized;
+mql5/include/StraddleEngine.mqh:37:   long              m_cycle_started_msc;
+mql5/include/StraddleEngine.mqh:64:   ulong             m_last_processed_deal_ticket;
+mql5/include/StraddleEngine.mqh:65:   ulong             m_processed_deal_tickets[];
+mql5/include/StraddleEngine.mqh:67:   ulong             m_pending_deal_tickets[STR_PENDING_DEAL_CAPACITY];
+mql5/include/StraddleEngine.mqh:141:                  const ulong deal_ticket) const
+mql5/include/StraddleEngine.mqh:143:      if(deal_ticket>0)
+mql5/include/StraddleEngine.mqh:146:            m_cycle_id,deal_ticket,kind
+mql5/include/StraddleEngine.mqh:285:   string PositionCommentFromDeal(const ulong deal_ticket) const
+mql5/include/StraddleEngine.mqh:287:      ulong position_id=(ulong)HistoryDealGetInteger(deal_ticket,DEAL_POSITION_ID);
+mql5/include/StraddleEngine.mqh:633:      ArrayResize(m_processed_deal_tickets,0);
+mql5/include/StraddleEngine.mqh:634:      m_last_processed_deal_ticket=0;
+mql5/include/StraddleEngine.mqh:637:   bool DealAlreadyProcessed(const ulong deal_ticket) const
+mql5/include/StraddleEngine.mqh:639:      if(deal_ticket==0)
+mql5/include/StraddleEngine.mqh:642:         if(m_processed_deal_tickets[index]==deal_ticket)
+mql5/include/StraddleEngine.mqh:647:   void RememberProcessedDeal(const ulong deal_ticket,
+mql5/include/StraddleEngine.mqh:650:      if(deal_ticket==0 || DealAlreadyProcessed(deal_ticket))
+mql5/include/StraddleEngine.mqh:652:      if(m_processed_deal_count>=ArraySize(m_processed_deal_tickets))
+mql5/include/StraddleEngine.mqh:655:            m_processed_deal_tickets,
+mql5/include/StraddleEngine.mqh:662:               deal_ticket
+mql5/include/StraddleEngine.mqh:667:      m_processed_deal_tickets[m_processed_deal_count]=deal_ticket;
+mql5/include/StraddleEngine.mqh:669:      m_last_processed_deal_ticket=deal_ticket;
+mql5/include/StraddleEngine.mqh:674:            (double)m_last_processed_deal_ticket
+mql5/include/StraddleEngine.mqh:682:      ulong persisted_last=m_last_processed_deal_ticket;
+mql5/include/StraddleEngine.mqh:684:      ArrayResize(m_processed_deal_tickets,0);
+mql5/include/StraddleEngine.mqh:718:         ulong deal_ticket=(ulong)StringToInteger(fields[22]);
+mql5/include/StraddleEngine.mqh:719:         RememberProcessedDeal(deal_ticket,false);
+mql5/include/StraddleEngine.mqh:878:      m_cycle_started_msc=(
+mql5/include/StraddleEngine.mqh:883:      m_cycle_started_at=(datetime)(m_cycle_started_msc/1000);
+mql5/include/StraddleEngine.mqh:909:      m_last_processed_deal_ticket=(
+mql5/include/StraddleEngine.mqh:928:            m_cycle_started_msc,
+mql5/include/StraddleEngine.mqh:934:         m_cycle_realized=recalculated_realized;
+mql5/include/StraddleEngine.mqh:939:         m_cycle_realized=persisted_realized;
+mql5/include/StraddleEngine.mqh:1070:      GlobalVariableSet(GlobalKey("realized"),m_cycle_realized);
+mql5/include/StraddleEngine.mqh:1075:      GlobalVariableSet(GlobalKey("start_msc"),(double)m_cycle_started_msc);
+mql5/include/StraddleEngine.mqh:1090:          (double)m_last_processed_deal_ticket
+mql5/include/StraddleEngine.mqh:1218:                       const ulong deal_ticket,
+mql5/include/StraddleEngine.mqh:1236:                   "deal_ticket","order_ticket","position_ticket",
+mql5/include/StraddleEngine.mqh:1242:      string event_id=EventId(kind,event_sequence,deal_ticket);
+mql5/include/StraddleEngine.mqh:1251:      double cycle_net=m_cycle_realized+floating;
+mql5/include/StraddleEngine.mqh:1273:                 deal_ticket,order_ticket,position_ticket,
+mql5/include/StraddleEngine.mqh:1274:                 DoubleToString(m_cycle_realized,8),
+mql5/include/StraddleEngine.mqh:1289:      ulong deal_ticket=0;
+mql5/include/StraddleEngine.mqh:1293:         deal_ticket=ticket;
+mql5/include/StraddleEngine.mqh:1300:                     deal_ticket,order_ticket,position_ticket);
+mql5/include/StraddleEngine.mqh:1647:   bool DealMetadataReady(const ulong deal_ticket) const
+mql5/include/StraddleEngine.mqh:1657:      if(!HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1658:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1659:            DEAL_TIME_MSC,
+mql5/include/StraddleEngine.mqh:1662:         !HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1663:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1667:         !HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1668:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1672:         !HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1673:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1677:         !HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1678:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1682:         !HistoryDealGetDouble(
+mql5/include/StraddleEngine.mqh:1683:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1687:         !HistoryDealGetDouble(
+mql5/include/StraddleEngine.mqh:1688:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1692:         !HistoryDealGetString(
+mql5/include/StraddleEngine.mqh:1693:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1714:      if(!HistoryDealGetString(
+mql5/include/StraddleEngine.mqh:1715:            deal_ticket,
+mql5/include/StraddleEngine.mqh:1720:      string level_comment=PositionCommentFromDeal(deal_ticket);
+mql5/include/StraddleEngine.mqh:1731:         if(!HistoryDealGetInteger(
+mql5/include/StraddleEngine.mqh:1732:               deal_ticket,
+mql5/include/StraddleEngine.mqh:1865:      m_cycle_realized=0.0;
+mql5/include/StraddleEngine.mqh:1869:       m_cycle_started_msc=(long)m_cycle_started_at*1000;
+mql5/include/StraddleEngine.mqh:2027:      m_cycle_realized=0.0;
+mql5/include/StraddleEngine.mqh:2031:      m_cycle_started_msc=(long)m_cycle_started_at*1000;
+mql5/include/StraddleEngine.mqh:2712:         ulong ticket=HistoryDealGetTicket(index);
+mql5/include/StraddleEngine.mqh:2715:         if((ulong)HistoryDealGetInteger(ticket,DEAL_MAGIC)!=m_runtime.magic ||
+mql5/include/StraddleEngine.mqh:2716:            HistoryDealGetString(ticket,DEAL_SYMBOL)!=m_runtime.symbol)
+mql5/include/StraddleEngine.mqh:2718:         total+=HistoryDealGetDouble(ticket,DEAL_PROFIT)
+mql5/include/StraddleEngine.mqh:2719:               +HistoryDealGetDouble(ticket,DEAL_SWAP)
+mql5/include/StraddleEngine.mqh:2720:               +HistoryDealGetDouble(ticket,DEAL_COMMISSION)
+mql5/include/StraddleEngine.mqh:2721:               +HistoryDealGetDouble(ticket,DEAL_FEE);

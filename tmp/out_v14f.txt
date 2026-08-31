@@ -1,0 +1,17 @@
+=== doc len + marker ===
+3037 docs/PARITY_AUDIT_14_VECTOR.md
+3008:<!-- V10-APPEND -->
+
+=== every StraddleReplicaApp / ProfitBricks2K citation in the audit ===
+1190:were regenerated and the contract suite re-run: at that point `mql5/ProfitBricks2K.mq5` and
+1191:`mql5/ProfitBricks2K_AllInOne.mq5` were byte-identical at **234,219 bytes / 5,754 lines /
+1262:(`StraddleReplicaApp.mqh:8`), `input bool SafetyEnabled` (`:57`), and all four entry points re-define it
+1263:false — `ProfitBricks.mq5:14`, `ProfitBricks2K.mq5:14`, `ProfitBricks2K_AllInOne.mq5:14`,
+2317:`StraddleReplicaApp.mqh:187-191`; standalone `ProfitBricks2K.mq5:5526` and `:5749-5753`).
+2658:input string TradeSymbol = "";            // StraddleReplicaApp.mqh:36
+2659:   runtime.symbol=TradeSymbol;            // StraddleReplicaApp.mqh:116
+2879:The shipped posture, read from the app's macro block and input list (`StraddleReplicaApp.mqh:1-13`,
+2931:header comment at `StraddleReplicaApp.mqh:13-26` enumerates eight properties of the shipped
+2949:stale text appears at three sites — `StraddleReplicaApp.mqh:23`, `ProfitBricks2K.mq5:5585` and
+2950:`ProfitBricks2K_AllInOne.mq5:5585` — the latter two being the bundler's copies of the first.
+2968:| Construct | Modular | `ProfitBricks2K.mq5` | `ProfitBricks2K_AllInOne.mq5` |

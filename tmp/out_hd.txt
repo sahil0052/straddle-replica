@@ -1,0 +1,11 @@
+8:## 0. Evidence base
+15:### 0.1 The single most important structural fact
+35:### 0.2 Instrument hierarchy (this decided several verdicts)
+49:## 1. Executive parity rating
+77:## 2. Per-vector proof
+79:### 2.1 V1 — Anchor & lattice step geometry — 100.00%
+124:### 2.2 V2 — Deployment cadence & interleave physics — 75.44% raw, 100% of mechanism
+214:### 2.3 V3 — Order metadata & broker protocol invariants — 100.00%
+256:### 2.4 V4 — Two-stage trailing ratchet inversion — 100.00% on both tapes
+422:### 2.5 V5 — Basket liquidation & LIFO close ordering — 33.95% as configured, 95.57% with DIV-6 applied
+718:### 2.6 V6 — Re-arm semantics & per-level memory state — 100.00%

@@ -1,0 +1,142 @@
+    allvol = collections.Counter()
+    for lvl, counter in per_level.items():
+        for vol, n in counter.items():
+            allvol[vol] += n
+    print("  distinct volumes on the whole Starwave tape:")
+    stray = 0
+    for vol in sorted(allvol):
+        band = sorted(l for l, c in per_level.items() if vol in c)
+        is_tier = any(abs(vol - t) <= 1e-9 for t in tier_set)
+        if not is_tier:
+            stray += allvol[vol]
+        print(f"       {vol:.2f}  n={allvol[vol]:5d}  levels {min(band)}-{max(band)}"
+              f"  {'configured Starwave tier' if is_tier else 'NOT A STARWAVE TIER'}")
+    print(f"  orders whose volume is not a Starwave tier value: {stray}")
+    pairs = [(lvl, sorted(c)) for lvl, c in sorted(per_level.items())
+             if any(abs(b - 2.0 * a) <= 1e-9 for a in c for b in c)]
+    print(f"  levels where one observed volume is exactly 2x another observed"
+          f" volume\n  at the SAME level: {len(pairs)}"
+          "   <== the only residual doubling channel")
+    for lvl, vols in pairs:
+        print(f"       L{lvl:3d}  volumes={['%.2f' % v for v in vols]}"
+              f"  counts={[per_level[lvl][v] for v in vols]}")
+
+
+def cycle_window(deployments, cyc):
+    if cyc is None:
+        return None, None
+    lo = deployments[cyc]["when"]
+    hi = deployments[cyc + 1]["when"] if cyc + 1 < len(deployments) else None
+    return lo, hi
+
+
+def cancel_clusters(rows, cyc, side, lo, hi, gap_s=60.0):
+    """base-volume own-side cancels inside one cycle, split on a 60 s gap."""
+    run = [r for r in rows
+           if r["cycle"] == cyc and r["is_buy"] == side
+           and r["state"].startswith("cancel") and r["resolved"] is not None
+           and bucket(r["ratio"]) == "base"
+           and (lo is None or r["resolved"] >= lo)
+           and (hi is None or r["resolved"] < hi)]
+    run.sort(key=lambda r: r["resolved"])
+    out, cur = [], []
+    for r in run:
+        if cur and (r["resolved"] - cur[-1]["resolved"]).total_seconds() > gap_s:
+            out.append(cur)
+            cur = []
+        cur.append(r)
+    if cur:
+        out.append(cur)
+    return out
+
+
+def part3b(rows, x2, deployments, follow_s=300.0):
+    print("\n=== PART 3b: the SOURCE definition of an event, and the LATCH ===")
+    print("  ProcessTrendRescue refuses a repeat of m_trend_rescue_consumed_side")
+    print("  until a side==0 tick clears it (:2635-2645), so one (cycle,side)")
+    print("  carries ONE event unless a second cancel run appears.  And")
+    print("  TryCancelTrendRescueLevel sets trend_rescue_latched=true and rewrites")
+    print("  level_state.volume to lots[i]*2 (:2465-2470), so every LATER re-arm")
+    print("  of that level is 2x as well; MarkTrendRescuePositionRearms (:2647)")
+    print("  marks levels holding a POSITION, which get 2x with NO cancel at all.")
+    print("  => replacements >= cancels is PREDICTED by the source, not a defect.")
+    groups = collections.defaultdict(list)
+    for r in x2:
+        groups[(r["cycle"], r["is_buy"])].append(r)
+    for key in groups:
+        groups[key].sort(key=lambda r: r["when"])
+    by_cycle = collections.defaultdict(set)
+    for cyc, side in groups:
+        by_cycle[cyc].add(side)
+    both = sorted(c for c, s in by_cycle.items() if len(s) > 1)
+    print(f"\n  distinct (cycle, side) pairs carrying 2x orders: {len(groups)}"
+          "    in-source claim: 6 events")
+    print(f"  distinct cycles carrying 2x orders: {len(by_cycle)}")
+    print(f"  cycles carrying 2x on BOTH sides: {len(both)}"
+          "   <== one-sidedness requires 0")
+    print("\n  cyc  regime                 side  2x  runs  cnl  imm  latch"
+          "  cnl_desc  imm_asc  imm_levels==cnl_levels")
+    total_imm = total_latch = total_cnl = 0
+    ok_desc = ok_asc = ok_eq = 0
+    cgaps_all, igaps_all = [], []
+    for (cyc, side), members in sorted(groups.items(),
+                                       key=lambda kv: kv[1][0]["when"]):
+        lo, hi = cycle_window(deployments, cyc)
+        clusters = cancel_clusters(rows, cyc, side, lo, hi)
+        seen = set()
+        qual, immediate = [], []
+        for cluster in clusters:
+            levels = {r["level"] for r in cluster}
+            end = cluster[-1]["resolved"]
+            hits = [r for r in members
+                    if r["level"] in levels
+                    and cluster[0]["resolved"] <= r["when"]
+                    <= end + timedelta(seconds=follow_s)
+                    and r["ticket"] not in seen]
+            if not hits:
+                continue
+            qual.append(cluster)
+            for r in hits:
+                seen.add(r["ticket"])
+            immediate.extend(hits)
+        latched = [r for r in members if r["ticket"] not in seen]
+        cnl = [r for cluster in qual for r in cluster]
+        cnl.sort(key=lambda r: r["resolved"])
+        immediate.sort(key=lambda r: r["when"])
+        clv = [r["level"] for r in cnl]
+        ilv = [r["level"] for r in immediate]
+        desc = all(clv[j] >= clv[j + 1] for j in range(len(clv) - 1))
+        asc = all(ilv[j] <= ilv[j + 1] for j in range(len(ilv) - 1))
+        eq = set(clv) == set(ilv)
+        ok_desc += bool(desc)
+        ok_asc += bool(asc)
+        ok_eq += bool(eq)
+        total_imm += len(immediate)
+        total_latch += len(latched)
+        total_cnl += len(cnl)
+        cgaps_all += [(cnl[j + 1]["resolved"] - cnl[j]["resolved"]).total_seconds()
+                      for j in range(len(cnl) - 1)]
+        igaps_all += [(immediate[j + 1]["when"] - immediate[j]["when"]).total_seconds()
+                      for j in range(len(immediate) - 1)]
+        print(f"  {cyc:3d}  {members[0]['regime']:22s}"
+              f" {'buy' if side else 'sell':>4s} {len(members):3d} {len(qual):5d}"
+              f" {len(cnl):4d} {len(immediate):4d} {len(latched):6d}"
+              f"  {str(desc):>8s} {str(asc):>8s}  {str(eq):>22s}")
+    n = len(groups)
+    print(f"\n  totals: 2x={total_imm + total_latch}"
+          f"  immediate-replacement={total_imm}  latched-rearm={total_latch}"
+          f"  cancels={total_cnl}")
+    print(f"  cancel run DESCENDING in level: {ok_desc}/{n}"
+          f"    replacement run ASCENDING in level: {ok_asc}/{n}")
+    print(f"  cancelled level set == replaced level set: {ok_eq}/{n}"
+          "   <== 'cancel count == pending count', properly scoped")
+    if cgaps_all:
+        cg = sorted(cgaps_all)
+        print(f"  cancel-to-cancel gaps  n={len(cg)}  p05={pct(cg,0.05):.3f}"
+              f"  p50={pct(cg,0.50):.3f}  p95={pct(cg,0.95):.3f}  min={cg[0]:.3f}")
+    if igaps_all:
+        ig = sorted(igaps_all)
+        print(f"  place-to-place gaps    n={len(ig)}  p05={pct(ig,0.05):.3f}"
+              f"  p50={pct(ig,0.50):.3f}  p95={pct(ig,0.95):.3f}  min={ig[0]:.3f}")
+
+487 tmp/a901_v910.py

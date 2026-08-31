@@ -1,0 +1,31 @@
+=== App section label in standalone ===
+5560:// SECTION: StraddleReplicaApp.mqh (Event Handlers & Inputs)
+
+=== App cited constructs (modular) ===
+7:#ifndef STR_SAFETY_ENABLED_DEFAULT
+8:   #define STR_SAFETY_ENABLED_DEFAULT false
+11:   #define STR_DEFAULT_PROFILE STARWAVE_30
+32:   #define STR_DEFAULT_MAGIC 26011001
+35:#include "StraddleTypes.mqh"
+36:#include "StraddleEngine.mqh"
+39:input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;
+40:input string TradeSymbol = "";
+41:input ulong MagicNumber = STR_DEFAULT_MAGIC;
+61:input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+122:int OnInit()
+126:   runtime.symbol=TradeSymbol;
+182:void OnDeinit(const int reason)
+187:void OnTick()
+192:void OnTimer()
+197:void OnTradeTransaction(const MqlTradeTransaction &transaction,
+
+=== same in standalone ===
+5601:input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;
+5602:input string TradeSymbol = "";
+5603:input ulong MagicNumber = STR_DEFAULT_MAGIC;
+5623:input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+5662:input double CustomCycleTargetMoney = 26.5;
+5688:   runtime.symbol=TradeSymbol;
+
+=== App line count ===
+202 mql5/include/StraddleReplicaApp.mqh

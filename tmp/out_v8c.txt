@@ -1,0 +1,49 @@
+39:   datetime          m_restart_started_at;
+423:   // basket, the sweep and the restart drain all measure exactly what the
+738:      datetime latest_restart_started_at=0;
+759:         if(completed_at>latest_restart_started_at)
+760:            latest_restart_started_at=completed_at;
+763:      return latest_restart_started_at;
+822:      datetime persisted_restart_started_at=0;
+823:      if(GlobalVariableCheck(GlobalKey("restart_started_at")))
+824:         persisted_restart_started_at=(datetime)(long)GlobalVariableGet(
+825:            GlobalKey("restart_started_at")
+827:      bool flat_restart=(
+830:         saved_state==CYCLE_RESTARTING
+834:         !flat_restart)
+901:      if(flat_restart && persisted_restart_started_at<=0)
+902:         persisted_restart_started_at=RestartStartedAtFromTelemetry();
+1004:      if(flat_restart)
+1006:         m_state=CYCLE_RESTARTING;
+1007:         if(persisted_restart_started_at>0 &&
+1008:            persisted_restart_started_at<=TimeCurrent())
+1009:            m_restart_started_at=persisted_restart_started_at;
+1011:            m_restart_started_at=TimeCurrent();
+1013:         LogEvent("restore","",0,0.0,0.0,"flat_restart");
+1081:         GlobalKey("restart_started_at"),
+1082:         (double)m_restart_started_at
+1141:       GlobalVariableDel(GlobalKey("restart_started_at"));
+1448:      FileWrite(handle,"profile_restart_delay_ms",
+1449:                m_profile.restart_delay_ms);
+2086:            // rearm_requested, which only a stop-loss exit or a post-restart
+2092:            m_state=CYCLE_RESTARTING;
+2093:            m_restart_started_at=TimeCurrent();
+2780:   // CloseOnePosition because the CYCLE_RESTARTING handler drains leftover
+2940:      // dropped into CYCLE_RESTARTING with positions still open, which is the
+2954:         m_state=CYCLE_RESTARTING;
+2955:         m_restart_started_at=TimeCurrent();
+2957:         LogEvent("restart_wait","",0,0.0,0.0,"");
+3019:         m_state=CYCLE_RESTARTING;
+3020:         m_restart_started_at=TimeCurrent();
+3023:         LogEvent("restart_wait","",0,0.0,0.0,"");
+3136:      m_restart_started_at=0;
+3255:       // orphan set in RAM only, so a terminal restart or an input change makes
+3302:      bool has_persisted_restart=(
+3307:         CYCLE_RESTARTING
+3343:      if((has_owned_cycle || has_persisted_restart) &&
+3788:          case CYCLE_RESTARTING:
+3796:                 // Paced, exactly like CYCLE_CLOSING.  Reaching CYCLE_RESTARTING
+3800:                 // orphans cannot pin the engine in CYCLE_RESTARTING forever.
+3811:              if(TimeCurrent()-m_restart_started_at>=
+3812:                 (m_profile.restart_delay_ms+999)/1000)
+3815:               LogLifecycleEvent("cycle_restart","","new_cycle");

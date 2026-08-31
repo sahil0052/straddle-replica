@@ -1,0 +1,29 @@
+70:def pct(values, q):
+75:    return ordered[index]
+78:def eras_present(mapping):
+79:    return [e for e in ERA_ORDER if e in mapping] + [
+84:def load_orders():
+85:    return list(csv.DictReader(Path("tmp/r901018_orders.csv").open(encoding="utf-8")))
+88:def load_deals():
+89:    return list(csv.DictReader(Path("tmp/r901018_deals.csv").open(encoding="utf-8")))
+90:def load_positions():
+116:    return rows
+119:def is_sl_exit(row) -> bool:
+126:    return direction * (row["close_price"] - row["sl"]) <= 1e-9
+127:def build_deployments(orders):
+219:    return records
+220:def build_sweeps(orders):
+246:    return sweeps
+249:def cancel_times(orders):
+261:    return out
+262:def classify_sweeps(sweeps, deployments):
+289:    return terminal, interim, silent
+290:def new_bucket():
+291:    return {
+300:def score(labelled, positions, cancels, starts):
+359:    return per_era
+360:def print_v5(per_era, title):
+384:def print_v7(per_era, title):
+403:def print_v8(per_era, title):
+418:def main() -> int:
+556:    return 0

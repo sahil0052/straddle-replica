@@ -1,0 +1,25 @@
+249:def cancel_times(orders):
+250-    """(cancel time) for every lattice pending the terminal reports as canceled."""
+251-    out = []
+252-    for row in orders:
+253-        if "cancel" not in norm(row["State"]).lower():
+254-            continue
+255-        if parse_level(row["Comment"]) is None:
+256-            continue
+257-        when = stamp(row["Time"])
+258-        if when is not None:
+259-            out.append(when)
+260-    out.sort()
+261-    return out
+262-def classify_sweeps(sweeps, deployments):
+263-    """Correction (B): the TERMINAL sweep of a cycle is its LAST close burst
+264-    before the next deployment starts.  Everything else that cycle fired is
+265-    interim -- a partial or aborted close, which is what the orphan leak
+266-    predicts and what D8 has to account for."""
+267-    starts = [record["when"] for record in deployments]
+268-    grouped = collections.defaultdict(list)
+269-    for sweep in sweeps:
+270-        first = sweep[0]["when"]
+271-        index = -1
+272-        for i, when in enumerate(starts):
+273-            if when <= first:

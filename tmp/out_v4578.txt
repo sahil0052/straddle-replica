@@ -1,0 +1,118 @@
+deployments=285 close_bursts=588 terminal_sweeps=282 interim_bursts=306 cycles_with_no_close=3 positions=17632 canceled_pendings=19312
+  (terminal sweep = the last close burst before the next deployment; correction (B))
+
+=== V5 basket liquidation -- TERMINAL sweeps only ===
+  HISTORICAL_50  sweeps= 100 close_orders= 1331 singletons=   1 matched_positions= 1319 sl_inside=    1
+      cancel_before_close=99/100 ( 99.00%)   LIFO pairs=1219/1219 (100.00%) tied=0  clean=99/99
+      inter-close ms  p05=   99.0 p50=  103.0 p95=  146.0 min=   97.0 n=1231
+      legs per sweep  p05=   5 p50=  12 p95=  25 max=  37
+  HISTORICAL_60  sweeps=  77 close_orders= 1294 singletons=   2 matched_positions= 1290 sl_inside=    4
+      cancel_before_close=70/77 ( 90.91%)   LIFO pairs=1164/1212 ( 96.04%) tied=1  clean=72/75
+      inter-close ms  p05=  101.0 p50=  105.0 p95=  215.0 min=    0.0 n=1217
+      legs per sweep  p05=   5 p50=  15 p95=  31 max=  54
+  AGGRESSIVE_30  sweeps=   2 close_orders=    9 singletons=   1 matched_positions=    9 sl_inside=    0
+      cancel_before_close=0/2 (  0.00%)   LIFO pairs=0/7 (  0.00%) tied=0  clean=0/1
+      inter-close ms  p05=    2.0 p50=    3.0 p95=    7.0 min=    2.0 n=7
+      legs per sweep  p05=   1 p50=   1 p95=   8 max=   8
+  LOW_RISK_30    sweeps=   1 close_orders=   11 singletons=   0 matched_positions=   11 sl_inside=    0
+      cancel_before_close=1/1 (100.00%)   LIFO pairs=10/10 (100.00%) tied=0  clean=1/1
+      inter-close ms  p05=  114.0 p50=  120.0 p95=  126.0 min=  114.0 n=10
+      legs per sweep  p05=  11 p50=  11 p95=  11 max=  11
+  STARWAVE_30    sweeps= 102 close_orders=  673 singletons=  37 matched_positions=  660 sl_inside=    0
+      cancel_before_close=65/102 ( 63.73%)   LIFO pairs=560/562 ( 99.64%) tied=0  clean=63/65
+      inter-close ms  p05=  101.0 p50=  111.0 p95=  169.0 min=   99.0 n=571
+      legs per sweep  p05=   1 p50=   6 p95=  16 max=  34
+
+=== V7 cycle realized at sweep completion -- TERMINAL sweeps only ===
+  HISTORICAL_50  n= 100 p05=     5.57 p25=    20.60 p50=    25.49 p75=    35.41 p95=   110.40 min=   -64.36 max=   676.81
+      negative=4  >=25=51 >=20=75 >=10=90   pre-sweep realized p50=    36.00
+  HISTORICAL_60  n=  77 p05=  -144.49 p25=    23.06 p50=    31.37 p75=    55.29 p95=   145.33 min=  -525.34 max=  3968.33
+      negative=8  >=25=53 >=20=63 >=10=68   pre-sweep realized p50=    73.82
+  AGGRESSIVE_30  n=   2 p05=  -814.44 p25=  -814.44 p50=  -814.44 p75=   108.90 p95=   108.90 min=  -814.44 max=   108.90
+      negative=1  >=25=1 >=20=1 >=10=1   pre-sweep realized p50=  -793.32
+  LOW_RISK_30    n=   1 p05=    32.92 p25=    32.92 p50=    32.92 p75=    32.92 p95=    32.92 min=    32.92 max=    32.92
+      negative=0  >=25=1 >=20=1 >=10=1   pre-sweep realized p50=    74.23
+  STARWAVE_30    n= 102 p05=   -30.26 p25=    22.60 p50=    31.19 p75=    50.79 p95=   151.67 min=  -135.83 max=  3592.13
+      negative=10  >=25=69 >=20=81 >=10=89   pre-sweep realized p50=    46.03
+
+=== V8 restart interval (sweep last close -> next deployment) -- TERMINAL sweeps only ===
+  HISTORICAL_50  n= 100 >=2.0s=99 in[2,3)=72 min=   0.207
+      <=600s subset n=  99 p05=   2.154 p50=   2.716 p95=   3.191
+  HISTORICAL_60  n=  77 >=2.0s=73 in[2,3)=49 min=   0.210
+      <=600s subset n=  76 p05=   2.110 p50=   2.764 p95=   3.291
+  AGGRESSIVE_30  n=   2 >=2.0s=2 in[2,3)=0 min=  84.580
+      <=600s subset n=   2 p05=  84.580 p50=  84.580 p95= 341.357
+  LOW_RISK_30    n=   1 >=2.0s=0 in[2,3)=0 min=   1.668
+      <=600s subset n=   1 p05=   1.668 p50=   1.668 p95=   1.668
+  STARWAVE_30    n= 101 >=2.0s=53 in[2,3)=18 min=   1.170
+      <=600s subset n= 100 p05=   1.339 p50=   2.015 p95=  22.190
+
+=== V5 basket liquidation -- INTERIM bursts (D8 leak / partial-abort evidence) ===
+  HISTORICAL_50  sweeps=   2 close_orders=   18 singletons=   0 matched_positions=   17 sl_inside=    0
+      cancel_before_close=1/2 ( 50.00%)   LIFO pairs=15/15 (100.00%) tied=0  clean=2/2
+      inter-close ms  p05=   99.0 p50=  101.0 p95=  103.0 min=   99.0 n=16
+      legs per sweep  p05=   7 p50=   7 p95=  11 max=  11
+  HISTORICAL_60  sweeps=  19 close_orders=   81 singletons=   8 matched_positions=   77 sl_inside=    0
+      cancel_before_close=2/19 ( 10.53%)   LIFO pairs=59/59 (100.00%) tied=0  clean=10/10
+      inter-close ms  p05=  100.0 p50=  105.0 p95=  333.0 min=   99.0 n=62
+      legs per sweep  p05=   1 p50=   2 p95=  11 max=  21
+  AGGRESSIVE_30  sweeps=   1 close_orders=    8 singletons=   0 matched_positions=    8 sl_inside=    0
+      cancel_before_close=1/1 (100.00%)   LIFO pairs=7/7 (100.00%) tied=0  clean=1/1
+      inter-close ms  p05=  113.0 p50=  116.0 p95=  181.0 min=  113.0 n=7
+      legs per sweep  p05=   8 p50=   8 p95=   8 max=   8
+  STARWAVE_30    sweeps= 284 close_orders=  317 singletons= 279 matched_positions=  287 sl_inside=    0
+      cancel_before_close=36/284 ( 12.68%)   LIFO pairs=33/33 (100.00%) tied=0  clean=5/5
+      inter-close ms  p05=  100.0 p50=  105.0 p95=  126.0 min=  100.0 n=33
+      legs per sweep  p05=   1 p50=   1 p95=   1 max=  14
+
+=== V7 cycle realized at sweep completion -- INTERIM bursts (D8 leak / partial-abort evidence) ===
+  HISTORICAL_50  n=   2 p05=     4.36 p25=     4.36 p50=     4.36 p75=     9.87 p95=     9.87 min=     4.36 max=     9.87
+      negative=0  >=25=0 >=20=0 >=10=0   pre-sweep realized p50=     0.00
+  HISTORICAL_60  n=  19 p05=    -7.70 p25=    35.88 p50=    79.96 p75=   114.23 p95=   558.33 min=   -60.08 max=   597.61
+      negative=2  >=25=16 >=20=16 >=10=16   pre-sweep realized p50=    68.17
+  AGGRESSIVE_30  n=   1 p05=   149.90 p25=   149.90 p50=   149.90 p75=   149.90 p95=   149.90 min=   149.90 max=   149.90
+      negative=0  >=25=1 >=20=1 >=10=1   pre-sweep realized p50=    84.96
+  STARWAVE_30    n= 284 p05=     9.33 p25=    40.38 p50=    92.43 p75=   177.01 p95=   635.26 min=   -74.90 max=   982.93
+      negative=11  >=25=239 >=20=248 >=10=268   pre-sweep realized p50=    97.12
+
+=== V4 two-stage ratchet: locked = dir*(sl-open)/step ===
+  population = EVERY position carrying an S/L (stop PLACEMENT, so the exit type is irrelevant -- correction (C))
+  -- all S/L-carrying positions
+  era                       <0        [0,1)  [1.00,1.98)  [1.98,2.00)        [2,3)        [3,4)      [4,inf)       n
+  HISTORICAL_50              0         1455          887           14          604          394          578    3932
+  HISTORICAL_60              0         2486         1767           11         1247          832         1771    8114
+  AGGRESSIVE_30              9            7            1            0            5            3            4      29
+  LOW_RISK_30                0           10            0            0           10            5            4      29
+  STARWAVE_30                0         1151            0            6          946          407          299    2809
+      HISTORICAL_50  strict trough 887/3932 = 22.56%   boundary [1.98,2.00) 14   (a single-stage 1-step trail would fill ~33%)
+      HISTORICAL_60  strict trough 1767/8114 = 21.78%   boundary [1.98,2.00) 11   (a single-stage 1-step trail would fill ~33%)
+      AGGRESSIVE_30  strict trough 1/29 =  3.45%   boundary [1.98,2.00) 0   (a single-stage 1-step trail would fill ~33%)
+      LOW_RISK_30    strict trough 0/29 =  0.00%   boundary [1.98,2.00) 0   (a single-stage 1-step trail would fill ~33%)
+      STARWAVE_30    strict trough 0/2809 =  0.00%   boundary [1.98,2.00) 6   (a single-stage 1-step trail would fill ~33%)
+      (positions with no resolvable cycle step: 0)
+  -- stop exits only (dir*(close-sl)<=0)
+  era                       <0        [0,1)  [1.00,1.98)  [1.98,2.00)        [2,3)        [3,4)      [4,inf)       n
+  HISTORICAL_50              0         1362          807           13          537          322          437    3478
+  HISTORICAL_60              0         2425         1710           10         1187          784         1627    7743
+  AGGRESSIVE_30              9            6            1            0            5            3            4      28
+  LOW_RISK_30                0            9            0            0            9            4            3      25
+  STARWAVE_30                0          978            0            6          851          341          230    2406
+      HISTORICAL_50  strict trough 807/3478 = 23.20%   boundary [1.98,2.00) 13   (a single-stage 1-step trail would fill ~33%)
+      HISTORICAL_60  strict trough 1710/7743 = 22.08%   boundary [1.98,2.00) 10   (a single-stage 1-step trail would fill ~33%)
+      AGGRESSIVE_30  strict trough 1/28 =  3.57%   boundary [1.98,2.00) 0   (a single-stage 1-step trail would fill ~33%)
+      LOW_RISK_30    strict trough 0/25 =  0.00%   boundary [1.98,2.00) 0   (a single-stage 1-step trail would fill ~33%)
+      STARWAVE_30    strict trough 0/2406 =  0.00%   boundary [1.98,2.00) 6   (a single-stage 1-step trail would fill ~33%)
+      (positions with no resolvable cycle step: 0)
+
+=== D8 orphan residue: positions still open when the NEXT cycle deployed ===
+  era                n   outlived  %      crossed 1    2    3    4   5+   max
+  HISTORICAL_50    4831     11   0.23%            11    0    0    0    0     1
+  HISTORICAL_60    9128     81   0.89%            81    0    0    0    0     1
+  AGGRESSIVE_30      48      0   0.00%             0    0    0    0    0     0
+  LOW_RISK_30        36      0   0.00%             0    0    0    0    0     0
+  STARWAVE_30      3589      4   0.11%             4    0    0    0    0     1
+
+=== position close-event fold ===
+  positions=17632 distinct (close_time,volume,price) keys=12374 colliding keys=2974 extra rows=5258
+  stop exits by dir*(close-sl)<=0: 13680   of which exactly on the stop: 1856   (13.57%)
+  blank SL=2719  any TP=0  non-stop exits=3952

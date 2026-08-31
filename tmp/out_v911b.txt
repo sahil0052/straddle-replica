@@ -1,0 +1,5 @@
+277 tmp/a901_v911.py
+205:    print("\n=== V10 PART C: transition census (tag,state) -> tag ===")
+209:    print("\n=== V10 PART D: the base RE-PLACEMENTS, properly scoped ===")
+258:    print("\n  per-event round-trip depth (how many base orders before the 2x)")
+273:    return 0

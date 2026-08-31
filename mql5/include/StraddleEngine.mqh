@@ -227,6 +227,7 @@ private:
          m_buy_levels[index].active_position_count=0;
          m_buy_levels[index].duplicate_identity=false;
          m_buy_levels[index].recovery_done=false;
+         m_buy_levels[index].deploy_deferred=false;
           m_buy_levels[index].order_ticket=0;
           m_buy_levels[index].position_ticket=0;
             m_buy_levels[index].rearm_requested=false;
@@ -244,6 +245,7 @@ private:
          m_sell_levels[index].active_position_count=0;
          m_sell_levels[index].duplicate_identity=false;
          m_sell_levels[index].recovery_done=false;
+         m_sell_levels[index].deploy_deferred=false;
           m_sell_levels[index].order_ticket=0;
           m_sell_levels[index].position_ticket=0;
             m_sell_levels[index].rearm_requested=false;
@@ -2045,20 +2047,48 @@ private:
       return true;
      }
 
+   bool DeployDeferred(const int slot) const
+     {
+      int level_index=slot/2;
+      if(level_index<0 || level_index>=m_profile.levels_per_side)
+         return false;
+      return(slot%2==0 ? m_buy_levels[level_index].deploy_deferred
+                       : m_sell_levels[level_index].deploy_deferred);
+     }
+
    void DeployOne(void)
      {
-      if(m_deploy_index>=m_profile.levels_per_side*2)
+      int sweep_slots=m_profile.levels_per_side*2;
+      int retry_slots=sweep_slots*2;
+      // Slots [0,sweep_slots) are the interleaved first pass; slots
+      // [sweep_slots,retry_slots) are the SINGLE retry pass appended at the tail
+      // of the same burst.  Fast-forward over every retry slot whose level was
+      // armed on the first pass INSIDE THIS SAME TICK, so that only a genuinely
+      // deferred level costs a timer tick: on the 901018 tape the retry leg goes
+      // out one inter_order_delay_ms after the last first-pass leg (110/113/111/
+      // 111/117/116 ms on the first six HISTORICAL_60 bursts), not one tick per
+      // skipped slot, which would put it ~12 s after S60.  A clean burst
+      // therefore completes on exactly the tick it always did.
+      while(m_deploy_index>=sweep_slots &&
+            m_deploy_index<retry_slots &&
+            !DeployDeferred(m_deploy_index-sweep_slots))
+         m_deploy_index++;
+      if(m_deploy_index>=retry_slots)
         {
          if(OwnedOrderCount()==0 && CyclePositionCount()==0)
            {
-            // Degenerate case OUTSIDE the target's measured envelope: every one
-            // of the 2N attempts was rejected, so the sweep armed nothing.
-            // Staying in CYCLE_RUNNING would idle forever -- CheckCycleTargets()
-            // returns early while !m_has_traded with nothing open, and
-            // RearmOneMissingLevel() only fires for levels whose position closed
-            // on stop-loss.  Re-anchor after the flat delay instead.  The worst
-            // real Starwave deployment still armed 39 of 50 levels, so this
-            // branch cannot fire on any measured cycle.
+            // Degenerate case OUTSIDE the target's measured envelope: all 2N
+            // first-pass attempts AND all 2N tail retries were rejected, so the
+            // sweep armed nothing.  Staying in CYCLE_RUNNING would idle forever
+            // on the flag-gated profiles -- CheckCycleTargets() returns early
+            // while !m_has_traded with nothing open, and with
+            // replica_orphan_leak=false RearmEligible() additionally needs
+            // rearm_requested, which only a stop-loss exit or a post-restart
+            // restore ever sets, so no level would ever come back.  Re-anchor
+            // after the flat delay instead.  The worst real deployment on either
+            // tape still armed 39 of 50 levels (Starwave 2026-08-21) and the
+            // worst on the 901018 tape lost only level 1 (HISTORICAL_60, 118 of
+            // 120 legs), so this branch cannot fire on any measured cycle.
             m_state=CYCLE_RESTARTING;
             m_restart_started_at=TimeCurrent();
             PersistCycle();
@@ -2076,31 +2106,107 @@ private:
          m_last_entry_fill_at>0 &&
          TimeCurrent()-m_last_entry_fill_at<m_profile.deployment_fill_cooldown_seconds)
          return;
-      int level_index=m_deploy_index/2;
-      bool is_buy=(m_deploy_index%2==0);
+      bool retry_pass=(m_deploy_index>=sweep_slots);
+      int slot=(retry_pass ? m_deploy_index-sweep_slots : m_deploy_index);
+      int level_index=slot/2;
+      bool is_buy=(slot%2==0);
+      // Clear the mark BEFORE the retry attempt, so a second failure abandons the
+      // level for the rest of the cycle instead of queueing a third attempt.
+      if(retry_pass)
+        {
+         if(is_buy)
+            m_buy_levels[level_index].deploy_deferred=false;
+         else
+            m_sell_levels[level_index].deploy_deferred=false;
+        }
       bool placed=(is_buy ? PlaceLevel(m_buy_levels[level_index])
                           : PlaceLevel(m_sell_levels[level_index]));
-      if(placed)
-        {
-         m_deploy_index++;
-         return;
-        }
       string level_comment=StringFormat(
          "STR %s%d",
          (is_buy ? "B" : "S"),
          level_index+1
       );
-      string reject_reason=StringFormat("retcode_%u",m_gateway.LastRetcode());
-      // TARGET EA PARITY -- A REJECTED LEVEL IS SKIPPED, NEVER RETRIED, AND
-      // NEVER ABORTS THE SWEEP.
+      if(placed)
+        {
+         if(retry_pass)
+            LogLifecycleEvent("deployment_level_retried",level_comment,"tail_retry");
+         m_deploy_index++;
+         return;
+        }
+      if(!retry_pass)
+        {
+         if(is_buy)
+            m_buy_levels[level_index].deploy_deferred=true;
+         else
+            m_sell_levels[level_index].deploy_deferred=true;
+        }
+      string reject_reason=StringFormat(
+         "retcode_%u%s",
+         m_gateway.LastRetcode(),
+         (retry_pass ? "_retry_abandoned" : "_deferred")
+      );
+      // TARGET EA PARITY -- A REJECTED LEVEL IS DEFERRED TO ONE RETRY PASS AT
+      // THE TAIL OF THE SAME BURST, THEN ABANDONED.  IT NEVER ABORTS THE SWEEP
+      // AND IT NEVER RETRIES MORE THAN ONCE.
       //
       // This branch previously dropped the whole cycle into CYCLE_CANCELING on
       // TRADE_RETCODE_INVALID_PRICE (cancel everything, re-anchor) and, on any
       // other retcode, fell through WITHOUT advancing m_deploy_index -- retrying
       // the same level on every subsequent tick, forever.  The target does
-      // neither.  It attempts the level, fails, and advances anyway, spending
-      // one timer tick on the failure and leaving that (side,level) slot empty
-      // for the entire cycle.
+      // neither.  It attempts the level, fails, advances immediately, and comes
+      // back for it exactly once after the last first-pass leg has gone out.
+      //
+      // The retry is invisible in the order table and can only be read off
+      // DISPATCH ORDER: the 901018 tape carries 54,742 orders whose state is only
+      // ever filled (35,430) or canceled (19,312) -- ZERO rejected -- so a level
+      // the broker refuses leaves no row at all.  It shows up as a gap in the
+      // lattice plus a late re-dispatch of that same (side,level).
+      //
+      // Measured over the 285 deployment bursts recovered from that tape,
+      // 70 dispatch a level-1 leg AFTER the highest level of the burst:
+      // HISTORICAL_60 68 of 78, HISTORICAL_50 2 of 101, and 0 of 103 on
+      // STARWAVE_30.  The adjacent-rank inversion census is S60 -> S1 x37,
+      // S60 -> B1 x31, S1 -> B1 x3 (71 inversions over 68 bursts; three carry
+      // two).  Three facts pin it to the EA's own dispatch rather than to the
+      // reader or to a folded-in re-arm:
+      //   * timestamps and tickets are strictly monotone across every swap --
+      //     0 swaps share a millisecond, 0 have non-monotone tickets, and the
+      //     tickets run consecutively (20216347/48/49/50);
+      //   * the gap from the last first-pass leg to the retry leg is ONE
+      //     inter_order_delay_ms tick (110/113/111/111/117/116 ms), not the ~12 s
+      //     a fresh burst or a re-arm sweep would cost;
+      //   * the retry lands on the EXACT original lattice price, not a re-anchored
+      //     one.  Burst 2026-07-02 21:52:35 has B60=4148.27 and S60=4093.07, so
+      //     anchor=4120.67 and step=55.20/120=0.46; its tail leg is B1 at
+      //     4121.13 = anchor + 1*step to the cent.
+      //
+      // The first-pass rejection is the broker minimum stop distance that
+      // PendingPriceIsValid() already models.  Score all 285 bursts on step
+      // alone: 0 of 66 bursts below step 0.60 are clean, versus 202 of 208
+      // (97.12%) at or above 0.70.  Within HISTORICAL_60 the 10 clean bursts run
+      // step 0.70..0.78 and the deferred ones 0.37..0.64 with ZERO overlap, and
+      // AGGRESSIVE_30 is clean at 0.68 -- so the threshold is step in
+      // (0.64, 0.68], i.e. stops_level ~ 0.50..0.55 plus half the spread.  Level
+      // 1 sits one step from the anchor and fails; level 2 at twice the step
+      // clears.  That is exactly the missing-legs census: ['B1'] x34, ['S1'] x27,
+      // [] x5, ['S1','S2'] x1, ['S1','S15'..'S18'] x1 -- level 2 or higher is
+      // missing in only 2 of 68.
+      //
+      // The retry is ONE pass, and a level whose retry also fails is abandoned
+      // for the rest of the cycle.  7 of the 78 HISTORICAL_60 bursts and 2 of the
+      // 103 STARWAVE_30 bursts carry NO level-1 leg at all, and the three
+      // incomplete Starwave lattices below are the same outcome at scale -- so
+      // there is no second retry, no loop, and no re-anchor.  Why the retry
+      // usually succeeds on 901018 and did not on Starwave: a 60-level burst takes
+      // ~12 s, price drifts, and the minimum-distance test that failed at t=0
+      // passes by the time the tail is reached; on Starwave 2026-08-21 the
+      // rejection was still live one tick later.
+      //
+      // HISTORICAL_50's 2 deferrals are the same architecture with a different
+      // trigger: steps 0.94 and 0.99, far above the distance threshold, B1
+      // dispatched in slot #0 and FILLED, S1 deferred to the last slot, and
+      // nothing missing from the lattice -- a transient REQUOTE/PRICE_CHANGED that
+      // the tail retry then placed successfully.
       //
       // Measured on all three of the 119 Starwave deployments that came out
       // incomplete (2.5%); there is not one abort-and-re-anchor event in the
@@ -2124,12 +2230,16 @@ private:
       //   2026-08-27 08:23  only S1 rejected -- the nearest level, i.e. a
       //       stops_level/freeze-level rejection -- and the other 59 were placed.
       //
-      // And the gaps are never back-filled: in all three cycles the skipped
-      // slots stayed empty while OTHER levels re-armed normally (08-21 saw 11
-      // distinct levels re-arm, e.g. B2 six times, B1 five times).  That is
-      // already our behaviour -- ScheduleLevelRearm() only sets rearm_requested
-      // when a level's position closes on stop-loss, and RearmOneMissingLevel()
-      // is gated on that flag, so a deployment-skipped level stays dormant.
+      // And once the single retry has been spent the gaps are never back-filled:
+      // in all three cycles the abandoned slots stayed empty while OTHER levels
+      // re-armed normally (08-21 saw 11 distinct levels re-arm, e.g. B2 six times,
+      // B1 five times).  The ordinary re-arm path cannot reach them either --
+      // RearmOneMissingLevel() runs only in CYCLE_RUNNING, and on a profile with
+      // replica_orphan_leak=false RearmEligible() additionally requires
+      // rearm_requested, which ScheduleLevelRearm() sets only when a level's
+      // position closes on stop-loss.  So the burst-local retry above is the only
+      // second chance a deployment-rejected level ever gets, which is why it lives
+      // in DeployOne() and not in the re-arm scheduler.
       LogLifecycleEvent("deployment_level_rejected",level_comment,reject_reason);
       LogEvent(
          "deployment_skip",
@@ -2184,9 +2294,16 @@ private:
                  : m_profile.lots[index]
              );
               // Target EA parity: re-arms ALWAYS return to the original anchor
-              // lattice price. Measured against 1,797 mid-cycle re-arms in the
-              // final regime, 99.4% land exactly (<0.1 step) on the price of the
-              // same (side,level) slot from the cycle's deployment burst; sell
+              // lattice price. Measured on ReportHistory-901018: of 12,443 grid
+              // pendings that are not deployment-burst orders, 1,091 belong to
+              // 10 deployment bursts the cycle segmenter merged into an open
+              // cycle, and ALL 11,352 true re-arms land on the exact price of
+              // the same (side,level) slot -- 11,058 on the cycle's burst slot
+              // and 294 on the same lattice past a truncated slot table.
+              // Residual zero: not one relocation in the tape. Repeated re-arms
+              // of one slot agree to the cent (2,490 slots, up to 19 repeats,
+              // max intra-slot spread 0.0000), and only 0.93% sit at
+              // market +/- level*step, so re-anchoring is refuted outright; sell
               // stops were observed re-armed up to 35 steps away from market on
               // the original lattice. The Target EA never re-anchors pendings to
               // market. If the lattice price is currently invalid (market has
@@ -2750,11 +2867,11 @@ private:
          double volume=PositionGetDouble(POSITION_VOLUME);
          double price=PositionGetDouble(POSITION_PRICE_CURRENT);
          string comment=PositionGetString(POSITION_COMMENT);
-         if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
+         if(m_gateway.ClosePosition(ticket,CloseComment()))
            {
             m_last_close_at=TimeCurrent();
             m_close_skip=0;
-            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
+            LogEvent("close",comment,ticket,volume,price,CloseComment());
             return true;
            }
          m_last_close_at=TimeCurrent();
@@ -2763,6 +2880,20 @@ private:
         }
       m_close_skip=0;
       return false;
+     }
+
+   // Basket-close comment.  The Target ran two builds over the 901018 window and
+   // they stamp the sweep differently: inside HISTORICAL_50 and HISTORICAL_60 all
+   // 2,724 basket closes carry an EMPTY comment and not one carries "STR CLOSE",
+   // while every one of the 1,010 "STR CLOSE" closes falls inside the
+   // anchor-divisor eras (AGGRESSIVE_30 9, LOW_RISK_30 11, STARWAVE_30 990).  The
+   // two families are the same mechanism, not different actions: all 3,742 orders
+   // resolve to DEAL_ENTRY_OUT deals (2732/2732 and 1010/1010), both run the same
+   // ~105 ms machine cadence, and their windows partition the tape cleanly at the
+   // 2026.07.13 12:28 changeover.  See parity audit DIV-3.
+   string CloseComment(void) const
+     {
+      return(m_profile.stamp_close_comment ? "STR CLOSE" : "");
      }
 
    bool TryCloseOneOwnedPosition(void)
@@ -2781,11 +2912,11 @@ private:
          double volume=PositionGetDouble(POSITION_VOLUME);
          double price=PositionGetDouble(POSITION_PRICE_CURRENT);
          string comment=PositionGetString(POSITION_COMMENT);
-         if(m_gateway.ClosePosition(ticket,"STR CLOSE"))
+         if(m_gateway.ClosePosition(ticket,CloseComment()))
            {
             m_last_close_at=TimeCurrent();
             m_close_skip=0;
-            LogEvent("close",comment,ticket,volume,price,"STR CLOSE");
+            LogEvent("close",comment,ticket,volume,price,CloseComment());
             return true;
            }
          m_last_close_at=TimeCurrent();

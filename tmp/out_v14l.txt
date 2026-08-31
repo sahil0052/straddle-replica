@@ -1,0 +1,26 @@
+=== section labels ===
+24:// SECTION: StraddleTypes.mqh
+244:// SECTION: ProfileCatalog.mqh
+1001:// SECTION: StopScheduler.mqh
+1200:// SECTION: BasketEvaluator.mqh
+1243:// SECTION: CycleDealLedger.mqh
+1312:// SECTION: TradeGateway.mqh
+1698:// SECTION: StraddleEngine.mqh
+5560:// SECTION: StraddleReplicaApp.mqh (Event Handlers & Inputs)
+=== placeholders / local includes ===
+10
+0
+=== byte identity ===
+IDENTICAL
+00f0b3b8951b771dc9ba12678cb37efb *mql5/ProfitBricks2K.mq5
+00f0b3b8951b771dc9ba12678cb37efb *mql5/ProfitBricks2K_AllInOne.mq5
+=== include line counts ===
+    37 mql5/include/BasketEvaluator.mqh
+    63 mql5/include/CycleDealLedger.mqh
+   751 mql5/include/ProfileCatalog.mqh
+   193 mql5/include/StopScheduler.mqh
+  3856 mql5/include/StraddleEngine.mqh
+   202 mql5/include/StraddleReplicaApp.mqh
+   214 mql5/include/StraddleTypes.mqh
+   380 mql5/include/TradeGateway.mqh
+  5696 total

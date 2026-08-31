@@ -1,0 +1,63 @@
+=== 1255-1270 ===
+all five eras** — only the tails move (p05 −1.89 / −5.54 / −7.47). The instrument choice is immaterial
+at every statistic this section quotes.
+
+#### 2.7.2 The money exit is the *only* exit, so every sweep on the tape is a V7 observation
+
+`SafetyTriggered()` (`:2726-2759`) returns false unconditionally when `!m_runtime.safety_enabled`, and
+safety is off by construction on every path into the binary: `#define STR_SAFETY_ENABLED_DEFAULT false`
+(`StraddleReplicaApp.mqh:8`), `input bool SafetyEnabled` (`:57`), and all four entry points re-define it
+false — `ProfitBricks.mq5:14`, `ProfitBricks2K.mq5:14`, `ProfitBricks2K_AllInOne.mq5:14`,
+`StraddleReplicaReal.mq5:12`. There is no drawdown cutoff, no equity stop and no time-based flatten.
+Consequently every one of the 282 terminal liquidations on the 901018 tape is an observation of this
+predicate firing, which is what licenses the threshold estimation in §2.7.6 — and also what makes the
+absence of any *other* exit signature a positive parity result rather than an untested path.
+
+#### 2.7.3 The `open_positions>0` gate, proved positively over the *global* open set
+
+
+=== 2310,2325 ===
+| --- | --- | --- |
+| `ReconcileHistoryDeals()` | `QueueMissingHistoryDeals()` `StraddleEngine.mqh:3579-3626` | owns the lookback; periodic re-scan |
+| — | `ProcessPendingDeals()` `:3731-3748` | drains the retry queue |
+| — | `ProcessSelectedDeal()` `:3628-3729` | the per-deal accumulator |
+| — | `CCycleDealLedger::TryRecalculate()` `CycleDealLedger.mqh:17-51` | absolute set recompute |
+
+with `OnTradeTransaction()` `:3826-3849` as the live entry point (forwarded from
+`StraddleReplicaApp.mqh:187-191`; standalone `ProfitBricks2K.mq5:5526` and `:5749-5753`).
+
+#### 2.11.1 The four constants and the scan budget
+
+`StraddleEngine.mqh:12-15`:
+
+| Constant | Value | Role |
+| --- | --- | --- |
+| `STR_PENDING_DEAL_CAPACITY` | 256 | retry-queue depth for **unsettled** deals only |
+
+=== 2645,2670 ===
+Both are answerable without assumption. The first is a source question with a one-line answer and
+a nine-step consequence chain. The second has been carried through this audit as an *assertion*
+— "`ContractScale()=1.0`" — and that is not good enough, because `ContractScale()` multiplies
+`cycle_target_money` on the **only exit the EA has** (§2.7). A broker quoting XAUUSD with a
+contract size other than 100 would silently rescale the basket target and every cycle would end
+at the wrong money. So §2.12.3 stops asserting and *identifies* the Target broker's contract size
+from the tape, on 17,551 closed positions and the terminal's own open block.
+
+#### 2.12.1 The binding chain, end to end
+
+The symbol enters as an empty input and is resolved once, at initialisation:
+
+```cpp
+input string TradeSymbol = "";            // StraddleReplicaApp.mqh:36
+   runtime.symbol=TradeSymbol;            // StraddleReplicaApp.mqh:116
+```
+
+```cpp
+      m_runtime=runtime;                  // StraddleEngine.mqh:3167
+      if(m_runtime.symbol=="")            // :3168
+         m_runtime.symbol=_Symbol;        // :3169   <-- the auto-binding
+```
+
+`_Symbol` is the chart's symbol string **verbatim**, suffix included, so the resolution is
+suffix-agnostic by construction: it never parses, strips, normalises or pattern-matches the
+broker's decoration. `StraddleTypes.mqh:156` declares the field as a plain `string symbol;` — no

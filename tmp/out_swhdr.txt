@@ -1,0 +1,6 @@
+ticket,time_setup,time_setup_msc,time_done,time_done_msc,time_expiration,type,type_time,type_filling,state,magic,position_id,position_by_id,reason,volume_initial,volume_current,price_open,sl,tp,price_current,price_stoplimit,symbol,comment,external_id
+9525735,1787317368,1787317368515,1787317391,1787317391986,0,4,0,2,4,26011001,9525735,0,3,0.01,0.0,4592.61,0.0,0.0,4592.67,0.0,XAUUSD.u,STR B1,
+9525737,1787317368,1787317368628,1787317945,1787317945331,0,5,0,2,4,26011001,9525737,0,3,0.01,0.0,4589.55,0.0,0.0,4589.54,0.0,XAUUSD.u,STR S1,
+10864
+Open Time,Order,Symbol,Type,Volume,Price,S / L,T / P,Time,State,,Comment,,,
+2026.06.23 16:17:27.956,20175419,XAUUSD,buy stop,0.01 / 0.01,4138.04,,,2026.06.23 16:19:09.167,filled,,STR B1,,,

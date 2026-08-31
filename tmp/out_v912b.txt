@@ -1,0 +1,59 @@
+=== names containing Reconcile / Deal( in engine ===
+11:#define STR_PENDING_DEAL_CAPACITY 256
+14:#define STR_HISTORY_RECONCILE_LOOKBACK_MS 900000
+66:   int               m_processed_deal_count;
+67:   ulong             m_pending_deal_tickets[STR_PENDING_DEAL_CAPACITY];
+68:   int               m_pending_deal_count;
+547:   void ReconcileLevels(const bool report_duplicates=true)
+632:      m_processed_deal_count=0;
+641:      for(int index=0;index<m_processed_deal_count;index++)
+652:      if(m_processed_deal_count>=ArraySize(m_processed_deal_tickets))
+656:            m_processed_deal_count+128
+658:         if(resized<=m_processed_deal_count)
+667:      m_processed_deal_tickets[m_processed_deal_count]=deal_ticket;
+668:      m_processed_deal_count++;
+683:      m_processed_deal_count=0;
+722:      if(m_processed_deal_count==0)
+1049:      ReconcileLevels(false);
+1058:      ReconcileLevels();
+2100:         ReconcileLevels();
+3149:        m_processed_deal_count=0;
+3151:        m_pending_deal_count=0;
+3414:          if(m_pending_deal_count>0)
+3424:       ReconcileLevels();
+3541:      for(int index=0;index<m_pending_deal_count;index++)
+3549:      if(remove_index<0 || remove_index>=m_pending_deal_count)
+3551:      for(int index=remove_index;index<m_pending_deal_count-1;index++)
+3553:      m_pending_deal_count--;
+3554:      m_pending_deal_tickets[m_pending_deal_count]=0;
+3557:   void QueuePendingDeal(const ulong deal_ticket)
+3563:      if(m_pending_deal_count>=STR_PENDING_DEAL_CAPACITY)
+3571:      m_pending_deal_tickets[m_pending_deal_count]=deal_ticket;
+3572:      m_pending_deal_count++;
+3593:            CurrentServerMs()-STR_HISTORY_RECONCILE_LOOKBACK_MS
+3624:         QueuePendingDeal(deal_ticket);
+3734:      while(index<m_pending_deal_count)
+3764:             if(m_pending_deal_count>0)
+3774:             ReconcileLevels();
+3826:   void OnTradeTransaction(const MqlTradeTransaction &transaction,
+3838:            QueuePendingDeal(transaction.deal);
+3848:         ReconcileLevels(false);
+
+=== app / EA level ===
+mql5/include/StraddleReplicaApp.mqh:187:void OnTradeTransaction(const MqlTradeTransaction &transaction,
+mql5/include/StraddleReplicaApp.mqh:191:   g_engine.OnTradeTransaction(transaction,request,result);
+mql5/ProfitBricks2K.mq5:1413:   bool ReconcileAcceptedPendingOrder(
+mql5/ProfitBricks2K.mq5:1436:   bool ReconcileAcceptedPositionClose(
+mql5/ProfitBricks2K.mq5:1497:      if(ReconcileAcceptedPendingOrder(result,matching_order,0))
+mql5/ProfitBricks2K.mq5:1519:         if(ReconcileAcceptedPendingOrder(
+mql5/ProfitBricks2K.mq5:1529:            if(ReconcileAcceptedPositionClose(
+mql5/ProfitBricks2K.mq5:2247:   void ReconcileLevels(const bool report_duplicates=true)
+mql5/ProfitBricks2K.mq5:2749:      ReconcileLevels(false);
+mql5/ProfitBricks2K.mq5:2758:      ReconcileLevels();
+mql5/ProfitBricks2K.mq5:3800:         ReconcileLevels();
+mql5/ProfitBricks2K.mq5:5124:       ReconcileLevels();
+mql5/ProfitBricks2K.mq5:5474:             ReconcileLevels();
+mql5/ProfitBricks2K.mq5:5526:   void OnTradeTransaction(const MqlTradeTransaction &transaction,
+mql5/ProfitBricks2K.mq5:5548:         ReconcileLevels(false);
+mql5/ProfitBricks2K.mq5:5749:void OnTradeTransaction(const MqlTradeTransaction &transaction,
+mql5/ProfitBricks2K.mq5:5753:   g_engine.OnTradeTransaction(transaction,request,result);

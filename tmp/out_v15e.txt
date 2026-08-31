@@ -1,0 +1,78 @@
+=== HISTORICAL_50 block 60-136 ===
+   ResetProfile(config);
+   config.profile=profile;
+
+   switch(profile)
+     {
+      case HISTORICAL_50:
+         config.levels_per_side=50;
+         config.step_mode=STR_STEP_ATR;
+         config.atr_timeframe=PERIOD_M15;
+         config.atr_period=17;
+         config.atr_multiplier=0.10422410545583288;
+         config.cycle_target_balance_pct=0.63;
+         // The build that ran this regime sent basket closes with NO comment.
+         // ReportHistory-901018, 2026.06.23 16:17 - 2026.07.02 15:18: 1,392
+         // empty-comment market orders, every one resolving to a DEAL_ENTRY_OUT
+         // deal, and not a single "STR CLOSE" anywhere in the era.
+         config.stamp_close_comment=false;
+         // ---- liquidation phase order, measured (DIV-6) ----------------------
+         // ResetProfile defaults this flag to false, which sends BeginClose()
+         // straight to CYCLE_CLOSING and flattens the basket before cancelling
+         // the surviving pendings.  The tape does the opposite in every era.
+         // tmp/a901_cancel_order.py attributes each cancelled grid pending to a
+         // cycle by its end_time, splits that cycle's basket closes into
+         // liquidation groups at a 60 s gap, takes the terminal group, and
+         // classifies the phase order three ways (mutually exclusive):
+         //
+         //   era               cycles  CANCEL_FIRST  CLOSE_FIRST  INTERLEAVED
+         //   HISTORICAL_50         95            95            0            0
+         //   HISTORICAL_60         72            71            1            0
+         //   AGGRESSIVE_30          2             1            0            1
+         //   LOW_RISK_30            1             1            0            0
+         //   STARWAVE_30          101            91            0           10
+         //
+         // 259 of 271 cycles are strictly cancel-first and exactly ONE is
+         // close-first -- and that one (cycle 169) is a manual operator flatten,
+         // identified by a `close by` order 0.232 s earlier.  PositionCloseBy has
+         // no call site in this EA, so those 12 orders date hand actions
+         // independently of anything being measured here.  Excluding the two
+         // operator sweeps, the four eras that inherited false are 168/168 =
+         // 100.00% cancel-first.  Cross-boundary attribution was checked rather
+         // than assumed: 106 of 19,312 cancels (0.55%) end in a later cycle than
+         // their placement, which cannot manufacture a 168-cycle result.
+         config.cancel_before_close=true;
+         // ---- activation law, measured (DIV-4) -------------------------------
+         // ResetProfile defaults this flag to false, which routes activation
+         // down StopScheduler's "entry+direction*lock_offset_price" branch and
+         // writes the FIRST stop at exactly entry +/- 0.20 price.  Because
+         // every later write must be strictly better (the monotonic returns at
+         // the end of Calculate), that branch makes a hard prediction:
+         // dir*(sl-open) can never be less than 0.20, and 0.20 must be a razor
+         // atom.  ReportHistory-901018 falsifies both for this era:
+         //
+         //   n=4094 positions carrying an S/L, scored with their own cycle step
+         //   dir*(sl-open) strictly inside (0,0.20):  351  (8.57%)  <- forbidden
+         //   minimum dir*(sl-open):                  +0.01
+         //   at 0.19 / 0.20 / 0.21:                   22 / 18 / 17  <- no atom
+         //   dir*(sl-open) < 0:                         0
+         //
+         // 0.20 carries less mass than 0.19 does; the busiest single cent in the
+         // era holds 26.  HISTORICAL_60 repeats it at n=7952: 1,068 inside
+         // (0,0.20), min +0.01, 47/57/55 across 0.19/0.20/0.21.  So the target's
+         // binary activates at the trailing distance, not at a fixed offset.
+         config.activation_uses_trailing_distance=true;
+         // Deliberately NOT setting trail_distance_steps: this era inherits
+         // ResetProfile's 2.0, which equals pre_tighten_trail_distance_steps,
+         // so the tighten ternary picks the same distance on both sides of
+         // tighten_trigger_steps and the two-stage ratchet collapses into a
+         // single-stage 2.0-step trail.  That is what the tape shows -- the
+         // locked-distance histogram has NO structural trough (band [1,2)
+         // holds 951/4094 = 23.23%, and 23.04% for HISTORICAL_60, against
+         // 0/2809 for STARWAVE_30).  Do not copy trail_distance_steps=1.0 here
+         // from the modern profiles; it would carve a trough that isn't there.
+         SetLotTier(config,1,15,0.01);
+         SetLotTier(config,16,25,0.03);
+         SetLotTier(config,26,50,0.06);
+         return true;
+

@@ -1,0 +1,67 @@
+=== candidate build/bundle scripts ===
+total 204
+drwxr-xr-x 1 HPUSER 197121     0 Aug 17 16:41 .
+drwxr-xr-x 1 HPUSER 197121     0 Aug 30 20:03 ..
+-rw-r--r-- 1 HPUSER 197121  1791 Jul 31 01:16 build.ps1
+-rw-r--r-- 1 HPUSER 197121  1764 Aug  1 22:56 build_observer.ps1
+-rw-r--r-- 1 HPUSER 197121  1827 Aug  8 15:42 build_real.ps1
+-rw-r--r-- 1 HPUSER 197121  1783 Aug  4 20:55 build_target_probe.ps1
+-rw-r--r-- 1 HPUSER 197121  4038 Aug  1 23:18 create_monitor_terminal.ps1
+-rw-r--r-- 1 HPUSER 197121  4112 Aug 11 15:19 deploy_fidelity_candidate_vps.ps1
+-rw-r--r-- 1 HPUSER 197121 11644 Aug 13 14:46 deploy_independent_demo_vps.ps1
+-rw-r--r-- 1 HPUSER 197121  2064 Jul 31 01:11 download_historical_ticks.ps1
+-rw-r--r-- 1 HPUSER 197121 13360 Aug 17 17:02 install_auxiliary_cycle_alignment_task.ps1
+-rw-r--r-- 1 HPUSER 197121  2004 Jul 31 01:16 install_ea.ps1
+-rw-r--r-- 1 HPUSER 197121  6671 Aug 11 16:15 install_fidelity_monitor_tasks.ps1
+-rw-r--r-- 1 HPUSER 197121  9014 Aug 17 16:09 install_independent_demo_monitor_tasks.ps1
+-rw-r--r-- 1 HPUSER 197121  4538 Aug 13 00:21 install_independent_demo_telemetry_sync_task.ps1
+-rw-r--r-- 1 HPUSER 197121  4574 Aug 14 03:08 install_independent_fidelity_watch_task.ps1
+-rw-r--r-- 1 HPUSER 197121  7591 Aug 10 10:30 install_local_exact_twin_tasks.ps1
+-rw-r--r-- 1 HPUSER 197121  2360 Aug  1 23:26 install_monitor_task.ps1
+-rw-r--r-- 1 HPUSER 197121  1279 Aug  1 22:56 install_observer.ps1
+-rw-r--r-- 1 HPUSER 197121  1851 Aug  1 23:15 install_vps_monitor.ps1
+-rw-r--r-- 1 HPUSER 197121  2260 Aug  4 14:07 package_demo_vps.ps1
+-rw-r--r-- 1 HPUSER 197121  5945 Aug 11 15:04 package_fidelity_candidate.ps1
+-rw-r--r-- 1 HPUSER 197121  4370 Aug 11 14:26 package_fidelity_release.ps1
+-rw-r--r-- 1 HPUSER 197121  6734 Aug 12 09:58 package_independent_demo.ps1
+-rw-r--r-- 1 HPUSER 197121  3813 Aug  5 02:26 package_live_twin.ps1
+-rw-r--r-- 1 HPUSER 197121  3777 Aug  4 20:18 package_monitor.ps1
+-rw-r--r-- 1 HPUSER 197121  7502 Aug 17 17:29 package_real_bound_release.ps1
+-rw-r--r-- 1 HPUSER 197121  3554 Aug 10 10:37 package_real_exact.ps1
+-rw-r--r-- 1 HPUSER 197121  1914 Aug 17 14:56 prepare_real_bound_tester_preset.ps1
+
+=== tools dir ===
+__init__.py
+__pycache__
+align_local_auxiliary_cycle.py
+analyze_broker_stop_serialization.py
+analyze_live_capture.py
+analyze_live_rearms.py
+analyze_observer_health.py
+analyze_probe_health.py
+analyze_target_recovery.py
+archive_independent_target.py
+audit_ticks.py
+build_fidelity_report.py
+bundle_standalone.py
+calibrate.py
+calibrate_anchor.py
+calibrate_spacing.py
+check_independent_demo_readiness.py
+compare_account_terms.py
+compare_events.py
+compare_geometry.py
+compare_golden_telemetry.py
+compare_independent_cycles.py
+compare_live_cycle_replay.py
+compare_live_target_demo.py
+compare_live_twin.py
+create_ea_simple_pdf.py
+deploy_local_auxiliary_at_flat.ps1
+download_ticks.py
+evaluate_exactness_gate.py
+evaluate_live_twin_gate.py
+
+=== grep for bundler ===
+tools/bundle_standalone.py
+tests/test_mql5_contract.py

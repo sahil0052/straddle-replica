@@ -1,0 +1,11 @@
+=== AVB/AVS in doc ===
+88:**One genuine unimplemented Target behaviour survives the audit: DIV-2** (`STR AVB` /
+89:`STR AVS`, n=28, `HISTORICAL_50` only). Diff in §4.
+2559:0.02+0.12+0.30 = 28 rows coincides numerically with DIV-2's `STR AVB`/`STR AVS` count (n=28)
+
+=== ORB/ORS in doc ===
+332:negative 1 (0.08%) | (0.00,1.00) 540 (41.19%) | [1.00,2.00) FORBIDDEN 25 (1.91%)
+
+=== AVB/AVS in mql5 ===
+mql5/include/StraddleEngine.mqh:1196:         side_key=="STR AVB")
+mql5/include/StraddleEngine.mqh:1200:         side_key=="STR AVS")

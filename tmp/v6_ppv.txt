@@ -1,0 +1,18 @@
+   bool PendingPriceIsValid(const bool is_buy,const double price) const
+     {
+      MqlTick tick={};
+      if(!SymbolInfoTick(m_runtime.symbol,tick))
+         return false;
+      double stops_distance=(double)SymbolInfoInteger(m_runtime.symbol,SYMBOL_TRADE_STOPS_LEVEL)*m_point;
+      double freeze_distance=(double)SymbolInfoInteger(m_runtime.symbol,SYMBOL_TRADE_FREEZE_LEVEL)*m_point;
+      double minimum_distance=MathMax(stops_distance,freeze_distance);
+      if(is_buy)
+         return price>tick.ask+minimum_distance;
+      return price<tick.bid-minimum_distance;
+     }
+
+   bool IsHistoricalProfile(void) const
+     {
+      return(m_profile.profile==HISTORICAL_50 ||
+             m_profile.profile==HISTORICAL_60);
+     }

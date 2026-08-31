@@ -1,0 +1,81 @@
+=== ResetProfile defaults (Catalog :1-60) ===
+#ifndef STRADDLE_REPLICA_PROFILE_CATALOG_MQH
+#define STRADDLE_REPLICA_PROFILE_CATALOG_MQH
+
+#include "StraddleTypes.mqh"
+
+void ResetProfile(SProfileConfig &config)
+  {
+   config.levels_per_side=0;
+   config.step_mode=STR_STEP_FIXED;
+   config.fixed_step=0.0;
+   config.anchor_divisor=0.0;
+   config.atr_timeframe=PERIOD_M15;
+   config.atr_period=14;
+   config.atr_multiplier=0.0;
+   config.lock_trigger_steps=2.0;
+   config.lock_offset_price=0.2;
+   // DIV-4: measured law, not a neutral default.  Every profile in this catalog
+   // now sets this true and every one of them is backed by tape (see the
+   // evidence blocks in HISTORICAL_50 and HISTORICAL_60), so the default is
+   // true as well -- a profile added later without the line inherits the law
+   // that the target's binary actually runs instead of the one it does not.
+   // lock_offset_price survives only because SCustomProfileConfig exposes it as
+   // an operator input; with this default it is unreachable on every built-in
+   // path, which is exactly what StopScheduler's comment block predicts.
+   config.activation_uses_trailing_distance=true;
+   config.pre_tighten_trail_distance_steps=2.0;
+   config.tighten_trigger_steps=3.0;
+   config.trail_distance_steps=2.0;
+   config.cycle_target_balance_pct=0.18;
+   config.cycle_target_money=0.0;
+   config.cancel_before_close=false;
+   config.stamp_close_comment=true;
+   config.deployment_fill_cooldown_seconds=0;
+   config.close_interval_seconds=0;
+   config.restart_delay_ms=3000;
+   config.rearm_delay_seconds=0;
+   config.stop_update_interval_seconds=0;
+   config.max_stop_updates_per_pass=0;
+   config.stop_scan_newest_first=false;
+   config.stop_updates_on_timer=false;
+   config.replica_orphan_leak=false;
+   config.trend_rescue_enabled=false;
+   config.trend_rescue_timeframe=PERIOD_M15;
+   config.trend_rescue_bars=6;
+   config.trend_rescue_minimum_pending_levels=0;
+   config.trend_rescue_move_price=0.0;
+   config.trend_rescue_drawdown_money=0.0;
+   config.trend_rescue_volume_multiplier=1.0;
+   ArrayInitialize(config.lots,0.0);
+  }
+
+void SetLotTier(SProfileConfig &config,const int first_level,const int last_level,const double volume)
+  {
+   for(int level=first_level;level<=last_level && level<=STR_MAX_LEVELS;level++)
+      config.lots[level-1]=volume;
+  }
+
+bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
+  {
+   ResetProfile(config);
+
+=== lock_offset_price consumers ===
+mql5/include/StopScheduler.mqh:80:      // signature of a late poll -- a lock_offset_price rule would give a
+mql5/include/StopScheduler.mqh:115:      //   (false) entry + lock_offset_price -> a razor spike at exactly 0.20
+mql5/include/StopScheduler.mqh:126:      // TRUE for the target, and lock_offset_price is now dead code on EVERY
+mql5/include/StopScheduler.mqh:162:            : entry+direction*profile.lock_offset_price
+mql5/include/StraddleEngine.mqh:1428:      FileWrite(handle,"profile_lock_offset_price",
+mql5/include/StraddleEngine.mqh:1429:                DoubleToString(m_profile.lock_offset_price,10));
+mql5/include/StraddleReplicaApp.mqh:153:   custom.lock_offset_price=CustomLockOffsetPrice;
+mql5/include/StraddleTypes.mqh:59:   double            lock_offset_price;
+mql5/include/StraddleTypes.mqh:134:   double            lock_offset_price;
+
+=== cycle_target_balance_pct consumers ===
+mql5/include/StraddleEngine.mqh:1249:           m_profile.cycle_target_balance_pct/100.0
+mql5/include/StraddleEngine.mqh:1438:      FileWrite(handle,"profile_cycle_target_balance_pct",
+mql5/include/StraddleEngine.mqh:1439:                DoubleToString(m_profile.cycle_target_balance_pct,10));
+mql5/include/StraddleEngine.mqh:3448:                      : m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);
+mql5/include/StraddleReplicaApp.mqh:158:   custom.cycle_target_balance_pct=CustomCycleTargetPercent;
+mql5/include/StraddleTypes.mqh:64:   double            cycle_target_balance_pct;
+mql5/include/StraddleTypes.mqh:139:   double            cycle_target_balance_pct;

@@ -1,0 +1,162 @@
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from a901_eras import BOUNDS, SIGNATURE, norm, parse_level, parse_volume, stamp  # noqa: E402,F401
+
+BURST_GAP_MS = 2000.0
+MIN_LEGS = 10
+CLOSE_BURST_GAP_S = 2.0
+ERA_ORDER = ["HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30", "STARWAVE_30"]
+
+
+def pct(values, q):
+    if not values:
+        return float("nan")
+    ordered = sorted(values)
+    index = min(len(ordered) - 1, max(0, int(round(q * (len(ordered) - 1)))))
+    return ordered[index]
+
+
+def eras_present(mapping):
+    return [e for e in ERA_ORDER if e in mapping] + [
+        e for e in mapping if e not in ERA_ORDER
+    ]
+
+
+def load_orders():
+    return list(csv.DictReader(Path("tmp/r901018_orders.csv").open(encoding="utf-8")))
+
+
+def load_deals():
+    return list(csv.DictReader(Path("tmp/r901018_deals.csv").open(encoding="utf-8")))
+def load_positions():
+    """The Positions table repeats 'Time' and 'Price', so read it positionally."""
+    rows = []
+    with Path("tmp/r901018_positions.csv").open(encoding="utf-8") as handle:
+        reader = csv.reader(handle)
+        next(reader)
+        for row in reader:
+            if len(row) < 13 or not norm(row[1]):
+                continue
+            opened = stamp(row[0])
+            closed = stamp(row[8])
+            if opened is None or closed is None:
+                continue
+            rows.append({
+                "opened": opened,
+                "ticket": int(norm(row[1])),
+                "is_buy": norm(row[3]) == "buy",
+                "volume": float(norm(row[4])),
+                "open_price": float(norm(row[5])),
+                "sl": float(norm(row[6])) if norm(row[6]) else 0.0,
+                "tp": float(norm(row[7])) if norm(row[7]) else 0.0,
+                "closed": closed,
+                "close_price": float(norm(row[9])),
+                "profit": float(norm(row[12])),
+            })
+    rows.sort(key=lambda item: (item["closed"], item["ticket"]))
+    return rows
+
+
+def is_sl_exit(row) -> bool:
+    """Filled AT OR WORSE than the recorded stop.  Correction (A) in the header:
+    """Same positional read as a901_v4578.load_positions(), but keeping the
+    Commission (10) and Swap (11) columns the EA's accumulator includes."""
+    rows = []
+    with Path("tmp/r901018_positions.csv").open(encoding="utf-8") as handle:
+        reader = csv.reader(handle)
+        next(reader)
+        for row in reader:
+            if len(row) < 13 or not norm(row[1]):
+                continue
+            opened, closed = stamp(row[0]), stamp(row[8])
+            if opened is None or closed is None:
+                continue
+            profit = float(norm(row[12]))
+            commission = float(norm(row[10])) if norm(row[10]) else 0.0
+            swap = float(norm(row[11])) if norm(row[11]) else 0.0
+            rows.append({
+                "opened": opened,
+                "ticket": int(norm(row[1])),
+                "is_buy": norm(row[3]) == "buy",
+                "volume": float(norm(row[4])),
+                "open_price": float(norm(row[5])),
+                "sl": float(norm(row[6])) if norm(row[6]) else 0.0,
+                "closed": closed,
+                "close_price": float(norm(row[9])),
+                "profit": profit,
+                "commission": commission,
+                "swap": swap,
+                "net": profit + commission + swap,
+            })
+    rows.sort(key=lambda item: (item["closed"], item["ticket"]))
+    return rows
+
+
+def balance_series(deals):
+    """The broker's own running balance, (time, balance) after every deal."""
+    out = []
+    cash = []
+    for row in deals:
+        when = stamp(row["Time"])
+        raw = norm(row["Balance"])
+        if when is None or raw == "":
+            continue
+        out.append((when, float(raw)))
+        if norm(row["Type"]) == "balance":
+            cash.append((when, float(norm(row["Profit"]) or 0.0),
+                         norm(row["Comment"])))
+    out.sort(key=lambda item: item[0])
+    return out, cash
+
+
+def balance_at(series, when):
+    """Last running balance at or before `when` -- what ACCOUNT_BALANCE would
+    have returned to StartCycle()."""
+    lo, hi = 0, len(series)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if series[mid][0] <= when:
+            lo = mid + 1
+        else:
+            hi = mid
+    return series[lo - 1][1] if lo > 0 else None
+
+
+def theil_sen(points, min_dx):
+    """Median pairwise slope, restricted to pairs with enough x separation."""
+    slopes = []
+    for i in range(len(points)):
+        xi, yi = points[i]
+        for j in range(i + 1, len(points)):
+            xj, yj = points[j]
+            if abs(xj - xi) >= min_dx:
+                slopes.append((yj - yi) / (xj - xi))
+    if not slopes:
+        return float("nan"), 0
+    return pct(slopes, 0.50), len(slopes)
+
+
+def main() -> int:
+    orders = load_orders()
+    deals = load_deals()
+    positions = load_positions_full()
+    deployments = build_deployments(orders)
+    sweeps = build_sweeps(orders)
+    terminal, interim, silent = classify_sweeps(sweeps, deployments)
+    series, cash = balance_series(deals)
+    print(f"deployments={len(deployments)} terminal={len(terminal)} "
+          f"interim={len(interim)} silent={len(silent)} positions={len(positions)} "
+          f"balance_points={len(series)} cash_events={len(cash)}")
+    print()
+
+    # ---- PART 0: the instrument bias in my own earlier probe ----------------
+    print("=== PART 0: realized instrument -- profit-only vs the EA's sum ===")
+    print("  EA: m_cycle_realized += deal_profit+deal_swap+deal_commission+deal_fee")
+    print("      (StraddleEngine.mqh:3685-3691)")
+    tot_p = sum(row["profit"] for row in positions)
+    tot_c = sum(row["commission"] for row in positions)
+    tot_s = sum(row["swap"] for row in positions)
+    nz_c = sum(1 for row in positions if row["commission"] != 0.0)
+    nz_s = sum(1 for row in positions if row["swap"] != 0.0)
+    print(f"  whole tape  profit={tot_p:12.2f}  commission={tot_c:10.2f} "
+          f"(nonzero {nz_c}/{len(positions)})  swap={tot_s:10.2f} "

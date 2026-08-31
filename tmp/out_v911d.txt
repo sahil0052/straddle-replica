@@ -1,0 +1,12 @@
+2311 docs/PARITY_AUDIT_14_VECTOR.md
+1
+70:| V10 | Trend rescue logic | **100.00%** of the mechanism | 125 doubled orders / 8,536 Starwave legs | ACTIVE on 901018 (6 cycles, 7 events); 12 invariants, 0 exceptions; Finding V10-A tape-only, 0 fills, see §2.10 |
+1960:### 2.10 V10 — Trend rescue logic
+1970:#### 2.10.1 The four thresholds, and the sign of the drawdown gate
+2005:#### 2.10.2 Question 2 — Starwave rescue disabled, proven positively
+2029:#### 2.10.3 The mechanism, measured active on 901018
+2051:#### 2.10.4 The two walk directions, proven per pass
+2082:#### 2.10.5 Cadence, pricing, and the volume ratio
+2115:#### 2.10.6 Finding V10-A — the 85 base re-placements (tape-only, zero economic content)
+2203:#### 2.10.7 Finding V10-B — 34 Starwave cycles run ladders the catalogue does not model
+2233:#### 2.10.8 Verdict

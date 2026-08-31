@@ -1,0 +1,59 @@
+=== macro defines ===
+2:   #define STR_REQUIRE_DEMO_DEFAULT true
+5:   #define STR_REQUIRE_BOUND_DEFAULT false
+8:   #define STR_SAFETY_ENABLED_DEFAULT false
+11:   #define STR_DEFAULT_PROFILE STARWAVE_30
+28:   #define STR_DEFAULT_MAGIC 26011001
+
+=== comment block bounds ===
+     1	#endif
+     2	// Magic and profile are both macro-driven so a single-purpose binary can pin
+     3	// them with a #define ahead of this include (see ProfitBricks2K.mq5, which
+     4	// pins JUNE_2K).  Before this indirection the input initialisers hard-coded
+     5	// LATEST_30 / 901018 and the STR_DEFAULT_PROFILE macro was inert: every
+     6	// binary silently defaulted to LATEST_30 no matter what it defined.
+     7	//
+     8	// The shipped defaults reproduce the Starwave / Target account:
+     9	//   Profile     = STARWAVE_30  (N=30/side, step=round(anchor/3000,2),
+    10	//                               lots 0.01@1-10 / 0.06@11-20 / 0.15@21-30,
+    11	//                               ratchet L=2 Dpre=2 Tt=3 D=1, cancel-then-close,
+    12	//                               cycle_target_money=25, restart_delay_ms=2000)
+    13	//   MagicNumber = 26011001     measured on all 10,844 EA-authored rows of
+    14	//                              Starwave_60542_orders_history.csv; the other 19
+    15	//                              rows are magic 0 manual operator closes.
+    16	#ifndef STR_DEFAULT_MAGIC
+    17	   #define STR_DEFAULT_MAGIC 26011001
+    18	#endif
+    19	
+
+=== inputs ===
+34:input group "Replica"
+35:input ENUM_STR_PROFILE Profile = STR_DEFAULT_PROFILE;
+36:input string TradeSymbol = "";
+37:input ulong MagicNumber = STR_DEFAULT_MAGIC;
+38:input bool ReplicaMode = true;
+39:input datetime ReplicaStartTime = 0;
+40:input int InterOrderDelayMs = 100;
+41:input int DeviationPoints = 100;
+42:input bool TelemetryEnabled = true;
+44:input group "Live Twin"
+45:input ENUM_STR_RUNTIME_MODE RuntimeMode = STR_RUNTIME_NORMAL;
+46:input string ShadowCommandFile = "StraddleShadow\\command.csv";
+47:input string ShadowAckFile = "StraddleShadow\\ack.csv";
+48:input int ShadowCommandMaxAgeMs = 2000;
+49:input bool AllowShadowAdoptExistingCycle = false;
+51:input group "Account Safety"
+52:input bool RequireDemoAccount = STR_REQUIRE_DEMO_DEFAULT;
+53:input bool RequireBoundAccount = STR_REQUIRE_BOUND_DEFAULT;
+54:input ulong ExpectedAccountLogin = 0;
+56:input group "Optional Safety (disabled in replica baseline)"
+57:input bool SafetyEnabled = STR_SAFETY_ENABLED_DEFAULT;
+58:input double MaxEquityLossPercent = 20.0;
+59:input double MaxGrossLots = 2.20;
+60:input double MaxSpreadPoints = 1000.0;
+61:input double DailyLossLimit = 0.0;
+63:input group "Custom Profile"
+73:input int CustomLevelsPerSide = 30;
+74:input ENUM_STR_STEP_MODE CustomStepMode = STR_STEP_ANCHOR_DIVISOR;
+75:input double CustomStepValue = 3000.0;
+76:input ENUM_TIMEFRAMES CustomATRTimeframe = PERIOD_M15;

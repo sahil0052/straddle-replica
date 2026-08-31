@@ -1,0 +1,145 @@
+=== V10 PART A: per-level order chains at every rescued level ===
+  population: every own-side lattice order in the cycle, at a level
+  that received a 2x order in that cycle.  chain in time_setup order.
+  legend  B=base X=2x O=other   c=canceled f=filled w=working
+
+  cycle  198  buy   rescued levels=10  base->base round trips=0  base->2x=3  2x->base=2
+       L19  Bf Xf
+       L20  Bf Xc
+       L21  Bf Xc
+       L22  Bf Xf Bc
+       L23  Bf Xc
+       L24  Bf Xf Bc
+       ... 4 more levels
+
+  cycle  208  sell  rescued levels=20  base->base round trips=0  base->2x=15  2x->base=1
+       L11  Bf Xf Xf Xf
+       L12  Bf Xf Xf Xf Xf
+       L13  Bf Xf Xf Xf Xf
+       L14  Bf Xf Xf
+       L15  Bf Xf
+       L16  Bc Xf Xf Xc
+       ... 14 more levels
+
+  cycle  245  sell  rescued levels=11  base->base round trips=22  base->2x=11  2x->base=0
+       L20  Bc Bc Bc Xf
+       L21  Bc Bc Bc Xf
+       L22  Bc Bc Bc Xf
+       L23  Bc Bc Bc Xf
+       L24  Bc Bc Bc Xf
+       L25  Bc Bc Bc Xf
+       ... 5 more levels
+
+  cycle  255  buy   rescued levels=8  base->base round trips=4  base->2x=8  2x->base=0
+       L20  Bf Bc Xc
+       L24  Bc Bc Xc
+       L25  Bc Bc Xc
+       L26  Bc Bc Bc Xc
+       L27  Bc Xc
+       L28  Bc Xc
+       ... 2 more levels
+
+  cycle  261  buy   rescued levels=20  base->base round trips=35  base->2x=20  2x->base=0
+       L 6  Bf Bf Bc Bc Bc Xf
+       L10  Bf Bc Bc Bc Xc
+       L13  Bc Bc Bc Xc
+       L14  Bc Bc Bc Xc
+       L15  Bc Bc Bc Xc
+       L16  Bc Bc Bc Xc
+       ... 14 more levels
+
+  cycle  263  buy   rescued levels=21  base->base round trips=0  base->2x=20  2x->base=0
+       L10  Bf Bf Bc Xf Xf Xf
+       L11  Bf Bf Bc Xf Xf
+       L12  Bf Bf Bf Xf
+       L13  Bf Bf Bf Bc Xf Xf
+       L14  Bf Bf Bc Xf Xf Xf
+       L15  Bf Bc Xf Xf
+       ... 15 more levels
+
+  cycle  263  sell  rescued levels=13  base->base round trips=24  base->2x=12  2x->base=4
+       L18  Bf Xf Bf Bc
+       L19  Bc Bc Bc Xf Xf Bc
+       L20  Bc Bc Bc Xf Bc
+       L21  Bc Bc Bc Xf Bc
+       L22  Bc Bc Bc Xc
+       L23  Bc Bc Bc Xc
+       ... 7 more levels
+
+=== V10 PART B: the divergence, quantified ===
+  base-cancel -> base-replacement round trips : 85
+  base-cancel -> 2x-replacement round trips   : 89
+  2x -> base at the same level                : 7
+  the replica lands 2x on the FIRST replacement, so it predicts
+  base->base = 0.  measured 85 => DIVERGENCE if > 0.
+
+  can an intermediate base pending FILL?  (the economic question)
+      intermediate base orders that FILLED: 32
+        cycle 198 buy  L19  2026-07-15 17:14:59.282000  vol 0.06  #20398090
+        cycle 198 buy  L20  2026-07-15 17:14:59.495000  vol 0.06  #20398092
+        cycle 198 buy  L21  2026-07-15 17:14:59.721000  vol 0.15  #20398096
+        cycle 198 buy  L22  2026-07-15 17:14:59.939000  vol 0.15  #20398100
+        cycle 198 buy  L23  2026-07-15 17:15:00.174000  vol 0.15  #20398104
+        cycle 198 buy  L24  2026-07-15 17:15:00.418000  vol 0.15  #20398109
+        cycle 198 buy  L25  2026-07-15 17:15:00.640000  vol 0.15  #20398114
+        cycle 208 sell L11  2026-07-17 06:25:41.535000  vol 0.06  #20511492
+        cycle 208 sell L12  2026-07-17 06:25:41.749000  vol 0.06  #20511494
+        cycle 208 sell L13  2026-07-17 06:25:41.979000  vol 0.06  #20511496
+        cycle 208 sell L14  2026-07-17 06:25:42.240000  vol 0.06  #20511498
+        cycle 208 sell L15  2026-07-17 06:25:42.448000  vol 0.06  #20511500
+      intermediate base pending lifetime  n=206  min=0.679s  p50=10228.375s  max=202112.481s
+
+=== V10 PART C: transition census (tag,state) -> tag ===
+        base canceled  -> x2      n=89
+        base canceled  -> base    n=85
+          x2 filled    -> x2      n=22
+        base filled    -> base    n=19
+        base filled    -> x2      n=14
+          x2 filled    -> base    n=7
+
+=== V10 PART D: the base RE-PLACEMENTS, properly scoped ===
+  PART B's 'intermediate fills' counted the deployment leg itself,
+  which is why the p50 lifetime was 10,228 s.  scope it correctly:
+  a base RE-PLACEMENT is a base order whose immediate predecessor at
+  the same level is a CANCELED base order.  those are the 85 orders
+  the replica does not emit at all -- after TryCancelTrendRescueLevel
+  the level carries volume=2x, rearm_requested=false and
+  trend_rescue_replacement=true, so nothing re-places it at base.
+
+  base re-placements: 85
+      final state canceled   n=85
+      re-placed at the IDENTICAL price: 85/85
+      cancel->replace gap  n=85  min=0.102s  p50=1.481s  max=22.410s
+      replacement lifetime n=85  min=0.679s  p50=3.466s  max=1544.941s
+
+  THE ECONOMIC QUESTION: a filled base re-placement would be a
+  position the replica never opens.  filled re-placements: 0
+
+  per-event round-trip depth (how many base orders before the 2x)
+  cyc  side  levels  depth histogram (base orders preceding the 2x)
+   198 buy      10   1B x10
+   208 sell     20   1B x20
+   245 sell     11   3B x11
+   255 buy       8   1B x4  2B x3  3B x1
+   261 buy      20   2B x5  3B x13  4B x1  5B x1
+   263 buy      21   1B x13  2B x3  3B x4  4B x1
+   263 sell     13   1B x1  3B x12
+
+=== V10 PART E: phase-B ASCENDING invariant, tested PER PASS ===
+  PlaceOneTrendRescueReplacement (StraddleEngine.mqh:2506) walks
+  for(index=0; index<levels_per_side; index++) -- ASCENDING, the
+  mirror of phase A's descending walk at :2481.  PART 3b's
+  'imm_asc 5/7' concatenated every pass of an event into one run,
+  the same artifact that made phase A read 2/7 before per-pass
+  testing raised it to 40/40.  segment on a TIME gap (the pacer is
+  0.102 s p50, 0.140 s p95) so the split is independent of the
+  level order being tested -- non-circular.
+   198 buy   2x= 10  passes=8  strictly ascending=8/8  ranges=['28-30', '25', '24', '23', '22', '21', '20', '19']
+   208 sell  2x= 32  passes=18  strictly ascending=18/18  ranges=['16-30', '13', '12', '13', '12', '11', '14', '13']
+   245 sell  2x= 11  passes=1  strictly ascending=1/1  ranges=['20-30']
+   255 buy   2x=  8  passes=4  strictly ascending=4/4  ranges=['27-30', '24-25', '26', '20']
+   261 buy   2x= 20  passes=2  strictly ascending=2/2  ranges=['26-30', '6-25']
+   263 buy   2x= 30  passes=11  strictly ascending=11/11  ranges=['10-30', '14', '19', '16', '15', '14', '13', '12']
+   263 sell  2x= 14  passes=3  strictly ascending=3/3  ranges=['19-30', '19', '18']
+
+  phase-B per-pass ascending total: 47/47   <== :2506 requires 47/47

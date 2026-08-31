@@ -1,0 +1,25 @@
+=== catalog restart_delay_ms ===
+35:   config.restart_delay_ms=3000;
+251:         // restart_delay_ms is 1000 here and deliberately NOT the 2000 carried by
+259:         // The engine waits (restart_delay_ms+999)/1000 WHOLE seconds against a
+269:         config.restart_delay_ms=1000;
+329:         //   restart_delay_ms         floor 1.17 s,         floor 20.91 s,
+359:         config.restart_delay_ms=20000;
+486:         config.restart_delay_ms=2000;
+520:         config.restart_delay_ms=2000;
+554:         config.restart_delay_ms=2000;
+590:         config.restart_delay_ms=2000;
+624:         config.restart_delay_ms=2000;
+661:         config.restart_delay_ms=2000;
+703:      custom.restart_delay_ms<0 ||
+734:   config.restart_delay_ms=custom.restart_delay_ms;
+
+=== types decl ===
+44:   CYCLE_HALTED = 6
+78:   int               restart_delay_ms;
+144:   int               restart_delay_ms;
+
+=== app input ===
+23://                               cycle_target_money=25, restart_delay_ms=2000)
+94:input int CustomRestartDelayMs = 2000;
+159:   custom.restart_delay_ms=CustomRestartDelayMs;

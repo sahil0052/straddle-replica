@@ -1,0 +1,25 @@
+DIV-1 (NEW, REAL) — the ORB/ORS crossed-price recovery gate is too narrow.** `PlaceLevel()` at `StraddleEngine.mqh:1546-1598` handles a pending whose target price i
+DIV-1 IS **RETRACTED** — the `IsHistoricalProfile()` GATE IS EMPIRICALLY CORRECT\nLast segment I reported that `PlaceLevel()`'s crossed-price market-recovery branch
+DIV-1 IS **RETRACTED** — the `IsHistoricalProfile()` GATE IS EMPIRICALLY CORRECT\n`STR ORB` n=38 → `{HISTORICAL_50: 4, HISTORICAL_60: 34}`; `STR ORS` n=54 → `{H
+DIV-1 IS RETRACTED** — `STR ORB` n=38 → {H50: 4, H60: 34}; `STR ORS` n=54 → {H50: 7, H60: 47}. 100% of the 92 crossed-price market recoveries fall inside exactl
+DIV-1 RETRACTED** (`STR ORB` n=38 {H50 4, H60 34}, `STR ORS` n=54 {H50 7, H60 47}, all inside `IsHistoricalProfile()`). **DIV-2 SURVIVES, scoped to HISTORICAL_50** �
+DIV-1 RETRACTED** — `STR ORB` n=38 {H50 4, H60 34}, `STR ORS` n=54 {H50 7, H60 47}; all 92 fall inside exactly the two profiles `IsHistoricalProfile()` admits. Do n
+DIV-1 RETRACTED** — `STR ORB` n=38 {H50 4, H60 34}, `STR ORS` n=54 {H50 7, H60 47}; all 92 inside the two profiles `IsHistoricalProfile()` admits. Do not widen the 
+DIV-1 and DIV-2 replace it.Concretely, the next tool calls will be: (a) a script that groups the 54,742 orders into deployment bursts keyed on `STR B1`/`STR S1` place
+DIV-1 and DIV-2 with exact diffs.\n\nThis follows directly from the user's directive that the second tape is in scope:\n> \
+DIV-1 and DIV-2** with exact diffs: DIV-1 = widen the `IsHistoricalProfile()` gate at `StraddleEngine.mqh:1572` (or add a profile flag) so JUNE_2K performs crossed-pr
+DIV-1 and DIV-3 definitions across the repo
+DIV-1 and DIV-3 from an earlier phase of work that predates this version.\n\nSince the document is the deliverable and those missing divisions aren't defined in it, I
+DIV-1 and DIV-3.
+DIV-1 and have now cleared:\n```cpp\n   bool IsHistoricalProfile(void) const\n     {\n      return(m_profile.profile==HISTORICAL_50 ||\n             m_profile.profile
+DIV-1 and re-scoped DIV-2.**\n\n### `C:\\websites\\mt5 2\\mql5\\include\\ProfileCatalog.mqh` — 615 lines, READ 50-164 this segment, NOT modified\n```cpp\n      case
+DIV-1 cleared). `EventSide()` ~1188-1201 remains the only place AVB/AVS appear.\n\n### `C:\\websites\\mt5 2\\mql5\\include\\TradeGateway.mqh` — READ, NOT modified\n
+DIV-1 diff must not be applied.\n\n### DIV-2 SURVIVES BUT IS RE-SCOPED TO `HISTORICAL_50`\n`STR AVB` n=14 → `{HISTORICAL_50: 14}`; `STR AVS` n=14 → `{HISTORICAL_5
+DIV-1 diff.\n**DIV-2 SURVIVES, RE-SCOPED TO `HISTORICAL_50`** — `STR AVB` n=14 and `STR AVS` n=14, all 28 inside H50 (2026-06-24 01:39:41 → 2026-07-02 14:31:25), 
+DIV-1 diff.\n\n### DIV-2 SURVIVES, RE-SCOPED TO `HISTORICAL_50`\n`STR AVB` n=14 and `STR AVS` n=14, all 28 inside HISTORICAL_50 (2026-06-24 01:39:41 → 2026-07-02 14
+DIV-1 diff.\n\n### DIV-2 SURVIVES, RE-SCOPED TO `HISTORICAL_50`\n`STR AVB` n=14 and `STR AVS` n=14, all 28 inside the `HISTORICAL_50` era (2026-06-24 01:39:41 → 202
+DIV-1 doesn't appear anywhere in the repo, so it was likely retracted early in the conversation before reaching any source comments or tests. I'll document that the n
+DIV-1 finding from last segment was WRONG and my own data refuted it.** I reported that `PlaceLevel()`'s `IsHistoricalProfile()` gate was too narrow because account 9
+DIV-1 finding was WRONG and my own era cross-tab refuted it** (all 92 ORB/ORS recoveries are inside `HISTORICAL_50`/`HISTORICAL_60`, precisely what the gate admits �
+DIV-1 finding was WRONG and my own era cross-tab refuted it**; scoring all 210 deployments against divisor 3000 gave a misleading 103/210; `Write` called with Bash's 
+DIV-1 is marked for retraction in section 3.5, but DIV-3's actual subject isn't clear to me from what I'm carrying, so I shouldn't guess at it. The document already h

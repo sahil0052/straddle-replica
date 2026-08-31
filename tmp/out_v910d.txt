@@ -1,0 +1,125 @@
+"""V9/V10 -- lot-tier population scoping, and the trend-rescue mechanism.
+
+Two questions, one instrument, because they share a population.
+
+V9 scored 25,447/25,447 lattice legs at their configured tier lot.  That
+figure comes from `build_deployments()`, which only admits a burst that is
+a 2 s-gap cluster of >=10 legs at >=0.80 slot density -- i.e. a DEPLOYMENT.
+`ProfileCatalog.mqh:445-446` records 125 orders placed at 2x the tier lot
+in the final regime.  If both are true, the 2x orders must live OUTSIDE
+every deployment cluster.  PART 1 measures that instead of assuming it.
+
+V10 is then a positive verification of an ACTIVE mechanism.  From source
+(`StraddleEngine.mqh:2630-2675`) the rescue is a two-phase, one-side,
+one-order-per-tick replacement:
+
+    ProcessTrendRescue()
+      trigger  = TrendRescueSide()               :2384-2404
+                 floating <= -drawdown_money AND
+                 (ask - iClose(tf,bars) >= move_price  -> +1) or
+                 (iClose(tf,bars) - bid >= move_price  -> -1)
+      refuse   same side twice until a side==0 tick clears it   :2635-2643
+      require  HasTrendRescueBasePending(side)                  :2644
+      phase A  TryCancelOneTrendRescueOrder  DESCENDING index   :2479-2495
+      phase B  PlaceOneTrendRescueReplacement ASCENDING index   :2504-2614
+               volume = lots[index] * trend_rescue_volume_multiplier
+               price  = level.target_price   (the ORIGINAL lattice price)
+
+So the tape signature is falsifiable on five independent axes: the 2x
+volume, the unchanged lattice price, the one-sidedness, the descending
+cancel run, and the ascending placement run.  PARTS 2-5 test all five.
+PART 6 answers the directive's second V10 question on the Starwave tape.
+"""
+from __future__ import annotations
+
+import collections
+import csv
+import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from a901_eras import norm, parse_level, parse_volume, stamp  # noqa: E402
+from a901_v4578 import build_deployments, load_orders, pct  # noqa: E402
+
+# ProfileCatalog.mqh SetLotTier() calls, verbatim, keyed by the era name the
+# signature map assigns.  (first_level, last_level, volume), 1-indexed.
+LADDER = {
+    "HISTORICAL_50": ((1, 15, 0.01), (16, 25, 0.03), (26, 50, 0.06)),   # :132-134
+    "HISTORICAL_60": ((1, 15, 0.01), (16, 45, 0.02), (46, 60, 0.05)),   # :168-170
+    "AGGRESSIVE_30": ((1, 10, 0.08), (11, 20, 0.41), (21, 30, 0.82)),   # :210-212
+    "LOW_RISK_30":   ((1, 10, 0.01), (11, 20, 0.02), (21, 30, 0.05)),   # :231-233
+    "STARWAVE_30":   ((1, 10, 0.01), (11, 20, 0.06), (21, 30, 0.15)),   # :491-493
+}
+PACING_BREAK = datetime(2026, 7, 24, 12, 0, 0)
+STARWAVE_CSV = Path("Starwave_60542_orders_history.csv")
+ERAS = ["HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30",
+        "STARWAVE_30"]
+
+
+def base_lot(era, level):
+    for first, last, volume in LADDER.get(era, ()):
+        if first <= level <= last:
+            return volume
+    return None
+
+
+def regime(era, when):
+    if era != "STARWAVE_30":
+        return era
+    return era + ("/pre-break" if when < PACING_BREAK else "/post-break")
+
+
+def lattice_rows(orders):
+    """Every order the EA stamped with a level comment, cycle-assigned."""
+    rows = []
+    for row in orders:
+        parsed = parse_level(row["Comment"])
+        when = stamp(row["Open Time"])
+        if parsed is None or when is None:
+            continue
+        state = norm(row["State"])
+        rows.append({
+            "when": when,
+            "is_buy": parsed[0],
+            "level": parsed[1],
+            "price": float(norm(row["Price"])),
+            "volume": parse_volume(row["Volume"]),
+            "ticket": norm(row["Order"]),
+            "state": state.split()[0].lower() if state else "",
+            "resolved": stamp(row["Time"]),
+        })
+    rows.sort(key=lambda item: (item["when"], item["ticket"]))
+    return rows
+
+
+def assign_cycles(rows, deployments):
+    """Attach cycle index / era / base lot / tier ratio to every lattice row."""
+    starts = [record["when"] for record in deployments]
+    for row in rows:
+        idx = None
+        for i in range(len(starts) - 1, -1, -1):
+            if starts[i] <= row["when"]:
+                idx = i
+                break
+        row["cycle"] = idx
+        era = deployments[idx]["assigned"] if idx is not None else None
+        row["era"] = era
+        row["regime"] = regime(era, row["when"]) if era else "pre-first-deploy"
+        lot = base_lot(era, row["level"]) if era else None
+        row["base"] = lot
+        row["ratio"] = (row["volume"] / lot) if lot else None
+    return rows
+def bucket(ratio):
+    if ratio is None:
+        return "no-ladder"
+    if abs(ratio - 1.0) <= 1e-9:
+        return "base"
+    if abs(ratio - 2.0) <= 1e-9:
+        return "x2"
+    return "other"
+
+
+def part1(rows, deployments):
+    print("=== PART 1: is the 25,447 figure the DEPLOYMENT population? ===")

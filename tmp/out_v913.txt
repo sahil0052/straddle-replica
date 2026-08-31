@@ -1,0 +1,23 @@
+========================================================================
+PART 3d  is any exit deal unconsumed by a listed closed position?
+========================================================================
+closed positions   n= 17632  volume=    283.57
+exit deals         n= 17638  volume=    283.57
+IN deals           n= 17804  volume=    297.76
+exit - closed volume delta         : 0.0000
+VERDICT: every exit deal is consumed by a listed position
+
+ghost IN deals (no closed row, not open): 166
+   volume                              : 14.13
+   Profit      nonzero=   0  sum=      0.00
+   Swap        nonzero=   0  sum=      0.00
+   Commission  nonzero=   0  sum=      0.00
+   Fee         nonzero=   0  sum=      0.00
+
+ghost volume tiers  : [('0.01', 32), ('0.02', 20), ('0.03', 18), ('0.05', 14), ('0.06', 59), ('0.08', 1), ('0.12', 5), ('0.15', 6), ('0.3', 3), ('0.41', 1), ('0.82', 7)]
+ghost side census   : [('buy', 87), ('sell', 79)]
+ghost per-day count : [('2026-06-24', 33), ('2026-06-29', 10), ('2026-06-30', 14), ('2026-07-03', 5), ('2026-07-06', 5), ('2026-07-07', 4), ('2026-07-08', 2), ('2026-07-09', 22), ('2026-07-13', 9), ('2026-07-15', 9), ('2026-07-16', 4), ('2026-07-17', 6), ('2026-07-23', 1), ('2026-07-24', 2), ('2026-07-27', 8), ('2026-07-28', 10), ('2026-07-29', 22)]
+
+does the Balance column move across a ghost row? (balance is only
+written by realised deals, so a ghost must leave it unchanged)
+   ghost rows that moved Balance    : 0 of 166

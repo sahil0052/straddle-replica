@@ -1,0 +1,44 @@
+33:   double            m_cycle_realized;
+404:   double TrackedFloatingProfit(void) const
+428:         return OwnedPositionCount();
+432:   double CycleFloatingProfit(void) const
+435:         return OwnedFloatingProfit();
+436:      return TrackedFloatingProfit();
+522:      // WriteTelemetry() calls CycleFloatingProfit(), which walks the book -- so
+777:   int OwnedPositionCount(void) const
+829:         OwnedPositionCount()==0 &&
+833:         OwnedPositionCount()==0 &&
+934:         m_cycle_realized=recalculated_realized;
+939:         m_cycle_realized=persisted_realized;
+1001:         OwnedPositionCount()>0 ||
+1070:      GlobalVariableSet(GlobalKey("realized"),m_cycle_realized);
+1243:      double floating=CycleFloatingProfit();
+1246:         m_profile.cycle_target_money>0.0
+1247:         ? m_profile.cycle_target_money*scale
+1249:           m_profile.cycle_target_balance_pct/100.0
+1251:      double cycle_net=m_cycle_realized+floating;
+1274:                 DoubleToString(m_cycle_realized,8),
+1438:      FileWrite(handle,"profile_cycle_target_balance_pct",
+1439:                DoubleToString(m_profile.cycle_target_balance_pct,10));
+1440:      FileWrite(handle,"profile_cycle_target_money",
+1441:                DoubleToString(m_profile.cycle_target_money,10));
+1865:      m_cycle_realized=0.0;
+1894:         OwnedOrderCount()+OwnedPositionCount()==0)
+2027:      m_cycle_realized=0.0;
+2083:            // on the flag-gated profiles -- CheckCycleTargets() returns early
+2373:   double OwnedFloatingProfit(void) const
+2391:         CycleFloatingProfit()>-m_profile.trend_rescue_drawdown_money)
+3130:      m_cycle_realized=0.0;
+3301:      bool has_owned_cycle=(OwnedOrderCount()>0 || OwnedPositionCount()>0);
+3428:       CheckCycleTargets();
+3431:    void CheckCycleTargets(void)
+3446:       double target=(m_profile.cycle_target_money>0.0
+3447:                      ? m_profile.cycle_target_money*scale
+3448:                      : m_cycle_start_balance*m_profile.cycle_target_balance_pct/100.0);
+3453:       double floating=CycleFloatingProfit();
+3456:          m_cycle_realized,
+3680:            m_cycle_realized=recalculated_realized;
+3685:            m_cycle_realized=(
+3686:               m_cycle_realized+
+3771:            CheckCycleTargets();
+3780:             CheckCycleTargets();

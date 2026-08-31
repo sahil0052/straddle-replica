@@ -1,0 +1,27 @@
+2665 docs/PARITY_AUDIT_14_VECTOR.md
+--- markers ---
+2636:<!-- V10-APPEND -->
+--- 2.11 headings ---
+2294:### 2.11 V11 — Deal ledger and async trade reconciliation
+2303:#### 2.11.0 The directive names a function that does not exist
+2318:#### 2.11.1 The four constants and the scan budget
+2338:#### 2.11.2 The money formula, proven against the broker's own footer to the cent
+2377:#### 2.11.3 Scope of the formula claim — what is attested and what merely stands unfalsified
+2393:#### 2.11.4 Duplicate and out-of-order callbacks — the idempotence triple
+2428:#### 2.11.5 Recompute-preferred, increment-fallback — and the `>` vs `>=` asymmetry
+2449:#### 2.11.6 Out-of-order arrival, measured on 35,442 deals
+2470:#### 2.11.7 Capacity and lookback load — figures stated with their reasoning
+2502:#### 2.11.8 Reconciling the three tapes — orders ↔ deals ↔ positions
+2564:#### 2.11.9 Cycle scoping and reset discipline
+2585:#### 2.11.10 Finding V11-A (flagged, not applied) — the cycle-boundary second floor
+2616:#### 2.11.11 V11 verdict
+--- exec table V11 row ---
+83:| V11 | Deal ledger & async reconciliation | **100.00%** | 2,308 EA orders ↔ deals | identity proven |
+2294:### 2.11 V11 — Deal ledger and async trade reconciliation
+2296:**Rating: 100.00% of the mechanism, with one flagged micro-divergence (V11-A).** The money
+2306:The name is a paraphrase; V11's real surface is four components:
+2585:#### 2.11.10 Finding V11-A (flagged, not applied) — the cycle-boundary second floor
+2613:a specification the Target does not satisfy — **V11-A is registered in §3.6 as flagged, not
+2616:#### 2.11.11 V11 verdict
+2621:| `DEAL_TIME_MSC >= m_cycle_started_msc` applied? | **Yes**, inside `TryRecalculate()`; boundary floored to the second → **V11-A** | `CycleDealLedger.mqh:17-51`; `:1869`, `:2031` |
+2630:Two items are registered rather than fixed: **Finding V11-A** (whole-second cycle boundary,

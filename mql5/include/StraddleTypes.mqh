@@ -64,6 +64,15 @@ struct SProfileConfig
    double            cycle_target_balance_pct;
    double            cycle_target_money;
    bool              cancel_before_close;
+   // Basket-close comment literal is a BUILD fingerprint, not a different
+   // action.  On the ReportHistory-901018 tape the June/early-July build sent
+   // basket closes with NO comment (2,724 of them inside the HISTORICAL_50 and
+   // HISTORICAL_60 eras, zero carrying "STR CLOSE") while the anchor-divisor
+   // build stamped "STR CLOSE" on all 1,010 of its closes (AGGRESSIVE_30 9,
+   // LOW_RISK_30 11, STARWAVE_30 990).  Every order in both families produced a
+   // DEAL_ENTRY_OUT deal and both run the same ~105 ms machine cadence, so the
+   // two are one mechanism under two builds.  See parity audit DIV-3.
+   bool              stamp_close_comment;
    int               deployment_fill_cooldown_seconds;
    int               close_interval_seconds;
    int               restart_delay_ms;
@@ -82,6 +91,23 @@ struct SProfileConfig
    // closed, 0/146 sweeps left the book flat (residue ratchets 6 -> 148), and
    // 0/153 orphans ever received an [sl] order despite 1-9 days of XAUUSD
    // movement.  See ProfitBricks parity audit D6/D7.
+   //
+   // CROSS-VALIDATED against the 901018 tape with ONE instrument and one overlap
+   // rule (tmp/a901_orphan.py, tmp/asw_orphan.py), which is what makes this a
+   // BUILD switch rather than a measurement artifact.  Re-arm pendings dispatched
+   // over a level that STILL HELD a position: 901018 0 of 11,549 (HISTORICAL_50
+   // 0/2,847, HISTORICAL_60 0/6,422, AGGRESSIVE_30 0/29, LOW_RISK_30 0/18, and
+   // even its own STARWAVE_30 era 0/2,233) versus Starwave 118 of 1,075 -- all
+   // 118 ORDER_REASON_EXPERT on magic 26011001, so the operator is excluded.  Of
+   // those 118, 85 were canceled at the sweep and 33 filled while the old
+   // position was still open.  Same-slot OVERLAPPING re-fills: 0 of 10,475 vs 27
+   // of 952.  The residue reproduces D6/D7 exactly at 153/2,468, and 142 of the
+   // 153 outlived a later deployment (max 147 boundaries), so they are not merely
+   // the final open basket.  Starwave's first deal is 2026-08-21, after the
+   // 901018 tape ends 2026-07-30: the leak is the NEWER behaviour, hence true on
+   // the profiles that model the August build and false on the four 901018-only
+   // eras.  Both counts are LOWER bounds -- the probes group by (cycle,side,level)
+   // and so ignore orphans displaced by a re-arm that fills in a later cycle.
    bool              replica_orphan_leak;
    bool              trend_rescue_enabled;
    ENUM_TIMEFRAMES   trend_rescue_timeframe;
@@ -173,6 +199,10 @@ struct SLevelState
    int               active_position_count;
    bool              duplicate_identity;
    bool              recovery_done;
+   // Set when the interleaved first pass of the deployment burst failed to arm
+   // this level, cleared when the single retry pass appended at the tail of the
+   // same burst either arms it or abandons it.  See DeployOne().
+   bool              deploy_deferred;
    ulong             order_ticket;
    ulong             position_ticket;
    bool              rearm_requested;
