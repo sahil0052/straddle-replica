@@ -485,7 +485,7 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          config.rearm_delay_seconds=0;
          config.restart_delay_ms=2000;
          config.deployment_fill_cooldown_seconds=0;
-         config.replica_orphan_leak=true;
+         config.replica_orphan_leak=false;
          config.stop_scan_newest_first=true;
          // Lot schedule (N30): 0.01 (L1-10), 0.06 (L11-20), 0.15 (L21-30)
          SetLotTier(config,1,10,0.01);
