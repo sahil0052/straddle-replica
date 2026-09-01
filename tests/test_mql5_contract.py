@@ -1797,12 +1797,13 @@ def test_engine_pins_mid_anchor_tick_driven_stops_and_whole_second_restart():
 LEAK_PROFILES = (
     "JUNE_2K",
     "LATEST_30",
+    "STARWAVE_30",
     "STARWAVE_30_HIGH",
     "STARWAVE_30_MID",
     "STARWAVE_20_WIDE",
     "STARWAVE_20_LIGHT",
 )
-NO_LEAK_PROFILES = ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30", "STARWAVE_30", "STARWAVE_20")
+NO_LEAK_PROFILES = ("HISTORICAL_50", "HISTORICAL_60", "AGGRESSIVE_30", "LOW_RISK_30", "STARWAVE_20")
 
 
 def profile_case_bodies(text: str) -> dict[str, str]:

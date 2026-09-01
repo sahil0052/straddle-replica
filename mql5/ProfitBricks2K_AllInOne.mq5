@@ -738,6 +738,8 @@ bool LoadProfileConfig(const ENUM_STR_PROFILE profile,SProfileConfig &config)
          SetLotTier(config,21,30,0.15);
          // Trend rescue disabled
          config.trend_rescue_enabled=false;
+         // Literal Starwave 60542 tape parity (accumulates displaced fills / raw grid refilling)
+         config.replica_orphan_leak=true;
          return true;
 
       case STARWAVE_20:
