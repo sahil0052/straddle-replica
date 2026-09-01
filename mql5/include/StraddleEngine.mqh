@@ -2769,7 +2769,7 @@ private:
       m_halt_reason=(halt_after ? reason : "");
       ENUM_CYCLE_STATE replica_close_state=
          (m_profile.cancel_before_close ? CYCLE_CANCELING : CYCLE_CLOSING);
-      m_state=(halt_after ? CYCLE_CLOSING : replica_close_state);
+      m_state=replica_close_state;
       m_last_close_at=0;
       m_close_skip=0;
       PersistCycle();
@@ -2956,6 +2956,13 @@ private:
          LogLifecycleEvent("cycle_complete","","flat");
          LogEvent("restart_wait","",0,0.0,0.0,"");
         }
+      else if(m_halted && m_profile.cancel_before_close)
+        {
+         m_state=CYCLE_HALTED;
+         LogLifecycleEvent("cycle_complete","","flat");
+         LogEvent("halted","",0,0.0,0.0,m_halt_reason);
+         ClearPersistence();
+        }
       else
          m_state=CYCLE_CANCELING;
       PersistCycle();
@@ -2994,8 +3001,7 @@ private:
             CompleteShadowReset();
          return;
         }
-      if(!m_halted &&
-         m_profile.cancel_before_close &&
+      if(m_profile.cancel_before_close &&
          CyclePositionCount()>0)
         {
          m_state=CYCLE_CLOSING;
@@ -3008,9 +3014,6 @@ private:
         {
          m_state=CYCLE_HALTED;
          LogLifecycleEvent("cycle_complete","","flat");
-         // Name the guard on the terminal event.  CYCLE_HALTED has no automatic
-         // exit, so this is the last thing the EA ever says: it must be
-         // self-diagnosing.  Empty here previously.
          LogEvent("halted","",0,0.0,0.0,m_halt_reason);
          ClearPersistence();
         }

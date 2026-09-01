@@ -4,8 +4,9 @@ from straddle_replica.geometry import compare_report_grid_geometry
 from straddle_replica.report import parse_mt5_report
 
 
-REPORT_PATH = Path(r"D:\Downloads\ReportHistory-901018.xlsx")
-RECENT_REPORT_PATH = Path(r"D:\Downloads\ReportHistory-last2days.xlsx")
+ROOT = Path(__file__).resolve().parent.parent
+REPORT_PATH = ROOT / "ReportHistory-901018.xlsx" if (ROOT / "ReportHistory-901018.xlsx").exists() else Path(r"D:\Downloads\ReportHistory-901018.xlsx")
+RECENT_REPORT_PATH = ROOT / "ReportHistory-last2days.xlsx" if (ROOT / "ReportHistory-last2days.xlsx").exists() else Path(r"D:\Downloads\ReportHistory-last2days.xlsx")
 
 
 def test_report_grid_orders_match_inferred_cycle_geometry_and_lot_tiers():
