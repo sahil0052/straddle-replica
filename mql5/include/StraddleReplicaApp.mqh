@@ -64,6 +64,13 @@ input double MaxGrossLots = 2.20;
 input double MaxSpreadPoints = 1000.0;
 input double DailyLossLimit = 0.0;
 
+input group "Schedule & Event Protection"
+input bool AutoFridayFlatten = true;
+input int FridayFlattenHour = 20;
+input bool HighImpactNewsFilter = true;
+input int NewsPauseBeforeMinutes = 60;
+input int NewsPauseAfterMinutes = 30;
+
 input group "Custom Profile"
 // Defaults below are the measured Starwave/Target values, so CUSTOM_PROFILE is
 // a Starwave clone out of the box and only the three tier lots (and N, and the
@@ -143,6 +150,11 @@ int OnInit()
    runtime.shadow_command_max_age_ms=ShadowCommandMaxAgeMs;
    runtime.allow_shadow_adopt_existing_cycle=
       AllowShadowAdoptExistingCycle;
+   runtime.auto_friday_flatten=AutoFridayFlatten;
+   runtime.friday_flatten_hour=FridayFlattenHour;
+   runtime.high_impact_news_filter=HighImpactNewsFilter;
+   runtime.news_pause_before_minutes=NewsPauseBeforeMinutes;
+   runtime.news_pause_after_minutes=NewsPauseAfterMinutes;
 
    SCustomProfileConfig custom={};
    custom.levels_per_side=CustomLevelsPerSide;

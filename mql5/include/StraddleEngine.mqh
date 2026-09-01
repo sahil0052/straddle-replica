@@ -2758,6 +2758,48 @@ private:
       return false;
      }
 
+   bool IsFridayWeekendWindow(void) const
+     {
+      if(!m_runtime.auto_friday_flatten)
+         return false;
+      MqlDateTime dt;
+      TimeToStruct(TimeCurrent(),dt);
+      if(dt.day_of_week==5 && dt.hour>=m_runtime.friday_flatten_hour)
+         return true;
+      if(dt.day_of_week==6)
+         return true;
+      if(dt.day_of_week==0 && dt.hour<23)
+         return true;
+      return false;
+     }
+
+   bool IsHighImpactNewsWindow(void) const
+     {
+      if(!m_runtime.high_impact_news_filter)
+         return false;
+      datetime now=TimeCurrent();
+      datetime from_time=now-m_runtime.news_pause_after_minutes*60;
+      datetime to_time=now+m_runtime.news_pause_before_minutes*60;
+      MqlCalendarValue values[];
+      ResetLastError();
+      int count=CalendarValueHistory(values,from_time,to_time,"US");
+      if(count>0)
+        {
+         for(int i=0;i<count;i++)
+           {
+            MqlCalendarEvent event;
+            if(CalendarEventById(values[i].event_id,event))
+              {
+               {
+                if(event.importance==CALENDAR_IMPORTANCE_HIGH)
+                   return true;
+               }
+              }
+           }
+        }
+      return false;
+     }
+
    void BeginClose(const string reason,const bool halt_after)
      {
       if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
@@ -3784,7 +3826,7 @@ public:
       switch(m_state)
         {
           case CYCLE_IDLE:
-             if(AlignmentHoldActive())
+             if(AlignmentHoldActive() || IsFridayWeekendWindow() || IsHighImpactNewsWindow())
                {
                 UpdateAlignmentHoldTelemetry(true);
                 break;
@@ -3800,6 +3842,11 @@ public:
             CheckCycleTargets();
             break;
           case CYCLE_RUNNING:
+             if(IsFridayWeekendWindow())
+               {
+                BeginClose("friday_weekend_flatten",false);
+                break;
+               }
              ReconcileLevels();
              if(m_profile.stop_updates_on_timer)
                 UpdatePositionStops();
@@ -3831,7 +3878,7 @@ public:
                     TryCloseOneOwnedPosition();
                  break;
                 }
-              if(AlignmentHoldActive())
+              if(AlignmentHoldActive() || IsFridayWeekendWindow() || IsHighImpactNewsWindow())
                 {
                  UpdateAlignmentHoldTelemetry(true);
                  break;

@@ -198,6 +198,11 @@ struct SRuntimeConfig
    string            shadow_ack_file;
    int               shadow_command_max_age_ms;
    bool              allow_shadow_adopt_existing_cycle;
+   bool              auto_friday_flatten;
+   int               friday_flatten_hour;
+   bool              high_impact_news_filter;
+   int               news_pause_before_minutes;
+   int               news_pause_after_minutes;
   };
 
 struct SShadowCommand
@@ -4471,6 +4476,48 @@ private:
       return false;
      }
 
+   bool IsFridayWeekendWindow(void) const
+     {
+      if(!m_runtime.auto_friday_flatten)
+         return false;
+      MqlDateTime dt;
+      TimeToStruct(TimeCurrent(),dt);
+      if(dt.day_of_week==5 && dt.hour>=m_runtime.friday_flatten_hour)
+         return true;
+      if(dt.day_of_week==6)
+         return true;
+      if(dt.day_of_week==0 && dt.hour<23)
+         return true;
+      return false;
+     }
+
+   bool IsHighImpactNewsWindow(void) const
+     {
+      if(!m_runtime.high_impact_news_filter)
+         return false;
+      datetime now=TimeCurrent();
+      datetime from_time=now-m_runtime.news_pause_after_minutes*60;
+      datetime to_time=now+m_runtime.news_pause_before_minutes*60;
+      MqlCalendarValue values[];
+      ResetLastError();
+      int count=CalendarValueHistory(values,from_time,to_time,"US");
+      if(count>0)
+        {
+         for(int i=0;i<count;i++)
+           {
+            MqlCalendarEvent event;
+            if(CalendarEventById(values[i].event_id,event))
+              {
+               {
+                if(event.importance==CALENDAR_IMPORTANCE_HIGH)
+                   return true;
+               }
+              }
+           }
+        }
+      return false;
+     }
+
    void BeginClose(const string reason,const bool halt_after)
      {
       if(m_state==CYCLE_CLOSING || m_state==CYCLE_CANCELING || m_state==CYCLE_HALTED)
@@ -5497,7 +5544,7 @@ public:
       switch(m_state)
         {
           case CYCLE_IDLE:
-             if(AlignmentHoldActive())
+             if(AlignmentHoldActive() || IsFridayWeekendWindow() || IsHighImpactNewsWindow())
                {
                 UpdateAlignmentHoldTelemetry(true);
                 break;
@@ -5513,6 +5560,11 @@ public:
             CheckCycleTargets();
             break;
           case CYCLE_RUNNING:
+             if(IsFridayWeekendWindow())
+               {
+                BeginClose("friday_weekend_flatten",false);
+                break;
+               }
              ReconcileLevels();
              if(m_profile.stop_updates_on_timer)
                 UpdatePositionStops();
@@ -5544,7 +5596,7 @@ public:
                     TryCloseOneOwnedPosition();
                  break;
                 }
-              if(AlignmentHoldActive())
+              if(AlignmentHoldActive() || IsFridayWeekendWindow() || IsHighImpactNewsWindow())
                 {
                  UpdateAlignmentHoldTelemetry(true);
                  break;
@@ -5668,6 +5720,13 @@ input double MaxGrossLots = 2.20;
 input double MaxSpreadPoints = 1000.0;
 input double DailyLossLimit = 0.0;
 
+input group "Schedule & Event Protection"
+input bool AutoFridayFlatten = true;
+input int FridayFlattenHour = 20;
+input bool HighImpactNewsFilter = true;
+input int NewsPauseBeforeMinutes = 60;
+input int NewsPauseAfterMinutes = 30;
+
 input group "Custom Profile"
 // Defaults below are the measured Starwave/Target values, so CUSTOM_PROFILE is
 // a Starwave clone out of the box and only the three tier lots (and N, and the
@@ -5747,6 +5806,11 @@ int OnInit()
    runtime.shadow_command_max_age_ms=ShadowCommandMaxAgeMs;
    runtime.allow_shadow_adopt_existing_cycle=
       AllowShadowAdoptExistingCycle;
+   runtime.auto_friday_flatten=AutoFridayFlatten;
+   runtime.friday_flatten_hour=FridayFlattenHour;
+   runtime.high_impact_news_filter=HighImpactNewsFilter;
+   runtime.news_pause_before_minutes=NewsPauseBeforeMinutes;
+   runtime.news_pause_after_minutes=NewsPauseAfterMinutes;
 
    SCustomProfileConfig custom={};
    custom.levels_per_side=CustomLevelsPerSide;

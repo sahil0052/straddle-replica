@@ -172,6 +172,11 @@ struct SRuntimeConfig
    string            shadow_ack_file;
    int               shadow_command_max_age_ms;
    bool              allow_shadow_adopt_existing_cycle;
+   bool              auto_friday_flatten;
+   int               friday_flatten_hour;
+   bool              high_impact_news_filter;
+   int               news_pause_before_minutes;
+   int               news_pause_after_minutes;
   };
 
 struct SShadowCommand
