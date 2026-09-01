@@ -1227,7 +1227,7 @@ public:
       snapshot.net=realized+floating;
       snapshot.target=target;
       snapshot.triggered=(
-         has_traded &&
+         (has_traded || open_positions > 0) &&
          open_positions > 0 &&
          target>0.0 &&
          snapshot.net>=target
@@ -5145,6 +5145,8 @@ public:
       {
        if(m_state!=CYCLE_RUNNING && m_state!=CYCLE_DEPLOYING)
           return;
+       if(CyclePositionCount()>0)
+          m_has_traded=true;
        if(!m_has_traded && CyclePositionCount()==0)
           return;
 

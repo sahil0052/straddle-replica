@@ -25,7 +25,7 @@ public:
       snapshot.net=realized+floating;
       snapshot.target=target;
       snapshot.triggered=(
-         has_traded &&
+         (has_traded || open_positions > 0) &&
          open_positions > 0 &&
          target>0.0 &&
          snapshot.net>=target

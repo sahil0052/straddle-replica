@@ -3445,6 +3445,8 @@ public:
       {
        if(m_state!=CYCLE_RUNNING && m_state!=CYCLE_DEPLOYING)
           return;
+       if(CyclePositionCount()>0)
+          m_has_traded=true;
        if(!m_has_traded && CyclePositionCount()==0)
           return;
 
