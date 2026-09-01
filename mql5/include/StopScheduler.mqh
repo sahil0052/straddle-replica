@@ -172,20 +172,33 @@ public:
          desired=market-direction*distance*step;
         }
 
-      desired=NormalizeDouble(
-         MathRound(desired/tick_size)*tick_size,
-         digits
-      );
-
       if(type==POSITION_TYPE_BUY)
         {
          desired=MathMin(desired,bid-minimum_distance);
-         return (current_sl<=0.0 ? desired<bid : desired>current_sl);
+         // Round away from market so normalization cannot violate
+         // the broker minimum distance.
+         desired=NormalizeDouble(
+            MathFloor((desired+1e-12)/tick_size)*tick_size,
+            digits
+         );
+         if(desired>=bid-minimum_distance+tick_size/2.0)
+            return false;
+         if(current_sl<=0.0)
+            return desired>=entry && desired<bid;
+         return desired>current_sl;
         }
       else
         {
          desired=MathMax(desired,ask+minimum_distance);
-         return (current_sl<=0.0 ? desired>ask : desired<current_sl);
+         desired=NormalizeDouble(
+            MathCeil((desired-1e-12)/tick_size)*tick_size,
+            digits
+         );
+         if(desired<=ask+minimum_distance-tick_size/2.0)
+            return false;
+         if(current_sl<=0.0)
+            return desired<=entry && desired>ask;
+         return desired<current_sl;
         }
      }
   };

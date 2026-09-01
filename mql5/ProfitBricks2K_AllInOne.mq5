@@ -1173,20 +1173,33 @@ public:
          desired=market-direction*distance*step;
         }
 
-      desired=NormalizeDouble(
-         MathRound(desired/tick_size)*tick_size,
-         digits
-      );
-
       if(type==POSITION_TYPE_BUY)
         {
          desired=MathMin(desired,bid-minimum_distance);
-         return (current_sl<=0.0 ? desired<bid : desired>current_sl);
+         // Round away from market so normalization cannot violate
+         // the broker minimum distance.
+         desired=NormalizeDouble(
+            MathFloor((desired+1e-12)/tick_size)*tick_size,
+            digits
+         );
+         if(desired>=bid-minimum_distance+tick_size/2.0)
+            return false;
+         if(current_sl<=0.0)
+            return desired>=entry && desired<bid;
+         return desired>current_sl;
         }
       else
         {
          desired=MathMax(desired,ask+minimum_distance);
-         return (current_sl<=0.0 ? desired>ask : desired<current_sl);
+         desired=NormalizeDouble(
+            MathCeil((desired-1e-12)/tick_size)*tick_size,
+            digits
+         );
+         if(desired<=ask+minimum_distance-tick_size/2.0)
+            return false;
+         if(current_sl<=0.0)
+            return desired<=entry && desired>ask;
+         return desired<current_sl;
         }
      }
   };
@@ -1706,7 +1719,7 @@ public:
 // included inline
 // included inline
 
-#define STR_PENDING_DEAL_CAPACITY 256
+#define STR_PENDING_DEAL_CAPACITY 2048
 #define STR_DEAL_METADATA_SETTLE_MS 5000
 #define STR_HISTORY_RECONCILE_INTERVAL_MS 1000
 #define STR_HISTORY_RECONCILE_LOOKBACK_MS 900000
@@ -2759,11 +2772,16 @@ private:
         }
       ReconcileLevels(false);
       ArmMissingLevelsAfterRestore();
-      if(saved_state==CYCLE_CLOSING && CyclePositionCount()>0)
+      if(saved_state==CYCLE_CANCELING && OwnedOrderCount()>0)
+         m_state=CYCLE_CANCELING;
+      else if(saved_state==CYCLE_CLOSING && CyclePositionCount()>0)
          m_state=CYCLE_CLOSING;
       else if((saved_state==CYCLE_CLOSING || saved_state==CYCLE_CANCELING) &&
-              CyclePositionCount()==0 && OwnedOrderCount()>0)
+              OwnedOrderCount()>0)
          m_state=CYCLE_CANCELING;
+      else if((saved_state==CYCLE_CLOSING || saved_state==CYCLE_CANCELING) &&
+              CyclePositionCount()>0)
+         m_state=CYCLE_CLOSING;
       else
          m_state=CYCLE_RUNNING;
       ReconcileLevels();
@@ -4736,9 +4754,15 @@ private:
             m_tick_size,
             (int)SymbolInfoInteger(m_runtime.symbol,SYMBOL_DIGITS),
             m_point,
-            SymbolInfoInteger(
-               m_runtime.symbol,
-               SYMBOL_TRADE_STOPS_LEVEL
+            MathMax(
+               SymbolInfoInteger(
+                  m_runtime.symbol,
+                  SYMBOL_TRADE_STOPS_LEVEL
+               ),
+               SymbolInfoInteger(
+                  m_runtime.symbol,
+                  SYMBOL_TRADE_FREEZE_LEVEL
+               )
             ),
             m_profile,
             desired))
@@ -4794,6 +4818,24 @@ private:
         }
       int position_total=PositionsTotal();
       int update_count=0;
+      // First pass: protect any position that currently has NO protective stop
+      for(int offset=0;offset<position_total;offset++)
+        {
+         int index=(m_profile.stop_scan_newest_first
+                    ? position_total-1-offset
+                    : offset);
+         ulong ticket=PositionGetTicket(index);
+         if(ticket==0 || !IsOwnedPositionSelected() || PositionGetDouble(POSITION_SL)>0.0)
+            continue;
+         if(TrailSelectedPosition(tick,ticket))
+           {
+            update_count++;
+            if(m_profile.max_stop_updates_per_pass>0 &&
+               update_count>=m_profile.max_stop_updates_per_pass)
+               return;
+           }
+        }
+      // Second pass: ratchet existing trailing stops
       for(int offset=0;offset<position_total;offset++)
         {
          int index=(m_profile.stop_scan_newest_first
