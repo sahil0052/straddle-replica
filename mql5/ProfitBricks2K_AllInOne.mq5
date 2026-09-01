@@ -2264,7 +2264,10 @@ private:
              double target_p=(is_buy ? m_buy_levels[index].target_price : m_sell_levels[index].target_price);
              if(target_p>0.0 && MathAbs(order_price-target_p)>0.50*m_step)
                {
+                string comment=OrderGetString(ORDER_COMMENT);
+                double volume=OrderGetDouble(ORDER_VOLUME_CURRENT);
                 m_gateway.DeleteOrder(ticket);
+                LogEvent("cancel",comment,ticket,volume,order_price,"zombie_purge");
                 continue;
                }
             }
