@@ -554,10 +554,20 @@ private:
          ulong ticket=OrderGetTicket(order_index);
          if(ticket==0 || !IsOwnedOrderSelected())
             continue;
-         bool is_buy=false;
-         int index=-1;
-         if(!ParseLevelComment(OrderGetString(ORDER_COMMENT),is_buy,index))
-            continue;
+          bool is_buy=false;
+          int index=-1;
+          if(!ParseLevelComment(OrderGetString(ORDER_COMMENT),is_buy,index))
+             continue;
+          double order_price=OrderGetDouble(ORDER_PRICE_OPEN);
+          if(m_step>0.0)
+            {
+             double target_p=(is_buy ? m_buy_levels[index].target_price : m_sell_levels[index].target_price);
+             if(target_p>0.0 && MathAbs(order_price-target_p)>0.50*m_step)
+               {
+                m_gateway.DeleteOrder(ticket);
+                continue;
+               }
+            }
           if(is_buy)
             {
              m_buy_levels[index].active_order_count++;
