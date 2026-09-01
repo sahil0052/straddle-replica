@@ -3990,94 +3990,76 @@ private:
      {
       for(int index=0;index<m_profile.levels_per_side;index++)
         {
-          if(RearmEligible(m_buy_levels[index]))
-            {
-              if(!RearmDelayElapsed(m_buy_levels[index]))
-                 continue;
-              bool trend_rescue_rearm=(
-                 TrendRescuePositionRearmPending(true,index)
-              );
-              m_buy_levels[index].volume=(
-                 m_buy_levels[index].trend_rescue_latched ||
-                 trend_rescue_rearm
-                 ? m_profile.lots[index]*
-                   m_profile.trend_rescue_volume_multiplier
-                 : m_profile.lots[index]
-             );
-              // Target EA parity: re-arms ALWAYS return to the original anchor
-              // lattice price. Measured on ReportHistory-901018: of 12,443 grid
-              // pendings that are not deployment-burst orders, 1,091 belong to
-              // 10 deployment bursts the cycle segmenter merged into an open
-              // cycle, and ALL 11,352 true re-arms land on the exact price of
-              // the same (side,level) slot -- 11,058 on the cycle's burst slot
-              // and 294 on the same lattice past a truncated slot table.
-              // Residual zero: not one relocation in the tape. Repeated re-arms
-              // of one slot agree to the cent (2,490 slots, up to 19 repeats,
-              // max intra-slot spread 0.0000), and only 0.93% sit at
-              // market +/- level*step, so re-anchoring is refuted outright; sell
-              // stops were observed re-armed up to 35 steps away from market on
-              // the original lattice. The Target EA never re-anchors pendings to
-              // market. If the lattice price is currently invalid (market has
-              // crossed it), wait for price to return instead of moving the level.
-              if(!PendingPriceIsValid(true,m_buy_levels[index].target_price))
-                 continue;
-             if(!ExposureAllowsRearm(m_buy_levels[index].volume))
-               {
-                LogLifecycleEvent(
-                   "safety_rearm_blocked",
-                   StringFormat("STR B%d",m_buy_levels[index].level),
-                   "max_gross_lots"
-                );
-                 return;
-                }
-              if(PlaceLevel(m_buy_levels[index]))
-                {
-                 if(trend_rescue_rearm)
-                   {
-                    ClearTrendRescuePositionRearm(true,index);
-                    PersistCycle();
-                   }
-                }
-              return;
-            }
-          if(RearmEligible(m_sell_levels[index]))
-            {
-              if(!RearmDelayElapsed(m_sell_levels[index]))
-                 continue;
-              bool trend_rescue_rearm=(
-                 TrendRescuePositionRearmPending(false,index)
-              );
-              m_sell_levels[index].volume=(
-                 m_sell_levels[index].trend_rescue_latched ||
-                 trend_rescue_rearm
-                 ? m_profile.lots[index]*
-                   m_profile.trend_rescue_volume_multiplier
-                 : m_profile.lots[index]
-             );
-              // Target EA parity: sell-side re-arms also return to the original
-              // anchor lattice price (see buy-side note above). Never re-anchor
-              // to market; wait for price to return if currently invalid.
-              if(!PendingPriceIsValid(false,m_sell_levels[index].target_price))
-                 continue;
-             if(!ExposureAllowsRearm(m_sell_levels[index].volume))
-               {
-                LogLifecycleEvent(
-                   "safety_rearm_blocked",
-                   StringFormat("STR S%d",m_sell_levels[index].level),
-                   "max_gross_lots"
-                );
-                 return;
-                }
-              if(PlaceLevel(m_sell_levels[index]))
-                {
-                 if(trend_rescue_rearm)
-                   {
-                    ClearTrendRescuePositionRearm(false,index);
-                    PersistCycle();
-                   }
-                }
-             return;
-            }
+         if(RearmEligible(m_buy_levels[index]))
+           {
+            if(RearmDelayElapsed(m_buy_levels[index]) &&
+               PendingPriceIsValid(true,m_buy_levels[index].target_price))
+              {
+               if(!ExposureAllowsRearm(m_buy_levels[index].volume))
+                 {
+                  LogLifecycleEvent(
+                     "safety_rearm_blocked",
+                     StringFormat("STR B%d",m_buy_levels[index].level),
+                     "max_gross_lots"
+                  );
+                  return;
+                 }
+               bool trend_rescue_rearm=(
+                  TrendRescuePositionRearmPending(true,index)
+               );
+               m_buy_levels[index].volume=(
+                  m_buy_levels[index].trend_rescue_latched ||
+                  trend_rescue_rearm
+                  ? m_profile.lots[index]*
+                    m_profile.trend_rescue_volume_multiplier
+                  : m_profile.lots[index]
+               );
+               if(PlaceLevel(m_buy_levels[index]))
+                 {
+                  if(trend_rescue_rearm)
+                    {
+                     ClearTrendRescuePositionRearm(true,index);
+                     PersistCycle();
+                    }
+                 }
+               return;
+              }
+           }
+         if(RearmEligible(m_sell_levels[index]))
+           {
+            if(RearmDelayElapsed(m_sell_levels[index]) &&
+               PendingPriceIsValid(false,m_sell_levels[index].target_price))
+              {
+               if(!ExposureAllowsRearm(m_sell_levels[index].volume))
+                 {
+                  LogLifecycleEvent(
+                     "safety_rearm_blocked",
+                     StringFormat("STR S%d",m_sell_levels[index].level),
+                     "max_gross_lots"
+                  );
+                  return;
+                 }
+               bool trend_rescue_rearm=(
+                  TrendRescuePositionRearmPending(false,index)
+               );
+               m_sell_levels[index].volume=(
+                  m_sell_levels[index].trend_rescue_latched ||
+                  trend_rescue_rearm
+                  ? m_profile.lots[index]*
+                    m_profile.trend_rescue_volume_multiplier
+                  : m_profile.lots[index]
+               );
+               if(PlaceLevel(m_sell_levels[index]))
+                 {
+                  if(trend_rescue_rearm)
+                    {
+                     ClearTrendRescuePositionRearm(false,index);
+                     PersistCycle();
+                    }
+                 }
+               return;
+              }
+           }
         }
      }
 
